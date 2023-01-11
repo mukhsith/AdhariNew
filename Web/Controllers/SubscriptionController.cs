@@ -190,6 +190,7 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> SubscriptionDetails(string subscriptionNumber)
         {
+            var i = 0;
             var subscriptionModel = new SubscriptionModel();
             try
             {
