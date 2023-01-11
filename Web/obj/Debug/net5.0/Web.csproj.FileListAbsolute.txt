@@ -1351,3 +1351,4 @@ D:\Development\AdhariNew\Web\obj\Debug\net5.0\Web.dll
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\ref\Web.dll
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Web.pdb
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Web.genruntimeconfig.cache
+D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Subscription\Subscriptions.cshtml.g.cs

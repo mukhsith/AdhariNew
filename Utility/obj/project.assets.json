@@ -6560,23 +6560,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\biju.v\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\mukhsith\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\Utility.csproj",
+      "projectUniqueName": "D:\\Development\\AdhariNew\\Utility\\Utility.csproj",
       "projectName": "Utility",
-      "projectPath": "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\Utility.csproj",
-      "packagesPath": "C:\\Users\\biju.v\\.nuget\\packages\\",
-      "outputPath": "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\obj\\",
+      "projectPath": "D:\\Development\\AdhariNew\\Utility\\Utility.csproj",
+      "packagesPath": "C:\\Users\\mukhsith\\.nuget\\packages\\",
+      "outputPath": "D:\\Development\\AdhariNew\\Utility\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\biju.v\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mukhsith\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

@@ -68,6 +68,12 @@ namespace Web.Controllers
             var addressModels = new List<AddressModel>();
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
+
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress?typeId=" + RelatedEntityType.Subscription);
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
@@ -86,6 +92,12 @@ namespace Web.Controllers
             var subscriptionCheckOutModel = new SubscriptionCheckOutModel();
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
+
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<SubscriptionCheckOutModel>>("webapi/subscription/getcheckoutsummary?app=false");
                 if (responseModel.Success && responseModel.Data != null)
                 {
@@ -106,17 +118,20 @@ namespace Web.Controllers
             return View(subscriptionCheckOutModel);
         }
 
-        [HttpGet]
-        public virtual async Task<JsonResult> CreateSubscription()
+        [HttpPost]
+        public virtual async Task<JsonResult> CreateSubscription(CreatePaymentModel createPaymentModel)
         {
             var responseModel = new APIResponseModel<CreatePaymentModel>();
             try
             {
-                CreatePaymentModel createPaymentModel = new()
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    CustomerIp = _apiHelper.GetUserIP()
-                };
+                    responseModel.StatusCode = 401;
+                    return Json(responseModel);
+                }
 
+                createPaymentModel.CustomerIp = _apiHelper.GetUserIP();
                 responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/subscription/createsubscription", createPaymentModel);
             }
             catch (Exception ex)
@@ -148,6 +163,30 @@ namespace Web.Controllers
             }
 
             return View(subscriptionModel);
+        }
+        public async Task<IActionResult> Subscriptions()
+        {
+            var subscriptionModels = new List<SubscriptionModel>();
+            try
+            {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
+
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<SubscriptionModel>>>("webapi/subscription/subscriptions");
+                if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
+                {
+                    subscriptionModels = responseModel.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(subscriptionModels);
         }
         public async Task<IActionResult> SubscriptionDetails(string subscriptionNumber)
         {

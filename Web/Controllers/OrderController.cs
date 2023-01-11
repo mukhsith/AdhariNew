@@ -25,17 +25,20 @@ namespace Web.Controllers
         /// <summary>
         /// Create order
         /// </summary>
-        [HttpGet]
-        public virtual async Task<JsonResult> CreateOrder()
+        [HttpPost]
+        public virtual async Task<JsonResult> CreateOrder(CreatePaymentModel createPaymentModel)
         {
             var responseModel = new APIResponseModel<CreatePaymentModel>();
             try
             {
-                CreatePaymentModel createPaymentModel = new()
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    CustomerIp = _apiHelper.GetUserIP()
-                };
+                    responseModel.StatusCode = 401;
+                    return Json(responseModel);
+                }
 
+                createPaymentModel.CustomerIp = _apiHelper.GetUserIP();
                 responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/order/createorder", createPaymentModel);
             }
             catch (Exception ex)
@@ -71,6 +74,34 @@ namespace Web.Controllers
             }
 
             return View(orderModel);
+        }
+
+        /// <summary>
+        /// Get orders
+        /// </summary>
+        public async Task<IActionResult> Orders()
+        {
+            var orderModels = new List<OrderModel>();
+            try
+            {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
+
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<OrderModel>>>("webapi/order/orders");
+                if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
+                {
+                    orderModels = responseModel.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(orderModels);
         }
 
         /// <summary>

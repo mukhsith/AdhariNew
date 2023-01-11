@@ -3,13 +3,10 @@
 @using Utility.Helpers;
 @{
     var breadCrumbItems = new List<BreadcrumbModel>();
-
     var walletTypeId = ViewBag.WalletType;
     var walletTransactionsType = (int)(WalletType.Wallet);
-    //var cashbackAmountType = (int)(WalletType.Cashback);
     var transactionTypeClass = " text-light py-0 px-2 rounded-pill";
     var transactionAmountClass = " fw-bold";
-
     if (walletTypeId == walletTransactionsType)
     {
         breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["MyWallet"].Value });
@@ -19,9 +16,7 @@
         breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["MyCashback"].Value });
     }
 }
-
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
-
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -54,13 +49,12 @@
                                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4">
                                         @foreach (var item in transactions.PaymentSummary)
                                         {
-                                        <div class="col mb-3">
-                                            <p class="mb-0 fw-bold">@item.Title</p>
-                                            <span class="mb-0 @(item.Title == MessagesAr.TransactionType || item.Title == Messages.TransactionType ? transactionTypeClass : item.Title == MessagesAr.TransactionAmount || item.Title == Messages.TransactionAmount ? transactionAmountClass : "" )"
-                                               style="background-color:@(item.Title == MessagesAr.TransactionType || item.Title == Messages.TransactionType ? transactions.ColorCode : "none");color:@(item.Title == MessagesAr.TransactionAmount || item.Title == Messages.TransactionAmount ? transactions.ColorCode : "")">@item.Value</span>
-                                            @*<p class="mb-0">@item.Value</p>*@
-                                        </div>
-                                        }
+                                            <div class="col mb-3">
+                                                <p class="mb-0 fw-bold">@item.Title</p>
+                                                <span class="mb-0 @(item.Title == MessagesAr.TransactionType || item.Title == Messages.TransactionType ? transactionTypeClass : item.Title == MessagesAr.TransactionAmount || item.Title == Messages.TransactionAmount ? transactionAmountClass : "" )"
+                                                      style="background-color:@(item.Title == MessagesAr.TransactionType || item.Title == Messages.TransactionType ? transactions.ColorCode : "none");color:@(item.Title == MessagesAr.TransactionAmount || item.Title == Messages.TransactionAmount ? transactions.ColorCode : "")">@item.Value</span>
+                                                </div>
+                                            }
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +76,6 @@
         </div>
     </div>
 </section>
-
 <script>
     $(document).ready(function () {
         if ($('#dv-wallet').children().length > 0) {

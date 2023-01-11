@@ -105,20 +105,36 @@
                 <div class="row">
                     <div class="col-12 offset-lg-2 col-lg-8">
                         <div class="promotion-code mb-4">
-                            <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["PromotionCode"]</h4>
-                            <div class="bg-grey rounded-4 p-3 mx-0">
+                            <div class="bg-grey rounded-4 p-3 text-center mx-0">
+                                <a href="javascript:;" class="promotion-code text-secondary text-center mb-0 fw-bold w-100 my-2" onclick="showPromotionCodeField()">@SharedHtmlLocalizer["PromotionCode"]</a>
                                 <div class="w-100 text-center">
-                                    <div class="input-group promotion-input-field">
-                                        <input type="text" id="txt-coupon-code" class="form-control border-secondary body-bg-secondary rounded-end rounded-3"
+                                    <div class="input-group promotion-input-field" style="">
+                                        <button class="btn btn-outline-secondary rounded-end rounded-3 body-bg-secondary fw-bold fs-3 lh-1 CloseBtn" type="button" onclick="hidePromotionCodeField()">×</button>
+                                        <input type="text" id="txt-coupon-code" class="form-control border-secondary body-bg-secondary PromoCodeValue"
                                                value="@Model.SubscriptionSummary.CouponCode" placeholder="@SharedHtmlLocalizer["EnterCode"]">
                                         <button id="btn-apply-coupon-code" class="btn btn-outline-secondary rounded-start rounded-3 body-bg-secondary fw-bold promotion-code-button" type="button">
                                             @(string.IsNullOrEmpty(Model.SubscriptionSummary.CouponCode)? @SharedHtmlLocalizer["Apply"] : @SharedHtmlLocalizer["Remove"])
                                         </button>
+                                        <div class="valid-feedback">
+                                            @SharedHtmlLocalizer["PromotionCodeApplied"]
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            @SharedHtmlLocalizer["PleaseEnterAValidPromotionCode"]
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="order-notes mb-4">
+                            <div class="bg-grey rounded-4 p-3 mx-0">
+                                <label for="inputNotes" class="form-label">@SharedHtmlLocalizer["Notes"]</label>
+                                <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" id="txt-notes" rows="3" placeholder="@SharedHtmlLocalizer["ProvideAnySpecialRequestsHere"]"></textarea>
+                            </div>
+                        </div>
+                    </div>                    
                     <div class="col-12 offset-lg-2 col-lg-8">
                         <div class="payment-method mb-4">
                             <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentMethod"]</h4>
@@ -194,7 +210,16 @@
 <input type="hidden" id="hdn-applied-coupon-code" />
 <script>
     jQuery(document).ready(function () {
-        $("#hdn-applied-coupon-code").val('@Model.SubscriptionSummary.CouponCode');
+        var appliedCouponCode = '@Model.SubscriptionSummary.CouponCode';
+        if (appliedCouponCode == null || appliedCouponCode == "") {
+            hidePromotionCodeField();
+        }
+        else {
+            showPromotionCodeField();
+            applyCouponAddedClass();
+        }
+
+        $("#hdn-applied-coupon-code").val(appliedCouponCode);
         $('input[type=radio][name=payment-method-radio]').change(function () {
             $.post("@Url.RouteUrl("savesubscriptionattributes")", { PaymentMethodId: this.value, AttributeTypeId: @((int)AttributeType.SelectPaymentMethod) }, function (result) {
                 if (result.success) {
@@ -227,50 +252,6 @@
                         ToastAlert('error', '', result.message);
                 }
             });
-        });
-
-        $('#btn-apply-coupon-code').click(function () {
-            var couponCode = $("#txt-coupon-code").val();
-            var currentCouponCode = $("#hdn-applied-coupon-code").val();
-
-            if (currentCouponCode == "") {
-                if (couponCode == "") {
-                    ToastAlert('error', '', "@SharedHtmlLocalizer["Enter coupon code"]");
-                    return false;
-                }
-            }
-
-            var attributeTypeId = 0;
-            if (currentCouponCode != "") {
-                attributeTypeId = @((int)AttributeType.RemoveCoupon);
-            }
-            else {
-                attributeTypeId = @((int)AttributeType.ApplyCoupon);
-            }
-
-            $.post("@Url.RouteUrl("savesubscriptionattributes")", { CouponCode: couponCode, AttributeTypeId: attributeTypeId }, function (result) {
-                if (result.success) {
-                    $(".payment-summary").empty();
-                    $(".payment-summary").append(result.data.formattedSubscriptionSummary);
-
-                    currentCouponCode = result.data.couponCode;
-                    $("#hdn-applied-coupon-code").val(currentCouponCode);
-
-                    if (currentCouponCode != "" && currentCouponCode != null) {
-                        $("#btn-apply-coupon-code").text("@SharedHtmlLocalizer["Remove"]");
-                    }
-                    else {
-                        $("#txt-coupon-code").val('');
-                        $("#btn-apply-coupon-code").text("@SharedHtmlLocalizer["Apply"]");
-                    }
-                }
-                else {
-                    if (result.message != "")
-                        ToastAlert('error', '', result.message);
-                }
-            });
-
-            return false;
         });
 
         $("#a-privacy-policy").click(function () {
@@ -307,8 +288,11 @@
 
             showLoader();
 
-            $.get("@Url.RouteUrl("createsubscription")", function (result) {
-                if (result.data != null) {
+            var notes = $("#txt-notes").val();
+            $.post("@Url.RouteUrl("createsubscription")", {
+                Notes: notes
+            }, function (result) {
+                if (result.success && result.data != null) {
                     if (result.data.redirectToPaymentPage) {
                         window.location.href = result.data.paymentUrl;
                     }
@@ -318,6 +302,13 @@
                 }
                 else {
                     hideLoader();
+
+                    if (result.statusCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
                     if (result.message != "")
                         ToastAlert('error', '', result.message);
                 }
@@ -326,4 +317,101 @@
             return false;
         });
     });
+
+    $('.promotion-code-button').click(function () {
+        if (!$(".promotion-input-field").hasClass("promocode-applied")) {
+            if ($(".PromoCodeValue").val()) {
+                applyCouponCode();
+            }
+            else {
+                $(".promotion-input-field .form-control").removeClass("is-valid");
+                $(".promotion-input-field .form-control").addClass("is-invalid");
+            }
+        }
+        else {
+            applyCouponCode();
+        }
+    });
+
+    function showPromotionCodeField() {
+        $('.promotion-input-field').show("fast");
+    }
+
+    function hidePromotionCodeField() {
+        $('.promotion-input-field').hide("fast");
+    }
+
+    function applyCouponCode() {
+        var couponCode = $("#txt-coupon-code").val();
+        var currentCouponCode = $("#hdn-applied-coupon-code").val();
+
+        if (currentCouponCode == "") {
+            if (couponCode == "") {
+                ToastAlert('error', '', "@SharedHtmlLocalizer["Enter coupon code"]");
+                return false;
+            }
+        }
+
+        var attributeTypeId = 0;
+        if (currentCouponCode != "") {
+            attributeTypeId = @((int)AttributeType.RemoveCoupon);
+        }
+        else {
+            attributeTypeId = @((int)AttributeType.ApplyCoupon);
+        }
+
+        $.post("@Url.RouteUrl("savesubscriptionattributes")", { CouponCode: couponCode, AttributeTypeId: attributeTypeId }, function (result) {
+            if (result.success) {
+                $(".payment-summary").empty();
+                $(".payment-summary").append(result.data.formattedSubscriptionSummary);
+
+                currentCouponCode = result.data.couponCode;
+                $("#hdn-applied-coupon-code").val(currentCouponCode);
+
+                if (currentCouponCode != "" && currentCouponCode != null) {
+                    applyCouponAddedClass();
+                }
+                else {
+                    applyCouponRemovedClass();
+                }
+            }
+            else {
+                if (result.message != "")
+                    ToastAlert('error', '', result.message);
+            }
+        });
+
+        return false;
+    }
+
+    function applyCouponAddedClass() {
+        // To Pay Price Update
+        $('.to-pay-price').html("KWD 24.000");
+        $('.discount-value').show("fast");
+        // Remove Invalid Class
+        $(".promotion-input-field .form-control").removeClass("is-invalid");
+        // Add Valid Class + Preparation for removal of cross button
+        $(".promotion-input-field .form-control").addClass("is-valid rounded-end rounded-3");
+        // Disabling Input field
+        $(".promotion-input-field .form-control").prop("disabled", true);
+        // Removal of cross button
+        $(".CloseBtn").hide();
+        // Changing Apply button HTML to Remove
+        $(".promotion-code-button").html("@SharedHtmlLocalizer["Remove"]");
+        // Changing Classes to change look
+        $(".promotion-code-button").toggleClass("btn-outline-secondary btn-outline-danger");
+        // Updating Overall Status
+        $(".promotion-input-field").addClass("promocode-applied");
+    }
+
+    function applyCouponRemovedClass() {
+        $(".promotion-code-button").html("@SharedHtmlLocalizer["Apply"]");
+        $(".promotion-code-button").toggleClass("btn-outline-secondary btn-outline-danger");
+        $(".promotion-input-field .form-control").prop("disabled", false);
+        $(".promotion-input-field .form-control").removeClass("is-valid rounded-end rounded-3");
+        $('.discount-value').hide("fast");
+        $(".CloseBtn").show();
+        $(".promotion-input-field").removeClass("promocode-applied");
+        $("#txt-coupon-code").val('');
+    }
 </script>

@@ -218,8 +218,7 @@
                 showLoader();
                 $.post("@Url.RouteUrl("verifyOTP")", {
                     RequestId: requestId, OTP: otp, TypeId: typeId
-                }, function (result) {
-                    hideLoader();
+                }, function (result) {                    
                     if (result.success) {
                         $('#sec-otp-verification').hide();
                         if (returnUrl == "") {
@@ -230,6 +229,7 @@
                         }
                     }
                     else {
+                        hideLoader();
                         if (result.message != "")
                             ToastAlert('error', '', result.message);
                     }

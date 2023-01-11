@@ -205,20 +205,27 @@ namespace Web.Controllers
         /// </summary>
         public virtual async Task<IActionResult> MyProfile()
         {
-            APIResponseModel<CustomerModel> response = new();
+            CustomerModel customerModel = new();
             try
             {
-                response = await _apiHelper.GetAsync<APIResponseModel<CustomerModel>>("webapi/customer/getcustomer");
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
 
-                if (response.Data != null)
-                    return View(response.Data);
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<CustomerModel>>("webapi/customer/getcustomer");
+                if (responseModel.Success && responseModel.Data != null)
+                {
+                    customerModel = responseModel.Data;
+                }
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
+                _logger.LogError(ex.Message);
             }
 
-            return RedirectToRoute("logout");
+            return View(customerModel);
         }
 
         /// <summary>
@@ -230,18 +237,14 @@ namespace Web.Controllers
             APIResponseModel<CustomerModel> response = new();
             try
             {
-                if (ModelState.IsValid)
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    response = await _apiHelper.PutAsync<APIResponseModel<CustomerModel>>("webapi/customer/editprofile", customerModel);
+                    response.StatusCode = 401;
+                    return Json(response);
                 }
-                else
-                {
-                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                    if (errors.Count() > 0)
-                    {
-                        response.Message = errors.FirstOrDefault();
-                    }
-                }
+
+                response = await _apiHelper.PutAsync<APIResponseModel<CustomerModel>>("webapi/customer/editprofile", customerModel);
             }
             catch (Exception ex)
             {
@@ -257,9 +260,6 @@ namespace Web.Controllers
         [HttpGet]
         public virtual IActionResult ChangePassword()
         {
-
-
-
             return View();
         }
 
@@ -364,18 +364,16 @@ namespace Web.Controllers
             return Json(response);
         }
 
-        public async Task<IActionResult> MyNotifications()
+        public IActionResult MyNotifications()
         {
-            try
+            var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+            if (string.IsNullOrEmpty(authenticationToken))
             {
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation(ex.Message);
+                return RedirectToRoute("login");
             }
 
-            return View(new List<NotificationModel>());
+            var notificationModels = new List<NotificationModel>();
+            return View(notificationModels);
         }
 
         /// <summary>
@@ -417,19 +415,19 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Addresses()
         {
+            List<AddressModel> addressModels = new();
             try
             {
-                var customerGuidValue = Convert.ToString(Request.Cookies["CustomerGuidValue"]);
-                if (string.IsNullOrEmpty(customerGuidValue))
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    customerGuidValue = Guid.NewGuid().ToString();
-                    Response.Cookies.Append("CustomerGuidValue", customerGuidValue, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+                    return RedirectToRoute("login");
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress");
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
-                    return View("Addresses", responseModel.Data);
+                    addressModels = responseModel.Data;
                 }
             }
             catch (Exception ex)
@@ -437,16 +435,22 @@ namespace Web.Controllers
                 _logger.LogInformation(ex.Message);
             }
 
-            return View(new List<AddressModel>());
+            return View(addressModels);
         }
 
         [HttpPost]
         public async Task<JsonResult> AddAddress(AddressModel addressModel)
         {
             var response = new APIResponseModel<AddressModel>();
-
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    response.StatusCode = 401;
+                    return Json(response);
+                }
+
                 response = await _apiHelper.PostAsync<APIResponseModel<AddressModel>>("webapi/customer/addaddresswithselect", addressModel);
             }
             catch (Exception ex)
@@ -496,6 +500,13 @@ namespace Web.Controllers
 
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    response.StatusCode = 401;
+                    return Json(response);
+                }
+
                 response = await _apiHelper.PutAsync<APIResponseModel<AddressModel>>("webapi/customer/updateaddress", addressModel);
             }
             catch (Exception ex)
@@ -508,13 +519,20 @@ namespace Web.Controllers
 
         public async Task<IActionResult> WalletTransactions(int walletType)
         {
+            WalletModel walletModel = new();
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
+
                 ViewBag.WalletType = walletType;
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<WalletModel>>("webapi/customer/getwallettransactions?walletType=" + walletType);
                 if (responseModel.Success && responseModel.Data != null)
                 {
-                    return View("WalletTransactions", responseModel.Data);
+                    walletModel = responseModel.Data;
                 }
             }
             catch (Exception ex)
@@ -522,17 +540,24 @@ namespace Web.Controllers
                 _logger.LogInformation(ex.Message);
             }
 
-            return View("WalletTransactions", new WalletModel());
+            return View(walletModel);
         }
 
         public async Task<IActionResult> WalletPackages()
         {
+            List<WalletPackageModel> walletPackageModels = new();
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
+
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<WalletPackageModel>>>("webapi/common/walletpackages");
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
-                    return View("WalletPackages", responseModel.Data);
+                    walletPackageModels = responseModel.Data;
                 }
             }
             catch (Exception ex)
@@ -540,7 +565,7 @@ namespace Web.Controllers
                 _logger.LogInformation(ex.Message);
             }
 
-            return View("WalletPackages", new List<WalletPackageModel>());
+            return View(walletPackageModels);
         }
 
         /// <summary>

@@ -335,9 +335,9 @@
         var keyword = $("#txtKeyword").val();
         var limit = 1000;
 
-        showCoverSpin();
+        //showCoverSpin();
         $.get("@Url.RouteUrl("productsbyajax")", { page: pageCount, limit: limit, keyword: keyword, search: true }, function (result) {
-            hideCoverSpin();
+            //hideCoverSpin();
             $("#product-search-result").append(result.html);
             $("#hdnSearchPageCount").val(pageCount);
             $("#hdnSearchProductCount").val(parseInt($("#hdnSearchProductCount").val()) + limit);

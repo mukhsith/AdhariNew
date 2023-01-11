@@ -21,6 +21,7 @@ namespace Web.Controllers
             _apiHelper = apiHelper;
             _logger = logger.CreateLogger(typeof(CommonController).Name);
         }
+
         /// <summary>
         /// About us page
         /// </summary>
@@ -49,13 +50,6 @@ namespace Web.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateContactUsRequest()
         {
-            ////int.TryParse(Request.Cookies["CountryId"], out int countryId);
-            //var responseContactRequestModel = await _apiHelper.GetAsync<APIResponseModel<ContactDetailModel>>("api/common/CreateContactUsRequest");
-            //if (responseContactRequestModel.Success && responseContactRequestModel.Data != null)
-            //{
-            //    return View(responseContactRequestModel.Data);
-            //}
-
             var responseContactRequestModel = await _apiHelper.GetAsync<APIResponseModel<CompanySettingModel>>("webapi/common/companysetting");
             if (responseContactRequestModel.Success && responseContactRequestModel.Data != null)
             {
@@ -64,6 +58,7 @@ namespace Web.Controllers
 
             return View(new ContactDetailModel());
         }
+
         /// <summary>
         /// create contact us request
         /// </summary>
@@ -73,20 +68,9 @@ namespace Web.Controllers
             APIResponseModel<CustomerFeedbackModel> response = new();
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var data = await _apiHelper.PostAsync<APIResponseModel<CustomerFeedbackModel>>("webapi/common/createcontactus", customerFeedbackModel);
-                    response.Success = data.Success;
-                    response.Message = data.Message;
-                }
-                else
-                {
-                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                    if (errors.Count() > 0)
-                    {
-                        response.Message = errors.FirstOrDefault();
-                    }
-                }
+                var data = await _apiHelper.PostAsync<APIResponseModel<CustomerFeedbackModel>>("webapi/common/createcontactus", customerFeedbackModel);
+                response.Success = data.Success;
+                response.Message = data.Message;
             }
             catch (Exception ex)
             {

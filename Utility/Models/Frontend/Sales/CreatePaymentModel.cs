@@ -16,5 +16,6 @@ namespace Utility.Models.Frontend.Sales
         public int PaymentMethodId { get; set; }
         public bool RedirectToPaymentPage { get; set; }
         public int CustomerLanguageId { get; set; }
+        public string Notes { get; set; }
     }
 }

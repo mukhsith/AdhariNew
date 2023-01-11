@@ -151,6 +151,7 @@
 
         function addToFavourite(productId, productUrl, imgUrl, title, price, isfav, isList) {
             $.get("@Url.RouteUrl("addorremovefavourite")", { productId: productId }, function (result) {
+                debugger;
                 console.log(isfav);
                 if (result.success) {
                     if (result.data) {
@@ -193,7 +194,7 @@
                     }
                 }
                 else {
-                    if (result.messageCode == 401) {
+                    if (result.statusCode == 401) {
                         var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
                         window.location.href = "/login?returnUrl=" + returnUrl;
                         return;
@@ -231,7 +232,7 @@
                     }
                 }
                 else {
-                    if (result.messageCode == 401) {
+                    if (result.statusCode == 401) {
                         var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
                         window.location.href = "/login?returnUrl=" + returnUrl;
                         return;

@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Utility.API;
-using Utility.Helpers;
 using Utility.ResponseMapper;
 
 namespace Web.Controllers
@@ -25,7 +24,6 @@ namespace Web.Controllers
         {
             try
             {
-
                 await _apiHelper.GetAsync<APIResponseModel<object>>("api/accountsmobile/switchlanguage?language=" + culture);
                 Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
                  new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });

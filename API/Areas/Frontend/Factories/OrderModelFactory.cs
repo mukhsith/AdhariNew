@@ -335,6 +335,12 @@ namespace API.Areas.Frontend.Factories
 
                 var dateAndSlot = await _commonHelper.GetAvailableDeliveryDateAndSlot();
 
+                string notes = string.Empty;
+                if (deviceTypeId == DeviceType.Web)
+                    notes = createPaymentModel.Notes;
+                else
+                    notes = cartAttribute.Notes;
+
                 var order = new Order
                 {
                     CustomerId = customer.Id,
@@ -350,7 +356,8 @@ namespace API.Areas.Frontend.Factories
                     DeliveryTimeSlotId = dateAndSlot.Item2,
                     SubTotal = orderItems.Sum(a => a.Total),
                     DeliveryFee = deliveryFee,
-                    OrderTypeId = OrderType.Online
+                    OrderTypeId = OrderType.Online,
+                    Notes = notes
                 };
 
                 Coupon coupon = null;

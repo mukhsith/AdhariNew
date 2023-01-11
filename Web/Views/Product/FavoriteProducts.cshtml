@@ -3,9 +3,7 @@
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["MyFavorites"].Value });
 }
-
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
-
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row" id="dv-empty-records">
@@ -33,7 +31,6 @@
         </div>
     </div>
 </section>
-
 <script>
     $(document).ready(function () {
         if ($('#dv-product-box').children().length > 0) {

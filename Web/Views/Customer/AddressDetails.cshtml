@@ -193,44 +193,50 @@
         $("#frm-address").validate();
         if ($("#frm-address").valid()) {
 
-        var data = {
-            Id: @AddressData.Id,
-            TypeId: $("#hdnAddressTypeId").val(),
-            Name: $("#AddressName").val(),
-            GovernorateId: $("#Governorate").val(),
-            AreaId: $("#Area").val(),
-            Block: $("#Block").val(),
-            Street: $("#Street").val(),
-            Avenue: $("#Avenue").val(),
-            HouseNumber: $("#HouseNo").val(),
-            BuildingNumber: $("#BuildingNo").val(),
-            FloorNumber: $("#FloorNo").val(),
-            FlatNumber: $("#FlatNo").val(),
-            SchoolName: $("#SchoolName").val(),
-            MosqueName: $("#MosqueName").val(),
-            GovernmentEntity: $("#GovernmentEntity").val(),
-            Notes: $("#Notes").val()
-        };
+            var data = {
+                Id: @AddressData.Id,
+                TypeId: $("#hdnAddressTypeId").val(),
+                Name: $("#AddressName").val(),
+                GovernorateId: $("#Governorate").val(),
+                AreaId: $("#Area").val(),
+                Block: $("#Block").val(),
+                Street: $("#Street").val(),
+                Avenue: $("#Avenue").val(),
+                HouseNumber: $("#HouseNo").val(),
+                BuildingNumber: $("#BuildingNo").val(),
+                FloorNumber: $("#FloorNo").val(),
+                FlatNumber: $("#FlatNo").val(),
+                SchoolName: $("#SchoolName").val(),
+                MosqueName: $("#MosqueName").val(),
+                GovernmentEntity: $("#GovernmentEntity").val(),
+                Notes: $("#Notes").val()
+            };
 
-        $.ajax({
-            url: "@Url.RouteUrl("updateaddress")",
-            type: 'PUT',
-            data: data,
-            success: function (result) {
-                if (result.success) {
-                    $("#btn-save-address").addClass("d-none");
-                    disableAllElement("#frm-address input");
-                    disableAllElement("#frm-address select");
-                    disableAllElement("#frm-address textarea");
-                    $("#myTab").hide();
-                    $(".edit-address").removeClass("d-none");
+            $.ajax({
+                url: "@Url.RouteUrl("updateaddress")",
+                type: 'PUT',
+                data: data,
+                success: function (result) {
+                    if (result.success) {
+                        $("#btn-save-address").addClass("d-none");
+                        disableAllElement("#frm-address input");
+                        disableAllElement("#frm-address select");
+                        disableAllElement("#frm-address textarea");
+                        $("#myTab").hide();
+                        $(".edit-address").removeClass("d-none");
+                    }
+                    else {
+                        if (result.statusCode == 401) {
+                            var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                            window.location.href = "/login?returnUrl=" + returnUrl;
+                            return;
+                        }
+
+                        if (result.message != "")
+                            ToastAlert('error', '', result.message);
+                    }
                 }
-                else {
-                    if (result.message != "")
-                        ToastAlert('error', '', result.message);
-                }
-            }
-        });
+            });
         }
     }
 

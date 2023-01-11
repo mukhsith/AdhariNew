@@ -8643,23 +8643,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\biju.v\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\mukhsith\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Development\\WEB\\Client\\AdhariNew\\Data\\Data.csproj",
+      "projectUniqueName": "D:\\Development\\AdhariNew\\Data\\Data.csproj",
       "projectName": "Data",
-      "projectPath": "D:\\Development\\WEB\\Client\\AdhariNew\\Data\\Data.csproj",
-      "packagesPath": "C:\\Users\\biju.v\\.nuget\\packages\\",
-      "outputPath": "D:\\Development\\WEB\\Client\\AdhariNew\\Data\\obj\\",
+      "projectPath": "D:\\Development\\AdhariNew\\Data\\Data.csproj",
+      "packagesPath": "C:\\Users\\mukhsith\\.nuget\\packages\\",
+      "outputPath": "D:\\Development\\AdhariNew\\Data\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\biju.v\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mukhsith\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8673,8 +8669,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\Utility.csproj": {
-              "projectPath": "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\Utility.csproj"
+            "D:\\Development\\AdhariNew\\Utility\\Utility.csproj": {
+              "projectPath": "D:\\Development\\AdhariNew\\Utility\\Utility.csproj"
             }
           }
         }

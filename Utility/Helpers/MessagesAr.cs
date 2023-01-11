@@ -393,6 +393,7 @@
         public static string SubTotal = "Sub Total";
         public static string Subscription = "Subscription";
         public static string Normal = "Normal";
+        public static string UnitPrice = "Unit Price";
     }
 
     #region ORDER PRINT PDF For Arabic

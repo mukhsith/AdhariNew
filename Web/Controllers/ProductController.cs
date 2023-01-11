@@ -36,7 +36,6 @@ namespace Web.Controllers
             ViewBag.SeoName = seoName;
             return View();
         }
-
         public async Task<JsonResult> ProductsByAjax(string seoName, int limit, int page, bool search = false, string keyword = "")
         {
             ProductQueryParameters query = new();
@@ -92,17 +91,16 @@ namespace Web.Controllers
         /// </summary>
         public async Task<IActionResult> ProductDetails(string catName = "", string seoName = "")
         {
-            ProductQueryParameters query = new();
             var productModel = new ProductModel();
             try
             {
+                ProductQueryParameters query = new();
                 query.SeoName = seoName;
 
                 var responseModel = await _apiHelper.PostAsync<APIResponseModel<List<ProductModel>>>("webapi/product/products", query);
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
                     productModel = responseModel.Data[0];
-                    return View(productModel);
                 }
             }
             catch (Exception ex)
@@ -116,27 +114,24 @@ namespace Web.Controllers
         /// <summary>
         /// Get favorite products
         /// </summary>
-        public async Task<IActionResult> FavoriteProducts(string seoName)
+        public async Task<IActionResult> FavoriteProducts()
         {
             ViewBag.isFav = 1;
-            ProductQueryParameters query = new();
+            List<ProductModel> productModels = new();
 
             try
             {
-                var customerGuidValue = Convert.ToString(Request.Cookies["CustomerGuidValue"]);
-                if (string.IsNullOrEmpty(customerGuidValue))
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    customerGuidValue = Guid.NewGuid().ToString();
-                    Response.Cookies.Append("CustomerGuidValue", customerGuidValue, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+                    return RedirectToRoute("login");
                 }
 
-                query.CategorySeoName = seoName;
-                query.CustomerGuidValue = customerGuidValue;
-
+                ProductQueryParameters query = new();
                 var responseModel = await _apiHelper.PostAsync<APIResponseModel<List<ProductModel>>>("webapi/product/products", query);
                 if (responseModel.Success && responseModel.Data != null)
                 {
-                    return View("FavoriteProducts", responseModel.Data);
+                    productModels = responseModel.Data;
                 }
             }
             catch (Exception ex)
@@ -144,8 +139,7 @@ namespace Web.Controllers
                 _logger.LogError(ex.Message);
             }
 
-            return View("Products", new List<ProductModel>());
-
+            return View(productModels);
         }
 
         /// <summary>
@@ -156,6 +150,13 @@ namespace Web.Controllers
             var responseModel = new APIResponseModel<bool>();
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    responseModel.StatusCode = 401;
+                    return Json(responseModel);
+                }
+
                 responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/product/addorremovefavourite?productId=" + productId);
             }
             catch (Exception ex)
@@ -177,6 +178,13 @@ namespace Web.Controllers
             var responseModel = new APIResponseModel<bool>();
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    responseModel.StatusCode = 401;
+                    return Json(responseModel);
+                }
+
                 responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/product/addorremoveproductavailabilitynotifyrequest?productId=" + productId);
             }
             catch (Exception ex)

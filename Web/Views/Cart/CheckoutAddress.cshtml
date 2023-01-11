@@ -16,10 +16,10 @@
         <div class="row">
             <div class="col-12 col-xl-8 mx-auto">
                 <div class="delivery-address mb-4">
-                    <h4 class="text-primary fw-bold mb-3">@SharedHtmlLocalizer["DeliveryAddress"]</h4>
+                    <h4 class="text-primary text-center fw-bold mb-3">@SharedHtmlLocalizer["DeliveryAddress"]</h4>
                     @if (Model.Count > 0)
                     {
-                        <div id="dv-addresses" class="row addresses">
+                        <div id="dv-addresses" class="row justify-content-center addresses">
                             @foreach (var item in Model)
                             {
                                 <div class="col-12 col-md-4 mb-3">
@@ -34,20 +34,6 @@
                                     </div>
                                 </div>
                             }
-                        </div>
-                        <div class="row justify-content-center my-3">
-                            <div class="col-3 p-0">
-                                <hr class="dropdown-divider body-bg-secondary border-secondary">
-                            </div>
-                            <div class="col-1 text-center text-secondary p-0">@SharedHtmlLocalizer["OR"]</div>
-                            <div class="col-3 p-0">
-                                <hr class="dropdown-divider body-bg-secondary border-secondary">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="text-center">
-                                <a href="#" id="a-address-popup" class="btn btn-secondary text-light rounded-pill" data-bs-toggle="modal" data-bs-target="#addNewAddressModal">@SharedHtmlLocalizer["AddNewAddress"]</a>
-                            </div>
                         </div>
                         <div class="modal fade" id="addNewAddressModal" tabindex="-1" aria-labelledby="addNewAddressModalTitle" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -75,24 +61,35 @@
             </div>
         </div>
         <div class="col-12 text-center">
-            @if (Model.Count > 0)
-            {
-                <a href="javascript:;" id="btn-continue" class="btn btn-primary color-white rounded-pill fw-bold px-5 continue-btn disabled">
-                    @SharedHtmlLocalizer["Continue"]
-                </a>
-            }
-            else
-            {
-                <a href="javascript:;" id="btn-continue-with-add" class="btn btn-primary color-white rounded-pill fw-bold px-5 continue-btn">
-                    @SharedHtmlLocalizer["Continue"]
-                </a>
-            }
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4 mx-auto">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-3 order-2 order-md-1">
+                            <a href="#" id="a-address-popup" class="btn btn-secondary text-light rounded-pill w-100" data-bs-toggle="modal" data-bs-target="#addNewAddressModal">@SharedHtmlLocalizer["AddNewAddress"]</a>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3 order-1 order-md-2">
+                            @if (Model.Count > 0)
+                            {
+                                <a href="javascript:;" id="btn-continue" class="btn btn-primary color-white rounded-pill fw-bold px-5 continue-btn disabled w-100">
+                                    @SharedHtmlLocalizer["Continue"]
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="javascript:;" id="btn-continue-with-add" class="btn btn-primary color-white rounded-pill fw-bold px-5 continue-btn w-100">
+                                    @SharedHtmlLocalizer["Continue"]
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 <script>
     $(document).ready(function () {
-        $(".inputGroup.active").find("input").click();        
+        $(".inputGroup.active").find("input").click();
         $("#hdnAddressId").val(@selectedAddressId);
         if (@selectedAddressId> 0) {
             $('.continue-btn').removeClass('disabled');
@@ -158,7 +155,7 @@
                     else {
                         $('#addNewAddressModal').modal('hide');
 
-                        $("#dv-addresses").append("<div class='col-12 col-md-4 mb-3'>" +
+                        $("#dv-addresses").prepend("<div class='col-12 col-md-4 mb-3'>" +
                             "<div class='inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3'>" +
                             "<label for='address-" + result.data.id + "' class='w-100'>" +
                             "<p class='address-name card-text mb-0 fw-bold'>" + result.data.name + "</p>" +

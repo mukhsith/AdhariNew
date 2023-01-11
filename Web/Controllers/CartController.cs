@@ -265,12 +265,19 @@ namespace Web.Controllers
         /// </summary>
         public virtual async Task<IActionResult> CheckoutAddress()
         {
+            List<AddressModel> addressModels = new();
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
+
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress?typeId=" + RelatedEntityType.Order);
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
-                    return View("CheckoutAddress", responseModel.Data);
+                    addressModels = responseModel.Data;
                 }
             }
             catch (Exception ex)
@@ -278,7 +285,7 @@ namespace Web.Controllers
                 _logger.LogInformation(ex.Message);
             }
 
-            return View(new List<AddressModel>());
+            return View(addressModels);
         }
 
         /// <summary>
@@ -288,14 +295,7 @@ namespace Web.Controllers
         {
             try
             {
-                var customerGuidValue = Convert.ToString(Request.Cookies["CustomerGuidValue"]);
-                if (string.IsNullOrEmpty(customerGuidValue))
-                {
-                    customerGuidValue = Guid.NewGuid().ToString();
-                    Response.Cookies.Append("CustomerGuidValue", customerGuidValue, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
-                }
-
-                var responseModel = await _apiHelper.GetAsync<APIResponseModel<CheckOutModel>>("webapi/cart/getcartsummary?customerGuidValue=" + customerGuidValue);
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<CheckOutModel>>("webapi/cart/getcartsummary");
                 if (responseModel.Success && responseModel.Data != null)
                 {
                     return Json(new
@@ -328,34 +328,16 @@ namespace Web.Controllers
             var responseModel = new APIResponseModel<CartSummaryModel>();
             try
             {
-                if (ModelState.IsValid)
+                responseModel = await _apiHelper.PostAsync<APIResponseModel<CartSummaryModel>>("webapi/cart/savecartattributes", cartAttributeModel);
+                if (responseModel.Success && responseModel.Data != null)
                 {
-                    var customerGuidValue = Convert.ToString(Request.Cookies["CustomerGuidValue"]);
-                    if (string.IsNullOrEmpty(customerGuidValue))
+                    return Json(new
                     {
-                        customerGuidValue = Guid.NewGuid().ToString();
-                        Response.Cookies.Append("CustomerGuidValue", customerGuidValue, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
-                    }
-
-                    responseModel = await _apiHelper.PostAsync<APIResponseModel<CartSummaryModel>>("webapi/cart/savecartattributes", cartAttributeModel);
-                    if (responseModel.Success && responseModel.Data != null)
-                    {
-                        return Json(new
-                        {
-                            Success = true,
-                            Message = responseModel.Message,
-                            FormattedCartSummary = await RenderPartialViewToStringAsync("_CartSummary", responseModel.Data),
-                            CartSummary = responseModel.Data
-                        });
-                    }
-                }
-                else
-                {
-                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                    if (errors.Count() > 0)
-                    {
-                        responseModel.Message = errors.FirstOrDefault();
-                    }
+                        Success = true,
+                        Message = responseModel.Message,
+                        FormattedCartSummary = await RenderPartialViewToStringAsync("_CartSummary", responseModel.Data),
+                        CartSummary = responseModel.Data
+                    });
                 }
             }
             catch (Exception ex)
@@ -375,18 +357,25 @@ namespace Web.Controllers
 
         public virtual async Task<IActionResult> CheckoutSummary(int addressId)
         {
+            CheckOutModel checkOutModel = new();
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
+
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<CheckOutModel>>("webapi/cart/getcheckoutsummary");
                 if (responseModel.Success && responseModel.Data != null)
                 {
+                    checkOutModel = responseModel.Data;
+
                     var responsePaymentModel = await _apiHelper.GetAsync<APIResponseModel<List<PaymentMethodModel>>>("webapi/common/paymentmethods?typeId=" + PaymentRequestType.Order);
                     if (responsePaymentModel.Success && responsePaymentModel.Data != null && responsePaymentModel.Data.Count > 0)
                     {
-                        responseModel.Data.PaymentMethods = responsePaymentModel.Data;
+                        checkOutModel.PaymentMethods = responsePaymentModel.Data;
                     }
-
-                    return View("CheckoutSummary", responseModel.Data);
                 }
             }
             catch (Exception ex)
@@ -394,7 +383,7 @@ namespace Web.Controllers
                 _logger.LogInformation(ex.Message);
             }
 
-            return View();
+            return View(checkOutModel);
         }
     }
 }

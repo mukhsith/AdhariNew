@@ -516,6 +516,9 @@
   <data name="PleaseChoosePaymentMethod" xml:space="preserve">
     <value>Please choose payment method</value>
   </data>
+  <data name="PleaseEnterAValidPromotionCode" xml:space="preserve">
+    <value>Please enter a valid Promotion Code.</value>
+  </data>
   <data name="PleaseEnterOTPcodeWhichHasBeenSentToMobileNumber" xml:space="preserve">
     <value>PleaseEnterOTPcodeWhichHasBeenSentToMobileNumber</value>
   </data>
@@ -536,6 +539,12 @@
   </data>
   <data name="PromotionCode" xml:space="preserve">
     <value>Promotion Code</value>
+  </data>
+  <data name="PromotionCodeApplied" xml:space="preserve">
+    <value>Promotion Code Applied.</value>
+  </data>
+  <data name="ProvideAnySpecialRequestsHere" xml:space="preserve">
+    <value>Provide any special requests here</value>
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>Quantity</value>

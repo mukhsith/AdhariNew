@@ -668,6 +668,13 @@ namespace API.Areas.Frontend.Factories
                 };
 
                 decimal discountAmount = discountedPrice > 0 ? price - discountedPrice : 0;
+
+                string notes = string.Empty;
+                if (deviceTypeId == DeviceType.Web)
+                    notes = createPaymentModel.Notes;
+                else
+                    notes = subscriptionAttribute.Notes;
+
                 var subscription = new Subscription
                 {
                     CustomerId = customer.Id,
@@ -692,7 +699,8 @@ namespace API.Areas.Frontend.Factories
                     SpecialPackage = product.SpecialPackage,
                     FullPayment = fullPayment,
                     Address = address,
-                    SubscriptionItemDetails = subscriptionItemDetails
+                    SubscriptionItemDetails = subscriptionItemDetails,
+                    Notes = notes
                 };
 
                 Coupon coupon = null;
