@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr"> 
+<head>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <title>Login In  | Adhari Admin </title>
+    <meta name="keywords" content="Adhari Admin" />
+    <meta name="description" content="Adhari Admin Control Panel">
+    <meta name="author" content="Media Phone Plus">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/fav/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+     
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="/assets/css/theme.min.css">
+
+    <!-- Developer style-->
+    <link rel="stylesheet" href="/developer/css/developer.css" asp-append-version="true" />
+    <!-- Head Libs -->
+    <script src="/assets/vendor/js/modernizr.js"></script>
+
+    <!-- jQuery -->
+    <script src="/assets/vendor/js/jquery.js"></script>
+
+
+</head>
+<body>
+
+
+    @RenderBody()
+
+
+
+    <!-- Theme Base, Components and Settings -->
+    <!--<script src="/assets/vendor/js/theme.js"></script>-->
+    <!-- Theme Custom -->
+    <!--<script src="/assets/vendor/js/custom.js"></script>-->
+    <!-- Theme Initialization Files -->
+    <!--<script src="/assets/vendor/js/theme.init.js"></script>
+    <script src="/assets/js/main.js"></script>-->
+    <script type="text/javascript">
+         
+        getGeolocation = () => {
+
+            $("#btnUserLogin").prop("disabled", true);
+            setTimeout(function () {
+                $("#btnUserLogin").removeAttr('disabled');
+            }, 1000);
+
+            if (navigator.geolocation) {
+                parseFloat(navigator.geolocation.getCurrentPosition(showPosition));
+            } else {
+                lat = "Geolocation is not supported by this browser.";
+                long = "Geolocation is not supported by this browser.";
+            }
+
+        }
+
+        showPosition = (position) => {
+            lat = position.coords.latitude;
+            long = position.coords.longitude;
+            $('#Latitude').val(lat);
+            $('#Longitude').val(long);
+        }
+        $(document).ready(function () {
+            getGeolocation();
+        });
+    </script>
+</body>
+</html>

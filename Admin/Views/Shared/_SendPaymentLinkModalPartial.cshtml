@@ -1,0 +1,77 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="modal fade" id="send-payment-link-modal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="send-payment-link-modalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content border-secondary">
+
+            <div class="modal-header border-secondary body-bg-secondary">
+                <h5 class="modal-title fw-bold text-primary" id="send-payment-link-modalLabel">Send Payment Link</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <input type="hidden" id="dialogOrderId" value="" />
+                <input type="hidden" id="dialogOrderTypeId" value="1" />
+            </div>
+            <div class="modal-body">
+                <p>Payment Link will be sent to the following phone number:</p>
+                <!-- ========== Start Simple Input Field ========== -->
+                <input type="tel" class="form-control form-control-lg rounded-4 border-secondary "
+                       name="dialogMobileNumber" id="dialogMobileNumber" aria-describedby="" placeholder=""
+                       value="91234567" max="8" required>
+                <!-- ========== End Simple Input Field ========== -->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="copyPaymentLink()">Copy URL</button>
+                <button type="button" class="btn btn-success send-sms-btn" onclick="sendPaymentLink()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        copyPaymentLink = () => {
+
+            alert("copy Payment link not implemented");
+            let orderId = $("#send-payment-link-modal .modal-header #dialogOrderId").val();
+            let dialogOrderTypeId = $("#send-payment-link-modal .modal-header #dialogOrderTypeId").val();
+            let submitData = new FormData();
+            submitData.append("orderId", orderId);
+            submitData.append("orderTypeId", dialogOrderTypeId);
+            submitData.append("mobileNumber", dialogMobileNumber);
+
+            //function copyToClipboard(element) {
+            //    var $temp = $("<input>");
+            //    $("body").append($temp);
+            //    $temp.val($(element).text()).select();
+            //    document.execCommand("copy");
+            //    $temp.remove();
+            //}
+        }
+        sendPaymentLink = () => {
+            let orderId = $("#send-payment-link-modal .modal-header #dialogOrderId").val();
+            let dialogOrderTypeId = $("#send-payment-link-modal .modal-header #dialogOrderTypeId").val();
+            let dialogMobileNumber = $("#send-payment-link-modal .modal-header #dialogMobileNumber").val();
+            
+            let submitData = new FormData();
+            submitData.append("orderId", orderId);
+            submitData.append("orderTypeId", dialogOrderTypeId);
+            submitData.append("mobileNumber", dialogMobileNumber);
+            alert("Send Payment link not implemented");
+            //ajaxPost("order/UpdateOrderStatus", submitData, cbSendPaymentLinkSuccess);
+             
+        }
+
+    });
+
+    cbSendPaymentLinkSuccess = (data) => {
+        if (data.success) {
+            ToastAlert('success', 'Send Payment Link', 'Payment link sent successfully');
+            reloadPage();
+        } else {
+            ToastAlert('error', 'Send Payment Link', data.message);
+        }
+    }
+</script>

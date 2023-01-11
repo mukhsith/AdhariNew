@@ -1,0 +1,291 @@
+2022-12-28T08:17:15.6015510+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T08:17:15.6071850+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T08:17:15.6091126+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T08:18:11.4577090+03:00 80000080-0000-fa00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T08:20:38.7259480+03:00 80000131-0006-fd00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("37,356"ms) [Parameters=["@__id_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[Active], [t].[B2BDiscountFromDate], [t].[B2BDiscountToDate], [t].[B2BDiscountedPrice], [t].[B2BPrice], [t].[B2BPriceEnabled], [t].[CategoryId], [t].[CreatedBy], [t].[CreatedOn], [t].[Deleted], [t].[DescriptionAr], [t].[DescriptionEn], [t].[DiscountFromDate], [t].[DiscountToDate], [t].[DiscountedPrice], [t].[DisplayOrder], [t].[ImageName], [t].[ItemSizeId], [t].[ModifiedBy], [t].[ModifiedOn], [t].[NameAr], [t].[NameEn], [t].[PiecesPerPacking], [t].[Price], [t].[ProductType], [t].[SeoName], [t].[Stock], [t].[Id0], [t].[Active0], [t].[CreatedBy0], [t].[CreatedOn0], [t].[Deleted0], [t].[DisplayOrder0], [t].[ImageDesktopName], [t].[ImageMobileName], [t].[ImageName0], [t].[ImageNormalIconName], [t].[ImageSelectedIconName], [t].[ModifiedBy0], [t].[ModifiedOn0], [t].[NameAr0], [t].[NameEn0], [t].[ProductTypeId], [t].[SeoName0], [t].[Id1], [t].[Active1], [t].[CreatedBy1], [t].[CreatedOn1], [t].[Deleted1], [t].[DisplayOrder1], [t].[ModifiedBy1], [t].[ModifiedOn1], [t].[NameAr1], [t].[NameEn1], [p0].[Id], [p0].[ChildProductId], [p0].[CreatedBy], [p0].[CreatedOn], [p0].[Deleted], [p0].[ModifiedBy], [p0].[ModifiedOn], [p0].[ProductId], [p0].[Quantity]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[Active], [p].[B2BDiscountFromDate], [p].[B2BDiscountToDate], [p].[B2BDiscountedPrice], [p].[B2BPrice], [p].[B2BPriceEnabled], [p].[CategoryId], [p].[CreatedBy], [p].[CreatedOn], [p].[Deleted], [p].[DescriptionAr], [p].[DescriptionEn], [p].[DiscountFromDate], [p].[DiscountToDate], [p].[DiscountedPrice], [p].[DisplayOrder], [p].[ImageName], [p].[ItemSizeId], [p].[ModifiedBy], [p].[ModifiedOn], [p].[NameAr], [p].[NameEn], [p].[PiecesPerPacking], [p].[Price], [p].[ProductType], [p].[SeoName], [p].[Stock], [c].[Id] AS [Id0], [c].[Active] AS [Active0], [c].[CreatedBy] AS [CreatedBy0], [c].[CreatedOn] AS [CreatedOn0], [c].[Deleted] AS [Deleted0], [c].[DisplayOrder] AS [DisplayOrder0], [c].[ImageDesktopName], [c].[ImageMobileName], [c].[ImageName] AS [ImageName0], [c].[ImageNormalIconName], [c].[ImageSelectedIconName], [c].[ModifiedBy] AS [ModifiedBy0], [c].[ModifiedOn] AS [ModifiedOn0], [c].[NameAr] AS [NameAr0], [c].[NameEn] AS [NameEn0], [c].[ProductTypeId], [c].[SeoName] AS [SeoName0], [i].[Id] AS [Id1], [i].[Active] AS [Active1], [i].[CreatedBy] AS [CreatedBy1], [i].[CreatedOn] AS [CreatedOn1], [i].[Deleted] AS [Deleted1], [i].[DisplayOrder] AS [DisplayOrder1], [i].[ModifiedBy] AS [ModifiedBy1], [i].[ModifiedOn] AS [ModifiedOn1], [i].[NameAr] AS [NameAr1], [i].[NameEn] AS [NameEn1]
+    FROM [Products] AS [p]
+    LEFT JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+    LEFT JOIN [ItemSizes] AS [i] ON [p].[ItemSizeId] = [i].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [t]
+LEFT JOIN [ProductDetails] AS [p0] ON [t].[Id] = [p0].[ProductId]
+ORDER BY [t].[Id], [t].[Id0], [t].[Id1], [p0].[Id]" (627a98df)
+2022-12-28T08:20:38.8619399+03:00 80000131-0006-fd00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"Data.EntityFramework.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+ ---> System.ComponentModel.Win32Exception (258): The wait operation timed out.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:87f0d979-4b03-464a-98ad-d7baa9b5284c
+Error Number:-2,State:0,Class:11" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+ ---> System.ComponentModel.Win32Exception (258): The wait operation timed out.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+ClientConnectionId:87f0d979-4b03-464a-98ad-d7baa9b5284c
+Error Number:-2,State:0,Class:11
+2022-12-28T08:20:38.9523550+03:00 80000131-0006-fd00-b63f-84710c7967bb [ERR] Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding. (8eb32def)
+2022-12-28T08:25:57.2427952+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T08:25:57.2488145+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T08:25:57.2507054+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T08:28:36.7060150+03:00 800000d3-0004-fc00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"Data.EntityFramework.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 0 - The specified network name is no longer available.)
+ ---> System.ComponentModel.Win32Exception (64): The specified network name is no longer available.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.ThrowExceptionAndWarning(Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.ReadAsyncCallbackCaptureException(TaskCompletionSource`1 source)
+ClientConnectionId:8f43167a-0990-48ee-bf9c-948eecbb7145
+Error Number:64,State:0,Class:20" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 0 - The specified network name is no longer available.)
+ ---> System.ComponentModel.Win32Exception (64): The specified network name is no longer available.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.ThrowExceptionAndWarning(Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.ReadAsyncCallbackCaptureException(TaskCompletionSource`1 source)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Services.Frontend.Shop.CartService.GetAllCartItem(String customerGuidValue, Nullable`1 customerId, Nullable`1 productDetailId) in D:\Development\Adhari\Services\Frontend\Shop\CartService.cs:line 41
+   at API.Areas.Frontend.Factories.CartModelFactory.AddCartItem(Boolean isEnglish, CartItemModel cartItemModel) in D:\Development\Adhari\API\Areas\Frontend\Factories\CartModelFactory.cs:line 275
+ClientConnectionId:8f43167a-0990-48ee-bf9c-948eecbb7145
+Error Number:64,State:0,Class:20
+2022-12-28T08:28:36.7713168+03:00 800000d3-0004-fc00-b63f-84710c7967bb [ERR] A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 0 - The specified network name is no longer available.) (ca2f364c)
+2022-12-28T09:08:12.4823598+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T09:08:12.4888895+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T09:08:12.4906773+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T09:15:14.7287594+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T09:15:14.7354726+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T09:15:14.7378243+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T09:19:52.5711776+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T09:19:52.5769615+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T09:19:52.5789076+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T09:39:39.2290978+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T09:39:39.2352898+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T09:39:39.2373199+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T11:04:44.9992658+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T11:04:45.0054646+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T11:04:45.0073690+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T12:42:41.4257445+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T12:42:41.4325900+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T12:42:41.4341038+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T12:43:30.6770649+03:00 800000da-0004-fc00-b63f-84710c7967bb [ERR] Value cannot be null. (Parameter 'source') (75413b69)
+2022-12-28T12:44:47.2730603+03:00 800000be-0000-fd00-b63f-84710c7967bb [ERR] Value cannot be null. (Parameter 'source') (75413b69)
+2022-12-28T12:45:35.7125908+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T12:45:35.7185533+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T12:45:35.7207979+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T12:46:42.6712610+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T12:46:42.6783574+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T12:46:42.6802464+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T12:47:12.8188100+03:00 80000091-0000-fa00-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T13:57:53.7064709+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T13:57:53.7126256+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T13:57:53.7145640+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T14:17:29.5914851+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T14:17:29.5974259+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T14:17:29.5992625+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T14:17:59.2797603+03:00 80000069-0004-f900-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T14:17:59.6792252+03:00 80000069-0004-f900-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T14:20:16.6238971+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T14:20:16.6297998+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T14:20:16.6315531+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T14:20:27.8739606+03:00 80000012-0006-fc00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T14:20:28.5478167+03:00 80000012-0006-fc00-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T14:26:04.6059836+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T14:26:04.6136245+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T14:26:04.6151688+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T14:26:18.9203072+03:00 800000ea-0004-fc00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T14:26:19.2918961+03:00 800000ea-0004-fc00-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T14:30:14.6846080+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T14:30:14.6904927+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T14:30:14.6923666+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T14:30:25.8234398+03:00 80000028-0001-fa00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T14:30:37.5024398+03:00 8000011e-0005-f800-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T14:31:35.0655860+03:00 80000028-0001-fa00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("61,079"ms) [Parameters=["@p0='?' (DbType = Int32), @p1='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p2='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p3='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p4='?' (DbType = Int32), @p5='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (Size = 50), @p10='?' (Size = 50), @p11='?' (DbType = Int32), @p12='?' (Size = 4000), @p13='?' (DbType = Int32), @p14='?' (DbType = Boolean), @p15='?' (DbType = DateTime2), @p16='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Boolean), @p21='?' (DbType = Int32), @p22='?' (DbType = DateTime2), @p23='?' (Size = 4000), @p24='?' (Size = 50), @p25='?' (DbType = Int32), @p26='?' (DbType = Int32), @p27='?' (Size = 50), @p28='?' (Size = 50), @p29='?' (DbType = DateTime2), @p30='?' (Size = 50), @p31='?' (Size = 50), @p32='?' (DbType = Int32), @p33='?' (Size = 50), @p34='?' (Size = 50), @p35='?' (DbType = Int32), @p36='?' (Size = 50), @p37='?' (Size = 50), @p38='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p39='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p40='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p41='?' (Precision = 18) (Scale = 3) (DbType = Decimal)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [Orders] ([AddressId], [BankServiceCharge], [CashbackAmount], [CouponDiscountAmount], [CouponDiscountType], [CouponDiscountValueApplied], [CouponId], [CreatedBy], [CreatedOn], [CreditCardNumber], [CreditCardType], [CustomerId], [CustomerIp], [CustomerLanguageId], [Deleted], [DeliveryDate], [DeliveryFee], [DeliveryTimeSlotId], [DeviceTypeId], [DriverId], [FreeDelivery], [ModifiedBy], [ModifiedOn], [Notes], [OrderNumber], [OrderStatusId], [OrderTypeId], [PaidCurrencyValue], [PaymentAuth], [PaymentDateTime], [PaymentError], [PaymentId], [PaymentMethodId], [PaymentRefId], [PaymentResult], [PaymentStatusId], [PaymentTrackId], [PaymentTransId], [ReceivedCashbackAmount], [SubTotal], [Total], [WalletUsedAmount])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34, @p35, @p36, @p37, @p38, @p39, @p40, @p41);
+SELECT [Id]
+FROM [Orders]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();" (627a98df)
+2022-12-28T14:31:35.1719137+03:00 80000028-0001-fa00-b63f-84710c7967bb [ERR] An exception occurred in the database while saving changes for context type '"Data.EntityFramework.ApplicationDbContext"'."
+""Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+ ---> System.ComponentModel.Win32Exception (258): The wait operation timed out.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:450128b6-9f70-43a0-80cc-8749196d925b
+Error Number:-2,State:0,Class:11
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)" (170f029e)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+ ---> System.ComponentModel.Win32Exception (258): The wait operation timed out.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:450128b6-9f70-43a0-80cc-8749196d925b
+Error Number:-2,State:0,Class:11
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Services.Frontend.Sales.OrderService.CreateOrder(Order model) in D:\Development\Adhari\Services\Frontend\Sales\OrderService.cs:line 73
+2022-12-28T14:31:35.2728938+03:00 80000028-0001-fa00-b63f-84710c7967bb [ERR] An error occurred while updating the entries. See the inner exception for details. (5d65ae99)
+2022-12-28T14:32:56.1701124+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T14:32:56.1759634+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T14:32:56.1780781+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T14:33:05.5522866+03:00 800000f2-0004-fc00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T14:33:06.6010317+03:00 800000f2-0004-fc00-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T14:48:32.9891541+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T14:48:32.9950691+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T14:48:32.9966729+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T14:49:07.4485445+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T14:49:07.4542781+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T14:49:07.4561574+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T14:49:21.4858886+03:00 800000f8-0004-fc00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T14:49:21.8541581+03:00 800000f8-0004-fc00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("10"ms) [Parameters=["@p0='?' (DbType = Int32), @p1='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p2='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p3='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p4='?' (DbType = Int32), @p5='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (Size = 50), @p10='?' (Size = 50), @p11='?' (DbType = Int32), @p12='?' (Size = 4000), @p13='?' (DbType = Int32), @p14='?' (DbType = Boolean), @p15='?' (DbType = DateTime2), @p16='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Boolean), @p21='?' (DbType = Int32), @p22='?' (DbType = DateTime2), @p23='?' (Size = 4000), @p24='?' (Size = 50), @p25='?' (DbType = Int32), @p26='?' (DbType = Int32), @p27='?' (Size = 50), @p28='?' (Size = 50), @p29='?' (DbType = DateTime2), @p30='?' (Size = 50), @p31='?' (Size = 50), @p32='?' (DbType = Int32), @p33='?' (Size = 50), @p34='?' (Size = 50), @p35='?' (DbType = Int32), @p36='?' (Size = 50), @p37='?' (Size = 50), @p38='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p39='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p40='?' (Size = 4000), @p41='?' (Size = 4000), @p42='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p43='?' (Precision = 18) (Scale = 3) (DbType = Decimal)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [Orders] ([AddressId], [BankServiceCharge], [CashbackAmount], [CouponDiscountAmount], [CouponDiscountType], [CouponDiscountValueApplied], [CouponId], [CreatedBy], [CreatedOn], [CreditCardNumber], [CreditCardType], [CustomerId], [CustomerIp], [CustomerLanguageId], [Deleted], [DeliveryDate], [DeliveryFee], [DeliveryTimeSlotId], [DeviceTypeId], [DriverId], [FreeDelivery], [ModifiedBy], [ModifiedOn], [Notes], [OrderNumber], [OrderStatusId], [OrderTypeId], [PaidCurrencyValue], [PaymentAuth], [PaymentDateTime], [PaymentError], [PaymentId], [PaymentMethodId], [PaymentRefId], [PaymentResult], [PaymentStatusId], [PaymentTrackId], [PaymentTransId], [ReceivedCashbackAmount], [SubTotal], [TabbyPaymentId], [TabbySessionId], [Total], [WalletUsedAmount])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34, @p35, @p36, @p37, @p38, @p39, @p40, @p41, @p42, @p43);
+SELECT [Id]
+FROM [Orders]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();" (627a98df)
+2022-12-28T14:49:22.0061198+03:00 800000f8-0004-fc00-b63f-84710c7967bb [ERR] An exception occurred in the database while saving changes for context type '"Data.EntityFramework.ApplicationDbContext"'."
+""Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'TabbyPaymentId'.
+Invalid column name 'TabbySessionId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:7044ff60-9777-4582-9e06-aad5d5676f30
+Error Number:207,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)" (170f029e)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'TabbyPaymentId'.
+Invalid column name 'TabbySessionId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:7044ff60-9777-4582-9e06-aad5d5676f30
+Error Number:207,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Services.Frontend.Sales.OrderService.CreateOrder(Order model) in D:\Development\Adhari\Services\Frontend\Sales\OrderService.cs:line 73
+2022-12-28T14:49:22.1516321+03:00 800000f8-0004-fc00-b63f-84710c7967bb [ERR] An error occurred while updating the entries. See the inner exception for details. (5d65ae99)
+2022-12-28T14:51:19.0219040+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T14:51:19.0296087+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T14:51:19.0315206+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T14:51:24.9653587+03:00 8000008e-0007-ff00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T14:51:25.3847720+03:00 8000008e-0007-ff00-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T15:41:41.6544417+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T15:41:41.6604257+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T15:41:41.6620922+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T15:41:49.4955129+03:00 80000063-0003-f900-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T15:41:49.8486552+03:00 80000063-0003-f900-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T15:43:50.7499408+03:00 80000057-0001-fc00-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T15:45:00.3529064+03:00 80000057-0001-fc00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T15:58:55.9662999+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T15:58:55.9736906+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T15:58:55.9754455+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T15:59:03.0862438+03:00 80000121-0005-f800-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T15:59:03.4176407+03:00 80000121-0005-f800-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T16:00:33.1496481+03:00 800000cf-0000-fd00-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T16:32:45.6263998+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T16:32:45.6327830+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T16:32:45.6345598+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T16:34:29.3023374+03:00 800000a0-0000-fa00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T16:34:54.8219978+03:00 80000090-0007-ff00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-28T16:37:36.1561231+03:00 80000123-0005-f800-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T16:38:37.6157723+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T16:38:37.6252607+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T16:38:37.6270268+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T16:38:40.6385627+03:00 800000c0-0002-fa00-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2022-12-28T16:44:51.2857218+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-28T16:44:51.2915577+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-28T16:44:51.2932508+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-28T16:46:22.2644448+03:00 800000b4-0006-ff00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)

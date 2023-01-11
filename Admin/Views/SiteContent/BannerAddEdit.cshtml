@@ -1,0 +1,154 @@
+﻿@model Data.Common.BaseEntityId
+<header class="page-header">
+    <h2> @(@Model.Id > 0 ? "Edit Banner - " + @Model.Id : @SharedHtmlLocalizer["NewBanner"].Value)  </h2>
+    <input type="hidden" value="@Model.Id" id="Id" />
+    <div class="end-wrapper text-end me-5">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["BannerDetails"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <form method="post" id="dataForm" name="dataForm" enctype="multipart/form-data">
+                    @await Html.PartialAsync("_FormHiddenFieldsPartial")
+                    <div class="row">
+                        <div class="col-12 col-lg-6 mb-3">
+                            <div class="row">
+                                <!-- ========== Start Simple Image Upload Block ========== -->
+                                <div class="row">
+                                    <div class="col-10 mb-3">
+                                        <label for="formFile" class="form-label">@SharedHtmlLocalizer["BannerImageEn"]<span class=" text-danger">*</span></label>
+                                        <input class="form-control form-control-lg border-secondary rounded-4" type="file" id="imageFileEn" name="imageFileEn">
+                                        <small class="form-text text-muted">@SharedHtmlLocalizer["ConsistencyPurpose2048X1200"]</small>
+                                        <div class="invalid-feedback">
+                                            @SharedHtmlLocalizer["ConsistencyPurpose2048X1200"]
+                                        </div>
+                                    </div>
+                                    <div class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                        <img src="/assets/img/general-placeholder.png" class="img-fluid preview-image-" id="imagePreviewEn" name="imagePreviewEn">
+                                        <p class="text-muted text-center mb-1 mt-2">@SharedHtmlLocalizer["Preview"]</p>
+                                    </div>
+                                </div>
+                                <script>
+                                    $("#imageFileEn").change(function (event) {
+                                        var image = document.getElementById('imagePreviewEn');
+                                        image.src = URL.createObjectURL(event.target.files[0]);
+                                    });
+                                </script>
+                                <!-- ========== End Simple Image Upload Block ========== -->
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3">
+                            <div class="row">
+                                <!-- ========== Start Simple Image Upload Block ========== -->
+                                <div class="row">
+                                    <div class="col-10 mb-3">
+                                        <label for="formFile" class="form-label">@SharedHtmlLocalizer["BannerImageAr"]<span class=" text-danger">*</span></label>
+                                        <input class="form-control form-control-lg border-secondary rounded-4" type="file" id="imageFileAr" name="imageFileAr">
+                                        <small class="form-text text-muted">@SharedHtmlLocalizer["ConsistencyPurpose2048X1200"]</small>
+                                        <div class="invalid-feedback">
+                                            @SharedHtmlLocalizer["ConsistencyPurpose2048X1200"]
+                                        </div>
+                                    </div>
+                                    <div class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                        <img src="/assets/img/general-placeholder.png" class="img-fluid preview-image-" id="imagePreviewAr" name="imagePreviewAr">
+                                        <p class="text-muted text-center mb-1 mt-2">@SharedHtmlLocalizer["Preview"]</p>
+                                    </div>
+                                </div>
+                                <script>
+                                    $("#imageFileAr").change(function (event) {
+                                        var image = document.getElementById('imagePreviewAr');
+                                        image.src = URL.createObjectURL(event.target.files[0]);
+                                    });
+                                </script>
+                                <!-- ========== End Simple Image Upload Block ========== -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-12 mb-3">
+                            <div class="d-flex align-items-top">
+                                <!-- ========== Start ios7 Switch ========== -->
+
+                                <div class="switch switch-sm switch-primary my-0 clickable-banner-switch ">
+                                    <label for="">@SharedHtmlLocalizer["ClickableBanner"]</label>
+                                    <input type="checkbox" name="linkEnabled" id="linkEnabled" data-plugin-ios-switch />
+                                </div>
+                                <!-- ========== End ios7 Switch ========== -->
+                                <!-- ========== Start Tooltip ========== -->
+                                <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" title="@SharedHtmlLocalizer["ClickingOrTapping"]" data-bs-original-title="@SharedHtmlLocalizer["ClickingOrTapping"]" aria-label="@SharedHtmlLocalizer["ClickingOrTapping"]"></i>
+                                <!-- ========== End Tooltip ========== -->
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 col-lg-4 mb-3 banner-field" style="display:none;">
+                            <!-- ========== Start Simple Select Field Block ========== -->
+                            <label for="linkType" class="form-label">@SharedHtmlLocalizer["LinkTo"]</label>
+                            <select class="form-select form-select-lg rounded-4 border-secondary" name="linkType" id="linkType" aria-describedby="@SharedHtmlLocalizer["LinkTo"]" >
+                                <option value="0" selected>@SharedHtmlLocalizer["SelectOne"]</option>
+                                <option value="1">@SharedHtmlLocalizer["URL"]</option>
+                                <option value="2">@SharedHtmlLocalizer["Product"]</option>
+                            </select>
+
+
+                            <!-- ========== End Simple Select Field Block ========== -->
+                        </div>
+
+                        <div class="col-12 col-lg-4 mb-3 banner-field-url" style="display:none;">
+                            <!-- ========== Start Simple Input Field ========== -->
+
+                            <label for="linkUrl" class="form-label">URL</label>
+                            <input type="url" class="form-control form-control-lg rounded-4 border-secondary " name="linkURL" id="linkURL" aria-describedby="URL" placeholder="https://adhari.com.kw" value="" >
+                            <small class="form-text text-muted">@SharedHtmlLocalizer["LinkAnyWebpageOrURL"]</small>
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["CorrectURLMessage"]</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+
+                        <div class="col-12 col-lg-4 mb-3 banner-field-product" style="display:none;">
+                            <label for="bannerProduct" class="form-label">Product</label>
+                            <select data-plugin-selectTwo class="form-control form-control-lg border border-secondary rounded-4 h-100" style="height: 48px" name="productList" id="productList" data-plugin-options='{ "placeholder": "Select a Product...", "allowClear": true,"height": "48px" }'>
+                                <option value="0" selected>--select--</option>
+                                <option value="1">Adhari Water Carton</option>
+                                <option value="2">Munakka Water Carton</option>
+                                <option value="3">Aqua8 Water Carton</option>
+                                <option value="4">Qatra Water Carton</option>
+                            </select>
+                            <small class="form-text text-muted">@SharedHtmlLocalizer["LinkAnyWebpageOrURL"]</small>
+
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["SelectProduct"]</div>
+
+                        </div>
+
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button id="btnSave" class="btn btn-primary btn-lg save-btn  fw-bold">@SharedHtmlLocalizer["Save"]</button>
+                            <button type="button" class="btn btn-warning" onclick="history.go(-1)">@SharedHtmlLocalizer["Back"]</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+
+<script src="~/developer/js/SiteContent/Banner_CRUD.js" asp-append-version="true"></script>
+

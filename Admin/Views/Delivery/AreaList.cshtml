@@ -1,0 +1,77 @@
+﻿<header class="page-header">
+    <h2>Areas</h2>
+    <div class="right-wrapper text-end me-3">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="bx bx-home-alt"></i>
+                </a>
+            </li>
+
+        </ol>
+
+    </div>
+</header>
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Filter By</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-12 col-lg-3 mb-3">
+                        <!-- ========== Start Select2 Field Block ========== -->
+                        <label for="" class="form-label">Governorate</label>
+                        <select data-plugin-selectTwo class="form-select form-select-lg rounded-4 border-secondary" name="governorateList" id="governorateList" data-plugin-options='{ "placeholder": "", "allowClear": true}'>
+                            
+                        </select>
+
+
+                        <!-- ========== End Select2 Field Block ========== -->
+                    </div>
+                    <div class="col-12 ">
+                        <a href="#" class="btn btn-primary btn-lg fw-bold " onclick="searchDataTable()">Search</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Areas</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+                    <button class="btn btn-primary btn-sm " onclick="window.location = '/Delivery/AreaAddEdit?id=0';">Add New Area</button>
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <table class="table border-secondary align-middle mb-0 mobile-optimised datatable-default-" id="datatable-default-">
+                    <thead>
+                        <tr>
+                            <th data-priority="10" class="">ID</th>
+                            <th data-priority="1" class="">Display Order</th>
+                            <th data-priority="2" class="">Status</th>
+                            <th data-priority="3" class="">Title (En)</th>
+                            <th data-priority="3" class="">Title (Ar)</th>
+                            <th data-priority="3" class="">Governorate</th>
+                            <th data-priority="4" class="">Delivery Fee (KWD)</th>
+                            <th data-priority="6" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-secondary">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+
+
+
+<!-- end: page -->
+<script src="~/developer/js/Delivery/Area_Datatable.js" asp-append-version="true"></script>

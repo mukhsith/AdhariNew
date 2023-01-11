@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_155" data-name="Rectangle 155" width="24" height="24" fill="#850b5a"/>
+    </clipPath>
+  </defs>
+  <g id="Subscriptions" transform="translate(-2990.331 3652)">
+    <g id="Subscriptions-2" data-name="Subscriptions" transform="translate(2990.331 -3652)" clip-path="url(#clip-path)">
+      <path id="Path_234" data-name="Path 234" d="M22.256,0H1.744A1.749,1.749,0,0,0,0,1.744V22.256A1.755,1.755,0,0,0,1.744,24H22.256A1.749,1.749,0,0,0,24,22.256V1.744A1.742,1.742,0,0,0,22.256,0M9.641,1.436h4.718V6.154H9.641ZM22.564,22.564H1.436V1.436H8.205V7.59h7.59V1.436h6.769Z" transform="translate(0 0)" fill="#850b5a"/>
+      <rect id="Rectangle_153" data-name="Rectangle 153" width="10.923" height="1.692" transform="translate(3.744 18.246)" fill="#850b5a"/>
+      <rect id="Rectangle_154" data-name="Rectangle 154" width="6.308" height="1.692" transform="translate(3.938 14.195)" fill="#850b5a"/>
+    </g>
+  </g>
+</svg>

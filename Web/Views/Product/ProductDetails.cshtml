@@ -1,0 +1,290 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Utility.Models.Frontend.ProductManagement.ProductModel
+@inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
+@{
+    var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
+    Layout = "_Layout";
+}
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("products", new { seoName = Model.Category.SeoName }), Title = Model.CategoryName });
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = Model.Title });
+
+    var productUrl = Url.RouteUrl("productdetails", new { catName = Model.Category.SeoName, seoName = Model.SeoName });
+}
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<section class="main-content py-5 mb-5 product-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-10 mx-auto">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="mb-3 mb-md-0">
+                            <img src="@Model.ImageUrl" class="img-fluid border border-grey rounded-5 product-image" alt="@Model.Title">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <h2 class="text-primary fw-bold mb-3 product-name">@Model.Title</h2>
+                        @if (Model.StockQuantity <= 0)
+                        {
+                            <div class="d-flex mb-3">
+                                <span class="out-of-stock text-nowrap bg-danger rounded-pill w-auto py-1 px-2">
+                                    <label class="mb-0 fw-bold text-white ">@SharedHtmlLocalizer["OutOfStock"]</label>
+                                </span>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                @if ((Model.ProductType == ProductType.SubscriptionProduct || Model.ProductType == ProductType.BundledProduct) && Model.SubscriptionPackTitles.Count > 0)
+                                {
+                                    <div class="body-bg-secondary border border-secondary rounded-3 px-3 py-2 mb-3">
+                                        <ul class="ps-0 m-0">
+                                            @foreach (var item in Model.SubscriptionPackTitles)
+                                            {
+                                                <li class="d-flex justify-content-between mb-1">
+                                                    <p class="m-0">@item.Title</p>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                                <!-- For Price -->
+                                <div class="body-bg-secondary w-auto border border-secondary rounded-3 px-3 py-2 mb-3">
+                                    <label for="">@SharedHtmlLocalizer["UnitPrice"]</label>
+                                    @if (!string.IsNullOrEmpty(Model.FormattedDiscountedPrice))
+                                    {
+                                        <p class="text-muted fw-bold fs-5 mb-0 text-decoration-line-through">@Model.FormattedPrice</p>
+                                        <p class="text-primary fw-bold fs-3 mb-0 product-price">@Model.FormattedDiscountedPrice</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-primary fw-bold fs-3 mb-0 product-price">@Model.FormattedPrice</p>
+                                    }
+                                </div>
+                                <!-- Attributes -->
+                                @if (Model.ProductType == ProductType.BaseProduct)
+                                {
+                                    <div class="product-attributes d-flex my-3">
+                                        <div class="body-bg-secondary w-100 border border-secondary rounded-3 flex-fill px-2 py-1">
+                                            <label for="">@SharedHtmlLocalizer["Category"]</label>
+                                            <p class="text-primary fw-bold mb-0">@Model.CategoryName</p>
+                                        </div>
+                                        <div class="body-bg-secondary w-100 border border-secondary rounded-3 flex-fill px-2 py-1">
+                                            <label for="">@SharedHtmlLocalizer["Size"]</label>
+                                            <p class="text-primary fw-bold mb-0">@Model.ItemSize.Title</p>
+                                        </div>
+                                        <div class="body-bg-secondary w-100 border border-secondary rounded-3 flex-fill px-2 py-1">
+                                            <label for="">@SharedHtmlLocalizer["PackOf"]</label>
+                                            <p class="text-primary fw-bold mb-0">@Model.PiecesPerPacking</p>
+                                        </div>
+                                    </div>
+                                }
+                                @if (Model.ProductType == ProductType.SubscriptionProduct)
+                                {
+                                    <div class="row">
+                                        <!-- Duration -->
+                                        <div class="col-6 mb-3">
+                                            <label for="duration" class="form-label">@SharedHtmlLocalizer["Duration"]<span class="ms-1 text-danger">*</span></label>
+                                            <select class="form-select rounded-5 border-secondary body-bg-secondary" name="Duration" id="Duration">
+                                                <option value="">@SharedHtmlLocalizer["PleaseSelect"]</option>
+                                                @foreach (var item in Model.SubscriptionDurations)
+                                                {
+                                                    <option value="@item.Id">@item.Title</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <!-- Delivery Date -->
+                                        <div class="col-6 mb-3">
+                                            <label for="delivery-date" class="form-label">@SharedHtmlLocalizer["DeliveryDate"]<span class="ms-1 text-danger">*</span></label>
+                                            <select class="form-select rounded-5 border-secondary body-bg-secondary" name="DeliveryDate" id="DeliveryDate">
+                                                <option value="">@SharedHtmlLocalizer["PleaseSelect"]</option>
+                                                @foreach (var item in Model.SubscriptionDeliveryDates)
+                                                {
+                                                    <option value="@item.Id">@item.Title</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="col-12 h-100 add-to-cart mb-3 mb-lg-0">
+                                    @if (Model.StockQuantity <= 0)
+                                    {
+                                        <div class="d-flex w-100">
+                                            <button type="button" onclick="notifyProduct(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice');" data-bs-toggle="tooltip" data-bs-title="Notify me when this product will be available"
+                                                    class="btn btn-secondary rounded-pill text-white fw-bold w-100 notify-me-btn">
+                                                <span id="notify-product-@Model.Id">
+                                                    @(Model.Notified ? SharedHtmlLocalizer["DoNotNotifyMe"].Value : SharedHtmlLocalizer["NotifyMe"].Value)
+                                                </span>
+                                            </button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="btn-with-input-spinner d-flex w-100">
+                                            <input type="number" value="1" min="1" max="@Model.StockQuantity" step="1" class="input-spinner text-white bg-secondary border-0 fs-4" style="display: none;">
+                                            <div class="input-group  rounded-5 side-cart-spinner">
+                                                <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold fs-4 btn-minus-side-cart" type="button">
+                                                    <strong>−</strong>
+                                                </button>
+                                                <input type="text" inputmode="decimal" style="text-align: center" class="form-control input-spinner text-white bg-secondary border-0 fs-4" placeholder="" readonly=""
+                                                       value="1" data-maxquantity="@Model.StockQuantity" id="txt-quantity" disabled>
+                                                <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold fs-4 btn-plus-side-cart" type="button">
+                                                    <strong>+</strong>
+                                                </button>
+                                            </div>
+                                            @if (Model.ProductType == ProductType.SubscriptionProduct)
+                                            {
+                                                <button type="button"
+                                                        class="btn btn-lg btn-primary rounded-pill rounded-start text-white fw-bold w-100 add-to-cart" id="btn-subscribe">
+                                                    @SharedHtmlLocalizer["Subscribe"]
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button"
+                                                        class="btn btn-lg btn-primary rounded-pill rounded-start text-white fw-bold w-100 add-to-cart" id="btn-add-to-cart">
+                                                    @SharedHtmlLocalizer["AddToCart"]
+                                                </button>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="d-flex">
+                                    <a href="javascript:;" class="btn btn-outline-primary rounded-pill mb-3 wishlist-btn" style="z-index: 1;"
+                                       onclick="return addToFavourite(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice',0,false);">
+                                        <i id="i-add-to-favorite-det" class="fa-heart @(Model.Favorite?"fa-solid":"fa-regular")"></i>
+                                        <span class="wishlist-btn-text" id="sp-add-fav">
+                                            @(Model.Favorite? SharedHtmlLocalizer["Remove from Favorites"].Value: SharedHtmlLocalizer["Add to Favorites"].Value)
+                                        </span>
+                                    </a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-primary rounded-pill mb-3 ms-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                            <span class="share-btn-text">@SharedHtmlLocalizer["Share"]</span>
+                                        </button>
+                                        <ul class="dropdown-menu border-primary rounded-3 p-2 shadow share-btns">
+                                            <li>
+                                                <a class="dropdown-item text-primary my-1 rounded-3 fs-6 facebook-btn" href="https://www.facebook.com/sharer/sharer.php?u=@Model.DetailsUrl" target="_blank">
+                                                    <span>
+                                                        <i class="fa-brands fa-facebook-f me-2"></i>
+                                                    </span>@SharedHtmlLocalizer["Facebook"]
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-primary my-1 rounded-3 fs-6 twitter-btn" href="https://twitter.com/share?text=@Model.DetailsUrl" target="_blank">
+                                                    <span>
+                                                        <i class="fa-brands fa-twitter me-2"></i>
+                                                    </span>@SharedHtmlLocalizer["Twitter"]
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-primary my-1 rounded-3 fs-6 whatsapp-btn" href="https://web.whatsapp.com/send?text=@Model.DetailsUrl" data-action="share/whatsapp/share" target="_blank">
+                                                    <span>
+                                                        <i class="fa-brands fa-whatsapp me-2"></i>
+                                                    </span>@SharedHtmlLocalizer["WhatsApp"]
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-primary my-1 rounded-3 fs-6 copy-link" href="#">
+                                                    <span>
+                                                        <i class="fa-solid fa-copy me-2"></i>
+                                                    </span>@SharedHtmlLocalizer["CopyLinkToClipboard"]
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Product Description -->
+                                <div class="summernote-content">
+                                    <p>
+                                        @Html.Raw(Model.Description)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $(".btn-plus-side-cart").click(function () {
+            var quantity = $(this).closest(".side-cart-spinner").find("input").val();
+            var finalQuantity = parseInt(quantity) + 1;
+
+            var maxQuantity = $(this).closest(".side-cart-spinner").find("input").attr("data-maxquantity");
+            if (finalQuantity > maxQuantity) {
+                return;
+            }
+
+            $(this).closest(".side-cart-spinner").find("input").val(finalQuantity);
+        });
+
+        $(".btn-minus-side-cart").click(function () {
+            var quantity = $(this).closest(".side-cart-spinner").find("input").val();
+            var finalQuantity = parseInt(quantity) - 1;
+            if (finalQuantity == 0)
+                return;
+
+            $(this).closest(".side-cart-spinner").find("input").val(finalQuantity);
+        });
+
+        $("#btn-add-to-cart").click(function () {
+            addToCart(@Model.Id, $("#txt-quantity").val());
+        });
+
+        $("#btn-subscribe").click(function () {
+            var productId =@Model.Id;
+            var quantity = $("#txt-quantity").val();
+            var durationId = $("#Duration").val();
+            var deliveryDateId = $("#DeliveryDate").val();
+
+            if (productId == 0 || quantity == "") {
+                return;
+            }
+
+            if (durationId == "") {
+                ToastAlert('error', '', '@SharedHtmlLocalizer["SelectDuration"]');
+                return;
+            }
+
+            if (deliveryDateId == "") {
+                ToastAlert('error', '', '@SharedHtmlLocalizer["SelectDeliveryDate"]');
+                return;
+            }
+
+            var authenticationToken = getCookie("AuthenticationToken");
+            if (authenticationToken == null || authenticationToken == "") {
+                addStorage("SubscriptionProductId", productId);
+                addStorage("SubscriptionQuantity", quantity);
+                addStorage("SubscriptionDurationId", durationId);
+                addStorage("SubscriptionDeliveryDateId", deliveryDateId);
+                window.location = "@Url.RouteUrl("subscriptioncheckout")";
+            }
+            else {
+                $.post("@Url.RouteUrl("savesubscriptionattributes")", {
+                    AttributeTypeId: @((int)AttributeType.Subscribe),
+                    ProductId: productId,
+                    Quantity: quantity,
+                    DurationId: durationId,
+                    DeliveryDateId: deliveryDateId
+                }, function (result) {
+                    if (result.success) {
+                        window.location = "@Url.RouteUrl("subscriptioncheckoutaddress")";
+                    }
+                    else {
+                        if (result.message != "")
+                            ToastAlert('error', '', result.message);
+                    }
+                });
+            }
+        });
+    });
+</script>

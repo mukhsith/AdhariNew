@@ -1,0 +1,50 @@
+﻿<header class="page-header">
+    <h2>Governorates</h2>
+    <div class="right-wrapper text-end me-3">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="bx bx-home-alt"></i>
+                </a>
+            </li>
+
+        </ol>
+
+    </div>
+</header>
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Governorates</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+                    <button class="btn btn-primary btn-sm " onclick="window.location = '/Delivery/GovernorateAddEdit?id=0';">Add New Governorate</button>
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="datatable-default-">
+                    <thead>
+                        <tr>
+                            <th data-priority="10" class="">ID</th>
+                            <th data-priority="1" class="">Display Order</th>
+                            <th data-priority="2" class="">Status</th>
+                            <th data-priority="3" class="">Title (En)</th>
+                            <th data-priority="3" class="">Title (Ar)</th>
+                            <th data-priority="6" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-secondary">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+
+
+
+<!-- end: page -->
+<script src="~/developer/js/Delivery/Governorate_Datatable.js" asp-append-version="true"></script>

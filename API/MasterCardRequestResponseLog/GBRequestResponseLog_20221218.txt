@@ -1,0 +1,24 @@
+-----------Log Details on  12/18/2022 8:52:38 AM-----------------
+-------------------------------------------------------------------------------------
+apiOperation:INITIATE_CHECKOUT,apiPassword:b6cfc466e22f9ad7aa2169b56c725361,apiUsername:merchant.TEST0103,merchant:TEST0103,order.id:1032112230,order.amount:18.000,order.currency:KWD,order.description:Order for product sale payment,order.reference:1032112230,interaction.operation:PURCHASE,interaction.returnUrl:http://localhost:44380/payment/getmastercardpaymentreceipt/1032112230/Order/129,interaction.merchant.name:Mal3ab,interaction.merchant.address.line1:Sharq,interaction.merchant.address.line2:Kuwait City,billing.address.street:Kuwait City,billing.address.city:Kuwait City,billing.address.postcodeZip:1111,billing.address.stateProvince:Kuwait City,billing.address.country:KWT,interaction.displayControl.billingAddress:HIDE,interaction.displayControl.customerEmail:HIDE,interaction.displayControl.shipping:HIDE,transaction.reference:TR1032112230
+--------------------------------*End*------------------------------------------
+
+
+-----------Log Details on  12/18/2022 9:26:45 AM-----------------
+-------------------------------------------------------------------------------------
+apiOperation:INITIATE_CHECKOUT,apiPassword:b6cfc466e22f9ad7aa2169b56c725361,apiUsername:merchant.TEST900233001,merchant:TEST900233001,order.id:1023239241,order.amount:18.000,order.currency:KWD,order.description:Order for product sale payment,order.reference:1023239241,interaction.operation:PURCHASE,interaction.returnUrl:http://localhost:44380/payment/getmastercardpaymentreceipt/1023239241/Order/130,interaction.merchant.name:FORMAN CO,interaction.merchant.address.line1:Sharq,interaction.merchant.address.line2:Kuwait City,billing.address.street:Kuwait City,billing.address.city:Kuwait City,billing.address.postcodeZip:1111,billing.address.stateProvince:Kuwait City,billing.address.country:KWT,interaction.displayControl.billingAddress:HIDE,interaction.displayControl.customerEmail:HIDE,interaction.displayControl.shipping:HIDE,transaction.reference:TR1023239241
+--------------------------------*End*------------------------------------------
+
+
+-----------Log Details on  12/18/2022 10:11:00 AM-----------------
+-------------------------------------------------------------------------------------
+apiOperation:INITIATE_CHECKOUT,apiPassword:73745c418836a8027b81f008035b7d4a	,apiUsername:merchant.TEST900233001,merchant:TEST900233001,order.id:1025290137,order.amount:18.000,order.currency:KWD,order.description:Order for product sale payment,order.reference:1025290137,interaction.operation:PURCHASE,interaction.returnUrl:http://localhost:44380/payment/getmastercardpaymentreceipt/1025290137/Order/131,interaction.merchant.name:FORMAN CO,interaction.merchant.address.line1:Sharq,interaction.merchant.address.line2:Kuwait City,billing.address.street:Kuwait City,billing.address.city:Kuwait City,billing.address.postcodeZip:1111,billing.address.stateProvince:Kuwait City,billing.address.country:KWT,interaction.displayControl.billingAddress:HIDE,interaction.displayControl.customerEmail:HIDE,interaction.displayControl.shipping:HIDE,transaction.reference:TR1025290137
+--------------------------------*End*------------------------------------------
+
+
+-----------Log Details on  12/18/2022 10:12:04 AM-----------------
+-------------------------------------------------------------------------------------
+apiOperation:INITIATE_CHECKOUT,apiPassword:73745c418836a8027b81f008035b7d4a,apiUsername:merchant.TEST900233001,merchant:TEST900233001,order.id:1025290137,order.amount:18.000,order.currency:KWD,order.description:Order for product sale payment,order.reference:1025290137,interaction.operation:PURCHASE,interaction.returnUrl:http://localhost:44380/payment/getmastercardpaymentreceipt/1025290137/Order/131,interaction.merchant.name:FORMAN CO,interaction.merchant.address.line1:Sharq,interaction.merchant.address.line2:Kuwait City,billing.address.street:Kuwait City,billing.address.city:Kuwait City,billing.address.postcodeZip:1111,billing.address.stateProvince:Kuwait City,billing.address.country:KWT,interaction.displayControl.billingAddress:HIDE,interaction.displayControl.customerEmail:HIDE,interaction.displayControl.shipping:HIDE,transaction.reference:TR1025290137
+--------------------------------*End*------------------------------------------
+
+

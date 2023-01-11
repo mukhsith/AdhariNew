@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
+@using Utility.Enum
+@{
+    var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
+    Layout = "_Layout";
+}
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["MyOrders"].Value });
+}
+
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+
+<input type="hidden" id="hdnPageCount" value="0" />
+<input type="hidden" id="hdnOrderCount" value="0" />
+
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12" id="dv-orders"></div>
+        </div>
+        <div class="row" id="dv-empty-order">
+            <div class="col-12 text-center">
+                <i class="display-1 fas fa-cart-shopping text-center text-primary"></i>
+            </div>
+            <div class="col-12 text-center">
+                <h5 class="mt-3 text-primary">@SharedHtmlLocalizer["NoOrders"]</h5>
+            </div>
+        </div>
+    </div>
+    <div id="dv-loadmore" style="text-align: center;display:none;">
+        <a id="a-more" class="btn btn-primary rounded-pill text-white fw-bold text-uppercase mb-md-4 mb-0">@SharedHtmlLocalizer["View More"]</a>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $("#hdnPageCount").val(0);
+        $("#hdnOrderCount").val(0);
+
+        appendOrders();
+
+        $("#a-more").click(function () {
+            event.preventDefault();
+            appendOrders();
+        });
+    });
+
+    function appendOrders() {
+        var pageCount = parseInt($("#hdnPageCount").val()) + 1;
+        var limit = 20;
+        showLoader();
+        $.get("@Url.RouteUrl("ordersbyajax")", { page: pageCount, limit: limit }, function (result) {
+            $("#hdnOrderCount").val(parseInt($("#hdnOrderCount").val()) + parseInt(result.orderCount));
+            if (result.success) {
+                if (result.html == "") {
+                    $("#dv-empty-order").show();
+                    $("#dv-orders").hide();
+                } else {
+                    $("#dv-orders").append(result.html);
+                    $("#dv-empty-order").hide();
+                    $("#dv-orders").show();
+                }
+
+                $("#hdnPageCount").val(pageCount);
+
+                var totalOrderCount = parseInt(result.totalOrderCount);
+                var orderCount = parseInt($("#hdnOrderCount").val());
+                if (orderCount >= totalOrderCount)
+                    $("#dv-loadmore").hide();
+                else
+                    $("#dv-loadmore").show();
+
+                hideLoader();
+            }
+            else {
+                if (result.messageCode == 401) {
+                    var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                    window.location.href = "/login?returnUrl=" + returnUrl;
+                    return;
+                }
+            }
+        });
+    }
+</script>

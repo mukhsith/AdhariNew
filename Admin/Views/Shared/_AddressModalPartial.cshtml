@@ -1,0 +1,855 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="modal fade" id="addNewAddressModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content border-secondary">
+
+            <div class="modal-header border-secondary body-bg-secondary">
+                <h5 class="modal-title fw-bold text-primary" id="addNewAddressModalLabel">Add New Address</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-6 col-md-4 mb-3">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">Address Name<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressName" name="" id="" aria-describedby="Address Name" placeholder="Address Name" value="" required>
+
+                        <div class="invalid-feedback">Address Name is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col-6 col-md-4 mb-3">
+                        <!-- ========== Start Simple Select Field Block ========== -->
+                        <label for="" class="form-label">Governorate<span class=" text-danger">*</span></label>
+                        <select class="form-select form-select-lg rounded-4 border-secondary addressGovernorates"
+                                name="governorateList" id="governorateList" aria-describedby="Governorate" required>
+                            <option value="0">Please Select...</option>
+                            <option value="1">Al-Asimah</option>
+                            <option value="2">Hawalli</option>
+                            <option value="3">Farwaniya</option>
+                            <option value="4">Mubarak Al-Kabeer</option>
+                            <option value="5">Ahmadi</option>
+                            <option value="6">Jahra</option>
+                        </select>
+
+                        <div class="invalid-feedback">Governorate is required</div>
+                        <!-- ========== End Simple Select Field Block ========== -->
+                    </div>
+                    <div class="col-6 col-md-4 mb-3">
+                        <!-- ========== Start Simple Select Field Block ========== -->
+                        <label for="" class="form-label">City<span class=" text-danger">*</span></label>
+                        <select class="form-select form-select-lg rounded-4 border-secondary addressCities"
+                                name="areaList" id="areaList" aria-describedby="City" required>
+                            <option value="0">Please Select...</option>
+                            <option value="1">Abdullah Al Mubarak</option>
+                            <option value="2">Abu Al Hasaniya</option>
+                            <option value="3">Abou Halifa</option>
+                            <option value="4">Adailiya</option>
+                            <option value="5">Adan</option>
+                            <option value="6">Ahmadi</option>
+                            <option value="7">Nahda</option>
+                            <option value="8">Qurain</option>
+                            <option value="9">Qusour</option>
+                            <option value="10">Andalous</option>
+                            <option value="11">Ardiya</option>
+                            <option value="12">Ishbiliya</option>
+                            <option value="13">Bayan</option>
+                            <option value="14">Al Bidea</option>
+                            <option value="15">Daiya</option>
+                            <option value="16">Dasman</option>
+                            <option value="17">Dhajeej</option>
+                            <option value="18">Doha</option>
+                            <option value="19">Fahad Al Ahmad</option>
+                            <option value="20">Fahaheel</option>
+                            <option value="21">Faiha</option>
+                            <option value="22">Farwaniya</option>
+                            <option value="23">Fintas</option>
+                            <option value="24">Hadiya</option>
+                            <option value="25">Hawally</option>
+                            <option value="26">Jaber Al Ahmad</option>
+                            <option value="27">Jaber Al Ali</option>
+                            <option value="28">Jabriya</option>
+                            <option value="29">Jahra</option>
+                            <option value="30">Qibla</option>
+                            <option value="31">Kaifan</option>
+                            <option value="32">Khaitan</option>
+                            <option value="33">Khaldiya</option>
+                            <option value="34">Mahboula</option>
+                            <option value="35">Mangaf</option>
+                            <option value="36">Mirqab</option>
+                            <option value="37">Messila</option>
+                            <option value="38">Mubarak Al Kabeer</option>
+                            <option value="39">Nuzha</option>
+                            <option value="40">Omariya</option>
+                            <option value="41">Qadsiya</option>
+                            <option value="42">Qasr</option>
+                            <option value="43">Rabia</option>
+                            <option value="44">Rai</option>
+                            <option value="45">Rawda</option>
+                            <option value="46">Rehab</option>
+                            <option value="47">Riqai</option>
+                            <option value="48">Rumaithiya</option>
+                            <option value="49">Saad Al Abdullah</option>
+                            <option value="50">Sabah Al Nasser</option>
+                            <option value="51">Sabah Al Salem</option>
+                            <option value="52">Sabahiya</option>
+                            <option value="53">Sabhan</option>
+                            <option value="54">Salam</option>
+                            <option value="55">Salmiya</option>
+                            <option value="56">Salwa</option>
+                            <option value="57">Shamiya</option>
+                            <option value="58">Sharq</option>
+                            <option value="59">Shuhada</option>
+                            <option value="60">Siddiq</option>
+                            <option value="61">Al Qairawan</option>
+                            <option value="62">Sulaibikhat</option>
+                            <option value="63">Surra</option>
+                            <option value="64">Yarmouk</option>
+                            <option value="65">Zahra</option>
+                            <option value="66">Dasma</option>
+                            <option value="67">Sawaber</option>
+                            <option value="68">Salhiya</option>
+                            <option value="69">Shuwaikh Educational</option>
+                            <option value="70">Shuwaikh Residential</option>
+                            <option value="71">Shaab</option>
+                            <option value="72">Mubarak AlAbdullah ( West Mishrif ) </option>
+                            <option value="73">Garnata</option>
+                            <option value="74">Al Masayel</option>
+                            <option value="75">Fnaitees</option>
+                            <option value="76">Abdullah AlSalem</option>
+                            <option value="77">Mansouriya</option>
+                            <option value="78">Bneid Al Qar</option>
+                            <option value="79">Qortouba</option>
+                            <option value="80">Hitten</option>
+                            <option value="81">Mishrif</option>
+                            <option value="82">Shouth Khaitan</option>
+                            <option value="83">Abu Fatira</option>
+                            <option value="84">Eqaila</option>
+                            <option value="85">Al Riqqa</option>
+                        </select>
+
+                        <div class="invalid-feedback">City is required</div>
+                        <!-- ========== End Simple Select Field Block ========== -->
+                    </div>
+                </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills delivery-addresses mb-3 row col-12 col-lg-10 mx-auto justify-content-center" id="myTab" role="tablist">
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 active" id="Home-tab" data-bs-toggle="tab" data-bs-target="#Home" role="tab" aria-controls="Home" aria-selected="true"><img src="/assets/img/icons/address-icons/house-line.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">Home</span></a>
+                    </li>
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 " id="Apartment-tab" data-bs-toggle="tab" data-bs-target="#Apartment" role="tab" aria-controls="Apartment" aria-selected="true"><img src="/assets/img/icons/address-icons/building.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">Apartment</span></a>
+                    </li>
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 " id="Office-tab" data-bs-toggle="tab" data-bs-target="#Office" role="tab" aria-controls="Office" aria-selected="true"><img src="/assets/img/icons/address-icons/office.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">Office</span></a>
+                    </li>
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 " id="School-tab" data-bs-toggle="tab" data-bs-target="#School" role="tab" aria-controls="School" aria-selected="true"><img src="/assets/img/icons/address-icons/school.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">School</span></a>
+                    </li>
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 " id="Mosque-tab" data-bs-toggle="tab" data-bs-target="#Mosque" role="tab" aria-controls="Mosque" aria-selected="true"><img src="/assets/img/icons/address-icons/mosque.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">Mosque</span></a>
+                    </li>
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 " id="Government-tab" data-bs-toggle="tab" data-bs-target="#Government" role="tab" aria-controls="Government" aria-selected="true"><img src="/assets/img/icons/address-icons/government.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">Government</span></a>
+                    </li>
+                </ul>
+                <div class="row row-cols-2 row-cols-md-3 addressParentRow">
+                    <div class="col mb-3 addressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">Block<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressBlock" name="" id="" aria-describedby="Block" placeholder="Block Number" value="" required>
+
+                        <div class="invalid-feedback">Block is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 addressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">Street<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressStreet" name="" id="" aria-describedby="Street" placeholder="Street Name or Number" value="" required>
+
+                        <div class="invalid-feedback">Street Name or Number is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 addressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">Avenue<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressAvenue" name="" id="" aria-describedby="Avenue" placeholder="Avenue Name or Number" value="" required>
+
+                        <div class="invalid-feedback">Avenue Name or Number is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 addressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">Building No.<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressBuilding" name="" id="" aria-describedby="Building No." placeholder="Building Number" value="" required>
+
+                        <div class="invalid-feedback">Building Number is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 addressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">House No.<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressHouse" name="" id="" aria-describedby="House No." placeholder="House Number" value="" required>
+
+                        <div class="invalid-feedback">House Number is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 addressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">Floor No.<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressFloor" name="" id="" aria-describedby="Floor No." placeholder="Floor Number" value="" required>
+
+                        <div class="invalid-feedback">Floor Number is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 addressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">Flat No.<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressFlat" name="" id="" aria-describedby="Flat No." placeholder="Flat Number" value="" required>
+
+                        <div class="invalid-feedback">Flat Number is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 addressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">School Name<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressSchool" name="" id="" aria-describedby="School Name" placeholder="School Name" value="" required>
+
+                        <div class="invalid-feedback">School Name is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 addressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">Mosque Name<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressMosque" name="" id="" aria-describedby="Mosque Name" placeholder="Mosque Name" value="" required>
+
+                        <div class="invalid-feedback">Mosque Name is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 addressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">Goverment Entity<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary addressGovernment" name="" id="" aria-describedby="Goverment Entity" placeholder="Goverment Entity" value="" required>
+
+                        <div class="invalid-feedback">Goverment Entity Name is required</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <!-- ========== Start Simple Text Area ========== -->
+                        <label for="" class="form-label ">Notes</label>
+                        <textarea class="form-control form-control-lg rounded-4 border-secondary  addressNotes" name="" id="" aria-describedby="Notes" placeholder="" rows="3"></textarea>
+
+
+                        <!-- ========== End Simple Text Area ========== -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+                <button type="button" class="btn btn-success validation-btn">Save</button>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+  
+
+    $(document).ready(function () {
+         setupAddressFields();
+        switchAddressFields();
+        updateAddress();
+    });
+
+
+    setupAddressFields = () => {
+        var DefaultTypeSelected = $(".delivery-addresses .active").attr("id");
+
+        switch (DefaultTypeSelected) {
+            case "Home-tab":
+                $(".addressParentRow .addressParentCol").hide();
+
+                // Show Block
+                $(".addressBlock").closest(".addressParentCol").show();
+                // Require Block
+                $(".addressBlock").closest(".addressParentCol").find("label span").show();
+                $(".addressBlock").attr("Required", 1);
+
+                // Show Street
+                $(".addressStreet").closest(".addressParentCol").show();
+                // Require Street
+                $(".addressStreet").closest(".addressParentCol").find("label span").show();
+                $(".addressStreet").attr("Required", 1);
+
+                // Show Avenue
+                $(".addressAvenue").closest(".addressParentCol").show();
+                // Require Avenue
+                $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                $(".addressAvenue").removeAttr("required");
+
+                // Show House No.
+                $(".addressHouse").closest(".addressParentCol").show();
+                // Require House No.
+                $(".addressHouse").closest(".addressParentCol").find("label span").show();
+                $(".addressHouse").attr("Required", 1);
+
+                $(".addressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                break;
+
+            case "Apartment-tab":
+                $(".addressParentRow .addressParentCol").hide();
+
+                // Show Block
+                $(".addressBlock").closest(".addressParentCol").show();
+                // Require Block
+                $(".addressBlock").closest(".addressParentCol").find("label span").show();
+                $(".addressBlock").attr("Required", 1);
+
+                // Show Street
+                $(".addressStreet").closest(".addressParentCol").show();
+                // Require Street
+                $(".addressStreet").closest(".addressParentCol").find("label span").show();
+                $(".addressStreet").attr("Required", 1);
+
+                // Show Avenue
+                $(".addressAvenue").closest(".addressParentCol").show();
+                // Require Avenue
+                $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                $(".addressAvenue").removeAttr("required");
+
+                // Show Building No.
+                $(".addressBuilding").closest(".addressParentCol").show();
+                // Require Building No.
+                $(".addressBuilding").closest(".addressParentCol").find("label span").show();
+                $(".addressBuilding").attr("Required", 1);
+
+                // Show Floor No.
+                $(".addressFloor").closest(".addressParentCol").show();
+                // Require Floor No.
+                $(".addressFloor").closest(".addressParentCol").find("label span").hide();
+                $(".addressFloor").removeAttr("required");
+
+                // Show Flat No.
+                $(".addressFlat").closest(".addressParentCol").show();
+                // Require Flat No.
+                $(".addressFlat").closest(".addressParentCol").find("label span").show();
+                $(".addressFlat").attr("Required", 1);
+
+                $(".addressParentRow").removeClass("row-cols-md-4").addClass("row-cols-md-3");
+                break;
+
+            case "Office-tab":
+                $(".addressParentRow .addressParentCol").hide();
+
+                // Show Block
+                $(".addressBlock").closest(".addressParentCol").show();
+                // Require Block
+                $(".addressBlock").closest(".addressParentCol").find("label span").show();
+                $(".addressBlock").attr("Required", 1);
+
+                // Show Street
+                $(".addressStreet").closest(".addressParentCol").show();
+                // Require Street
+                $(".addressStreet").closest(".addressParentCol").find("label span").show();
+                $(".addressStreet").attr("Required", 1);
+
+                // Show Avenue
+                $(".addressAvenue").closest(".addressParentCol").show();
+                // Require Avenue
+                $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                $(".addressAvenue").removeAttr("required");
+
+                // Show Building No.
+                $(".addressBuilding").closest(".addressParentCol").show();
+                // Require Building No.
+                $(".addressBuilding").closest(".addressParentCol").find("label span").show();
+                $(".addressBuilding").attr("Required", 1);
+
+                // Show Floor No.
+                $(".addressFloor").closest(".addressParentCol").show();
+                // Require Floor No.
+                $(".addressFloor").closest(".addressParentCol").find("label span").hide();
+                $(".addressFloor").removeAttr("required");
+
+                // Show Flat No.
+                $(".addressFlat").closest(".addressParentCol").show();
+                // Require Flat No.
+                $(".addressFlat").closest(".addressParentCol").find("label span").show();
+                $(".addressFlat").attr("Required", 1);
+
+                $(".addressParentRow").removeClass("row-cols-md-4").addClass("row-cols-md-3");
+                break;
+
+            case "School-tab":
+                $(".addressParentRow .addressParentCol").hide();
+
+                // Show Block
+                $(".addressBlock").closest(".addressParentCol").show();
+                // Require Block
+                $(".addressBlock").closest(".addressParentCol").find("label span").hide();
+                $(".addressBlock").removeAttr("required");
+
+                // Show Street
+                $(".addressStreet").closest(".addressParentCol").show();
+                // Require Street
+                $(".addressStreet").closest(".addressParentCol").find("label span").hide();
+                $(".addressStreet").removeAttr("required");
+
+                // Show Avenue
+                $(".addressAvenue").closest(".addressParentCol").show();
+                // Require Avenue
+                $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                $(".addressAvenue").removeAttr("required");
+
+                // Show School Name
+                $(".addressSchool").closest(".addressParentCol").show();
+                // Require School Name
+                $(".addressSchool").closest(".addressParentCol").find("label span").show();
+                $(".addressSchool").attr("Required", 1);
+
+                $(".addressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                break;
+
+            case "Mosque-tab":
+                $(".addressParentRow .addressParentCol").hide();
+
+                // Show Block
+                $(".addressBlock").closest(".addressParentCol").show();
+                // Require Block
+                $(".addressBlock").closest(".addressParentCol").find("label span").hide();
+                $(".addressBlock").removeAttr("required");
+
+                // Show Street
+                $(".addressStreet").closest(".addressParentCol").show();
+                // Require Street
+                $(".addressStreet").closest(".addressParentCol").find("label span").hide();
+                $(".addressStreet").removeAttr("required");
+
+                // Show Avenue
+                $(".addressAvenue").closest(".addressParentCol").show();
+                // Require Avenue
+                $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                $(".addressAvenue").removeAttr("required");
+
+                // Show Mosque Name
+                $(".addressMosque").closest(".addressParentCol").show();
+                // Require Mosque Name
+                $(".addressMosque").closest(".addressParentCol").find("label span").show();
+                $(".addressMosque").attr("Required", 1);
+
+                $(".addressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                break;
+
+            case "Government-tab":
+                $(".addressParentRow .addressParentCol").hide();
+
+                // Show Block
+                $(".addressBlock").closest(".addressParentCol").show();
+                // Require Block
+                $(".addressBlock").closest(".addressParentCol").find("label span").hide();
+                $(".addressBlock").removeAttr("required");
+
+                // Show Street
+                $(".addressStreet").closest(".addressParentCol").show();
+                // Require Street
+                $(".addressStreet").closest(".addressParentCol").find("label span").hide();
+                $(".addressStreet").removeAttr("required");
+
+                // Show Avenue
+                $(".addressAvenue").closest(".addressParentCol").show();
+                // Require Avenue
+                $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                $(".addressAvenue").removeAttr("required");
+
+                // Show Government Name
+                $(".addressGovernment").closest(".addressParentCol").show();
+                // Require Government Name
+                $(".addressGovernment").closest(".addressParentCol").find("label span").show();
+                $(".addressGovernment").attr("Required", 1);
+
+                $(".addressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    switchAddressFields = () => {
+        $(".delivery-addresses .nav-link").click(function () {
+            var TypeSelected = $(this).attr("id");
+
+            switch (TypeSelected) {
+                case "Home-tab":
+                    $(".addressParentRow .addressParentCol").hide();
+
+                    // Show Block
+                    $(".addressBlock").closest(".addressParentCol").show();
+                    // Require Block
+                    $(".addressBlock").closest(".addressParentCol").find("label span").show();
+                    $(".addressBlock").attr("Required", 1);
+
+                    // Show Street
+                    $(".addressStreet").closest(".addressParentCol").show();
+                    // Require Street
+                    $(".addressStreet").closest(".addressParentCol").find("label span").show();
+                    $(".addressStreet").attr("Required", 1);
+
+                    // Show Avenue
+                    $(".addressAvenue").closest(".addressParentCol").show();
+                    // Require Avenue
+                    $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                    $(".addressAvenue").removeAttr("required");
+
+                    // Show House No.
+                    $(".addressHouse").closest(".addressParentCol").show();
+                    // Require House No.
+                    $(".addressHouse").closest(".addressParentCol").find("label span").show();
+                    $(".addressHouse").attr("Required", 1);
+
+                    $(".addressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                    break;
+
+                case "Apartment-tab":
+                    $(".addressParentRow .addressParentCol").hide();
+
+                    // Show Block
+                    $(".addressBlock").closest(".addressParentCol").show();
+                    // Require Block
+                    $(".addressBlock").closest(".addressParentCol").find("label span").show();
+                    $(".addressBlock").attr("Required", 1);
+
+                    // Show Street
+                    $(".addressStreet").closest(".addressParentCol").show();
+                    // Require Street
+                    $(".addressStreet").closest(".addressParentCol").find("label span").show();
+                    $(".addressStreet").attr("Required", 1);
+
+                    // Show Avenue
+                    $(".addressAvenue").closest(".addressParentCol").show();
+                    // Require Avenue
+                    $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                    $(".addressAvenue").removeAttr("required");
+
+                    // Show Building No.
+                    $(".addressBuilding").closest(".addressParentCol").show();
+                    // Require Building No.
+                    $(".addressBuilding").closest(".addressParentCol").find("label span").show();
+                    $(".addressBuilding").attr("Required", 1);
+
+                    // Show Floor No.
+                    $(".addressFloor").closest(".addressParentCol").show();
+                    // Require Floor No.
+                    $(".addressFloor").closest(".addressParentCol").find("label span").hide();
+                    $(".addressFloor").removeAttr("required");
+
+                    // Show Flat No.
+                    $(".addressFlat").closest(".addressParentCol").show();
+                    // Require Flat No.
+                    $(".addressFlat").closest(".addressParentCol").find("label span").show();
+                    $(".addressFlat").attr("Required", 1);
+
+                    $(".addressParentRow").removeClass("row-cols-md-4").addClass("row-cols-md-3");
+                    break;
+
+                case "Office-tab":
+                    $(".addressParentRow .addressParentCol").hide();
+
+                    // Show Block
+                    $(".addressBlock").closest(".addressParentCol").show();
+                    // Require Block
+                    $(".addressBlock").closest(".addressParentCol").find("label span").show();
+                    $(".addressBlock").attr("Required", 1);
+
+                    // Show Street
+                    $(".addressStreet").closest(".addressParentCol").show();
+                    // Require Street
+                    $(".addressStreet").closest(".addressParentCol").find("label span").show();
+                    $(".addressStreet").attr("Required", 1);
+
+                    // Show Avenue
+                    $(".addressAvenue").closest(".addressParentCol").show();
+                    // Require Avenue
+                    $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                    $(".addressAvenue").removeAttr("required");
+
+                    // Show Building No.
+                    $(".addressBuilding").closest(".addressParentCol").show();
+                    // Require Building No.
+                    $(".addressBuilding").closest(".addressParentCol").find("label span").show();
+                    $(".addressBuilding").attr("Required", 1);
+
+                    // Show Floor No.
+                    $(".addressFloor").closest(".addressParentCol").show();
+                    // Require Floor No.
+                    $(".addressFloor").closest(".addressParentCol").find("label span").hide();
+                    $(".addressFloor").removeAttr("required");
+
+                    // Show Flat No.
+                    $(".addressFlat").closest(".addressParentCol").show();
+                    // Require Flat No.
+                    $(".addressFlat").closest(".addressParentCol").find("label span").show();
+                    $(".addressFlat").attr("Required", 1);
+
+                    $(".addressParentRow").removeClass("row-cols-md-4").addClass("row-cols-md-3");
+                    break;
+
+                case "School-tab":
+                    $(".addressParentRow .addressParentCol").hide();
+
+                    // Show Block
+                    $(".addressBlock").closest(".addressParentCol").show();
+                    // Require Block
+                    $(".addressBlock").closest(".addressParentCol").find("label span").hide();
+                    $(".addressBlock").removeAttr("required");
+
+                    // Show Street
+                    $(".addressStreet").closest(".addressParentCol").show();
+                    // Require Street
+                    $(".addressStreet").closest(".addressParentCol").find("label span").hide();
+                    $(".addressStreet").removeAttr("required");
+
+                    // Show Avenue
+                    $(".addressAvenue").closest(".addressParentCol").show();
+                    // Require Avenue
+                    $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                    $(".addressAvenue").removeAttr("required");
+
+                    // Show School Name
+                    $(".addressSchool").closest(".addressParentCol").show();
+                    // Require School Name
+                    $(".addressSchool").closest(".addressParentCol").find("label span").show();
+                    $(".addressSchool").attr("Required", 1);
+
+                    $(".addressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                    break;
+
+                case "Mosque-tab":
+                    $(".addressParentRow .addressParentCol").hide();
+
+                    // Show Block
+                    $(".addressBlock").closest(".addressParentCol").show();
+                    // Require Block
+                    $(".addressBlock").closest(".addressParentCol").find("label span").hide();
+                    $(".addressBlock").removeAttr("required");
+
+                    // Show Street
+                    $(".addressStreet").closest(".addressParentCol").show();
+                    // Require Street
+                    $(".addressStreet").closest(".addressParentCol").find("label span").hide();
+                    $(".addressStreet").removeAttr("required");
+
+                    // Show Avenue
+                    $(".addressAvenue").closest(".addressParentCol").show();
+                    // Require Avenue
+                    $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                    $(".addressAvenue").removeAttr("required");
+
+                    // Show Mosque Name
+                    $(".addressMosque").closest(".addressParentCol").show();
+                    // Require Mosque Name
+                    $(".addressMosque").closest(".addressParentCol").find("label span").show();
+                    $(".addressMosque").attr("Required", 1);
+
+                    $(".addressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                    break;
+
+                case "Government-tab":
+                    $(".addressParentRow .addressParentCol").hide();
+
+                    // Show Block
+                    $(".addressBlock").closest(".addressParentCol").show();
+                    // Require Block
+                    $(".addressBlock").closest(".addressParentCol").find("label span").hide();
+                    $(".addressBlock").removeAttr("required");
+
+                    // Show Street
+                    $(".addressStreet").closest(".addressParentCol").show();
+                    // Require Street
+                    $(".addressStreet").closest(".addressParentCol").find("label span").hide();
+                    $(".addressStreet").removeAttr("required");
+
+                    // Show Avenue
+                    $(".addressAvenue").closest(".addressParentCol").show();
+                    // Require Avenue
+                    $(".addressAvenue").closest(".addressParentCol").find("label span").hide();
+                    $(".addressAvenue").removeAttr("required");
+
+                    // Show Government Name
+                    $(".addressGovernment").closest(".addressParentCol").show();
+                    // Require Government Name
+                    $(".addressGovernment").closest(".addressParentCol").find("label span").show();
+                    $(".addressGovernment").attr("Required", 1);
+
+                    $(".addressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                    break;
+
+                default:
+                    break;
+            }
+        });
+    }
+
+    updateAddress = () => {
+        $(".validation-btn").click(function () {
+
+            $(".modal-body [required]").each(function () {
+                if ($(this).prop("tagName") == "SELECT") {
+                    if ($(this).val() == "0") {
+                        $(this).addClass("is-invalid");
+                    } else {
+                        $(this).removeClass("is-invalid");
+                        $(this).addClass("is-valid");
+                    }
+                } else {
+                    if ($(this).val() == "" || $(this).val() == undefined || $(this).val() == null) {
+                        $(this).addClass("is-invalid");
+                    } else {
+                        $(this).removeClass("is-invalid");
+                        $(this).addClass("is-valid");
+                    }
+                }
+
+            })
+
+             
+            const address = { 
+                typeId: 1,
+                customerId: getIntegerValue('customerId'),
+                mobileNumber: getTextValue('customerMobile'),
+                emailAddress: getTextValue('customerEmail'),
+                name: "name",
+                governorateId: 1,
+                areaId: 1,
+                block: 1,
+                street: 1,
+                avenue: 1,
+                houseNumber: 1,
+                floorNumber: 1,
+                flatNumber: 1,
+                schoolName: "x",
+                mosqueName: "x",  
+                notes: "notes"
+            }; 
+            var addressType = $(".delivery-addresses .nav-link.active").attr("aria-controls"); // Can be changed to whatever ID method
+            if (addressType == "Home-tab") {
+                address.typeId = 1;
+            } else if (addressType == "Apartment-tab") {
+                address.typeId = 2;
+            } else if (addressType == "Office-tab") {
+                address.typeId =  3;
+            } else if (addressType == "School-tab") {
+                address.typeId =  4;
+            } else if (addressType == "Mosque-tab") {
+                address.typeId =  5;
+            } else if (addressType == "Government-tab") {
+                address.typeId =  6;
+            }
+             
+            if ($(".addressName").val() != "" && $(".addressName").val() != null && $(".addressName").val() != undefined)
+                address.name   = $(".addressName").val();
+
+            if ($(".addressGovernorates").val() != "Please Select..." && $(".addressGovernorates").val() != null && $(".addressGovernorates").val() != undefined)
+                address.governorateId  =  $(".addressGovernorates").val();
+
+            if ($(".addressCities").val() != "Please Select..." && $(".addressCities").val() != null && $(".addressCities").val() != undefined)
+                address.areaId  = $(".addressCities").val();
+
+            if ($(".addressStreet").closest(".addressParentCol").is(":visible") && $(".addressStreet").val() != "" && $(".addressStreet").val() != null && $(".addressStreet").val() != undefined)
+                address.block  = $(".addressBlock").val();
+
+            if ($(".addressStreet").closest(".addressParentCol").is(":visible") && $(".addressStreet").val() != "" && $(".addressStreet").val() != null && $(".addressStreet").val() != undefined)
+                address.street  = $(".addressStreet").val();
+              
+            if ($(".addressAvenue").closest(".addressParentCol").is(":visible") && $(".addressAvenue").val() != "" && $(".addressAvenue").val() != null && $(".addressAvenue").val() != undefined)
+                address.avenue  = $(".addressAvenue").val();
+
+            if ($(".addressHouse").closest(".addressParentCol").is(":visible") && $(".addressHouse").val() != "" && $(".addressHouse").val() != null && $(".addressHouse").val() != undefined)
+                address.houseNumber  = $(".addressHouse").val();
+
+            if ($(".addressBuilding").closest(".addressParentCol").is(":visible") && $(".addressBuilding").val() != "" && $(".addressBuilding").val() != null && $(".addressBuilding").val() != undefined)
+                address.buildingNumber  = $(".addressBuilding").val();
+
+            if ($(".addressFloor").closest(".addressParentCol").is(":visible") && $(".addressFloor").val() != "" && $(".addressFloor").val() != null && $(".addressFloor").val() != undefined)
+                address.floorNumber  = $(".addressFloor").val();
+
+            if ($(".addressFlat").closest(".addressParentCol").is(":visible") && $(".addressFlat").val() != "" && $(".addressFlat").val() != null && $(".addressFlat").val() != undefined)
+                address.flatNumber  = $(".addressFlat").val();
+
+            if ($(".addressMosque").closest(".addressParentCol").is(":visible") && $(".addressMosque").val() != "" && $(".addressMosque").val() != null && $(".addressMosque").val() != undefined)
+                address.mosqueName  = $(".addressMosque").val();
+             
+
+            if ($(".addressNotes").val() != "" && $(".addressNotes").val() != null && $(".addressNotes").val() != undefined)
+                address.notes  = $(".addressNotes").val();
+             
+            console.log(address);
+
+            ajaxPostCart("customer/addaddress", address,
+                function (data) {
+                    console.log(data);
+                    if (data.success) {
+                        //load existing customer addresses, check in "create_order"
+                        loadCustomerAddress();
+                        //setTimeout(getCartItems(), 500);
+                    } else {
+                        console.log(data);
+                    }
+                    //hideLoader();
+                });
+        });
+
+
+
+    }
+
+    //updateCustomerAddress = (cartId, productId, input) => {
+    //    var qty = $(input).val();
+    //    var fromBody = {
+    //        'customerId': getTextValue('customerId'),
+    //        'typeId': AddressObject["typeId"],
+    //        'name': AddressObject["Name"],
+    //        'mobileNumber': cartId,
+    //        'emailAddress': productId,
+    //        'governorateId': AddressObject["Governorate"],
+    //        'areaId': AddressObject["Governorate"],
+    //        'block': AddressObject["Governorate"],
+    //        'street': AddressObject["Governorate"],
+    //        'avenue': AddressObject["Governorate"],
+    //        'houseNumber': AddressObject["Governorate"],
+    //        'buildingNumber': AddressObject["Governorate"],
+    //        'floorNumber': AddressObject["Governorate"],
+    //        'flatNumber': AddressObject["Governorate"],
+    //        'schoolName': AddressObject["Governorate"],
+    //        'notes': AddressObject["Governorate"], 
+    //    };
+    //    ajaxPostCart("customer/addaddress", fromBody,
+    //        function (data) {
+    //            if (data.success) {
+    //                setTimeout(getCartItems(), 500);
+    //            } else {
+    //                console.log(data);
+    //            }
+    //            //hideLoader();
+    //        });
+    //} 
+</script>

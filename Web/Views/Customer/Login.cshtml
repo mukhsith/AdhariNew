@@ -1,0 +1,318 @@
+﻿@model Utility.Models.Frontend.CustomerManagement.CustomerModel
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "Signin", Title = SharedHtmlLocalizer["SignIn"].Value });
+}
+
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 col-xl-4 mx-auto">
+                <div class="card mt-3 mt-md-0 rounded-5 border-secondary shadow">
+                    <div class="card-body">
+                        <form asp-route="login" method="post" autocomplete="off" class="row g-3 p-3" id="login-form">
+                            <div asp-validation-summary="ModelOnly"></div>
+                            <div class="col-md-12">
+                                <label for="inputMobile" class="form-label mb-0">@SharedHtmlLocalizer["MobileNumber"]</label>
+                                <div class="input-group">
+                                    <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0">
+                                        <img src="~/assets/img/Kuwait_flag.svg" width="25">
+                                    </span>
+                                    <span class="input-group-text border border-secondary border-start-0 p-1" id="basic-addon1">
+                                        <bdi>+965</bdi>
+                                    </span>
+                                    <input type="tel" asp-for="MobileNumber"
+                                           class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
+                                           aria-label="@SharedHtmlLocalizer["EnterYourMobileNumber"]"
+                                           maxlength="8" onkeypress="return validateMobileNumber(event);"
+                                           placeholder="" />
+                                    <div class="invalid-feedback" id="dvError">
+                                    </div>
+                                    <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
+                                            data-bs-toggle="modal" data-bs-target="#OTPModal" type="button"
+                                            style="display:none">
+                                        @SharedHtmlLocalizer["Verify"]
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <a id="signin-btn" class="btn btn-primary color-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignIn"]</a>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <hr class="dropdown-divider body-bg-secondary border-secondary">
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <h6 class="mb-2">@SharedHtmlLocalizer["DontHaveAnAccount"]</h6>
+                                <a href="@Url.RouteUrl("register")" class="btn btn-secondary text-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignUp"]</a>
+                            </div>
+
+
+                            <div class="col-12 text-center">
+                                <h6 class="mb-2">@SharedHtmlLocalizer["OR"]</h6>
+                                <a href="@Url.RouteUrl("home")" class="text-primary rounded-pill fw-bold px-5">@SharedHtmlLocalizer["ContinueAsGuest"]</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Vertically centered modal -->
+<div class="modal fade" id="OTPModal" tabindex="-1" aria-labelledby="OTPModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="OTPModalTitle">@SharedHtmlLocalizer["VerifyMobileNumber"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-12 ">
+                        <div class="bg-light-secondary p-4 rounded">
+                            <form>
+                                <div class="row justify-content-center">
+                                    <div class="col-12 text-center">
+                                        @SharedHtmlLocalizer["PleaseEnterOTPcodeWhichHasBeenSentToMobileNumber"]<br>
+                                        <span class="fw-bold" id="yourMobileNumber"></span>
+                                    </div>
+                                    <div class="col-12 col-lg-8">
+                                        <div id="otp" class="row align-items-center ">
+                                            <div class="col-3 my-1">
+                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp1" min="0" max="9" maxlength="1" pattern="[0-9]">
+                                            </div>
+                                            <div class="col-3 my-1">
+                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp2" min="0" max="9" maxlength="1" pattern="[0-9]">
+                                            </div>
+                                            <div class="col-3 my-1">
+                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp3" min="0" max="9" maxlength="1" pattern="[0-9]">
+                                            </div>
+                                            <div class="col-3 my-1">
+                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp4" min="0" max="9" maxlength="1" pattern="[0-9]">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12 text-center">
+                                <div id="timer" class="mb-3">04:59</div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button id="resend" type="button" class="btn btn-secondary text-light rounded-pill me-1">@SharedHtmlLocalizer["ResendOTP"]</button>
+                                <a href="#" class="btn btn-primary rounded-pill ms-1 verify-otp-button" id="otp-button">@SharedHtmlLocalizer["VerifyOTP"]</a>
+                                <input type="hidden" id="requestId" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+        $(document).ready(function () {
+            $("#resend").hide();
+            var returnUrl = "@Model.ReturnUrl";
+
+            $('#sec-otp-verification').hide();
+
+            $("#login-form").validate({
+                rules: {
+                    MobileNumber: {
+                        required: true, rangelength: [8, 8], phoneStartCheck: true
+                    }
+                },
+                messages: {
+                    MobileNumber: {
+                        required: "<span>@SharedHtmlLocalizer["MobileNumberIsRequired"]</span>",
+                        rangelength: "<span>@SharedHtmlLocalizer["MobileNumberShouldBe8Digits"]</span>",
+                        phoneStartCheck: "<span>@SharedHtmlLocalizer["EnterAValidMobileNumber"]</span>"
+                    }
+                },
+                errorElement: 'div',
+                errorLabelContainer: '#dvError'
+            });
+
+
+            $("#signin-btn").click(function (event) {
+                event.preventDefault();
+                $('#login-form').validate();
+                if ($("#login-form").valid()) {
+                    var mobileNumber = $("#MobileNumber").val();
+                    $.post("@Url.RouteUrl("login")", { MobileNumber: mobileNumber }, function (result) {
+                        console.log(result)
+                        if (result.success) {
+                            console.log(result);
+                            $("#requestId").val(result.data.otpDetailId);
+                            $("#yourMobileNumber").text($("#MobileNumber").val());
+                            
+                            var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
+                            document.getElementById('timer').innerHTML = time;
+                            startTimer();
+                            $("#resend").hide();
+                            $("#otp-button").show();
+
+                            let myModal = new bootstrap.Modal(document.getElementById('OTPModal'), {});
+                            myModal.show();
+                        }
+                        else {
+                            if (result.message != "") {
+                                ToastAlert('error', '', result.message);
+                                //showToastErrorMessage(result.message);
+                            }
+                        }
+                    });
+                }
+            });
+
+            $("#resend").click(function () {
+                $("#otp1").val('');
+                $("#otp2").val('');
+                $("#otp3").val('');
+                $("#otp4").val('');
+
+                var otpDetailId = $("#requestId").val();
+                if (otpDetailId.length == 0)
+                    return;
+
+                $.get("@Url.RouteUrl("resendOTP")", { otpDetailId: otpDetailId }, function (result) {
+                    if (result.success) {
+                        $("#requestId").val(result.data.otpDetailId);
+                        var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
+                        document.getElementById('timer').innerHTML = time;
+                        startTimer();
+                        $("#resend").hide();
+                        $("#otp-button").show();
+                    }
+                    else {
+                        if (result.message != "")
+                            ToastAlert('error', '', result.message);
+                    }
+                });
+            });
+
+            $("#otp-button").on("click", function () {
+                var requestId = $("#requestId").val();
+                if (requestId.length == 0)
+                    return;
+
+                var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
+                if (otp == "") {
+                    ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
+                    return;
+                }
+
+                var typeId = @((int)NotificationType.Login);
+
+                showLoader();
+                $.post("@Url.RouteUrl("verifyOTP")", {
+                    RequestId: requestId, OTP: otp, TypeId: typeId
+                }, function (result) {
+                    hideLoader();
+                    if (result.success) {
+                        $('#sec-otp-verification').hide();
+                        if (returnUrl == "") {
+                            window.location.href = "@Url.RouteUrl("home")";
+                        }
+                        else {
+                            window.location.href = returnUrl;
+                        }
+                    }
+                    else {
+                        if (result.message != "")
+                            ToastAlert('error', '', result.message);
+                    }
+                });
+            });
+
+        });
+
+    function OTPInput() {
+        var inputs = document.querySelectorAll('#otp  *[id]');
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('keydown', function (event) {
+                if (event.key === "Backspace") {
+                    inputs[i].value = '';
+                    if (i !== 0) {
+                        inputs[i - 1].focus();
+                        var txtOtp = inputs[i - 1].id;
+                        $("#" + txtOtp).removeAttr("readonly");
+                    }
+                } else {
+                    if (inputs[i].value !== '') {
+                        event.preventDefault();
+                    } else if ((event.keyCode > 47 && event.keyCode < 58) || (event.keyCode >= 96 && event.keyCode <= 105)) {
+                        if (inputs[i].value !== '') {
+
+
+                        } else {
+                            inputs[i].value = event.key;
+                            if (i !== inputs.length - 1) {
+                                inputs[i + 1].focus();
+                                var txtOtp = inputs[i + 1].id;
+                                $("#" + txtOtp).removeAttr("readonly");
+                            }
+                            event.preventDefault();
+                        }
+                    } else if (event.keyCode > 64 && event.keyCode < 91) {
+                        inputs[i].value = String.fromCharCode(event.keyCode);
+                        // if (i !== inputs.length - 1) inputs[i +
+                        //     1].focus();
+                        event.preventDefault();
+                    }
+                }
+            });
+        }
+    }
+    OTPInput();
+
+    function startTimer() {
+        var presentTime = document.getElementById('timer').innerHTML;
+        var timeArray = presentTime.split(/[:]+/);
+
+        var m = timeArray[0];
+        var s = checkSecond((timeArray[1] - 1));
+        if (s == 59) {
+            m = m - 1
+        }
+        if (m < 0) {
+            return
+        }
+        document.getElementById('timer').innerHTML = m + ":" + s;
+        console.log(m);
+        if (m === '0' && s === '00') {
+            $("#resend").show();
+            $("#otp-button").hide();
+        }
+        else {
+            setTimeout(startTimer, 1000);
+        }
+    }
+
+    function checkSecond(sec) {
+        if (sec < 10 && sec >= 0) {
+            sec = "0" + sec
+        }; // add zero in front of numbers < 10
+        if (sec < 0) {
+            sec = "59"
+        };
+        return sec;
+    }
+
+    function millisToMinutesAndSeconds(millis) {
+        var minutes = Math.floor(millis / 60000);
+        var seconds = ((millis % 60000) / 1000).toFixed(0);
+        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
+</script>

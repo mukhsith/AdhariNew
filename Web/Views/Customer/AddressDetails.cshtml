@@ -1,0 +1,284 @@
+﻿@model IList<Utility.Models.Frontend.CustomerManagement.AddressModel>
+@inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
+@using Utility.Enum
+@{
+    var AddressData = Model.FirstOrDefault();
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("myaddresses"), Title = SharedHtmlLocalizer["MyAddresses"].Value });
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["AddressDetails"].Value });
+}
+
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12  mx-auto">
+                <div class="card rounded-5 mt-3 mt-md-0 border-secondary shadow">
+                    <div class="card-body">
+                        <div class="delivery-address mb-4 g-3 p-3">
+                            <h4 class="text-primary fw-bold mb-3">@SharedHtmlLocalizer["DeliveryAddress"]</h4>
+                            @await Html.PartialAsync("_AddNewAddress")
+                        </div>
+                        <div class="col-12 text-center">
+                            <a href="javascript:;" class="btn btn-primary rounded-pill px-5 fw-bold edit-address">@SharedHtmlLocalizer["EditAddress"]</a>
+                            <a href="javascript:;" id="btn-save-address" class="btn btn-secondary rounded-pill px-5 fw-bold text-light d-none">
+                                @SharedHtmlLocalizer["SaveAddress"]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        disableAllElement("#frm-address input");
+        disableAllElement("#frm-address select");
+        disableAllElement("#frm-address textarea");
+
+        switch (@AddressData.TypeId) {
+            case @((int)AddressType.Home):
+                $('#Home-tab').trigger('click');
+                break;
+            case @((int)AddressType.Appartment):
+                $('#Apartment-tab').trigger('click');
+                break;
+            case @((int)AddressType.Office):
+                $('#Office-tab').trigger('click');
+                break;
+            case @((int)AddressType.School):
+                $('#School-tab').trigger('click');
+                break;
+            case @((int)AddressType.Mosque):
+                $('#Mosque-tab').trigger('click');
+                break;
+            case @((int)AddressType.Government):
+                $('#Government-tab').trigger('click');
+                break;
+            default:
+                break;
+        }
+
+        loadGovernoratesEdit(@AddressData.GovernorateId);
+        loadAreasEdit(@AddressData.GovernorateId,@AddressData.AreaId);
+
+        $("#myTab").hide();
+        setIntegerValue('hdnAddressTypeId', '@AddressData.TypeId');
+        setTextValue('AddressName', '@AddressData.Name');
+
+        setTextValue('Block', '@AddressData.Block');
+        setTextValue('Street', '@AddressData.Street');
+        setTextValue('Avenue', '@AddressData.Avenue');
+        setTextValue('HouseNo', '@AddressData.HouseNumber');
+        setTextValue('BuildingNo', '@AddressData.BuildingNumber');
+        setTextValue('FloorNo', '@AddressData.FloorNumber');
+        setTextValue('FlatNo', '@AddressData.FlatNumber');
+        setTextValue('SchoolName', '@AddressData.SchoolName');
+        setTextValue('MosqueName', '@AddressData.MosqueName');
+        setTextValue('GovernmentEntity', '@AddressData.GovernmentEntity');
+        setTextValue('Notes', '@AddressData.Notes');
+
+        $(".edit-address").click(function () {
+            $("#btn-save-address").removeClass("d-none");
+            enableAllElement("#frm-address input");
+            enableAllElement("#frm-address select");
+            enableAllElement("#frm-address textarea");
+            $("#myTab").show();
+            $(".edit-address").addClass("d-none");
+        });
+
+        $("#frm-address").validate({
+            ignore: [],
+            rules: {
+                AddressName: {
+                    required: true
+                },
+                Governorate: {
+                    required: true
+                },
+                Area: {
+                    required: true
+                },
+                Block: {
+                    required: function () {
+                        return ($("#hdnAddressTypeId").val() == @((int)AddressType.Home)|| $("#hdnAddressTypeId").val() == @((int)AddressType.Appartment)|| $("#hdnAddressTypeId").val() == @((int)AddressType.Office));
+                    }
+                },
+                Street: {
+                    required: function () {
+                        return ($("#hdnAddressTypeId").val() == @((int)AddressType.Home)|| $("#hdnAddressTypeId").val() == @((int)AddressType.Appartment)|| $("#hdnAddressTypeId").val() == @((int)AddressType.Office));
+                    }
+                },
+                HouseNo: {
+                    required: function () {
+                        return $("#hdnAddressTypeId").val() == @((int)AddressType.Home);
+                    }
+                },
+                BuildingNo: {
+                    required: function () {
+                        return ($("#hdnAddressTypeId").val() == @((int)AddressType.Appartment)|| $("#hdnAddressTypeId").val() == @((int)AddressType.Office));
+                    }
+                },
+                FlatNo: {
+                    required: function () {
+                        return ($("#hdnAddressTypeId").val() == @((int)AddressType.Appartment)|| $("#hdnAddressTypeId").val() == @((int)AddressType.Office));
+                    }
+                },
+                SchoolName: {
+                    required: function () {
+                        return $("#hdnAddressTypeId").val() == @((int)AddressType.School);
+                    }
+                },
+                MosqueName: {
+                    required: function () {
+                        return $("#hdnAddressTypeId").val() == @((int)AddressType.Mosque);
+                    }
+                },
+                GovernmentEntity: {
+                    required: function () {
+                        return $("#hdnAddressTypeId").val() == @((int)AddressType.Government);
+                    }
+                }
+            },
+            messages: {
+                AddressName: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Address name is required"]</span></div>",
+                },
+                Governorate: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Governorate is required"]</span></div>",
+                },
+                Area: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Area is required"]</span></div>",
+                },
+                Block: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Block is required"]</span></div>",
+                },
+                Street: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Street is required"]</span></div>",
+                },
+                HouseNo: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["House no is required"]</span></div>",
+                },
+                BuildingNo: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Building no is required"]</span></div>",
+                },
+                FlatNo: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Flat no is required"]</span></div>",
+                },
+                SchoolName: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["School name is required"]</span></div>",
+                },
+                MosqueName: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Mosque name is required"]</span></div>",
+                },
+                GovernmentEntity: {
+                    required: "<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Government entity is required"]</span></div>",
+                }
+            },
+            errorPlacement: function ($error, $element) {
+                var name = $element.attr("name");
+                $("#dvError" + name).append($error);
+            }
+        });
+
+        $("#btn-save-address").click(function () {
+            updateAddress();
+            return false;
+        });
+    });
+    function updateAddress() {
+        $("#frm-address").validate();
+        if ($("#frm-address").valid()) {
+
+        var data = {
+            Id: @AddressData.Id,
+            TypeId: $("#hdnAddressTypeId").val(),
+            Name: $("#AddressName").val(),
+            GovernorateId: $("#Governorate").val(),
+            AreaId: $("#Area").val(),
+            Block: $("#Block").val(),
+            Street: $("#Street").val(),
+            Avenue: $("#Avenue").val(),
+            HouseNumber: $("#HouseNo").val(),
+            BuildingNumber: $("#BuildingNo").val(),
+            FloorNumber: $("#FloorNo").val(),
+            FlatNumber: $("#FlatNo").val(),
+            SchoolName: $("#SchoolName").val(),
+            MosqueName: $("#MosqueName").val(),
+            GovernmentEntity: $("#GovernmentEntity").val(),
+            Notes: $("#Notes").val()
+        };
+
+        $.ajax({
+            url: "@Url.RouteUrl("updateaddress")",
+            type: 'PUT',
+            data: data,
+            success: function (result) {
+                if (result.success) {
+                    $("#btn-save-address").addClass("d-none");
+                    disableAllElement("#frm-address input");
+                    disableAllElement("#frm-address select");
+                    disableAllElement("#frm-address textarea");
+                    $("#myTab").hide();
+                    $(".edit-address").removeClass("d-none");
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            }
+        });
+        }
+    }
+
+
+    function loadGovernoratesEdit(id) {
+        $.get("@Url.RouteUrl("getgovernorates")", function (result) {
+            if (result.success && result.data != null) {
+                $('#Governorate').find('option:not(:first)').remove();
+                $.each(result.data, function (i, item) {
+                    if (id == item.id) {
+                        $('#Governorate').append($('<option>', {
+                            value: item.id,
+                            text: item.name,
+                            selected: "selected"
+                        }));
+                    } else {
+                        $('#Governorate').append($('<option>', {
+                            value: item.id,
+                            text: item.name
+                        }));
+                    }
+                });
+            }
+        });
+    }
+
+    function loadAreasEdit(gid, aid) {
+        //$.get("getareas/" + gid, function (result) {
+        var _url = "/Common/GetAreas?governorateId=" + gid;
+        $.get(_url, function (result) {
+            if (result.success && result.data != null) {
+                $('#Area').find('option:not(:first)').remove();
+                $.each(result.data, function (i, item) {
+                    if (aid == item.id) {
+                        $('#Area').append($('<option>', {
+                            value: item.id,
+                            text: item.name,
+                            selected: "selected"
+                        }));
+                    } else {
+                    $('#Area').append($('<option>', {
+                        value: item.id,
+                        text: item.name
+                    }));
+                    }
+                });
+            }
+        });
+    }
+
+</script>

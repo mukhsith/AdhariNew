@@ -1,0 +1,23 @@
+﻿@model int
+@if (Model == 1)
+{
+    <div class="d-flex align-items-center justify-content-end text-white col-4">
+        <div class="d-flex flex-column">
+            <p class="mt-2 mb-1 text-center">
+                @SharedHtmlLocalizer["Copyright"] © <span class="year"></span>
+                <a class="text-white" href="@Url.RouteUrl("home")">@SharedHtmlLocalizer["Adhari"]</a>
+            </p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="d-flex align-items-center justify-content-end text-white col-4">
+        <div class="d-flex">
+            <p class="mb-0 text-center">
+                @SharedHtmlLocalizer["Copyright"] © <span class="year"></span>
+                <a class="text-white" href="@Url.RouteUrl("home")">@SharedHtmlLocalizer["Adhari"]</a>
+            </p>
+        </div>
+    </div>
+}

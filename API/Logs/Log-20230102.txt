@@ -1,0 +1,145 @@
+2023-01-02T09:46:33.6199312+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T09:46:33.6278204+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T09:46:33.6297124+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T09:58:23.8382514+03:00 80000020-0007-fc00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2023-01-02T09:59:00.6214744+03:00 8000008d-0004-f900-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2023-01-02T10:03:34.2810654+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T10:03:34.2871086+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T10:03:34.2888735+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T10:04:48.4525495+03:00 8000013e-0006-fd00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2023-01-02T10:06:37.9763038+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T10:06:37.9827719+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T10:06:37.9848365+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T10:08:55.5807607+03:00 8000014a-0005-f800-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2023-01-02T10:08:56.1539696+03:00 8000014a-0005-f800-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2023-01-02T10:26:03.5466094+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T10:26:03.5529363+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T10:26:03.5549538+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T10:26:17.0115303+03:00 80000077-0001-fc00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2023-01-02T10:26:17.4757607+03:00 80000077-0001-fc00-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2023-01-02T10:34:03.3848237+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T10:34:03.3912289+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T10:34:03.3933181+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T10:35:22.9744159+03:00 80000015-0005-f600-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2023-01-02T10:35:23.4231829+03:00 80000015-0005-f600-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2023-01-02T11:12:03.2936546+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T11:12:03.2989748+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T11:12:03.3007767+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T11:12:15.0666486+03:00 80000096-0004-f900-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2023-01-02T11:31:29.9473952+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T11:31:29.9543894+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T11:31:29.9564723+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T11:31:37.7910194+03:00 8000002a-0007-fc00-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2023-01-02T12:29:20.4847678+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T12:29:20.4929729+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T12:29:20.4952099+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T12:34:46.5196044+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T12:34:46.5250376+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T12:34:46.5268970+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T12:36:08.7495614+03:00 80000019-0005-f600-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2023-01-02T12:36:09.2290954+03:00 80000019-0005-f600-b63f-84710c7967bb [WRN] Compiling a query which loads related collections for more than one collection navigation either via 'Include' or through projection but no 'QuerySplittingBehavior' has been configured. By default Entity Framework will use 'QuerySplittingBehavior.SingleQuery' which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))' (74d62de4)
+2023-01-02T12:37:33.1138052+03:00 80000147-0004-fc00-b63f-84710c7967bb [ERR] No connection could be made because the target machine actively refused it. (localhost:51905) (93f9e87c)
+2023-01-02T12:38:36.7019589+03:00 800000d1-0000-fa00-b63f-84710c7967bb [ERR] No connection could be made because the target machine actively refused it. (localhost:51905) (93f9e87c)
+2023-01-02T12:40:39.2016876+03:00 8000002c-0007-fc00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2023-01-02T15:15:23.8493514+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T15:15:23.8556626+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T15:15:23.8573956+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T15:16:14.8305321+03:00 8000009d-0004-f900-b63f-84710c7967bb [ERR] Failed executing DbCommand ("45"ms) [Parameters=["@__nextExpectedDelivery_Date_0='?' (DbType = DateTime2), @__nextExpectedDelivery_Month_1='?' (DbType = Int32), @__nextExpectedDelivery_Year_2='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[Id], [s].[AddressId], [s].[B2BPrice], [s].[CashbackAmount], [s].[CouponDiscountAmount], [s].[CouponDiscountType], [s].[CouponDiscountValueApplied], [s].[CouponId], [s].[CreatedBy], [s].[CreatedOn], [s].[CustomerId], [s].[CustomerIp], [s].[CustomerLanguageId], [s].[Deleted], [s].[DeliveryDateId], [s].[DeliveryFee], [s].[DeviceTypeId], [s].[DiscountAmount], [s].[DiscountType], [s].[DiscountValueApplied], [s].[DurationId], [s].[FreeDelivery], [s].[FullPayment], [s].[ModifiedBy], [s].[ModifiedOn], [s].[MonthlyPaymentAmount], [s].[NextExpectedDelivery], [s].[Notes], [s].[NumberOfMonths], [s].[PaidInitialPayment], [s].[ProductId], [s].[Quantity], [s].[ReceivedCashbackAmount], [s].[SpecialPackage], [s].[SubTotal], [s].[SubscriptionNumber], [s].[SubscriptionStatusId], [s].[TabbyPaymentId], [s].[TabbySessionId], [s].[Total], [s].[UnitPrice], [s].[WalletUsedAmount], [s0].[Id], [s0].[Amount], [s0].[BankServiceCharge], [s0].[Confirmed], [s0].[CreatedBy], [s0].[CreatedOn], [s0].[CreditCardNumber], [s0].[CreditCardType], [s0].[Deleted], [s0].[Delivered], [s0].[DeliveryDate], [s0].[DeliveryTimeSlotId], [s0].[DriverId], [s0].[FirstOrder], [s0].[ModifiedBy], [s0].[ModifiedOn], [s0].[Notes], [s0].[OrderNumber], [s0].[PaidCurrencyValue], [s0].[PaymentAuth], [s0].[PaymentDateTime], [s0].[PaymentError], [s0].[PaymentId], [s0].[PaymentMethodId], [s0].[PaymentRefId], [s0].[PaymentResult], [s0].[PaymentStatusId], [s0].[PaymentTrackId], [s0].[PaymentTransId], [s0].[SubscriptionId]
+FROM [Subscriptions] AS [s]
+LEFT JOIN [SubscriptionOrders] AS [s0] ON [s].[Id] = [s0].[SubscriptionId]
+WHERE ((([s].[Deleted] <> CAST(1 AS bit)) AND ([s].[SubscriptionStatusId] = 2)) AND (CONVERT(date, [s].[NextExpectedDelivery]) = @__nextExpectedDelivery_Date_0)) AND NOT (EXISTS (
+    SELECT 1
+    FROM [SubscriptionOrders] AS [s1]
+    WHERE ([s].[Id] = [s1].[SubscriptionId]) AND ((([s1].[Deleted] <> CAST(1 AS bit)) AND (DATEPART(month, [s1].[DeliveryDate]) = @__nextExpectedDelivery_Month_1)) AND (DATEPART(year, [s1].[DeliveryDate]) = @__nextExpectedDelivery_Year_2))))
+ORDER BY [s].[Id], [s0].[Id]" (627a98df)
+2023-01-02T15:16:14.9126668+03:00 8000009d-0004-f900-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"Data.EntityFramework.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Confirmed'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:260a8afe-a703-49b1-8efa-37f6a7727567
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Confirmed'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:260a8afe-a703-49b1-8efa-37f6a7727567
+Error Number:207,State:1,Class:16
+2023-01-02T15:16:15.1147873+03:00 8000009d-0004-f900-b63f-84710c7967bb [ERR] Invalid column name 'Confirmed'. (d136145d)
+2023-01-02T15:16:26.3666476+03:00 80000081-0002-f500-b63f-84710c7967bb [ERR] Failed executing DbCommand ("17"ms) [Parameters=["@__nextExpectedDelivery_Date_0='?' (DbType = DateTime2), @__nextExpectedDelivery_Month_1='?' (DbType = Int32), @__nextExpectedDelivery_Year_2='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[Id], [s].[AddressId], [s].[B2BPrice], [s].[CashbackAmount], [s].[CouponDiscountAmount], [s].[CouponDiscountType], [s].[CouponDiscountValueApplied], [s].[CouponId], [s].[CreatedBy], [s].[CreatedOn], [s].[CustomerId], [s].[CustomerIp], [s].[CustomerLanguageId], [s].[Deleted], [s].[DeliveryDateId], [s].[DeliveryFee], [s].[DeviceTypeId], [s].[DiscountAmount], [s].[DiscountType], [s].[DiscountValueApplied], [s].[DurationId], [s].[FreeDelivery], [s].[FullPayment], [s].[ModifiedBy], [s].[ModifiedOn], [s].[MonthlyPaymentAmount], [s].[NextExpectedDelivery], [s].[Notes], [s].[NumberOfMonths], [s].[PaidInitialPayment], [s].[ProductId], [s].[Quantity], [s].[ReceivedCashbackAmount], [s].[SpecialPackage], [s].[SubTotal], [s].[SubscriptionNumber], [s].[SubscriptionStatusId], [s].[TabbyPaymentId], [s].[TabbySessionId], [s].[Total], [s].[UnitPrice], [s].[WalletUsedAmount], [s0].[Id], [s0].[Amount], [s0].[BankServiceCharge], [s0].[Confirmed], [s0].[CreatedBy], [s0].[CreatedOn], [s0].[CreditCardNumber], [s0].[CreditCardType], [s0].[Deleted], [s0].[Delivered], [s0].[DeliveryDate], [s0].[DeliveryTimeSlotId], [s0].[DriverId], [s0].[FirstOrder], [s0].[ModifiedBy], [s0].[ModifiedOn], [s0].[Notes], [s0].[OrderNumber], [s0].[PaidCurrencyValue], [s0].[PaymentAuth], [s0].[PaymentDateTime], [s0].[PaymentError], [s0].[PaymentId], [s0].[PaymentMethodId], [s0].[PaymentRefId], [s0].[PaymentResult], [s0].[PaymentStatusId], [s0].[PaymentTrackId], [s0].[PaymentTransId], [s0].[SubscriptionId]
+FROM [Subscriptions] AS [s]
+LEFT JOIN [SubscriptionOrders] AS [s0] ON [s].[Id] = [s0].[SubscriptionId]
+WHERE ((([s].[Deleted] <> CAST(1 AS bit)) AND ([s].[SubscriptionStatusId] = 2)) AND (CONVERT(date, [s].[NextExpectedDelivery]) = @__nextExpectedDelivery_Date_0)) AND NOT (EXISTS (
+    SELECT 1
+    FROM [SubscriptionOrders] AS [s1]
+    WHERE ([s].[Id] = [s1].[SubscriptionId]) AND ((([s1].[Deleted] <> CAST(1 AS bit)) AND (DATEPART(month, [s1].[DeliveryDate]) = @__nextExpectedDelivery_Month_1)) AND (DATEPART(year, [s1].[DeliveryDate]) = @__nextExpectedDelivery_Year_2))))
+ORDER BY [s].[Id], [s0].[Id]" (627a98df)
+2023-01-02T15:16:26.3729198+03:00 80000081-0002-f500-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"Data.EntityFramework.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Confirmed'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:260a8afe-a703-49b1-8efa-37f6a7727567
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Confirmed'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+ClientConnectionId:260a8afe-a703-49b1-8efa-37f6a7727567
+Error Number:207,State:1,Class:16
+2023-01-02T15:17:53.6618156+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T15:17:53.6676002+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T15:17:53.6692260+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T15:28:39.9144192+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T15:28:39.9203094+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T15:28:39.9221884+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T16:31:31.5503712+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T16:31:31.5567419+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T16:31:31.5583785+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T16:45:23.4189832+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T16:45:23.4260763+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T16:45:23.4282979+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T16:45:54.6025815+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-01-02T16:45:54.6099791+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-01-02T16:45:54.6120801+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2023-01-02T16:46:12.7097834+03:00 80000034-0007-fc00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)

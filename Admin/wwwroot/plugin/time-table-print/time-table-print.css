@@ -1,0 +1,16 @@
+.table > :not(caption) > * > * {
+	padding: .2rem .2rem;
+}
+@media print{
+	.table .badge{
+		margin-bottom: 2px;
+	}
+	body, td, tfoot, th, thead, tr {
+		border-color: black;
+		
+	  }
+	  *{
+		font-size: 12px;
+	}
+	  
+}

@@ -1,0 +1,188 @@
+﻿@model Utility.Models.Frontend.CustomerManagement.CustomerModel 
+@{ 
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["MyProfile"].Value });
+}
+
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+
+<section class="main-content bg-white py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div class="profile-wrapper" id="dv-my-profile">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body rounded-top rounded-bottom">
+                                    <div class="px-3 pt-3 pb-0 mb-4">
+                                        <form id="form-myprofile" class="row g-3">
+                                            <div class="col-12">
+                                                <label for="inputName" class="form-label">@SharedHtmlLocalizer["Name"]</label>
+                                                <input type="text" class="form-control" asp-for="Name" disabled>
+                                                <div id="dvErrorName">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="inputEmail4" class="form-label">@SharedHtmlLocalizer["Email"]</label>
+                                                <input type="text" class="form-control" asp-for="EmailAddress" disabled>
+                                                <div id="dvErrorEmailAddress">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="inputName2" class="form-label">@SharedHtmlLocalizer["Mobile"]</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text rounded-pill rounded-end border border-end-0 pe-0">
+                                                        <span class="flag-icon flag-icon-kw"></span>
+                                                    </span>
+                                                    <span class="input-group-text border border-start-0"
+                                                          id="basic-addon1">
+                                                        <bdi>+965</bdi>
+                                                    </span>
+                                                    <input type="tel" class="form-control mb-0" aria-describedby="basic-addon1" asp-for="MobileNumber" disabled
+                                                           onkeypress="return validateMobileNumber(event);" maxlength="9">
+                                                </div>
+                                                <div id="dvErrorMobileNumber">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mt-4 text-center">
+                                                <a href="javascript:void(0)" class="btn btn-primary px-5"
+                                                   id="edit-details">@SharedHtmlLocalizer["EditProfile"]</a>
+                                                <a href="javascript:void(0)" style="display:none;" id="btn-cancel"
+                                                   class="btn btn-secondary cancel-btn px-5">@SharedHtmlLocalizer["Cancel"]</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-verify-wrapper" id="dv-verification" style="display:none;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-center">
+                                <img src="/images/icons/email-verification.svg" alt="@SharedHtmlLocalizer["EmailVerification"]">
+                                <h5 class="text-primary pt-3">@SharedHtmlLocalizer["PleaseVerifyYourEmailAddress"]</h5>
+                                <p class="text-primary mb-0">@SharedHtmlLocalizer["WeHaveSentEmailTo"]</p>
+                                <a href="#" id="a-emaiaddress" class="text-primary fw-bold"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $("#Mobile").attr('maxlength', '8');
+        $('#liMyProfile').addClass("menu-active");
+        var editable = false;
+
+        $("#form-myprofile").validate({
+            ignore: [],
+            rules: {
+                Name: {
+                    required: true
+                },
+                EmailAddress: {
+                    required: true, customEmail: true
+                },
+                MobileNumber: {
+                    required: true, rangelength: [8]
+                }
+            },
+            messages: {
+                Name: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["NameIsRequired"]</span></div>"
+                },
+                EmailAddress: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EmailIsRequired"]</span></div>",
+                    customEmail: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidEmail"]</span></div>"
+                },
+                MobileNumber: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["MobileNumberIsRequired"]</span></div>",
+                    rangelength: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidMobileNumber"]</span></div>"
+                }
+            },
+            errorPlacement: function ($error, $element) {
+                var name = $element.attr("name");
+                $("#dvError" + name).append($error);
+            }
+        });
+
+        $("#edit-details").click(function () {
+            if (!editable) {
+                editable = true;
+                $("#edit-details").text('@SharedHtmlLocalizer["Update Profile"]');
+                $("#Name").prop('disabled', false);
+                $("#EmailAddress").prop('disabled', false);
+                $("#MobileNumber").prop('disabled', false);
+                $("#btn-cancel").show();
+            }
+            else {
+                $('#form-myprofile').validate();
+                if ($("#form-myprofile").valid()) {
+                    var name = $("#Name").val();
+                    var emailAddress = $("#EmailAddress").val();
+                    var mobileNumber = $("#MobileNumber").val();
+
+                    $.post("@Url.RouteUrl("myprofile")", {
+                        Name: name,
+                        EmailAddress: emailAddress,
+                        MobileNumber: mobileNumber
+                    }, function (result) {
+                        if (result.success) {
+                            if (result.data != null) {
+                                $("#Name").val(result.data.name);
+                                $("#EmailAddress").val(result.data.emailAddress);
+                                $("#MobileNumber").val(result.data.mobileNumber);
+
+                                if (result.message != "")
+                                    showToastSuccessMessage(result.message);
+
+                                editable = false;
+                                $("#Name").prop('disabled', true);
+                                $("#EmailAddress").prop('disabled', true);
+                                $("#MobileNumber").prop('disabled', true);
+                                $("#edit-details").text('@SharedHtmlLocalizer["EditProfile"]');
+                                $("#btn-cancel").hide();
+
+                                var updateEmailAddressVerificationPending = result.data.updateEmailAddressVerificationPending ? "1" : "0";
+                                if (updateEmailAddressVerificationPending == "1") {
+                                    $("#dv-my-profile").hide();
+                                    $("#dv-verification").show();
+                                    $("#a-emaiaddress").html(result.data.newEmailAddress);
+                                }
+                            }
+                            else {
+                                if (result.message != "")
+                                    showToastErrorMessage(result.message);
+                            }
+                        }
+                        else {
+                            if (result.messageCode == 401) {
+                                var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                                window.location.href = "/login?returnUrl=" + returnUrl;
+                                return;
+                            }
+
+                            if (result.message != "")
+                                showToastErrorMessage(result.message);
+                        }
+                    });
+                }
+            }
+        });
+
+        $("#btn-cancel").click(function () {
+            editable = false;
+            $("#Name").prop('disabled', true);
+            $("#EmailAddress").prop('disabled', true);
+            $("#MobileNumber").prop('disabled', true);
+            $("#edit-details").text('@SharedHtmlLocalizer["EditProfile"]');
+            $("#btn-cancel").hide();
+        });
+    });
+</script>

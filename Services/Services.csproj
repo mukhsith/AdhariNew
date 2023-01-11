@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Backend\Content\AboutUsService.cs" />
+    <Compile Remove="Backend\Content\Interface\IAboutUsService.cs" />
+    <Compile Remove="Backend\ProductManagement\BundledProductService.cs" />
+    <Compile Remove="Backend\ProductManagement\Interface\IBundledProductService.cs" />
+    <Compile Remove="Backend\ProductManagement\Interface\ISubscriptionService.cs" />
+    <Compile Remove="Backend\ProductManagement\SubscriptionService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
+  </ItemGroup>
+</Project>

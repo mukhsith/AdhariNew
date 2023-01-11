@@ -1,0 +1,290 @@
+﻿<header class="page-header">
+    <h2>@SharedHtmlLocalizer["GlobalPromotions"]</h2>
+    <input type="hidden" value="" id="Id" />
+    <div class="end-wrapper text-end me-5">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <form method="post" id="dataForm" name="dataForm" enctype="multipart/form-data">
+            @await Html.PartialAsync("_FormHiddenFieldsPartial")
+            <!-- ========== Start Card Block ========== -->
+            <section class="card mb-3 border border-secondary">
+                <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                    <h2 class="card-title text-primary">@SharedHtmlLocalizer["SignUpPromotion"]</h2>
+                    <div class="card-actions d-flex position-static top-0 end-0">
+
+                    </div>
+                </header>
+                <div class="card-body ">
+                    <div class="row">
+
+                        <div class="col-12 mb-3">
+                            <h2 class="card-title text-primary mb-2">
+                                @SharedHtmlLocalizer["Enable"]
+                                <span class="text-body">
+                                    <!-- ========== Start Tooltip ========== -->
+                                    <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" title="@SharedHtmlLocalizer["EnablesRegistrationCashbackBonus"]" data-bs-original-title="@SharedHtmlLocalizer["EnablesRegistrationCashbackBonus"]" aria-label="@SharedHtmlLocalizer["EnablesRegistrationCashbackBonus"]"></i>
+                                    <!-- ========== End Tooltip ========== -->
+                                </span>
+                            </h2>
+                            <!-- ========== Start ios7 Switch ========== -->
+
+                            <div class="switch switch-sm switch-primary my-0 SignupPromotion-switch">
+                                <input type="checkbox" name="signupEnabled" id="signupEnabled" data-plugin-ios-switch />
+                            </div>
+                            <!-- ========== End ios7 Switch ========== -->
+
+                            <div class="row mt-2 SignupPromotion">
+                                <div class="col-12 col-lg-3 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">@SharedHtmlLocalizer["CashbackValueKWD"]<span class=" text-danger">*</span></label>
+                                    <input type="number" class="form-control form-control-lg rounded-4 border-secondary "
+                                           name="signupCashbackValue" id="signupCashbackValue" aria-describedby="@SharedHtmlLocalizer["CashbackValueKWD"]"
+                                           placeholder="" value="0" min="0">
+
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                </div>
+                                <div class="col-12 col-lg-3 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">@SharedHtmlLocalizer["CashbackValidityDays"]</label><!-- ========== Start Tooltip ========== -->
+                                    <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" title="@SharedHtmlLocalizer["CashbackAmountReceived"]" data-bs-original-title="@SharedHtmlLocalizer["CashbackAmountReceived"]" aria-label="@SharedHtmlLocalizer["CashbackAmountReceived"]"></i>
+                                    <!-- ========== End Tooltip ========== -->
+
+                                    <input type="number" class="form-control form-control-lg rounded-4 border-secondary " 
+                                           name="signupCashbackValueExpiryInNoOfDays" id="signupCashbackValueExpiryInNoOfDays" 
+                                           aria-describedby="@SharedHtmlLocalizer["CashbackValidityDays"]" placeholder="" value="30" min="0">
+
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                </div>
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <!-- ========== Start Datepicker Field ========== -->
+                                    <label for="promotionDateRange" class="form-label">@SharedHtmlLocalizer["PromotionDuration"]</label>
+                                    <div class="input-daterange input-group rounded-4" data-plugin-datepicker>
+                                        <span class="input-group-text rounded-4 border border-secondary">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </span>
+                                        <!-- ========== Start Simple Input Field ========== -->
+
+
+                                        <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary "
+                                               name="signupFromDate" id="signupFromDate" aria-describedby="" placeholder="" value="">
+                                        <!-- ========== End Simple Input Field ========== -->
+                                        <span class="input-group-text border-start-0 border-end-0 border-secondary rounded-0">
+                                            @SharedHtmlLocalizer["To"]
+                                        </span>
+                                        <!-- ========== Start Simple Input Field ========== -->
+                                        <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary "
+                                               name="signupToDate" id="signupToDate" aria-describedby="" placeholder="" value="">
+
+
+                                        <!-- ========== End Simple Input Field ========== -->
+                                    </div>
+                                    <!-- ========== End Datepicker Field ========== -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <!-- ========== End Card Block ========== -->
+            <!-- ========== Start Card Block ========== -->
+            <section class="card mb-3 border border-secondary">
+                <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                    <h2 class="card-title text-primary">@SharedHtmlLocalizer["CashbackOnPurchases"]</h2>
+                    <div class="card-actions d-flex position-static top-0 end-0">
+
+                    </div>
+                </header>
+                <div class="card-body ">
+                    <div class="row">
+
+                        <div class="col-12 mb-3">
+                            <h2 class="card-title text-primary mb-2">
+                                @SharedHtmlLocalizer["Enable"]
+                                <span class="text-body">
+                                    <!-- ========== Start Tooltip ========== -->
+                                    <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" title="@SharedHtmlLocalizer["EnablesCashbackBonus"]" data-bs-original-title="@SharedHtmlLocalizer["EnablesCashbackBonus"]" aria-label="@SharedHtmlLocalizer["EnablesCashbackBonus"]"></i>
+                                    <!-- ========== End Tooltip ========== -->
+                                </span>
+                            </h2>
+                            <!-- ========== Start ios7 Switch ========== -->
+
+                            <div class="switch switch-sm switch-primary my-0  CashbackOnPurchasePromotion-switch">
+
+                                <input type="checkbox" name="cashbackOnPurchaseEnabled" id="cashbackOnPurchaseEnabled" data-plugin-ios-switch />
+                            </div>
+                            <!-- ========== End ios7 Switch ========== -->
+                            <!-- ========== Start ios7 Switch Conditional Script ========== -->
+                            <!-- ========== End ios7 Switch Conditional Script ========== -->
+                            <div class="row mt-2 CashbackOnPurchasePromotion">
+                                <div class="col-12 col-lg-3 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">@SharedHtmlLocalizer["MinimumOrderAmountKWD"]<span class=" text-danger">*</span></label>
+                                    <input type="number" class="form-control form-control-lg rounded-4 border-secondary "
+                                           name="cashbackOnPurchaseMinOrderAmount" id="cashbackOnPurchaseMinOrderAmount"
+                                           aria-describedby="@SharedHtmlLocalizer["MinimumOrderAmountKWD"]" placeholder="" value="0" min="0">
+
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                </div>
+                                <div class="col-12 col-lg-3 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">@SharedHtmlLocalizer["CashbackValueKWD"]<span class=" text-danger">*</span></label>
+                                    <input type="number" class="form-control form-control-lg rounded-4 border-secondary "
+                                           name="cashbackOnPurchaseValue" id="cashbackOnPurchaseValue" aria-describedby="@SharedHtmlLocalizer["CashbackValueKWD"]"
+                                           placeholder="" value="0" min="0">
+
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                </div>
+                                <div class="col-12 col-lg-3 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">@SharedHtmlLocalizer["CashbackValidityDays"]</label>
+                                    <!-- ========== Start Tooltip ========== -->
+                                    <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" title="@SharedHtmlLocalizer["CashbackAmountReceived"]" data-bs-original-title="@SharedHtmlLocalizer["CashbackAmountReceived"]" aria-label="@SharedHtmlLocalizer["CashbackAmountReceived"]"></i>
+                                    <!-- ========== End Tooltip ========== -->
+
+                                    <input type="number" class="form-control form-control-lg rounded-4 border-secondary " 
+                                           name="cashbackOnPurchaseExpiryInNoOfDays" id="cashbackOnPurchaseExpiryInNoOfDays" aria-describedby="@SharedHtmlLocalizer["CashbackValidityDays"]" placeholder="" value="30" min="0">
+
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                </div>
+                                <div class="col-12 col-lg-3 mb-3">
+                                    <!-- ========== Start Datepicker Field ========== -->
+                                    <label for="promotionDateRange" class="form-label">@SharedHtmlLocalizer["PromotionDuration"]</label>
+                                    <div class="input-daterange input-group rounded-4" data-plugin-datepicker>
+                                        <span class="input-group-text rounded-4 border border-secondary">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </span>
+                                        <!-- ========== Start Simple Input Field ========== -->
+
+
+                                        <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary "
+                                               name="cashbackOnPurchaseFromDate" id="cashbackOnPurchaseFromDate" aria-describedby="" placeholder="" value="">
+
+                                        <!-- ========== End Simple Input Field ========== -->
+                                        <span class="input-group-text border-start-0 border-end-0 border-secondary rounded-0">
+                                            @SharedHtmlLocalizer["To"]
+                                        </span>
+                                        <!-- ========== Start Simple Input Field ========== -->
+                                        <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary "
+                                               name="cashbackOnPurchaseToDate" id="cashbackOnPurchaseToDate" aria-describedby="" placeholder="" value="">
+
+
+                                        <!-- ========== End Simple Input Field ========== -->
+                                    </div>
+                                    <!-- ========== End Datepicker Field ========== -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+            <!-- ========== End Card Block ========== -->
+            <!-- ========== Start Card Block ========== -->
+            <section class="card mb-3 border border-secondary">
+                <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                    <h2 class="card-title text-primary">@SharedHtmlLocalizer["CashbackRedeemCondition"]</h2>
+                    <div class="card-actions d-flex position-static top-0 end-0">
+
+                    </div>
+                </header>
+                <div class="card-body ">
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <h2 class="card-title text-primary mb-2">
+                                @SharedHtmlLocalizer["Enable"]
+                                <span class="text-body">
+                                    <!-- ========== Start Tooltip ========== -->
+                                    <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" title="@SharedHtmlLocalizer["AppliesCashbackBonus"]" data-bs-original-title="@SharedHtmlLocalizer["AppliesCashbackBonus"]" aria-label="@SharedHtmlLocalizer["AppliesCashbackBonus"]"></i>
+                                    <!-- ========== End Tooltip ========== -->
+                                </span>
+                            </h2>
+                            <!-- ========== Start ios7 Switch ========== -->
+
+                            <div class="switch switch-sm switch-primary my-0  EnableCashbackUse-switch">
+
+                                <input type="checkbox" name="cashbackRedeemEnabled" id="cashbackRedeemEnabled" data-plugin-ios-switch />
+                            </div>
+                            <!-- ========== End ios7 Switch ========== -->
+                            <!-- ========== Start ios7 Switch Conditional Script ========== -->
+                            <!-- ========== End ios7 Switch Conditional Script ========== -->
+
+                            <div class="row mt-2 EnableCashbackUse">
+                                <div class="col-12 col-lg-3 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">@SharedHtmlLocalizer["MinimumWalletCashbackAmountKWD"]<span class=" text-danger">*</span></label>
+                                    <input type="number" class="form-control form-control-lg rounded-4 border-secondary "
+                                           name="cashbackRedeemMinWalletAmount" id="cashbackRedeemMinWalletAmount"
+                                           aria-describedby="@SharedHtmlLocalizer["MinimumWalletCashbackAmountKWD"]" placeholder="" value="0" min="0">
+
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                </div>
+                                <div class="col-12 col-lg-3 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">@SharedHtmlLocalizer["MinimumOrderAmountKWD"]<span class=" text-danger">*</span></label>
+                                    <input type="number" class="form-control form-control-lg rounded-4 border-secondary "
+                                           name="cashbackRedeemMinOrderAmount" id="cashbackRedeemMinOrderAmount" aria-describedby="@SharedHtmlLocalizer["MinimumOrderAmountKWD"]"
+                                           placeholder="" value="0" min="0">
+
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                </div>
+                                <div class="col-12 col-lg-3 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">@SharedHtmlLocalizer["CashbackValueToDeductKWD"]<span class=" text-danger">*</span></label>
+                                    <input type="number" class="form-control form-control-lg rounded-4 border-secondary "
+                                           name="cashbackValueToDeduct" id="cashbackValueToDeduct" aria-describedby="@SharedHtmlLocalizer["CashbackValueToDeductKWD"]"
+                                           placeholder="" value="0" min="0">
+
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <!-- ========== End Card Block ========== -->
+
+            <div class="card-body ">
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button id="btnSave" class="btn btn-primary btn-lg save-btn fw-bold">@SharedHtmlLocalizer["Save"]</button>
+                        <button type="button" class="btn btn-warning" onclick="history.go(-1)">@SharedHtmlLocalizer["Back"]</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+<script src="~/developer/js/CouponPromotion/Promotion_CRUD.js" asp-append-version="true" asp-suppress-fallback-integrity="true"></script>

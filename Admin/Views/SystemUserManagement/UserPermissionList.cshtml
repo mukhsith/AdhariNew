@@ -1,0 +1,52 @@
+﻿<header class="page-header">
+    <h2>@SharedHtmlLocalizer["SystemUserPermission"]</h2>
+    <div class="right-wrapper text-end me-3">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="bx bx-home-alt"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+<!-- start: page -->
+
+<div class="row">
+    <div class="col">
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["PermissionList"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+                    <button class="btn btn-primary btn-sm " onclick="window.location = '/systemUserManagement/UserPermissionAddEdit';">@SharedHtmlLocalizer["AddNewPermission"]</button>
+                </div>
+            </header>
+
+                <div class="card-body">
+                    <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="datatable-default-">
+                        <thead>
+                            <tr>
+                                <th data-priority="1">@SharedHtmlLocalizer["ID"]</th>
+                                <th data-priority="6">@SharedHtmlLocalizer["Status"]</th>
+                                <th data-priority="1">@SharedHtmlLocalizer["DisplayOrder"]</th>
+                                <th data-priority="1">@SharedHtmlLocalizer["PermissionName"]</th>
+                                <th data-priority="1">@SharedHtmlLocalizer["NavigationUrl"]</th>
+                                <th data-priority="1">@SharedHtmlLocalizer["Icon"]</th>
+                                <th data-priority="5">@SharedHtmlLocalizer["Created Date"]</th>
+                                <th data-priority="5">@SharedHtmlLocalizer["ModifiedDate"]</th>
+                                <th data-priority="5">@SharedHtmlLocalizer["Actions"]</th>
+                            </tr>
+                        </thead>
+                        <tbody class="border-secondary">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+    </div>
+</div>
+
+
+<!-- end: page -->
+<script src="~/developer/js/systemUserManagement/UserPermission_Datatable.js" asp-append-version="true"></script>
+
+ 

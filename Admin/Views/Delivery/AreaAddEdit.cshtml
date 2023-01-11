@@ -1,0 +1,87 @@
+﻿@model Data.Common.BaseEntityId
+<header class="page-header">
+    <h2> @(@Model.Id > 0 ? "Edit Area - " + @Model.Id : "New Area")  </h2>
+    <input type="hidden" value="@Model.Id" id="Id" />
+    <div class="end-wrapper text-end me-5">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Area Details</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <form method="post" id="dataForm" name="dataForm" enctype="multipart/form-data">
+                    @await Html.PartialAsync("_FormHiddenFieldsPartial")
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 mb-3">
+                                <!-- ========== Start Simple Input Field ========== -->
+
+                                <label for="nameEn" class="form-label">Title (En)<span class=" text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="nameEn" id="nameEn" aria-describedby="Title (En)" placeholder="" value="" required>
+
+                                <div class="invalid-feedback">Please Enter the Area Name</div>
+                                <!-- ========== End Simple Input Field ========== -->
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3">
+                                <!-- ========== Start Simple Input Field ========== -->
+
+                                <label for="nameAr" class="form-label">Title (Ar)<span class=" text-danger">*</span></label>
+                                <input type="text" dir="rtl" class="form-control form-control-lg rounded-4 border-secondary " name="nameAr" id="nameAr" aria-describedby="Title (Ar)" placeholder="Size" value="" required>
+
+                                <div class="invalid-feedback">PPlease Enter the Area Name</div>
+                                <!-- ========== End Simple Input Field ========== -->
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3">
+                                <!-- ========== Start Simple Input Field ========== -->
+
+                                <label for="deliveryFee" class="form-label">Delivery Fee<span class=" text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="deliveryFee" id="deliveryFee" aria-describedby="Delivery Fee" placeholder="0" value="2" required>
+
+                                <div class="invalid-feedback">Please Enter Delivery Fee</div>
+                                <!-- ========== End Simple Input Field ========== -->
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3">
+                                <!-- ========== Start Select2 Field Block ========== -->
+                                <label for="" class="form-label">Governorate<span class=" text-danger">*</span></label>
+                                <select data-plugin-selectTwo class="form-select form-select-lg rounded-4 border-secondary" name="governorateList" id="governorateList" data-plugin-options='{ "placeholder": "", "allowClear": true}' required>
+                                    <option>Please Select...</option>
+                                    <option selected>Ahmadi</option>
+                                    <option>Hawally</option>
+                                    <option>Farwaniya</option>
+                                </select>
+
+
+                                <!-- ========== End Select2 Field Block ========== -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button id="btnSave" class="btn btn-primary btn-lg save-btn  fw-bold">Save</button>
+                            <button type="button" class="btn btn-warning" onclick="history.go(-1)"> Back </button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+
+<script src="~/developer/js/Delivery/Area_CRUD.js" asp-append-version="true"></script>
+

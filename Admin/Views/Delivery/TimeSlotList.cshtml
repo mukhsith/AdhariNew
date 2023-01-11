@@ -1,0 +1,62 @@
+﻿<header class="page-header">
+    <h2>Delivery Timeslots Management</h2>
+    <div class="right-wrapper text-end me-3">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="bx bx-home-alt"></i>
+                </a>
+            </li>
+
+        </ol>
+
+    </div>
+</header>
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Delivery Timeslots Management</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <!-- ========== Start Table Block ========== -->
+                <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="datatable-default-">
+                    <thead>
+                        <tr>
+                            <th data-priority="1" class="">Day</th>
+                            <th data-priority="2" class="">Status</th>
+                            <th data-priority="3" class="">Delivery Slot Start</th>
+                            <th data-priority="4" class="">Delivery Slot End</th>
+                            <th data-priority="5" class="">
+                                Order Qty. Deliverable<!-- ========== Start Tooltip ========== -->
+                                <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" title="The Number of Orders that can be accomodated / delivered on this day" data-bs-original-title="The Number of Orders that can be accomodated / delivered on this day" aria-label="The Number of Orders that can be accomodated / delivered on this day"></i>
+                                <!-- ========== End Tooltip ========== -->
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-secondary">
+                         
+                    </tbody>
+                </table>
+
+                <!-- ========== End Table Block ========== -->
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <a href="#" class="btn btn-primary btn-lg save-btn trigger-fail fw-bold" onclick="updateTimeSlot()">Save</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+ 
+
+
+
+<!-- end: page -->
+<script src="~/developer/js/Delivery/TimeSlot_Datatable.js" asp-append-version="true"></script>

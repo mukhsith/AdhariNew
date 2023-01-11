@@ -1,0 +1,6 @@
+﻿@model IList<Utility.Models.Frontend.ProductManagement.ProductModel>
+
+@foreach (var item in Model)
+{
+    @await Html.PartialAsync("_ProductBox", item)
+}

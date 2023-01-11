@@ -1,0 +1,15 @@
+<svg id="Special_Offers" data-name="Special Offers" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17.113" height="24" viewBox="0 0 17.113 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_145" data-name="Rectangle 145" width="17.113" height="24" fill="#850b5a"/>
+    </clipPath>
+  </defs>
+  <g id="percent" transform="translate(3.368 4.956)">
+    <path id="Path_209" data-name="Path 209" d="M14.423,4.984a.542.542,0,0,1,0,.767L5.751,14.423a.542.542,0,0,1-.767-.767l8.672-8.672A.542.542,0,0,1,14.423,4.984ZM6.668,7.969a1.3,1.3,0,1,0-1.3-1.3A1.3,1.3,0,0,0,6.668,7.969Zm0,.867A2.168,2.168,0,1,0,4.5,6.668,2.168,2.168,0,0,0,6.668,8.836Zm6.071,5.2a1.3,1.3,0,1,0-1.3-1.3A1.3,1.3,0,0,0,12.739,14.04Zm0,.867a2.168,2.168,0,1,0-2.168-2.168A2.168,2.168,0,0,0,12.739,14.907Z" transform="translate(-4.5 -4.5)" fill="#850b5a" fill-rule="evenodd"/>
+  </g>
+  <g id="Group_70047" data-name="Group 70047">
+    <g id="Group_70047-2" data-name="Group 70047" clip-path="url(#clip-path)">
+      <path id="Path_223" data-name="Path 223" d="M15.645,0H1.468A1.465,1.465,0,0,0,0,1.458V24l8.551-4.281.145.072L17.113,24V1.458A1.465,1.465,0,0,0,15.645,0m.31,22.128-7.4-3.743L1.158,22.128V1.148h14.8Z" transform="translate(0 0)" fill="#850b5a"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,79 @@
+﻿@model Utility.Models.Frontend.Content.CompanySettingModel
+
+@if (!string.IsNullOrEmpty(Model.FacebookLink))
+{
+    <li class="social-icon">
+        <a class="" target="_blank" href="@Model.InstagramLink">
+            <span class="fa-stack">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fab fa-instagram fa-stack-1x"></i>
+            </span>
+        </a>
+    </li>
+}
+@if (!string.IsNullOrEmpty(Model.FacebookLink))
+{
+    <li class="social-icon">
+        <a class="" target="_blank" href="@Model.FacebookLink">
+            <span class="fa-stack">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fab fa-facebook-f fa-stack-1x"></i>
+            </span>
+        </a>
+    </li>
+}
+@if (!string.IsNullOrEmpty(Model.TwitterLink))
+{
+    <li class="social-icon">
+        <a class="" target="_blank" href="@Model.TwitterLink">
+            <span class="fa-stack">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fab fa-twitter fa-stack-1x"></i>
+            </span>
+        </a>
+    </li>
+}
+@if (!string.IsNullOrEmpty(Model.YoutubeLink))
+{
+    <li class="social-icon">
+        <a class="" target="_blank" href="@Model.YoutubeLink">
+            <span class="fa-stack">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fab fa-youtube fa-stack-1x"></i>
+            </span>
+        </a>
+    </li>
+}
+@if (!string.IsNullOrEmpty(Model.WhatsAppLink))
+{
+    <li class="social-icon">
+        <a class="" target="_blank" href="@Model.WhatsAppLink">
+            <span class="fa-stack">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fab fa-whatsapp fa-stack-1x"></i>
+            </span>
+        </a>
+    </li>
+}
+@if (!string.IsNullOrEmpty(Model.TiktokLink))
+{
+    <li class="social-icon">
+        <a class="" target="_blank" href="@Model.TiktokLink">
+            <span class="fa-stack">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fab fa-tiktok fa-stack-1x"></i>
+            </span>
+        </a>
+    </li>
+}
+@if (!string.IsNullOrEmpty(Model.SnapchatLink))
+{
+    <li class="social-icon">
+        <a class="" target="_blank" href="@Model.SnapchatLink">
+            <span class="fa-stack">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fab fa-snapchat fa-stack-1x"></i>
+            </span>
+        </a>
+    </li>
+}

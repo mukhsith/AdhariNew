@@ -1,0 +1,264 @@
+2022-12-22T09:12:32.9436646+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T09:12:32.9509689+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T09:12:32.9529132+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T09:46:23.0225694+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T09:46:23.0282091+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T09:46:23.0299483+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T10:13:42.5648016+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T10:13:42.5708534+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T10:13:42.5723991+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T10:13:51.4274137+03:00 80000044-0000-fa00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T10:16:02.6122685+03:00 80000040-0005-f700-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:02:08.3821945+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:02:08.3906879+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:02:08.3928357+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:04:27.1713533+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:04:27.1769240+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:04:27.1786240+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:05:02.7432362+03:00 80000036-0001-fd00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:05:26.8267771+03:00 80000036-0001-fd00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("26"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [s].[Id], [s].[Active], [s].[CreatedBy], [s].[CreatedOn], [s].[Deleted], [s].[DisplayOrder], [s].[FromDay], [s].[ModifiedBy], [s].[ModifiedOn], [s].[NameAr], [s].[NameEn], [s].[ToDay]
+FROM [SubscriptionDeliveryDates] AS [s]
+WHERE [s].[Id] = @__p_0" (627a98df)
+2022-12-22T11:05:26.9294367+03:00 80000036-0001-fd00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"Data.EntityFramework.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'FromDay'.
+Invalid column name 'ToDay'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:1d856858-e2ae-4902-9fd6-83f2d05efc6f
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'FromDay'.
+Invalid column name 'ToDay'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable`1.ConfiguredValueTaskAwaiter.GetResult()
+ClientConnectionId:1d856858-e2ae-4902-9fd6-83f2d05efc6f
+Error Number:207,State:1,Class:16
+2022-12-22T11:05:27.1462080+03:00 80000036-0001-fd00-b63f-84710c7967bb [ERR] Invalid column name 'FromDay'.
+Invalid column name 'ToDay'. (76d2d379)
+2022-12-22T11:05:52.1651842+03:00 80000060-0005-f800-b63f-84710c7967bb [ERR] Failed executing DbCommand ("25"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [s].[Id], [s].[Active], [s].[CreatedBy], [s].[CreatedOn], [s].[Deleted], [s].[DisplayOrder], [s].[FromDay], [s].[ModifiedBy], [s].[ModifiedOn], [s].[NameAr], [s].[NameEn], [s].[ToDay]
+FROM [SubscriptionDeliveryDates] AS [s]
+WHERE [s].[Id] = @__p_0" (627a98df)
+2022-12-22T11:05:52.1787112+03:00 80000060-0005-f800-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"Data.EntityFramework.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'FromDay'.
+Invalid column name 'ToDay'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:1d856858-e2ae-4902-9fd6-83f2d05efc6f
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'FromDay'.
+Invalid column name 'ToDay'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:1d856858-e2ae-4902-9fd6-83f2d05efc6f
+Error Number:207,State:1,Class:16
+2022-12-22T11:05:52.4223477+03:00 80000060-0005-f800-b63f-84710c7967bb [ERR] Invalid column name 'FromDay'.
+Invalid column name 'ToDay'. (76d2d379)
+2022-12-22T11:06:09.3652866+03:00 80000062-0005-f800-b63f-84710c7967bb [ERR] Failed executing DbCommand ("9"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [s].[Id], [s].[Active], [s].[CreatedBy], [s].[CreatedOn], [s].[Deleted], [s].[DisplayOrder], [s].[FromDay], [s].[ModifiedBy], [s].[ModifiedOn], [s].[NameAr], [s].[NameEn], [s].[ToDay]
+FROM [SubscriptionDeliveryDates] AS [s]
+WHERE [s].[Id] = @__p_0" (627a98df)
+2022-12-22T11:06:09.3735832+03:00 80000062-0005-f800-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"Data.EntityFramework.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'FromDay'.
+Invalid column name 'ToDay'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:1d856858-e2ae-4902-9fd6-83f2d05efc6f
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'FromDay'.
+Invalid column name 'ToDay'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+ClientConnectionId:1d856858-e2ae-4902-9fd6-83f2d05efc6f
+Error Number:207,State:1,Class:16
+2022-12-22T11:06:17.7769325+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:06:17.7823965+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:06:17.7840581+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:07:54.7683045+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:07:54.7741483+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:07:54.7757744+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:08:42.0204944+03:00 80000017-0002-f600-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:10:52.8656964+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:10:52.8713626+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:10:52.8730883+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:11:05.1553427+03:00 80000042-0007-fe00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:12:30.7867002+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:12:30.7924604+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:12:30.7943856+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:12:42.8049710+03:00 80000043-0005-f700-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:39:07.4897256+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:39:07.4964469+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:39:07.4984751+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:41:17.1447546+03:00 8000000e-0001-fb00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:43:18.5485792+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:43:18.5553777+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:43:18.5570701+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:43:27.8437482+03:00 80000070-0006-fd00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:45:35.8084248+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:45:35.8143864+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:45:35.8163351+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:45:48.7825245+03:00 80000012-0001-fb00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:47:36.1884880+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:47:36.1957108+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:47:36.1974699+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:47:50.8096483+03:00 8000006a-0005-f800-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:49:50.5586222+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:49:50.5648312+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:49:50.5663299+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:50:09.0257380+03:00 8000003b-0001-fd00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:50:56.3517616+03:00 8000003b-0001-fd00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("19"ms) [Parameters=["@p0='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p1='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (Size = 50), @p5='?' (Size = 50), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = DateTime2), @p13='?' (Size = 4000), @p14='?' (Size = 4000), @p15='?' (Size = 50), @p16='?' (Size = 50), @p17='?' (DbType = DateTime2), @p18='?' (Size = 50), @p19='?' (Size = 50), @p20='?' (DbType = Int32), @p21='?' (Size = 50), @p22='?' (Size = 50), @p23='?' (DbType = Int32), @p24='?' (Size = 50), @p25='?' (Size = 50), @p26='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [SubscriptionOrders] ([Amount], [BankServiceCharge], [CreatedBy], [CreatedOn], [CreditCardNumber], [CreditCardType], [Deleted], [Delivered], [DeliveryDate], [DeliveryTimeSlotId], [DriverId], [ModifiedBy], [ModifiedOn], [Notes], [OrderNumber], [PaidCurrencyValue], [PaymentAuth], [PaymentDateTime], [PaymentError], [PaymentId], [PaymentMethodId], [PaymentRefId], [PaymentResult], [PaymentStatusId], [PaymentTrackId], [PaymentTransId], [SubscriptionId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25, @p26);
+SELECT [Id]
+FROM [SubscriptionOrders]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();" (627a98df)
+2022-12-22T11:50:56.4079456+03:00 8000003b-0001-fd00-b63f-84710c7967bb [ERR] An exception occurred in the database while saving changes for context type '"Data.EntityFramework.ApplicationDbContext"'."
+""Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The INSERT statement conflicted with the FOREIGN KEY constraint \"FK_SubscriptionOrders_DeliveryTimeSlots_DeliveryTimeSlotId\". The conflict occurred in database \"Adhari_Dev\", table \"dbo.DeliveryTimeSlots\", column 'Id'.
+The statement has been terminated.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:bc7462b6-aa35-4381-93de-4c926e5b0031
+Error Number:547,State:0,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)" (170f029e)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The INSERT statement conflicted with the FOREIGN KEY constraint "FK_SubscriptionOrders_DeliveryTimeSlots_DeliveryTimeSlotId". The conflict occurred in database "Adhari_Dev", table "dbo.DeliveryTimeSlots", column 'Id'.
+The statement has been terminated.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__169_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:bc7462b6-aa35-4381-93de-4c926e5b0031
+Error Number:547,State:0,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Services.Frontend.Sales.SubscriptionService.CreateSubscription(Subscription model) in D:\Development\Adhari\Services\Frontend\Sales\SubscriptionService.cs:line 65
+2022-12-22T11:51:32.7213154+03:00 8000003b-0001-fd00-b63f-84710c7967bb [ERR] An error occurred while updating the entries. See the inner exception for details. (5d65ae99)
+2022-12-22T11:52:53.6555907+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:52:53.6614543+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:52:53.6629479+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:53:23.0503265+03:00 80000049-0003-f700-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:56:37.9024794+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:56:37.9080440+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:56:37.9097463+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:56:45.2132448+03:00 8000006e-0005-f800-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T11:59:10.1434364+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T11:59:10.1493583+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T11:59:10.1513779+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T11:59:14.9574552+03:00 80000076-0006-fd00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T12:10:13.4879577+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T12:10:13.4936258+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T12:10:13.4954089+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T12:14:25.7425768+03:00 8000001f-0003-f900-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T12:20:54.1960725+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T12:20:54.2019050+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T12:20:54.2035913+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T12:34:47.5463422+03:00 8000007d-0006-fd00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T12:41:09.9230778+03:00 80000081-0006-fd00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T13:31:30.4465953+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T13:31:30.4540334+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T13:31:30.4559184+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T16:23:17.4476832+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T16:23:17.4536792+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T16:23:17.4553635+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T16:24:24.2170725+03:00 80000050-0003-f700-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T16:29:23.9463516+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T16:29:23.9528766+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T16:29:23.9547280+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
+2022-12-22T16:29:40.7759632+03:00 80000054-0004-fa00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2022-12-22T16:59:30.5122257+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-12-22T16:59:30.5179253+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-12-22T16:59:30.5195792+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)

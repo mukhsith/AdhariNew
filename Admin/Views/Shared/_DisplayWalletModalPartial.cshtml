@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!-- Wallet -- Vertically centered scrollable modal -->
+<div class="modal fade" id="display-wallet" data-bs-keyboard="false" tabindex="-1" aria-labelledby="display-walletLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content border-secondary">
+
+            <div class="modal-header border-secondary body-bg-secondary">
+                <h5 class="modal-title fw-bold text-primary" id="display-walletLabel">Wallet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6 text-center">
+                        <span class="fa-stack fa-2x mb-2 ">
+                            <i class="fa-solid fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fa-solid fa-money-bill-1-wave fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h5 class="text-center text-primary mb-2">Cashback Amount</h5>
+                        <h2 class="text-center text-primary fw-bold" id="cashbackAmount">0.000</h2>
+                    </div>
+                    <div class="col-6 text-center">
+                        <span class="fa-stack fa-2x mb-2 ">
+                            <i class="fa-solid fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fa-solid fa-wallet fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h5 class="text-center text-primary mb-2">Wallet Amount</h5>
+                        <h2 class="text-center text-primary fw-bold" id="walletAmount">0.000</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //show customer address list
+
+        showWalletSuccess = (data) => {
+            //console.log(data);
+            if (data.data == null) { return }
+
+            $("#display-wallet .modal-body .row #cashbackAmount").text(data.data.formattedCashbackBalance);
+            $("#display-wallet .modal-body .row #walletAmount").text(data.data.formattedWalletBalance);
+        }
+    });
+</script>

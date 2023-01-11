@@ -1,0 +1,112 @@
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\Plugin.Payment.KNET.dll.config
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\Plugin.Payment.KNET.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\Plugin.Payment.KNET.pdb
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\csc.exe
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\csc.exe.config
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\csc.rsp
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\csi.exe
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\csi.exe.config
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\csi.rsp
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.Managed.Core.targets
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\System.Buffers.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\System.Collections.Immutable.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\System.Memory.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\System.Numerics.Vectors.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\System.Reflection.Metadata.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\System.Runtime.CompilerServices.Unsafe.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\vbc.exe
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\vbc.exe.config
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\vbc.rsp
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\VBCSCompiler.exe
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\bin\roslyn\VBCSCompiler.exe.config
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.csproj.CoreCompileInputs.cache
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.dll
+D:\Development\Twarrad Mobile API\sol\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.pdb
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\Plugin.Payment.KNET.dll.config
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\Plugin.Payment.KNET.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\Plugin.Payment.KNET.pdb
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\csc.exe
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\csc.exe.config
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\csc.rsp
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\csi.exe
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\csi.exe.config
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\csi.rsp
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.Managed.Core.targets
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\System.Buffers.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\System.Collections.Immutable.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\System.Memory.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\System.Numerics.Vectors.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\System.Reflection.Metadata.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\System.Runtime.CompilerServices.Unsafe.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\vbc.exe
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\vbc.exe.config
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\vbc.rsp
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\VBCSCompiler.exe
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\bin\roslyn\VBCSCompiler.exe.config
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.csproj.AssemblyReference.cache
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.csproj.CoreCompileInputs.cache
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.csproj.CopyComplete
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.dll
+D:\Development\Mal3ab\sol\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.pdb
+D:\Development\Adhari\Plugin.Payment.KNET\bin\Plugin.Payment.KNET.dll.config
+D:\Development\Adhari\Plugin.Payment.KNET\bin\Plugin.Payment.KNET.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\Plugin.Payment.KNET.pdb
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\csc.exe
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\csc.exe.config
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\csc.rsp
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\csi.exe
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\csi.exe.config
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\csi.rsp
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.Managed.Core.targets
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\System.Buffers.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\System.Collections.Immutable.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\System.Memory.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\System.Numerics.Vectors.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\System.Reflection.Metadata.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\System.Runtime.CompilerServices.Unsafe.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\vbc.exe
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\vbc.exe.config
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\vbc.rsp
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\VBCSCompiler.exe
+D:\Development\Adhari\Plugin.Payment.KNET\bin\roslyn\VBCSCompiler.exe.config
+D:\Development\Adhari\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.csproj.AssemblyReference.cache
+D:\Development\Adhari\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.csproj.CoreCompileInputs.cache
+D:\Development\Adhari\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.csproj.CopyComplete
+D:\Development\Adhari\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.dll
+D:\Development\Adhari\Plugin.Payment.KNET\obj\Release\Plugin.Payment.KNET.pdb

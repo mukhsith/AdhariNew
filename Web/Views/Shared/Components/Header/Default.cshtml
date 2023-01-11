@@ -1,0 +1,357 @@
+﻿@model Utility.Models.Frontend.CustomizedModel.PageHeaderModel
+@using Microsoft.AspNetCore.Localization
+@{
+    var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures.Select(c => new SelectListItem { Value = c.Name, Text = localizer.GetString(c.Name) })
+                                                           .Where(i => i.Value != requestCultureFeature).ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
+
+    int counter = 1;
+    var token = Convert.ToString(Context.Request.Cookies["AuthenticationToken"]);
+    bool loggedIn = false;
+    if (!string.IsNullOrEmpty(token))
+    {
+        loggedIn = true;
+    }
+}
+<div class="desktop-header d-none d-lg-block bg-body-primary shadow">
+    <div class="bottom-bar ">
+        <div class="container">
+            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-2">
+                <a href="@Url.RouteUrl("home")" class="d-flex align-items-center col-md-3 mb-2 text-dark text-decoration-none">
+                    <img src="~/assets/img/Adhari-Logo.svg" alt="@SharedHtmlLocalizer["AdhariLogo"]" class="logo">
+                </a>
+
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="@Url.RouteUrl("home")" class="nav-link rounded-pill px-2 link-secondary">@SharedHtmlLocalizer["Home"]</a></li>
+                    <li><a href="@Url.RouteUrl("aboutUs")" class="nav-link rounded-pill px-2 link-dark">@SharedHtmlLocalizer["AboutUs"]</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link rounded-pill dropdown-toggle" href="#" id="dropdownCategories"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            @SharedHtmlLocalizer["Shop"]
+                        </a>
+                        <ul class="dropdown-menu border-secondary rounded-3 p-2 shadow" aria-labelledby="dropdownCategories">
+                            @foreach (var menu in Model.Categories)
+                            {
+                                <li><a class="dropdown-item text-primary my-1 rounded-3 fs-6" href="@Url.RouteUrl("products", new { seoName = menu.SeoName })">@menu.Title</a></li>
+                                if (counter < Model.Categories.Count())
+                                {
+                                    <li> <hr class="dropdown-divider body-bg-secondary border-secondary my-0"> </li>
+                                }
+                                counter += 1;
+
+                            }
+                            @*<li><a href="@Url.RouteUrl("subscriptions")" style="display:@displaySubscription" class="dropdown-item text-primary my-1 rounded-3 fs-6">@SharedHtmlLocalizer["subscriptions"]</a></li>*@
+                        </ul>
+                    </li>
+
+                    <li><a href="@Url.RouteUrl("contactus")" class="nav-link rounded-pill px-2 link-dark">@SharedHtmlLocalizer["ContactUs"]</a></li>
+
+                    <li>
+                        <form id="selectLanguage"
+                              asp-controller="Culture"
+                              asp-action="SetCulture"
+                              asp-route-returnUrl="@returnUrl"
+                              method="post"
+                              role="form" class="form-mobile-language">
+                            @foreach (var culture in cultureItems)
+                            {
+                                <input id="culture" name="culture" value="@culture.Value" type="hidden" />
+                                <a href="#" class="nav-link px-2 link-dark language-switch" onclick="document.getElementById('selectLanguage').submit();" id="lang_switch">
+                                    <span class="title">@SharedHtmlLocalizer["LanguageText"]</span>
+                                </a>
+                            }
+                        </form>
+                        @*<a href="#" class="nav-link px-2 link-dark language-switch" onclick="SwitchRTL(); return false;" id="lang_switch">@SharedHtmlLocalizer["LanguageText"]</a>*@
+
+                    </li>
+
+
+                </ul>
+                <!-- Search, My Account, Shopping Cart-->
+                <div class="dt-icons col-md-3 text-end">
+                    <a href="#" id="a-product-search">
+                        <img src="~/assets/img/icons/icon-search.svg" alt="@SharedHtmlLocalizer["Search"]">
+                    </a>
+
+                    @if (loggedIn)
+                    {
+                        /* Logged In User*/
+                        <a href="#" class="dropdown-toggle" id="dropdownProfile" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <img src="~/assets/img/icons/icon-profile.svg" alt="">
+                        </a>
+                        <ul class="dropdown-menu border-secondary rounded-3 p-2 shadow" aria-labelledby="dropdownProfile">
+                            @await Html.PartialAsync("_MyAccountLinks")
+                        </ul>
+                    }
+                    else
+                    {  /* Not (SignedIn/LoggedIn) */
+                        <a href="/login" class="dropdown-toggle" id="dropdownProfile" data-bs-toggle="" aria-expanded="false">
+                            <img src="~/assets/img/icons/icon-profile.svg" alt="">
+                        </a>
+                    }
+                    <a href="#" id="a-mobile-cart">
+                        <img id="mobile-img-cart" src="~/assets/img/icons/icon-cart.svg" alt="@SharedHtmlLocalizer["ShoppingCart"]">
+                    </a>
+
+                </div>
+
+            </header>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- main navigation-->
+<div class="mobile-header d-block d-lg-none">
+    <nav class="navbar fixed-top navbar-light bg-light px-0 py-0" aria-label="Main navigation">
+        <div class="container-fluid flex-row justify-content-between align-items-center">
+            <a class="navbar-brand" href="@Url.RouteUrl("home")">
+                <img src="~/assets/img/Adhari-Logo.svg" alt="@SharedHtmlLocalizer["AdhariLogo"]" class="logo" height="50">
+            </a>
+
+            <div class="menu d-flex flex-row px-0" id="menu">
+                <ul class="menu-list p-0 mb-0">
+                    <li class="menu-item me-3">
+                        <a href="#" class="menu-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch">
+                            <img src="~/assets/img/icons/icon-search-sm.svg" alt="@SharedHtmlLocalizer["Search"]">
+                        </a>
+                    </li>
+
+                    <li class="menu-item me-3">
+                        <a href="#" class="menu-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount">
+                            <img src="~/assets/img/icons/icon-profile-sm.svg" alt="@SharedHtmlLocalizer["MyAccount"]">
+                        </a>
+                    </li>
+                </ul>
+                <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="navbar-collapse offcanvas-collapse d-flex flex-column justify-content-start align-items-start" id="navbarsExampleDefault">
+
+                <div class="d-flex flex-column w-100">
+                    <h2 class="pt-3 text-secondary mb-2">@SharedHtmlLocalizer["MainMenu"]</h2>
+                    <ul class="navbar-nav ">
+                        <li>
+                            <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
+                        </li>
+                        <li><a class="dropdown-item text-primary my-1 rounded-3 fs-6" href="@Url.RouteUrl("home")">@SharedHtmlLocalizer["Home"]</a></li>
+                        <li> <hr class="dropdown-divider body-bg-secondary border-secondary my-0"> </li>
+                        <li><a href="@Url.RouteUrl("aboutUs")" class="dropdown-item text-primary my-1 rounded-3 fs-6">@SharedHtmlLocalizer["AboutUs"]</a></li>
+                        <li> <hr class="dropdown-divider body-bg-secondary border-secondary my-0"></li>
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-item text-primary my-1 rounded-3 dropdown-toggle fs-6" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">@SharedHtmlLocalizer["Shop"]</a>
+                            <ul class="dropdown-menu border-0 px-2" aria-labelledby="dropdownCategories">
+                                @{ counter = 1;}
+                                @foreach (var menuitem in Model.Categories)
+                                {
+                                    <li><a class="dropdown-item text-primary my-1 rounded-3 fs-6" href="#">@menuitem.Title</a></li>
+                                    if (counter < Model.Categories.Count())
+                                    {
+                                        <li><hr class="dropdown-divider body-bg-secondary border-secondary my-0"></li>
+                                    }
+                                    counter += 1;
+                                }
+                                @*<li><a href="@Url.RouteUrl("subscriptions")" style="display:@displaySubscription" class="dropdown-item text-primary my-1 rounded-3 fs-6">@SharedHtmlLocalizer["subscriptions"]</a></li>*@
+
+                            </ul>
+                        </li>
+
+                        <li> <hr class="dropdown-divider body-bg-secondary border-secondary my-0"> </li>
+
+                        <li>
+                            <a href="@Url.RouteUrl("contactus")" class="dropdown-item text-primary my-1 rounded-3 fs-6">@SharedHtmlLocalizer["ContactUs"]</a>
+                        </li>
+                        <li> <hr class="dropdown-divider body-bg-secondary border-secondary my-0"> </li>
+                        <li>
+                            <a href="javascript:;" class="dropdown-item text-primary my-1 rounded-3 fs-6 privacy-policy">
+                                @SharedHtmlLocalizer["PrivacyPolicy"]
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="dropdown-item text-primary my-1 rounded-3 fs-6 terms-and-conditions">
+                                @SharedHtmlLocalizer["TermsAndConditions"]
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
+                        </li>
+
+                        <li>
+                            <form id="selectLanguage"
+                                  asp-controller="Culture"
+                                  asp-action="SetCulture"
+                                  asp-route-returnUrl="@returnUrl"
+                                  method="post"
+                                  role="form">
+                                @foreach (var culture in cultureItems)
+                                {
+                                    <input id="culture" name="culture" value="@culture.Value" type="hidden" />
+                                    <a href="#" class="dropdown-item text-primary my-1 rounded-3 fs-6 language-switch"
+                                       onclick="document.getElementById('selectLanguage').submit();" id="lang_switch">@SharedHtmlLocalizer["LanguageText"]</a>
+                                }
+                            </form>
+                            @*<a href="#" class="dropdown-item text-primary my-1 rounded-3 fs-6 language-switch"
+                                onclick="SwitchRTL(); return false;" id="lang_switch">@SharedHtmlLocalizer["LanguageText"]</a>*@
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="d-flex flex-column justify-content-center mt-auto">
+                    <h3 class="text-center text-uppercase fw-bold  text-primary my-3">@SharedHtmlLocalizer["DownloadOurApp"]</h3>
+                    <!-- <img src="~/assets/img/qrcode.png" class="mb-3 qrcode-image" alt="QR Code" class="img-fluid"> -->
+                    <div class="d-flex justify-content-center pb-3 pb-md-2">
+                        <a href="@Model.CompanySettings.AppStoreLink" class="me-3" target="_blank" rel="noopener noreferrer">
+                            <img src="~/assets/img/app-store.svg" alt="@SharedHtmlLocalizer["AppStoreLink"]">
+                        </a>
+                        <a href="@Model.CompanySettings.PlayStoreLink" class="me-0 me-md-3" target="_blank" rel="noopener noreferrer">
+                            <img src="~/assets/img/google-play.svg" alt="@SharedHtmlLocalizer["GooglePlayLink"]">
+                        </a>
+                    </div>
+
+                    <ul class="navbar-nav mt-auto flex-row mb-2 mb-md-0 mx-auto">
+                        @await Html.PartialAsync("_SocialMediaLinks", Model.CompanySettings)
+                    </ul>
+
+                    @await Html.PartialAsync("_PoweredBy", 1)
+                </div>
+
+
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
+</div>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSearch" aria-labelledby="offcanvasSearchLabel" aria-modal="true" role="dialog" style="visibility: hidden;">
+    <div class="offcanvas-header border-bottom">
+        <h5 id="offcanvasSearchLabel" class="mb-0">@SharedHtmlLocalizer["Search"]</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <ul class="search-list list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="input-group py-2">
+                    <span class="input-group-text body-bg-secondary rounded-pill rounded-end border-secondary border-end-0" id="search-addon">
+                        <i class="text-secondary fa fa-search"></i>
+                    </span>
+                    <input type="text" id="txtKeyword" class="form-control body-bg-secondary rounded-pill rounded-start border-secondary border-start-0" placeholder="@SharedHtmlLocalizer["Search"]">
+                </div>
+            </li>
+        </ul>
+        <ul class="search-list list-group list-group-flush" id="product-search-result">
+        </ul>
+        <div class="row p-3 px-0 mx-0 justify-content-center flex-column" id="canvasEmptyResults" style="display:none;">
+            <div class="col-12 text-center">
+                <i class="display-1 fas fa-search text-center text-primary"></i>
+            </div>
+            <div class="col-12 text-center">
+                <h5 class="mt-3 text-primary">@SharedHtmlLocalizer["Sorry, no results found"]</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnSearchProductCount" value="0" />
+<input type="hidden" id="hdnSearchPageCount" value="0" />
+<input type="hidden" id="hdnTotalSearchProductCount" value="0" />
+<script>
+    (() => {
+        'use strict'
+
+        document.querySelector('#navbarSideCollapse').addEventListener('click', () => {
+            document.querySelector('.offcanvas-collapse').classList.toggle('open')
+        })
+    })()
+</script>
+<script>
+    $(document).ready(function () {
+        updateCartCount();
+
+        $("#a-cart").click(function () {
+            if ($(this).css("cursor") != "not-allowed") {
+                $.get("@Url.RouteUrl("cartitems")", function (result) {
+                    if (result.cartContents != "") {
+                        updateCartCount();
+                        $("#offcanvasCart").empty();
+                        $("#offcanvasCart").append(result.cartContents);
+                        $('#offcanvasCart').offcanvas('show');
+                    }
+                });
+            }
+        });
+
+        $("#a-mobile-cart").click(function () {
+            if ($(this).css("cursor") != "not-allowed") {
+                $.get("@Url.RouteUrl("cartitems")", function (result) {
+                    if (result.cartContents != "") {
+                        updateCartCount();
+                        $("#offcanvasCart").empty();
+                        $("#offcanvasCart").append(result.cartContents);
+                        $('#offcanvasCart').offcanvas('show');
+                    }
+                });
+            }
+        });
+
+        $("#txtKeyword").keyup(function () {
+            clearSearch();
+            searchProducts();
+            return false;
+        });
+
+        $("#search-addon").click(function () {
+            clearSearch();
+            searchProducts();
+            return false;
+        });
+
+        $("#a-product-search").click(function () {
+            clearSearch();
+            $("#txtKeyword").val('');
+            $('#offcanvasSearch').offcanvas('show');
+            return false;
+        });
+    });
+
+    function clearSearch() {
+        $("#hdnSearchProductCount").val(0);
+        $("#hdnSearchPageCount").val(0);
+        $("#hdnTotalSearchProductCount").val(0);
+        $("#product-search-result").empty();
+        $("#canvasEmptyResults").hide();
+    }
+
+    function searchProducts() {
+        var pageCount = parseInt($("#hdnSearchPageCount").val()) + 1;
+        var keyword = $("#txtKeyword").val();
+        var limit = 1000;
+
+        showCoverSpin();
+        $.get("@Url.RouteUrl("productsbyajax")", { page: pageCount, limit: limit, keyword: keyword, search: true }, function (result) {
+            hideCoverSpin();
+            $("#product-search-result").append(result.html);
+            $("#hdnSearchPageCount").val(pageCount);
+            $("#hdnSearchProductCount").val(parseInt($("#hdnSearchProductCount").val()) + limit);
+
+            $("#hdnTotalSearchProductCount").val(result.totalProductCount);
+            totalProductCount = parseInt($("#hdnTotalSearchProductCount").val());
+            productCount = parseInt($("#hdnSearchProductCount").val());            
+
+            if (totalProductCount == 0) {
+                $("#canvasEmptyResults").show();
+            }
+            else {
+                $("#canvasEmptyResults").hide();
+            }
+        });
+    }
+</script>
