@@ -10,11 +10,14 @@
         "projectUniqueName": "D:\\Development\\AdhariNew\\Data\\Data.csproj",
         "projectName": "Data",
         "projectPath": "D:\\Development\\AdhariNew\\Data\\Data.csproj",
-        "packagesPath": "C:\\Users\\mukhsith\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\basith\\.nuget\\packages\\",
         "outputPath": "D:\\Development\\AdhariNew\\Data\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\mukhsith\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\basith\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -88,7 +91,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.414\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.415\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -98,11 +101,14 @@
         "projectUniqueName": "D:\\Development\\AdhariNew\\Services\\Services.csproj",
         "projectName": "Services",
         "projectPath": "D:\\Development\\AdhariNew\\Services\\Services.csproj",
-        "packagesPath": "C:\\Users\\mukhsith\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\basith\\.nuget\\packages\\",
         "outputPath": "D:\\Development\\AdhariNew\\Services\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\mukhsith\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\basith\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -156,7 +162,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.414\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.415\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -166,11 +172,14 @@
         "projectUniqueName": "D:\\Development\\AdhariNew\\Utility\\Utility.csproj",
         "projectName": "Utility",
         "projectPath": "D:\\Development\\AdhariNew\\Utility\\Utility.csproj",
-        "packagesPath": "C:\\Users\\mukhsith\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\basith\\.nuget\\packages\\",
         "outputPath": "D:\\Development\\AdhariNew\\Utility\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\mukhsith\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\basith\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -256,7 +265,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.414\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.415\\RuntimeIdentifierGraph.json"
         }
       }
     }
