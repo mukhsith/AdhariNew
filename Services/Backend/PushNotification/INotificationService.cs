@@ -1,7 +1,10 @@
 ﻿
+using Data.NotifyTemplate;
 using Data.PushNotification;
 using System.Collections.Generic;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
+using Utility.Models.Admin.Notifications;
+
 namespace Services.Backend.PushNotification
 {
     public interface INotificationService
@@ -22,6 +25,14 @@ namespace Services.Backend.PushNotification
         Task<Notification> CreateNotification(Notification model);
         Task<bool> UpdateNotification(Notification model);
         Task<bool> DeleteNotification(Notification model);
+        #endregion
+
+        #region AdminNotification
+        Task<AdminNotificationTemplate> GetAdminNotificationDefault();
+        Task<AdminNotificationTemplate> UpdateAdminNotification(AdminNotificationTemplate model);
+        Task<AdminNotificationTemplate> CreateAdminNotifications(AdminNotificationTemplate model);
+        
+
         #endregion
     }
 }

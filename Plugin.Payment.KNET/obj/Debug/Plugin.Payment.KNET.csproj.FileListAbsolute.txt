@@ -289,6 +289,7 @@ D:\Development\AdhariNew\Plugin.Payment.KNET\bin\roslyn\vbc.exe.config
 D:\Development\AdhariNew\Plugin.Payment.KNET\bin\roslyn\vbc.rsp
 D:\Development\AdhariNew\Plugin.Payment.KNET\bin\roslyn\VBCSCompiler.exe
 D:\Development\AdhariNew\Plugin.Payment.KNET\bin\roslyn\VBCSCompiler.exe.config
+D:\Development\AdhariNew\Plugin.Payment.KNET\obj\Debug\Plugin.Payment.KNET.csproj.AssemblyReference.cache
 D:\Development\AdhariNew\Plugin.Payment.KNET\obj\Debug\Plugin.Payment.KNET.csproj.CoreCompileInputs.cache
 D:\Development\AdhariNew\Plugin.Payment.KNET\obj\Debug\Plugin.Payment.KNET.csproj.CopyComplete
 D:\Development\AdhariNew\Plugin.Payment.KNET\obj\Debug\Plugin.Payment.KNET.dll

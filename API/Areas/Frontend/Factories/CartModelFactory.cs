@@ -303,12 +303,6 @@ namespace API.Areas.Frontend.Factories
                     return response;
                 }
 
-                if (cartItemModel.Quantity <= 0)
-                {
-                    response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
-                    return response;
-                }
-
                 var cartItem = await _cartService.GetCartItemById(cartItemModel.Id);
                 if (cartItem == null)
                 {
@@ -375,8 +369,15 @@ namespace API.Areas.Frontend.Factories
                     return response;
                 }
 
-                cartItem.Quantity = cartItemModel.Quantity;
-                await _cartService.UpdateCartItem(cartItem);
+                if (cartItemModel.Quantity > 0)
+                {
+                    cartItem.Quantity = cartItemModel.Quantity;
+                    await _cartService.UpdateCartItem(cartItem);
+                }
+                else
+                {
+                    await _cartService.DeleteCartItem(cartItem);
+                }
 
                 var cartItems = await _cartService.GetAllCartItem(customerGuidValue: cartItemModel.CustomerGuidValue, customerId: cartItemModel.CustomerId);
                 var cartModel = await _modelHelper.PrepareCartModel(cartItems, isEnglish);

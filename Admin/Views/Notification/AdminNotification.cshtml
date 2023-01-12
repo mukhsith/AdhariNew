@@ -3,3 +3,228 @@
 *@
 @{
 }
+
+<header class="page-header">
+    <h2>Admin Notifications</h2>
+    <div class="right-wrapper text-end me-3">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="bx bx-home-alt"></i>
+                </a>
+            </li>
+            <!-- <li><span>Admin Notifications</span></li> -->
+        </ol>
+        <!-- <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fas fa-chevron-left"></i></a> -->
+    </div>
+</header>
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Admin Notifications</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <form method="post" id="dataForm" name="dataForm" enctype="multipart/form-data">
+                    <input type="hidden"  id="Id" />
+                    <div class="row">
+
+                        <div class="col-12 mb-3">
+                            <h2 class="card-title text-primary mb-2">
+                                Low Stock Notifications<span class="text-body">
+                                    <!-- ========== Start Tooltip ========== -->
+                                    <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" title="Sends an Email Notification to Specified Email addresses when the stock of a product falls below a specific threshold" data-bs-original-title="Sends an Email Notification to Specified Email addresses when the stock of a product falls below a specific threshold" aria-label="Sends an Email Notification to Specified Email addresses when the stock of a product falls below a specific threshold"></i>
+                                    <!-- ========== End Tooltip ========== -->
+                                </span>
+                            </h2>
+                            <!-- ========== Start ios7 Switch ========== -->
+
+                            <div class="switch switch-sm switch-primary my-0  EnableLowStockNotifications-switch">
+
+                                <input type="checkbox" name="chkLowStockThreshold" id="chkLowStockThreshold" data-plugin-ios-switch checked="checked" />
+                            </div>
+
+
+                            <!-- ========== End ios7 Switch ========== -->
+                            <!-- ========== Start ios7 Switch Conditional Script ========== -->
+                            <!-- ========== End ios7 Switch Conditional Script ========== -->
+
+                            <div class="row mt-2 EnableLowStockNotifications">
+                                <div class="col-12 col-lg-2 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">Low Stock Threshold<span class=" text-danger">*</span></label>
+                                    <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="LowStockThreshold" id="LowStockThreshold" aria-describedby="Low Stock Threshold" placeholder="" value="5" required>
+                                    <small class="form-text text-muted">When the stock reaches, or falls below amount, send notification</small>
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                </div>
+                                <div class="col-12 col-lg-5 mb-3">
+                                    <!-- ========== Start Simple Text Area ========== -->
+                                    <label for="" class="form-label ">To Email Addresses<span class=" text-danger">*</span></label>
+                                    <textarea class="form-control form-control-lg rounded-4 border-secondary  " name="LowStockToEmail" id="LowStockToEmail" aria-describedby="To Email Addresses" placeholder="" rows="3" required>sales@adhari.com</textarea>
+                                    <small class="form-text text-muted">Enter multiple email addresses using Comma seperation</small>
+
+                                    <!-- ========== End Simple Text Area ========== -->
+                                </div>
+                                <div class="col-12 col-lg-5 mb-3">
+                                    <!-- ========== Start Simple Text Area ========== -->
+                                    <label for="" class="form-label ">CC Email Addresses<span class=" text-danger">*</span></label>
+                                    <textarea class="form-control form-control-lg rounded-4 border-secondary  " name="LowStockCCEmail" id="LowStockCCEmail" aria-describedby="CC Email Addresses" placeholder="" rows="3" required>admin@adhari.com</textarea>
+                                    <small class="form-text text-muted">Enter multiple email addresses using Comma seperation</small>
+
+                                    <!-- ========== End Simple Text Area ========== -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <h2 class="card-title text-primary mb-2">
+                                New Order Notification<span class="text-body">
+                                    <!-- ========== Start Tooltip ========== -->
+                                    <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" title="Sends an Email Notification to Specified Email addresses when a new order is received" data-bs-original-title="Sends an Email Notification to Specified Email addresses when a new order is received" aria-label="Sends an Email Notification to Specified Email addresses when a new order is received"></i>
+                                    <!-- ========== End Tooltip ========== -->
+                                </span>
+                            </h2>
+                            <!-- ========== Start ios7 Switch ========== -->
+
+                            <div class="switch switch-sm switch-primary my-0  EnableNewOrderNotifications-switch">
+
+                                <input type="checkbox" name="chkNewOrder" id="chkNewOrder" data-plugin-ios-switch checked="checked" />
+                            </div>
+                            <!-- ========== End ios7 Switch ========== -->
+                            <!-- ========== Start ios7 Switch Conditional Script ========== -->
+                            <!-- ========== End ios7 Switch Conditional Script ========== -->
+
+                            <div class="row mt-2 EnableNewOrderNotifications">
+                                <div class="col-12 col-lg-5 mb-3">
+                                    <!-- ========== Start Simple Text Area ========== -->
+                                    <label for="" class="form-label ">To Email Addresses<span class=" text-danger">*</span></label>
+                                    <textarea class="form-control form-control-lg rounded-4 border-secondary  " name="NewOrderToEmail" id="NewOrderToEmail" aria-describedby="To Email Addresses" placeholder="" rows="3" required>sales@adhari.com</textarea>
+                                    <small class="form-text text-muted">Enter multiple email addresses using Comma seperation</small>
+
+                                    <!-- ========== End Simple Text Area ========== -->
+                                </div>
+                                <div class="col-12 col-lg-5 mb-3">
+                                    <!-- ========== Start Simple Text Area ========== -->
+                                    <label for="" class="form-label ">CC Email Addresses<span class=" text-danger">*</span></label>
+                                    <textarea class="form-control form-control-lg rounded-4 border-secondary  " name="NewOrderCCEmail" id="NewOrderCCEmail" aria-describedby="CC Email Addresses" placeholder="" rows="3" required>admin@adhari.com</textarea>
+                                    <small class="form-text text-muted">Enter multiple email addresses using Comma seperation</small>
+
+                                    <!-- ========== End Simple Text Area ========== -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+
+                            <button id="btnSave" class="btn btn-primary btn-lg save-btn  fw-bold">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+
+    </div>
+</div>
+<script src="~/developer/js/NotificationTemplate/AdminNotification_CRUD.js" asp-append-version="true"></script>
+<script type="text/javascript">
+
+
+    var customerList = [];
+    $(document).ready(function () {
+
+
+        $(document).on('click', '.EnableNewOrderNotifications-switch .ios-switch', function () {
+            $('.EnableNewOrderNotifications').toggle();
+        });
+        if ($(document).find('.EnableNewOrderNotifications-switch [data-plugin-ios-switch]').prop('checked')) {
+            $('.EnableNewOrderNotifications').show();
+        } else {
+            $('.EnableNewOrderNotifications').hide();
+        }
+
+
+        $(document).on('click', '.EnableLowStockNotifications-switch .ios-switch', function () {
+            $('.EnableLowStockNotifications').toggle();
+        });
+        if ($(document).find('.EnableLowStockNotifications-switch [data-plugin-ios-switch]').prop('checked')) {
+            $('.EnableLowStockNotifications').show();
+        } else {
+            $('.EnableLowStockNotifications').hide();
+        }
+
+
+    //    $("#dataForm").validate({
+    //        rules: {
+    //            message: { required: true },
+    //            customerList: { required: true },
+    //        },
+    //        messages: {
+    //            message: { required: 'Required' },
+    //            customerList: { required: 'Required' },
+    //        },
+    //        submitHandler: function (form, event) {
+    //            event.preventDefault();
+    //            $("#confirmationRequestModal .modal-footer #dialogNotificationTypeId").val("1");
+    //            $('#confirmationRequestModal').modal("show");
+    //        }
+    //    });
+
+
+   });
+
+    //sendNotification = () => {
+    //    $('#confirmationRequestModal').modal("hide");
+    //    var notificationType = $("#confirmationRequestModal .modal-footer #dialogNotificationTypeId").val();
+
+    //    if (notificationType == "1") {
+    //        showLoader();
+    //        let submitData = new FormData();
+    //        submitData.append('message', getTextValue('message'));
+    //        submitData.append('mobileNumber', getSelectedItemValue('customerList'));
+    //        submitData.append('languageId', getSelectedItemValue('languageList'));
+    //        ajaxPost("NotificationTemplate/CreateSMSPush", submitData,
+    //            function (data) {
+    //                showLog(data);
+    //                if (data.success) {
+    //                    ToastAlert('success', "SMS Message", "Message created successfully");
+    //                    setTextValue("message", "");
+    //                } else {
+    //                    console.log(data);
+    //                }
+    //                hideLoader();
+    //            });
+    //    } else if (notificationType == "2") {
+    //        {
+    //            showLoader();
+    //            let submitData = new FormData();
+    //            submitData.append('messageEn', getTextValue('messageEn'));
+    //            submitData.append('messageAr', getTextValue('messageAr'));
+    //            submitData.append('titleEn', getTextValue('titleEn'));
+    //            submitData.append('titleAr', getTextValue('titleAr'));
+    //            submitData.append('customerId', getSelectedItemValue('customerIdList'));
+    //            ajaxPost("Notification/CreateNotification", submitData,
+    //                function (data) {
+    //                    showLog(data);
+    //                    if (data.success) {
+    //                        ToastAlert('success', "Push Notification ", "Push Notification created successfully");
+    //                        setTextValue("messageEn", "");
+    //                        setTextValue("messageAr", "");
+    //                        setTextValue("titleEn", "");
+    //                        setTextValue("titleAr", "");
+    //                    } else {
+    //                        console.log(data);
+    //                    }
+    //                    hideLoader();
+    //                });
+    //        }
+    //    }
+    //}
+</script>
+

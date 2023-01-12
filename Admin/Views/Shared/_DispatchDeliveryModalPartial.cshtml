@@ -3,25 +3,22 @@
         <div class="modal-content border-secondary">
 
             <div class="modal-header border-secondary body-bg-secondary">
-                <h5 class="modal-title fw-bold text-primary" id="dispatch-delivery-modalLabel">Dispatch Delivery</h5>
+                <h5 class="modal-title fw-bold text-primary" id="dispatch-delivery-modalLabel">@SharedHtmlLocalizer["DispatchDelivery"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <input type="hidden" id="dialogOrderId" value="" />
                 <input type="hidden" id="dialogOrderTypeId" value="1" />
             </div>
             <div class="modal-body">
-                <label for="AssignDriver" class="form-label">Assign Driver</label>
+                <label for="AssignDriver" class="form-label">@SharedHtmlLocalizer["AssignDriver"]</label>
                 <select class="form-select form-select-lg rounded-4 border-secondary"
-                        name="popupDriverList" id="popupDriverList" aria-describedby="Assign Driver">
-                    <option value="" selected>Select Driver</option>
-
+                        name="popupDriverList" id="popupDriverList" aria-describedby="@SharedHtmlLocalizer["AssignDriver"]">
+                    <option value="" selected>@SharedHtmlLocalizer["SelectDriver"]</option>
                 </select>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success save-btn" onclick="assignDriver()">Assign</button>
-
-
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success save-btn" onclick="assignDriver()">@SharedHtmlLocalizer["Assign"]</button>
             </div>
         </div>
     </div>

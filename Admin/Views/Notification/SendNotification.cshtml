@@ -3,7 +3,8 @@
 *@
 @{
 }
-
+<link rel="stylesheet" href="~/assets/vendor/css/emojionearea.min.css" />
+<script src="~/assets/vendor/js/emojionearea.min.js"></script>
 <header class="page-header">
     <h2> Send Notification</h2>
     <div class="end-wrapper text-end me-5">
@@ -33,16 +34,16 @@
                         <h2 class="card-title text-primary mb-2">
                             Send SMS Notification<span class="text-body">
                                 <!-- ========== Start Tooltip ========== -->
-                                <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" 
-                                   title="Sends an SMS Notification to all phone numbers registered as customers" 
-                                   data-bs-original-title="Sends an SMS Notification to all phone numbers registered as customers" 
+                                <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip"
+                                   title="Sends an SMS Notification to all phone numbers registered as customers"
+                                   data-bs-original-title="Sends an SMS Notification to all phone numbers registered as customers"
                                    aria-label="Sends an SMS Notification to all phone numbers registered as customers"></i>
                                 <!-- ========== End Tooltip ========== -->
                             </span>
                         </h2>
                         <div class="row mt-2">
                             <form method="post" id="dataForm" name="dataForm" enctype="multipart/form-data">
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-lg-6 mb-3">
                                     <!-- ========== Start Simple Text Area ========== -->
                                     <label for="" class="form-label ">SMS Message<span class=" text-danger">*</span></label>
                                     <textarea class="form-control form-control-lg rounded-4 border-secondary  "
@@ -52,7 +53,8 @@
 
                                     <!-- ========== End Simple Text Area ========== -->
                                 </div>
-                                <div class="col-12 col-lg-6">
+
+                                <div class="col-12 col-lg-6 mb-3">
                                     <label for="" class="form-label ">SMS Language<span class=" text-danger">*</span></label>
                                     <select data-plugin-selectTwo
                                             class="form-control form-control-lg border border-secondary rounded-4 h-100"
@@ -62,7 +64,7 @@
                                         <option value="64">Arabic</option>
                                     </select>
                                 </div>
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-lg-6 mb-3">
                                     <label for="" class="form-label ">Customer <span class=" text-danger">*</span></label>
                                     <select data-plugin-selectTwo
                                             class="form-control form-control-lg border border-secondary rounded-4 h-100"
@@ -70,12 +72,12 @@
                                             name="customerList" id="customerList" data-plugin-options='{ "placeholder": "Select a Product...", "allowClear": true,"height": "48px" }'>
                                     </select>
                                 </div>
-                                <div class="col-12">
-                                    <button id="btnSave" class="btn btn-primary btn-lg save-btn  fw-bold">Sned</button>
+                                <div class="col-12 mb-3">
+                                    <button id="btnSave" class="btn btn-primary btn-lg save-btn  fw-bold">Send</button>
                                     <!--<a href="javascript:;" onclick="sendNotification()" data-notification-type="1" data-bs-toggle="modal" data-bs-target="#confirmationRequestModal"
                                        class="btn btn-primary btn-lg fw-bold mt-3 open-send-notification">Send</a>-->
                                 </div>
-                                </form>
+                            </form>
 
                         </div>
                     </div>
@@ -101,43 +103,44 @@
                                 <!-- ========== End Tooltip ========== -->
                             </span>
                         </h2>
-                        <div class="row mt-2">
-                            <form method="post" id="dataForm2" name="dataForm2" enctype="multipart/form-data">
-                                <div class="col-12 col-lg-6">
+                       
+                        <form method="post" id="dataForm2" name="dataForm2" enctype="multipart/form-data">
+                            <div class="row mt-2">
+                                <div class="col-12 col-lg-6 mb-3">
                                     <!-- ========== Start Simple Input Field ========== -->
 
                                     <label for="" class="form-label">Title (En)<span class=" text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-lg rounded-4 border-secondary mb-3"
-                                           name="messageEn" id="messageEn" aria-describedby="Title (En)" placeholder="" value="" required>
+                                           name="titleEn" id="titleEn" aria-describedby="Title (En)" placeholder="" value="" required>
 
 
                                     <!-- ========== End Simple Input Field ========== -->
                                     <!-- ========== Start Simple Text Area ========== -->
                                     <label for="" class="form-label ">Message (En)<span class=" text-danger">*</span></label>
-                                    <textarea class="form-control form-control-lg rounded-4 border-secondary  " 
-                                              name="messageAr" id="messageAr" aria-describedby="Message (En)" placeholder="Message" rows="3" required></textarea>
+                                    <textarea class="form-control form-control-lg rounded-4 border-secondary  enableemojis"
+                                              name="messageEn" id="messageEn" aria-describedby="Message (En)" placeholder="Message" rows="3" required></textarea>
 
 
                                     <!-- ========== End Simple Text Area ========== -->
                                 </div>
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-lg-6 mb-3">
                                     <!-- ========== Start Simple Input Field ========== -->
 
                                     <label for="" class="form-label">Title (Ar)<span class=" text-danger">*</span></label>
-                                    <input type="text" dir="rtl" class="form-control form-control-lg rounded-4 border-secondary mb-3" 
-                                           name="titleEn" id="titleEn" aria-describedby="Title (Ar)" placeholder="" value="" required>
+                                    <input type="text" dir="rtl" class="form-control form-control-lg rounded-4 border-secondary mb-3"
+                                           name="titleAr" id="titleAr" aria-describedby="Title (Ar)" placeholder="" value="" required>
 
 
                                     <!-- ========== End Simple Input Field ========== -->
                                     <!-- ========== Start Simple Text Area ========== -->
                                     <label for="" class="form-label ">Message (Ar)<span class=" text-danger">*</span></label>
-                                    <textarea dir="rtl" class="form-control form-control-lg rounded-4 border-secondary text-end dir-rtl " 
-                                               name="titleAr" id="titleAr"  aria-describedby="Message (Ar)" placeholder="Message" rows="3" required></textarea>
+                                    <textarea dir="rtl" class="form-control form-control-lg rounded-4 border-secondary text-end dir-rtl enableemojis"
+                                              name="messageAr" id="messageAr" aria-describedby="Message (Ar)" placeholder="Message" rows="3" required></textarea>
 
 
                                     <!-- ========== End Simple Text Area ========== -->
                                 </div>
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-lg-6 mb-3">
                                     <label for="" class="form-label ">Customer <span class=" text-danger">*</span></label>
                                     <select data-plugin-selectTwo
                                             class="form-control form-control-lg border border-secondary rounded-4 h-100"
@@ -149,8 +152,9 @@
                                     <button id="btnSave1" class="btn btn-primary btn-lg save-btn  fw-bold">Send</button>
 
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
+                       
                     </div>
                 </div>
             </div>
@@ -161,6 +165,11 @@
 </div>
 
 <script type="text/javascript">
+
+    $(function () {
+        $(".enableemojis").emojioneArea();
+    });
+
     var customerList = [];
     $(document).ready(function () {
         fillDropDownList('customerList', 'Customer/GetAllForSMSNotification', false, '', 'mobileNumber', 'name');
@@ -168,7 +177,7 @@
 
         $("#dataForm").validate({
             rules: {
-                message: { required: true},
+                message: { required: true },
                 customerList: { required: true },
             },
             messages: {
@@ -177,8 +186,8 @@
             },
             submitHandler: function (form, event) {
                 event.preventDefault();
-                $("#confirmationRequestModal .modal-footer #dialogNotificationTypeId").val("1"); 
-                $('#confirmationRequestModal').modal("show"); 
+                $("#confirmationRequestModal .modal-footer #dialogNotificationTypeId").val("1");
+                $('#confirmationRequestModal').modal("show");
             }
         });
 
@@ -190,7 +199,7 @@
                 titleAr: { required: true },
                 customerIdList: { required: true },
             },
-            messages: { 
+            messages: {
                 messageEn: { required: 'Required' },
                 messageAr: { required: 'Required' },
                 titleEn: { required: 'Required' },
@@ -270,7 +279,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <input type="hidden" id="dialogNotificationTypeId" value=""/>
+                <input type="hidden" id="dialogNotificationTypeId" value="" />
                 <button type="button" class="btn btn-success send-notification-btn" onclick="sendNotification()">Confirm</button>
 
 

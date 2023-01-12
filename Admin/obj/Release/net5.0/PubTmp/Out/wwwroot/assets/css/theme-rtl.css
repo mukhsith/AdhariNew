@@ -50814,3 +50814,7 @@ ul.nav-main li.nav-parent ul.nav-children li.nav-parent > a:after {
 table.dataTable.dtr-inline.collapsed > tbody > tr[role=row] > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr[role=row] > th:first-child:before {
   top: calc(50% - 9px) !important;
 }
+
+.was-validated .form-control:invalid, .form-control.is-invalid, .was-validated .form-select:invalid, .form-select.is-invalid {
+  border-color: #d2322d !important;
+}

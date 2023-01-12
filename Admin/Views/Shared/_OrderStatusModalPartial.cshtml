@@ -3,16 +3,16 @@
     <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content border-secondary">
             <div class="modal-header border-secondary body-bg-secondary">
-                <h5 class="modal-title fw-bold text-primary" id="order-statusLabel">Change Order Status</h5>
+                <h5 class="modal-title fw-bold text-primary" id="order-statusLabel">@SharedHtmlLocalizer["ChangeOrderStatus"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <input type="hidden" id="dialogOrderId" value="" />
                 <input type="hidden" id="dialogOrderTypeId" value="1" />
             </div>
             <div class="modal-body">
                 <!-- ========== Start Simple Select Field Block ========== -->
-                <label for="OrderStatus" class="form-label">Order Status</label>
+                <label for="OrderStatus" class="form-label">@SharedHtmlLocalizer["OrderStatus"]</label>
                 <select class="form-select form-select-lg rounded-4 border-secondary" 
-                        name="dialogOrderStatus" id="dialogOrderStatus" aria-describedby="Order Status">
+                        name="dialogOrderStatus" id="dialogOrderStatus" aria-describedby="@SharedHtmlLocalizer["OrderStatus"]">
                     <option selected>Select one...</option>
                     <!-- When the order is created and Posted to system -->
                     <option value="1">Pending</option>
@@ -35,8 +35,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success save-btn" onclick="cancelOrderWithStatus()">Save</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success save-btn" onclick="cancelOrderWithStatus()">@SharedHtmlLocalizer["Save"]</button>
             </div>
         </div>
     </div>

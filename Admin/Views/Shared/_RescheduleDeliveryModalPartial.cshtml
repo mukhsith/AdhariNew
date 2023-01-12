@@ -9,7 +9,7 @@
         <div class="modal-content border-secondary">
 
             <div class="modal-header border-secondary body-bg-secondary">
-                <h5 class="modal-title fw-bold text-primary" id="reschedule-delivery-modalLabel">Reschedule Order</h5>
+                <h5 class="modal-title fw-bold text-primary" id="reschedule-delivery-modalLabel">@SharedHtmlLocalizer["RescheduleOrder"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <input type="hidden" id="dialogOrderId" value="" />
                 <input type="hidden" id="dialogOrderTypeId" value="1" />
@@ -18,11 +18,11 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <p class="text-center">Are your sure to reschedule order?</p>
+                        <p class="text-center">@SharedHtmlLocalizer["AreYouSureToRescheduleOrder"]</p>
                     </div>
                     <div class="col-12 mb-3" style="display:none">
                         <!-- ========== Start Datepicker Field ========== -->
-                        <label for="" class="form-label">Rescheule Delivery on<span class=" text-danger">*</span></label>
+                        <label for="" class="form-label">@SharedHtmlLocalizer["RescheuleDeliveryTo"]<span class=" text-danger">*</span></label>
                         <div class="input-group rounded-4">
                             <span class="input-group-text rounded-4 border border-secondary">
                                 <i class="fas fa-calendar-alt"></i>
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="col-12" style="display:none"> 
-                        <label for="" class="form-label ">Reason<span class=" text-danger">*</span></label>
+                        <label for="" class="form-label ">@SharedHtmlLocalizer["Reason"]<span class=" text-danger">*</span></label>
                         <textarea class="form-control form-control-lg rounded-4 border-secondary" 
                                   name="dialogReason" id="dialogReason" aria-describedby="Reason" placeholder="" rows="3" required></textarea>
                          
@@ -43,8 +43,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> 
-                <button type="button" class="btn btn-success save-btn" onclick="rescheduleDeliveryWithReason()">Confirm</button> 
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button> 
+                <button type="button" class="btn btn-success save-btn" onclick="rescheduleDeliveryWithReason()">@SharedHtmlLocalizer["Confirm"]</button> 
             </div>
         </div>
     </div>

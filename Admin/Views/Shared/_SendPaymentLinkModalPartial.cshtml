@@ -8,13 +8,13 @@
         <div class="modal-content border-secondary">
 
             <div class="modal-header border-secondary body-bg-secondary">
-                <h5 class="modal-title fw-bold text-primary" id="send-payment-link-modalLabel">Send Payment Link</h5>
+                <h5 class="modal-title fw-bold text-primary" id="send-payment-link-modalLabel">@SharedHtmlLocalizer["SendPaymentLink"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <input type="hidden" id="dialogOrderId" value="" />
                 <input type="hidden" id="dialogOrderTypeId" value="1" />
             </div>
             <div class="modal-body">
-                <p>Payment Link will be sent to the following phone number:</p>
+                <p>@SharedHtmlLocalizer["PaymentLinkWillBeSentToTheFollowingPhoneNumber"]</p>
                 <!-- ========== Start Simple Input Field ========== -->
                 <input type="tel" class="form-control form-control-lg rounded-4 border-secondary "
                        name="dialogMobileNumber" id="dialogMobileNumber" aria-describedby="" placeholder=""
@@ -23,9 +23,9 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="copyPaymentLink()">Copy URL</button>
-                <button type="button" class="btn btn-success send-sms-btn" onclick="sendPaymentLink()">Send</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="copyPaymentLink()">@SharedHtmlLocalizer["CopyURL"]</button>
+                <button type="button" class="btn btn-success send-sms-btn" onclick="sendPaymentLink()">@SharedHtmlLocalizer["Send"]</button>
             </div>
         </div>
     </div>

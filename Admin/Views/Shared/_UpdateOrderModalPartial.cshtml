@@ -8,7 +8,7 @@
         <div class="modal-content border-secondary">
 
             <div class="modal-header border-secondary body-bg-secondary">
-                <h5 class="modal-title fw-bold text-primary" id="order-statusLabel">Change Order Status</h5>
+                <h5 class="modal-title fw-bold text-primary" id="order-statusLabel">@SharedHtmlLocalizer["ChangeOrderStatus"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <input type="hidden" id="dialogOrderId" value="" />
                 <input type="hidden" id="dialogOrderTypeId" value="1" />
@@ -16,7 +16,7 @@
             <div class="modal-body">
 
                 <!-- ========== Start Simple Select Field Block ========== -->
-                <label for="OrderStatus" class="form-label">Order Status</label>
+                <label for="OrderStatus" class="form-label">@SharedHtmlLocalizer["OrderStatus"]</label>
                 <select class="form-select form-select-lg rounded-4 border-secondary" name="dialogOrderStatusList" id="dialogOrderStatusList" aria-describedby="Order Status">
                     <option selected>All</option>
                     <option value="1">Recieved</option>
@@ -32,9 +32,9 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
 
-                <button type="button" class="btn btn-success save-btn" onclick="updateOrder()">Save</button>
+                <button type="button" class="btn btn-success save-btn" onclick="updateOrder()">@SharedHtmlLocalizer["Save"]</button>
 
 
             </div>

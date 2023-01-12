@@ -18,6 +18,7 @@ using Utility;
 using Utility.API;
 using Utility.Enum;
 using Utility.Models.Admin.CustomerManagement;
+using Utility.Models.Admin.Notifications;
 using Utility.ResponseMapper;
 
 namespace API.Areas.Backend.Controllers
@@ -56,6 +57,63 @@ namespace API.Areas.Backend.Controllers
                 response.CacheException(ex);
                 _logger.LogError(ex.Message);
             }
+            return Ok(response);
+        }
+
+
+
+        [HttpGet, Route("api/Notification/GetAdminNotificationDefault")]
+        public async Task<IActionResult> GetAdminNotificationDefault()
+        {
+            ResponseMapper<AdminNotificationTemplate> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+                var item = await _get.GetAdminNotificationDefault();
+                response.GetDefault(item);
+
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPost, Route("api/Notification/UpdateAdminNotificationnew")]
+        public async Task<IActionResult> UpdateAdminNotification([FromForm] AdminNotification item)
+        {
+
+            AdminNotificationTemplate template = new AdminNotificationTemplate();
+            template.Id = item.Id;
+            template.LowStockEnabled = item.LowStockEnabled;
+            template.LowStockThresholdQuantity = item.LowStockThresholdQuantity;
+            template.LowStockToEmailAddress = item.LowStockToEmailAddress;
+            template.LowStockCCEmailAddress = item.LowStockCCEmailAddress;
+
+            template.NewOrderNotificationEnabled = item.NewOrderNotificationEnabled;
+            template.NewOrderNotificationToEmailAddress = item.NewOrderNotificationToEmailAddress;
+            template.NewOrderNotificationCCEmailAddress = item.NewOrderNotificationCCEmailAddress;
+
+            ResponseMapper<AdminNotificationTemplate> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                template.CreatedBy = UserId;
+
+                await _get.UpdateAdminNotification(template);
+                //response.Update(item);
+
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
             return Ok(response);
         }
 

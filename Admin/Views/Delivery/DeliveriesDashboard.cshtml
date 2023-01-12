@@ -1,11 +1,5 @@
-﻿@model AdminDeliverySummaryModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<header class="page-header">
-    <h2>Deliveries Dashboard</h2>
+﻿<header class="page-header">
+    <h2>@SharedHtmlLocalizer["DeliveriesDashboard"]</h2>
     <div class="right-wrapper text-end me-3">
         <ol class="breadcrumbs">
             <li>
@@ -24,7 +18,7 @@
         <!-- ========== Start Card Block ========== -->
         <section class="card mb-3 border border-secondary">
             <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-success">
-                <h2 class="card-title text-light text-center w-100"><i class='fa-solid fa-truck me-2'></i> Deliveries due today</h2>
+                <h2 class="card-title text-light text-center w-100"><i class='fa-solid fa-truck me-2'></i> @SharedHtmlLocalizer["DeliveriesDueToday"]</h2>
                 <div class="card-actions d-flex position-static top-0 end-0">
 
                 </div>
@@ -32,7 +26,7 @@
             <div class="card-body ">
                 <div class="row g-0">
                     <div class="col-12 text-center">
-                        <h2 class="text-center m-0 fw-bold">@Model.DeliveriesDue</h2>
+                        <h2 class="text-center m-0 fw-bold">100</h2>
                     </div>
                 </div>
             </div>
@@ -44,7 +38,7 @@
         <!-- ========== Start Card Block ========== -->
         <section class="card mb-3 border border-secondary">
             <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-info">
-                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-cube me-2'></i> Order deliveries today</h2>
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-cube me-2'></i> @SharedHtmlLocalizer["OrderDeliveriesToday"]</h2>
                 <div class="card-actions d-flex position-static top-0 end-0">
 
                 </div>
@@ -52,7 +46,7 @@
             <div class="card-body ">
                 <div class="row g-0">
                     <div class="col-12 text-center">
-                        <h2 class="text-center m-0 fw-bold">@Model.OrderDeliveries</h2>
+                        <h2 class="text-center m-0 fw-bold">64</h2>
                     </div>
                 </div>
             </div>
@@ -64,7 +58,7 @@
         <!-- ========== Start Card Block ========== -->
         <section class="card mb-3 border border-secondary">
             <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-warning">
-                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-cubes me-2'></i> Subscription deliveries today</h2>
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-cubes me-2'></i> @SharedHtmlLocalizer["SubscriptionDeliveriesToday"]</h2>
                 <div class="card-actions d-flex position-static top-0 end-0">
 
                 </div>
@@ -72,7 +66,7 @@
             <div class="card-body ">
                 <div class="row g-0">
                     <div class="col-12 text-center">
-                        <h2 class="text-center m-0 fw-bold">@Model.SubscriptionDeliveries</h2>
+                        <h2 class="text-center m-0 fw-bold">36</h2>
                     </div>
                 </div>
             </div>
@@ -84,7 +78,7 @@
         <!-- ========== Start Card Block ========== -->
         <section class="card mb-3 border border-secondary">
             <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
-                <h2 class="card-title text-primary">Filter By</h2>
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["FilterBy"]</h2>
                 <div class="card-actions d-flex position-static top-0 end-0">
 
                 </div>
@@ -94,15 +88,15 @@
                     <div class="col-12 col-lg-2 mb-3">
                         <!-- ========== Start Simple Input Field ========== -->
 
-                        <label for="OrderID" class="form-label">Order ID</label>
-                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="orderNumber" id="orderNumber" aria-describedby="Order ID" placeholder="Enter Order ID" value="">
+                        <label for="OrderID" class="form-label">@SharedHtmlLocalizer["OrderID"]</label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="orderNumber" id="orderNumber" aria-describedby="@SharedHtmlLocalizer["OrderID"]" placeholder="@SharedHtmlLocalizer["EnterOrderID"]" value="">
 
 
                         <!-- ========== End Simple Input Field ========== -->
                     </div>
                     <div class="col-12 col-lg-2 mb-3">
                         <!-- ========== Start Datepicker Field ========== -->
-                        <label for="" class="form-label">Delivery Date</label>
+                        <label for="" class="form-label">@SharedHtmlLocalizer["DeliveryDate"]</label>
                         <div class="input-group rounded-4">
                             <span class="input-group-text rounded-4 border border-secondary">
                                 <i class="fas fa-calendar-alt"></i>
@@ -118,13 +112,14 @@
                         </div>
                         <!-- ========== End Datepicker Field ========== -->
                     </div>
+
                     <div class="col-12 col-lg-2 mb-3">
                         <!-- ========== Start Simple Select Field Block ========== -->
-                        <label for="OrderType" class="form-label">Order Type</label>
-                        <select class="form-select form-select-lg rounded-4 border-secondary" name="orderTypeList" id="orderTypeList" aria-describedby="Order Type">
+                        <label for="OrderType" class="form-label">@SharedHtmlLocalizer["OrderMode"]</label>
+                        <select class="form-select form-select-lg rounded-4 border-secondary" name="orderModeList" id="orderModeList" aria-describedby="@SharedHtmlLocalizer["OrderMode"]">
                             <option selected value="">All</option>
-                            <option value="1">Normal</option>
-                            <option value="2">Subscription</option>
+                            <option value="1">Subscription</option>
+                            <option value="2">Normal Orders</option>
                         </select>
 
 
@@ -132,21 +127,19 @@
                     </div>
                     <div class="col-12 col-lg-2 mb-3">
                         <!-- ========== Start Simple Select Field Block ========== -->
-                        <label for="OrderType" class="form-label">Order Mode</label>
-                        <select class="form-select form-select-lg rounded-4 border-secondary" name="orderModeList" id="orderModeList" aria-describedby="Order Mode">
+                        <label for="OrderType" class="form-label">@SharedHtmlLocalizer["OrderType"]</label>
+                        <select class="form-select form-select-lg rounded-4 border-secondary" name="orderTypeList" id="orderTypeList" aria-describedby="@SharedHtmlLocalizer["OrderType"]">
                             <option selected value="">All</option>
                             <option value="1">Online</option>
                             <option value="2">Offline</option>
-
                         </select>
 
 
                         <!-- ========== End Simple Select Field Block ========== -->
                     </div>
-
                     <div class="col-12 col-lg-2 mb-3">
                         <!-- ========== Start Select2 Field Block ========== -->
-                        <label for="" class="form-label">Area</label>
+                        <label for="" class="form-label">@SharedHtmlLocalizer["Area"]</label>
                         <select data-plugin-selectTwo class="form-select form-select-lg rounded-4 border-secondary" name="areaList" id="areaList" data-plugin-options='{ "placeholder": "", "allowClear": true}'>
                             <option value=""></option>
                             <option>Ahmadi</option>
@@ -158,7 +151,7 @@
                     </div>
                     <div class="col-12 col-lg-2 mb-3">
                         <!-- ========== Start Select2 Field Block ========== -->
-                        <label for="" class="form-label">Driver</label>
+                        <label for="" class="form-label">@SharedHtmlLocalizer["Driver"]</label>
                         <select data-plugin-selectTwo class="form-select form-select-lg rounded-4 border-secondary"
                                 name="driverList" id="driverList"
                                 data-plugin-options='{ "placeholder": "", "allowClear": true}'>
@@ -170,7 +163,7 @@
 
 
                     <div class="col-12 mt-3">
-                        <a href="#" class="btn btn-lg btn-primary" onclick="searchForDataTable()">Search</a>
+                        <a href="#" class="btn btn-lg btn-primary" onclick="searchForDataTable()">@SharedHtmlLocalizer["Search"]</a>
                     </div>
                 </div>
             </div>
@@ -188,11 +181,11 @@
             <ul class="nav nav-tabs border-secondary">
                 <li class="nav-item active">
                     <a class="nav-link" data-bs-target="#notdispatched" href="#notdispatched" data-bs-toggle="tab">
-                        Not Dispatched
+                        @SharedHtmlLocalizer["NotDispatched"]
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-target="#dispatched" href="#dispatched" data-bs-toggle="tab">Dispatched</a>
+                    <a class="nav-link" data-bs-target="#dispatched" href="#dispatched" data-bs-toggle="tab">@SharedHtmlLocalizer["Dispatched"]</a>
                 </li>
             </ul>
             <div class="tab-content bg-white">
@@ -203,7 +196,7 @@
                             <section class="card mb-3 border border-secondary bg-secondary" style="display:none">
                                 <div class="card-body bg-secondary">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h3 class="text-light m-0">Bulk Actions</h3>
+                                        <h3 class="text-light m-0">@SharedHtmlLocalizer["BulkActions"]</h3>
                                         <div class="input-group w-auto">
                                             <!-- ========== Start Simple Select Field Block ========== -->
 
@@ -215,7 +208,7 @@
 
 
                                             <!-- ========== End Simple Select Field Block ========== -->
-                                            <button class="btn btn-primary fw-bold rounded-4" type="button">Perform Action</button>
+                                            <button class="btn btn-primary fw-bold rounded-4" type="button">@SharedHtmlLocalizer["PerformAction"]</button>
                                         </div>
                                     </div>
                                 </div>
@@ -223,11 +216,11 @@
                             <!-- ========== End Card Block ========== -->
 
                             <div class="d-flex mb-3">
-                                <div class="body-bg-primary py-1 px-3 rounded-pill me-2">
-                                    Subscription
+                                <div class="body-bg-primary py-1 px-3 rounded-pill me-2" style="display:none">
+                                    @SharedHtmlLocalizer["Subscription"]
                                 </div>
                                 <div class="body-bg-warning py-1 px-3 rounded-pill me-2">
-                                    Normal Order
+                                    @SharedHtmlLocalizer["NormalOrder"]
                                 </div>
                             </div>
                             <!-- ========== Start Table Block ========== -->
@@ -235,16 +228,15 @@
                                 <thead>
                                     <tr>
                                         <th data-priority="0" class=""></th>
-                                        <th data-priority="1" class="">Order ID</th>
-                                        <th data-priority="2" class="">Order Date</th>
-                                        <th data-priority="2" class="">Delivery Date</th>
-                                        <th data-priority="1" class="">Order Mode</th>
-                                        <th data-priority="1" class="">Order Type</th>
-                                        <th data-priority="3" class="">Area</th>
-                                        <th data-priority="4" class="">Delivery Fee</th>
-                                        <th data-priority="4" class="">Total Amount (KWD)</th>
-                                        <th data-priority="5" class="">Driver</th>
-                                        <th data-priority="6" class="text-center">Actions</th>
+                                        <th data-priority="1" class="">@SharedHtmlLocalizer["OrderID"]</th>
+                                        <th data-priority="2" class="">@SharedHtmlLocalizer["OrderDate"]</th>
+                                        <th data-priority="2" class="">@SharedHtmlLocalizer["DeliveryDate"]</th>
+                                        <th data-priority="1" class="">@SharedHtmlLocalizer["OrderType"]</th>
+                                        <th data-priority="3" class="">@SharedHtmlLocalizer["Area"]</th>
+                                        <th data-priority="4" class="">@SharedHtmlLocalizer["DeliveryFee"]</th>
+                                        <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
+                                        <th data-priority="5" class="">@SharedHtmlLocalizer["Driver"]</th>
+                                        <th data-priority="6" class="text-center">@SharedHtmlLocalizer["Actions"]</th>
                                     </tr>
                                 </thead>
                                 <tbody class="border-secondary">
@@ -262,7 +254,7 @@
                             <section class="card mb-3 border border-secondary bg-secondary" style="display:none">
                                 <div class="card-body bg-secondary">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h3 class="text-light m-0">Bulk Actions</h3>
+                                        <h3 class="text-light m-0">@SharedHtmlLocalizer["BulkActions"]</h3>
                                         <div class="input-group w-auto">
                                             <!-- ========== Start Simple Select Field Block ========== -->
 
@@ -273,7 +265,7 @@
 
 
                                             <!-- ========== End Simple Select Field Block ========== -->
-                                            <button class="btn btn-primary fw-bold rounded-4" type="button">Perform Action</button>
+                                            <button class="btn btn-primary fw-bold rounded-4" type="button">@SharedHtmlLocalizer["PerformAction"]</button>
                                         </div>
                                     </div>
                                 </div>
@@ -282,10 +274,10 @@
 
                             <div class="d-flex mb-3">
                                 <div class="body-bg-primary py-1 px-3 rounded-pill me-2">
-                                    Subscription
+                                    @SharedHtmlLocalizer["Subscription"]
                                 </div>
                                 <div class="body-bg-warning py-1 px-3 rounded-pill me-2">
-                                    Normal Order
+                                    @SharedHtmlLocalizer["NormalOrder"]
                                 </div>
                             </div>
 
@@ -294,17 +286,15 @@
                                 <thead>
                                     <tr>
                                         <th data-priority="0" class=""></th>
-                                        <th data-priority="1" class="">Order ID</th>
-                                        <th data-priority="2" class="">Order Date</th>
-                                        <th data-priority="2" class="">Delivery Date</th>
-                                        <th data-priority="1" class="">Order Mode</th>
-                                        <th data-priority="1" class="">Order Type</th>
-                                        <th data-priority="3" class="">Area</th>
-                                        <th data-priority="4" class="">Delivery Fee</th>
-                                        <th data-priority="4" class="">Total Amount (KWD)</th>
-                                        <th data-priority="5" class="">Driver</th>
-                                        <th data-priority="6" class="text-center">Actions</th>
-
+                                        <th data-priority="1" class="">@SharedHtmlLocalizer["OrderID"]</th>
+                                        <th data-priority="2" class="">@SharedHtmlLocalizer["OrderDate"]</th>
+                                        <th data-priority="2" class="">@SharedHtmlLocalizer["DeliveryDate"]</th>
+                                        <th data-priority="1" class="">@SharedHtmlLocalizer["OrderType"]</th>
+                                        <th data-priority="3" class="">@SharedHtmlLocalizer["Area"]</th>
+                                        <th data-priority="4" class="">@SharedHtmlLocalizer["DeliveryFee"]</th>
+                                        <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
+                                        <th data-priority="5" class="">@SharedHtmlLocalizer["Driver"]</th>
+                                        <th data-priority="6" class="text-center">@SharedHtmlLocalizer["Actions"]</th>
                                     </tr>
                                 </thead>
                                 <tbody class="border-secondary">

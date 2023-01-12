@@ -4,7 +4,7 @@
         <div class="modal-content border-secondary">
 
             <div class="modal-header border-secondary body-bg-secondary">
-                <h5 class="modal-title fw-bold text-primary" id="order-cancelLabel">Cancel Order</h5>
+                <h5 class="modal-title fw-bold text-primary" id="order-cancelLabel">@SharedHtmlLocalizer["CancelOrder"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <input type="hidden" id="dialogOrderId" value="" />
                 <input type="hidden" id="dialogOrderTypeId" value="1" />
@@ -13,17 +13,17 @@
 
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="ordercanceloption" id="refund_with_total" value="1">
-                    <label class="form-check-label" for="">Refund with Delivery charges</label>
+                    <label class="form-check-label" for="">@SharedHtmlLocalizer["RefundWithDeliveryCharges"]</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="ordercanceloption" id="refund_without_total" value="2">
-                    <label class="form-check-label" for="">Refund wihtout Delivery charges</label>
+                    <label class="form-check-label" for="">@SharedHtmlLocalizer["RefundWihtoutDeliveryCharges"]</label>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success save-btn" onclick="cancelOrder()">Save</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success save-btn" onclick="cancelOrder()">@SharedHtmlLocalizer["Save"]</button>
             </div>
         </div>
     </div>

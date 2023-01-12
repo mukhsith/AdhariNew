@@ -1292,8 +1292,10 @@ D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\ChangePasswor
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\ChangePasswordByEmail.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\ForgotPassword.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\Login.cshtml.g.cs
+D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\MyCashback.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\MyNotifications.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\MyProfile.cshtml.g.cs
+D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\MyWallet.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\Register.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\WalletPackages.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\WalletTransactions.cshtml.g.cs
@@ -1325,6 +1327,7 @@ D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Shared\_MyAccount.csht
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Shared\_MyAccountLinks.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Shared\_Notifications.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Shared\_Orders.cshtml.g.cs
+D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Shared\_OTPModel.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Shared\_PageHeading.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Shared\_PoweredBy.cshtml.g.cs
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Shared\_ProductBox.cshtml.g.cs
@@ -1352,6 +1355,3 @@ D:\Development\AdhariNew\Web\obj\Debug\net5.0\Web.dll
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\ref\Web.dll
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Web.pdb
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Web.genruntimeconfig.cache
-D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Shared\_OTPModel.cshtml.g.cs
-D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\MyCashback.cshtml.g.cs
-D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\MyWallet.cshtml.g.cs

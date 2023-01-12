@@ -1,10 +1,12 @@
 ﻿using Data.EntityFramework;
+using Data.NotifyTemplate;
 using Data.PushNotification;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Utility.Models.Admin.Notifications;
 
 namespace Services.Backend.PushNotification
 {
@@ -166,6 +168,66 @@ namespace Services.Backend.PushNotification
             model.Deleted = true;
             return await UpdateNotification(model);
         }
+        #endregion
+
+        #region AdminNotification
+        //Task<AdminNotification> GetAdminNotificationDefault();
+        //Task<AdminNotification> UpdateAdminNotification(AdminNotification model);
+
+        public async Task<AdminNotificationTemplate> GetAdminNotificationDefault()
+        {
+            var adminNotification = await _dbcontext.AdminNotificationTemplates.AsNoTracking().FirstOrDefaultAsync();
+            if (adminNotification is null)
+            {
+                adminNotification = await CreateAdminNotifications(new AdminNotificationTemplate());
+            }
+            return adminNotification;
+        }
+
+        public async Task<AdminNotificationTemplate> UpdateAdminNotification(AdminNotificationTemplate model)
+        {
+            var updateData = await _dbcontext.AdminNotificationTemplates.FirstOrDefaultAsync();
+            if (updateData is not null)
+            {
+                updateData.LowStockEnabled = model.LowStockEnabled;
+                updateData.LowStockThresholdQuantity = model.LowStockThresholdQuantity;
+                updateData.LowStockToEmailAddress = model.LowStockToEmailAddress;
+                updateData.LowStockCCEmailAddress = model.LowStockCCEmailAddress;
+                updateData.NewOrderNotificationEnabled = model.NewOrderNotificationEnabled;
+                updateData.NewOrderNotificationToEmailAddress = model.NewOrderNotificationToEmailAddress;
+
+                updateData.NewOrderNotificationCCEmailAddress = model.NewOrderNotificationCCEmailAddress;
+               
+                //updateData.ModifiedBy = ;
+                updateData.ModifiedOn = DateTime.Now;
+                _dbcontext.Update(updateData);
+                await _dbcontext.SaveChangesAsync();
+            }
+            else
+            {
+                AdminNotificationTemplate nmodel = new AdminNotificationTemplate();
+                nmodel.LowStockEnabled = model.LowStockEnabled;
+                nmodel.LowStockThresholdQuantity = model.LowStockThresholdQuantity;
+                nmodel.LowStockToEmailAddress = model.LowStockToEmailAddress;
+                nmodel.LowStockCCEmailAddress = model.LowStockCCEmailAddress;
+                nmodel.NewOrderNotificationEnabled = model.NewOrderNotificationEnabled;
+                nmodel.NewOrderNotificationToEmailAddress = model.NewOrderNotificationToEmailAddress;
+
+                nmodel.NewOrderNotificationCCEmailAddress = model.NewOrderNotificationCCEmailAddress;
+
+                updateData = await CreateAdminNotifications(nmodel);
+
+            }
+            return updateData;
+        }
+        public async Task<AdminNotificationTemplate> CreateAdminNotifications(AdminNotificationTemplate model)
+        {
+            model.CreatedOn = DateTime.Now;
+            await _dbcontext.AdminNotificationTemplates.AddAsync(model);
+            await _dbcontext.SaveChangesAsync();
+            return model;
+        }
+
         #endregion
     }
 }

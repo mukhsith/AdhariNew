@@ -50571,6 +50571,16 @@ table {
   direction: rtl !important;
 }
 
+/*rtl:begin:ignore*/
+.emojionearea-filters-scroll {
+  text-align: left !important;
+}
+
+.emojionearea.dir-rtl .emojionearea-editor {
+  direction: rtl;
+}
+
+/*rtl:end:ignore*/
 .summernote + .note-editor .note-editing-area h1, .summernote + .note-editor .note-editing-area .h1,
 .summernote + .note-editor .note-editing-area h2,
 .summernote + .note-editor .note-editing-area .h2,
@@ -50690,8 +50700,34 @@ span.select2-selection.select2-selection--single .select2-selection__rendered {
   width: 100%;
 }
 
+span.select2-selection.select2-selection--multiple {
+  height: 48px;
+  border-radius: 1rem;
+  border: 1px solid #00AEEF;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+span.select2-selection.select2-selection--multiple .select2-selection__rendered {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.select2-container--bootstrap .select2-selection--multiple {
+  padding: 0px 24px 6px 12px !important;
+}
+
 .input-daterange.rounded-4 input:last-child {
   border-radius: 1rem;
+}
+
+.datepicker {
+  z-index: 999999999 !important;
 }
 
 .datepicker .datepicker-switch:hover,
@@ -50806,6 +50842,10 @@ ul.nav-main li.nav-parent ul.nav-children li.nav-parent > a:after {
 
 table.dataTable.dtr-inline.collapsed > tbody > tr[role=row] > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr[role=row] > th:first-child:before {
   top: calc(50% - 9px) !important;
+}
+
+.was-validated .form-control:invalid, .form-control.is-invalid, .was-validated .form-select:invalid, .form-select.is-invalid {
+  border-color: #d2322d !important;
 }
 
 /*# sourceMappingURL=scss */

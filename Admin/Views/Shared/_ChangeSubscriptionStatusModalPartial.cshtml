@@ -9,14 +9,14 @@
 
             <div class="modal-header border-secondary body-bg-secondary">
                 <input type="hidden" id="dialogSubscriptionId" />
-                <h5 class="modal-title fw-bold text-primary" id="subscription-statusLabel">Change Subscription Status</h5>
+                <h5 class="modal-title fw-bold text-primary" id="subscription-statusLabel">@SharedHtmlLocalizer["ChangeSubscriptionStatus"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 
                 <!-- ========== Start Simple Select Field Block ========== -->
-                <label for="SubscriptionStatus" class="form-label">Subscription Status</label>
-                <select class="form-select form-select-lg rounded-4 border-secondary" name="SubscriptionStatus" id="SubscriptionStatus" aria-describedby="Subscription Status">
+                <label for="SubscriptionStatus" class="form-label">@SharedHtmlLocalizer["SubscriptionStatus"]</label>
+                <select class="form-select form-select-lg rounded-4 border-secondary" name="SubscriptionStatus" id="SubscriptionStatus" aria-describedby="@SharedHtmlLocalizer["SubscriptionStatus"]">
                     <option value="@((Int32)SubscriptionStatus.Cancelled)">Cancel</option>
                     <option value="@((Int32)SubscriptionStatus.Expired)">Expired</option>
                 </select>
@@ -25,8 +25,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> 
-                <button type="button" class="btn btn-success save-btn">Save</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button> 
+                <button type="button" class="btn btn-success save-btn">@SharedHtmlLocalizer["Save"]</button>
                  
             </div>
         </div>

@@ -5,20 +5,20 @@
         <div class="modal-content border-secondary">
 
             <div class="modal-header border-secondary body-bg-secondary">
-                <h5 class="modal-title fw-bold text-primary" id="confirm-delivery-modalLabel">Confirm Order Delivery</h5>
+                <h5 class="modal-title fw-bold text-primary" id="confirm-delivery-modalLabel">@SharedHtmlLocalizer["ConfirmOrderDelivery"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <input type="hidden" id="dialogOrderId" value="" />
                 <input type="hidden" id="dialogOrderTypeId" value="1" />
             </div>
             <div class="modal-body">
                 <div class="text-center">
-                    <p>Are you sure the order is delivered?</p>
+                    <p>@SharedHtmlLocalizer["AreYouSureTheOrderIsDelivered?"]</p>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success save-btn" onclick="confirmOrderDelivery()">Confirm</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success save-btn" onclick="confirmOrderDelivery()">@SharedHtmlLocalizer["Confirm"]</button>
             </div>
         </div>
     </div>

@@ -47,8 +47,8 @@ searchForDataTable = () => {
                 d.orderNumber = getTextValue("orderNumber");
                 d.deliveryDate = getDatePickerValue("deliveryDate");
               
-                d.orderModeId = getSelectedItemValue("orderModeList");
-                d.orderTypeId = getSelectedItemValue("orderTypeList");
+                d.orderModeID = getSelectedItemValue("orderTypeList");
+                d.orderTypeId = getSelectedItemValue("orderModeList");
                 d.areaId = getSelectedItemValue("areaList");
                 d.driverId = getSelectedItemValue("driverList");
             },
@@ -71,7 +71,7 @@ searchForDataTable = () => {
             { "data": "deliveryDate", render: function (data, type, row) { return getFormatedDate(row.deliveryDate); } },
            /* { "data": "deliveryDate", render: row.deliveryDate.datetime('dd/MM/yyyy') },*/
    /*         { "data": "deliveryDate" },*/
-            { "data": "orderTypeName" },
+            { "data": "orderModeName" },
             { "data": "orderTypeName" },
             { "data": "areaName" },
             { "data": "formattedDeliveryFee" },
@@ -105,9 +105,19 @@ searchForDataTable = () => {
 } 
 getActionsHtml = (row) => {
 
-    var html = `<a href="/driver/orderDetails?id=${row.id}&customerId=${row.customerId}" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Order" data-bs-original-title="View Order" aria-label="View Order"><i class="fa fa-eye"></i></a>
+    var html = ``;
+    if (row.orderModeID == 1) {
+        html += `<a href="/driver/orderDetails?id=${row.id}&customerId=${row.customerId}" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Order" data-bs-original-title="View Order" aria-label="View Order"><i class="fa fa-eye"></i></a>
                 <a href='#' onclick='downloadPDF(${row.id});' class="mb-1 mt-1 me-1 btn btn-sm btn-secondary text-white" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Print" data-bs-original-title="Print" aria-label="Print"><i class="fa fa-print"></i></a>`;
 
+    }
+    else {
+        html += `<a href="/order/sales-subscriptionDetails?id=${row.subscriptionID}&customerId=${row.customerId}&subscriptionNumber=${row.subscriptionNumber}" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Order" data-bs-original-title="View Order" aria-label="View Order"><i class="fa fa-eye"></i></a>
+                <a href='#' onclick='downloadPDF(${row.id});' class="mb-1 mt-1 me-1 btn btn-sm btn-secondary text-white" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Print" data-bs-original-title="Print" aria-label="Print"><i class="fa fa-print"></i></a>`;
+
+
+    }
+ 
     if (selectedTab == 0 && row.driverId == null) {
         html += `<span data-bs-toggle="modal" class="open-dispatch-delivery-modal" data-id="${row.id}" data-bs-target="#dispatch-delivery-modal"><a href="javascript: ; " class="mb-1 mt-1 me-1 btn btn-sm btn-warning dispatch-delivery-btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Dispatch Delivery" aria-label="Dispatch Delivery"><i class="fas fa-truck"></i></a></span>`;
 
