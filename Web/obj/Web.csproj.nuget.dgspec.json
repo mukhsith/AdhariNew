@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Development\\AdhariNew\\Web\\Web.csproj": {}
+    "D:\\Development\\WEB\\Client\\AdhariNew\\Web\\Web.csproj": {}
   },
   "projects": {
-    "D:\\Development\\AdhariNew\\Utility\\Utility.csproj": {
+    "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\Utility.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Development\\AdhariNew\\Utility\\Utility.csproj",
+        "projectUniqueName": "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\Utility.csproj",
         "projectName": "Utility",
-        "projectPath": "D:\\Development\\AdhariNew\\Utility\\Utility.csproj",
-        "packagesPath": "C:\\Users\\mukhsith\\.nuget\\packages\\",
-        "outputPath": "D:\\Development\\AdhariNew\\Utility\\obj\\",
+        "projectPath": "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\Utility.csproj",
+        "packagesPath": "C:\\Users\\biju.v\\.nuget\\packages\\",
+        "outputPath": "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\mukhsith\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\biju.v\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -104,17 +107,20 @@
         }
       }
     },
-    "D:\\Development\\AdhariNew\\Web\\Web.csproj": {
+    "D:\\Development\\WEB\\Client\\AdhariNew\\Web\\Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Development\\AdhariNew\\Web\\Web.csproj",
+        "projectUniqueName": "D:\\Development\\WEB\\Client\\AdhariNew\\Web\\Web.csproj",
         "projectName": "Web",
-        "projectPath": "D:\\Development\\AdhariNew\\Web\\Web.csproj",
-        "packagesPath": "C:\\Users\\mukhsith\\.nuget\\packages\\",
-        "outputPath": "D:\\Development\\AdhariNew\\Web\\obj\\",
+        "projectPath": "D:\\Development\\WEB\\Client\\AdhariNew\\Web\\Web.csproj",
+        "packagesPath": "C:\\Users\\biju.v\\.nuget\\packages\\",
+        "outputPath": "D:\\Development\\WEB\\Client\\AdhariNew\\Web\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\mukhsith\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\biju.v\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -128,8 +134,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "D:\\Development\\AdhariNew\\Utility\\Utility.csproj": {
-                "projectPath": "D:\\Development\\AdhariNew\\Utility\\Utility.csproj"
+              "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\Utility.csproj": {
+                "projectPath": "D:\\Development\\WEB\\Client\\AdhariNew\\Utility\\Utility.csproj"
               }
             }
           }
