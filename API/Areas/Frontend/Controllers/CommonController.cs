@@ -128,7 +128,7 @@ namespace API.Areas.Frontend.Controllers
             return await _appContentModelFactory.PrepareQuickPaymentModel(isEnglish: isEnglish, paymentNumber: quickPayNumber);
         }
 
-        [HttpPost, Route("/webapi/customer/createquickpay")]
+        [HttpPost, Route("/webapi/common/createquickpay")]
         public async Task<APIResponseModel<CreatePaymentModel>> CreateQuickpay([FromBody] CreatePaymentModel createPaymentModel)
         {
             return await _appContentModelFactory.CreateQuickpay(isEnglish: isEnglish, createPaymentModel: createPaymentModel);

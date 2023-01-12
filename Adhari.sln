@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.Payment.KNET", "Plugin.Payment.KNET\Plugin.Payment.KNET.csproj", "{5877D8D9-CA45-4C08-ADCB-4E9BE06A5354}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QPay", "QPay\QPay.csproj", "{AED9828B-F28E-46EE-9692-DC058EE6DD43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{5877D8D9-CA45-4C08-ADCB-4E9BE06A5354}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5877D8D9-CA45-4C08-ADCB-4E9BE06A5354}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5877D8D9-CA45-4C08-ADCB-4E9BE06A5354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AED9828B-F28E-46EE-9692-DC058EE6DD43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AED9828B-F28E-46EE-9692-DC058EE6DD43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AED9828B-F28E-46EE-9692-DC058EE6DD43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AED9828B-F28E-46EE-9692-DC058EE6DD43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
