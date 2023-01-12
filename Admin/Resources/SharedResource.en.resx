@@ -208,10 +208,7 @@
     <value>Amount (KWD)</value>
   </data>
   <data name="AnyQuestionsOrSuggestions?ContactUs!" xml:space="preserve">
-    <value>Any questions or suggestions? Contact Us!</value>
-  </data>
-  <data name="AnyQuestionsOrSuggestions?ContactUs!1" xml:space="preserve">
-    <value>Any questions or suggestions? Contact Us!</value>
+    <value>If you have any questions or suggestions? Please contact us.</value>
   </data>
   <data name="AppliesCashbackBonus" xml:space="preserve">
     <value>Applies Cashback bonus to orders according to conditions specified</value>

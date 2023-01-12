@@ -1352,3 +1352,6 @@ D:\Development\AdhariNew\Web\obj\Debug\net5.0\Web.dll
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\ref\Web.dll
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Web.pdb
 D:\Development\AdhariNew\Web\obj\Debug\net5.0\Web.genruntimeconfig.cache
+D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Shared\_OTPModel.cshtml.g.cs
+D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\MyCashback.cshtml.g.cs
+D:\Development\AdhariNew\Web\obj\Debug\net5.0\Razor\Views\Customer\MyWallet.cshtml.g.cs

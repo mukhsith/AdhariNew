@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xgZGm7mdVRCGz65jP2yKalbcmn9F/pOIxpx5U94gU3mRMgwtakGF7CRlTdiIVHl4nYwjaIFZPphtxnt2bTHvBQ==",
+  "dgSpecHash": "jnVju9ar3D+N+scJgrih6leFZ7AXPbHfS9q1qzL1wbZ/AB/n/xf7KhGsphfx8pbr268ur8u5DFhqK7fSq/k9yg==",
   "success": true,
-  "projectFilePath": "D:\\Development\\Adhari\\API\\API.csproj",
+  "projectFilePath": "D:\\Development\\AdhariNew\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mukhsith\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\mukhsith\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

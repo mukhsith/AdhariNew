@@ -127,3 +127,12 @@ setIntegerValue = (inputId, value) => {
         showLog('setIntegerValue:' + inputId + ' is ' + error);
     }
 }
+
+setLabelValue = (labelId, text) => {
+    try {
+        return $("#" + labelId).text(text);
+    }
+    catch (error) {
+        showLog('setLabelValue:' + labelId + ' is ' + error);
+    }
+}

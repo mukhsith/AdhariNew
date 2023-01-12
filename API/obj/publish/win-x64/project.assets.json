@@ -15730,11 +15730,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Development\\Adhari\\API\\API.csproj",
+      "projectUniqueName": "D:\\Development\\AdhariNew\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "D:\\Development\\Adhari\\API\\API.csproj",
+      "projectPath": "D:\\Development\\AdhariNew\\API\\API.csproj",
       "packagesPath": "C:\\Users\\mukhsith\\.nuget\\packages\\",
-      "outputPath": "D:\\Development\\Adhari\\API\\obj\\publish\\win-x64\\",
+      "outputPath": "D:\\Development\\AdhariNew\\API\\obj\\publish\\win-x64\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mukhsith\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -15751,8 +15751,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "D:\\Development\\Adhari\\Services\\Services.csproj": {
-              "projectPath": "D:\\Development\\Adhari\\Services\\Services.csproj"
+            "D:\\Development\\AdhariNew\\Services\\Services.csproj": {
+              "projectPath": "D:\\Development\\AdhariNew\\Services\\Services.csproj"
             }
           }
         }

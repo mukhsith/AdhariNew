@@ -135,14 +135,14 @@ namespace Web.Infrastructure
             //my wallet
             endpointRouteBuilder.MapControllerRoute(
                    name: "mywallet",
-                   pattern: "mywallet/{walletType?}",
-                   defaults: new { controller = "Customer", action = "WalletTransactions" });
+                   pattern: "mywallet",
+                   defaults: new { controller = "Customer", action = "MyWallet" });
 
             //my cashback
             endpointRouteBuilder.MapControllerRoute(
                    name: "mycashback",
-                   pattern: "mycashback/{walletType?}",
-                   defaults: new { controller = "Customer", action = "WalletTransactions" });
+                   pattern: "mycashback",
+                   defaults: new { controller = "Customer", action = "MyCashback" });
 
             //my cashback
             endpointRouteBuilder.MapControllerRoute(
@@ -452,7 +452,7 @@ namespace Web.Infrastructure
             //wallet order result
             endpointRouteBuilder.MapControllerRoute(
                    name: "walletorderresult",
-                   pattern: "CON/WPP/{orderNumber?}",
+                   pattern: "WPP/{orderNumber?}",
                    defaults: new { controller = "Customer", action = "WalletOrderResult" });
         }
     }

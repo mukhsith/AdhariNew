@@ -34,12 +34,16 @@ namespace Web.Controllers
                 var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
                 if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    responseModel.StatusCode = 401;
+                    responseModel.MessageCode = 401;
                     return Json(responseModel);
                 }
 
                 createPaymentModel.CustomerIp = _apiHelper.GetUserIP();
                 responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/order/createorder", createPaymentModel);
+                if (responseModel.MessageCode == 401)
+                {
+                    return Json(responseModel);
+                }
             }
             catch (Exception ex)
             {
@@ -91,6 +95,11 @@ namespace Web.Controllers
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<OrderModel>>>("webapi/order/orders");
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
                     orderModels = responseModel.Data;

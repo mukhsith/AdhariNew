@@ -75,6 +75,11 @@ namespace Web.Controllers
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress?typeId=" + RelatedEntityType.Subscription);
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
                     addressModels = responseModel.Data;
@@ -99,6 +104,11 @@ namespace Web.Controllers
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<SubscriptionCheckOutModel>>("webapi/subscription/getcheckoutsummary?app=false");
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null)
                 {
                     var responsePaymentModel = await _apiHelper.GetAsync<APIResponseModel<List<PaymentMethodModel>>>("webapi/common/paymentmethods?typeId=" + PaymentRequestType.SubscriptionOrder);
@@ -127,12 +137,16 @@ namespace Web.Controllers
                 var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
                 if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    responseModel.StatusCode = 401;
+                    responseModel.MessageCode = 401;
                     return Json(responseModel);
                 }
 
                 createPaymentModel.CustomerIp = _apiHelper.GetUserIP();
                 responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/subscription/createsubscription", createPaymentModel);
+                if (responseModel.MessageCode == 401)
+                {
+                    return Json(responseModel);
+                }
             }
             catch (Exception ex)
             {
@@ -176,6 +190,11 @@ namespace Web.Controllers
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<SubscriptionModel>>>("webapi/subscription/subscriptions");
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
                     subscriptionModels = responseModel.Data;

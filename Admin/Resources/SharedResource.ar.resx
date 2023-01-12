@@ -208,10 +208,7 @@
     <value>المبلغ (د.ك)</value>
   </data>
   <data name="AnyQuestionsOrSuggestions?ContactUs!" xml:space="preserve">
-    <value>If you have any questions or suggestions? Please contact us.</value>
-  </data>
-  <data name="AnyQuestionsOrSuggestions?ContactUs!1" xml:space="preserve">
-    <value>If you have any questions or suggestions? Please contact us.</value>
+    <value>إذا كانت لديك أي أسئلة أو اقتراحات ، الرجاء التواصل معنا.</value>
   </data>
   <data name="AppliesCashbackBonus" xml:space="preserve">
     <value>يطبق مكافأة الاسترداد النقدي على الطلبات وفقًا للشروط المحددة</value>

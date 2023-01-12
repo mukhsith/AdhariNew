@@ -1427,7 +1427,7 @@ namespace API.Areas.Frontend.Factories
                     }
 
                     if (walletPackageOrder.DeviceTypeId == DeviceType.Web)
-                        createPaymentModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "CON/WPP/" + walletPackageOrder.OrderNumber;
+                        createPaymentModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "WPP/" + walletPackageOrder.OrderNumber;
                     else
                         createPaymentModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "paymentresult";
 

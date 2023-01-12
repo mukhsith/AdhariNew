@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
     <script src="~/assets/vendor/js/bootstrap.bundle.js"></script>
     <script src="~/assets/js/util/autoPadding.js"></script>
     <script src="~/assets/js/util/crossPlatform.js"></script>
@@ -182,19 +182,20 @@
                             }
                         }
 
+                        debugger;
                         if (isfav == 1) {
                             $("#product-box-" + productId).remove();
                             if ($('#dv-product-box').children().length > 0) {
-                                $("#dv-empty-products").hide();
+                                $("#dv-empty-records").hide();
                             }
                             else {
-                                $("#dv-empty-products").show();
+                                $("#dv-empty-records").show();
                             }
                         }
                     }
                 }
                 else {
-                    if (result.statusCode == 401) {
+                    if (result.messageCode == 401) {
                         var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
                         window.location.href = "/login?returnUrl=" + returnUrl;
                         return;
@@ -232,7 +233,7 @@
                     }
                 }
                 else {
-                    if (result.statusCode == 401) {
+                    if (result.messageCode == 401) {
                         var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
                         window.location.href = "/login?returnUrl=" + returnUrl;
                         return;

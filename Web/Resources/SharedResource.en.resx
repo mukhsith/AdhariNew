@@ -142,10 +142,7 @@
     <value>Already have an account?</value>
   </data>
   <data name="AnyQuestionsOrSuggestions?ContactUs!" xml:space="preserve">
-    <value>Any questions or suggestions? Contact Us!</value>
-  </data>
-  <data name="AnyQuestionsOrSuggestions?ContactUs!1" xml:space="preserve">
-    <value>Any questions or suggestions? Contact Us!</value>
+    <value>If you have any questions or suggestions? Please contact us.</value>
   </data>
   <data name="Apartment" xml:space="preserve">
     <value>Apartment</value>
@@ -419,6 +416,9 @@
   </data>
   <data name="NameIsRequired" xml:space="preserve">
     <value>Name is required</value>
+  </data>
+  <data name="NoNotifications" xml:space="preserve">
+    <value>No Notifications</value>
   </data>
   <data name="NoOrders" xml:space="preserve">
     <value>No Orders</value>

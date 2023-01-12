@@ -3,15 +3,11 @@
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["MyProfile"].Value });
 }
-
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
-
-
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-6 mx-auto">
-
                 <div class="mb-4">
                     <div class="bg-grey row rounded-4 p-3 mx-0">
                         <form class="row g-3 mt-0" id="form-myprofile">
@@ -22,7 +18,6 @@
                                 <div id="dvErrorName">
                                 </div>
                             </div>
-
                             <div class="col-12">
                                 <label for="inputName2" class="form-label mb-0">
                                     @SharedHtmlLocalizer["MobileNumber"]<span class="verified-check ms-1 fw-bold text-success" style="display: none;">
@@ -31,7 +26,7 @@
                                 </label>
                                 <div class="input-group disabled profile-field ">
                                     <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0 bg-grey">
-                                        <img src="assets/img/Kuwait_flag.svg" width="25">
+                                        <img src="/assets/img/Kuwait_flag.svg" width="25">
                                     </span>
                                     <span class="input-group-text border border-secondary border-start-0 p-1" id="basic-addon1">
                                         <bdi>+965</bdi>
@@ -41,13 +36,12 @@
                                            required="" placeholder="Mobile" value="@Model.MobileNumber" maxlength="8" disabled>
                                     <div id="dvErrorMobileNumber">
                                     </div>
-                                    <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
-                                            data-bs-toggle="modal" data-bs-target="#OTPModal" type="button" style="display:none">
-                                        @SharedHtmlLocalizer["Verify"]
-                                    </button>
+                                    @*<button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
+                                                data-bs-toggle="modal" data-bs-target="#OTPModal" type="button" style="display:none">
+                                            @SharedHtmlLocalizer["Verify"]
+                                        </button>*@
                                 </div>
                             </div>
-
                             <div class="col-12">
                                 <label for="inputEmail4" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
                                 <input type="email" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
@@ -55,12 +49,10 @@
                                 <div id="dvErrorEmailAddress">
                                 </div>
                             </div>
-
                             <div class="col-12 text-center">
                                 <a href="javascript:;" class="btn btn-primary rounded-pill px-5 fw-bold edit-profile">@SharedHtmlLocalizer["EditProfile"]</a>
                                 <a href="javascript:;" id="a-save-profile" class="btn btn-secondary rounded-pill px-5 fw-bold text-light save-profile"
                                    style="display: none;">@SharedHtmlLocalizer["SaveProfile"]</a>
-
                             </div>
                         </form>
                     </div>
@@ -69,9 +61,12 @@
         </div>
     </div>
 </section>
-
+@await Html.PartialAsync("_OTPModel")
 <script>
     $(document).ready(function () {
+        OTPInput();
+        $("#resend").hide();
+        $('#sec-otp-verification').hide();
 
         $("#form-myprofile").validate({
             ignore: [],
@@ -107,14 +102,29 @@
 
         $("#a-save-profile").click(function () {
             $('#form-myprofile').validate();
-                if ($("#form-myprofile").valid()) {
-                    $.post("@Url.RouteUrl("myprofile")", {
-                        Name: $("#inputName").val(),
-                        EmailAddress: $("#inputEmail4").val(),
-                        MobileNumber: $("#inputMobileNumber").val()
-                    }, function (result) {
-                        if (result.success) {
-                            if (result.data != null) {
+            if ($("#form-myprofile").valid()) {
+                $.post("@Url.RouteUrl("myprofile")", {
+                    Name: $("#inputName").val(),
+                    EmailAddress: $("#inputEmail4").val(),
+                    MobileNumber: $("#inputMobileNumber").val()
+                }, function (result) {
+                    debugger;
+                    if (result.success) {
+                        if (result.data != null) {
+                            if (result.data.otpDetailId > 0) {
+                                $("#pVerificationMessage").text(result.message);
+                                $("#requestId").val(result.data.otpDetailId);
+
+                                var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
+                                document.getElementById('timer').innerHTML = time;
+                                startTimer();
+                                $("#resend").hide();
+                                $("#otp-button").show();
+
+                                let myModal = new bootstrap.Modal(document.getElementById('OTPModal'), {});
+                                myModal.show();
+                            }
+                            else {
                                 setTextValue('inputName', result.data.name);
                                 setTextValue('inputEmail4', result.data.emailAddress);
                                 setTextValue('inputMobileNumber', result.data.mobileNumber);
@@ -125,31 +135,90 @@
                                 $('.mobile-field').addClass('rounded-pill');
                                 $('.save-profile').hide();
                                 $('.edit-profile').show();
-
-                                var updateEmailAddressVerificationPending = result.data.updateEmailAddressVerificationPending ? "1" : "0";
-                                if (updateEmailAddressVerificationPending == "1") {
-                                    $("#dv-my-profile").hide();
-                                    $("#dv-verification").show();
-                                    $("#a-emaiaddress").html(result.data.newEmailAddress);
-                                }
-                            }
-                            else {
-                                if (result.message != "")
-                                    showToastErrorMessage(result.message);
                             }
                         }
                         else {
-                            if (result.messageCode == 401) {
-                                var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
-                                window.location.href = "/login?returnUrl=" + returnUrl;
-                                return;
-                            }
-
                             if (result.message != "")
                                 showToastErrorMessage(result.message);
                         }
-                    });
+                    }
+                    else {
+                        if (result.messageCode == 401) {
+                            var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                            window.location.href = "/login?returnUrl=" + returnUrl;
+                            return;
+                        }
+
+                        if (result.message != "")
+                            showToastErrorMessage(result.message);
+                    }
+                });
+            }
+        });
+
+        $("#resend").click(function () {
+            $("#otp1").val('');
+            $("#otp2").val('');
+            $("#otp3").val('');
+            $("#otp4").val('');
+
+            var otpDetailId = $("#requestId").val();
+            if (otpDetailId.length == 0)
+                return;
+
+            $.get("@Url.RouteUrl("resendOTP")", { otpDetailId: otpDetailId }, function (result) {
+                if (result.success) {
+                    $("#requestId").val(result.data.otpDetailId);
+                    var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
+                    document.getElementById('timer').innerHTML = time;
+                    startTimer();
+                    $("#resend").hide();
+                    $("#otp-button").show();
                 }
+                else {
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+        });
+
+        $("#otp-button").on("click", function () {
+            var requestId = $("#requestId").val();
+            if (requestId.length == 0)
+                return;
+
+            var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
+            if (otp == "") {
+                ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
+                return;
+            }
+
+            var typeId = @((int)NotificationType.UpdateMobileNumber);
+
+            $.post("@Url.RouteUrl("verifyOTP")", {
+                RequestId: requestId, OTP: otp, TypeId: typeId
+            }, function (result) {
+                if (result.success) {
+                    debugger;
+                    setTextValue('inputName', result.data.name);
+                    setTextValue('inputEmail4', result.data.emailAddress);
+                    setTextValue('inputMobileNumber', result.data.mobileNumber);
+
+                    $('#sec-otp-verification').hide();
+                    $('.profile-field').prop("disabled", true);
+                    $('.input-group.profile-field').addClass("disabled");
+                    $('.otp-code-button').hide();
+                    $('.mobile-field').addClass('rounded-pill');
+                    $('.save-profile').hide();
+                    $('.edit-profile').show();
+
+                    $("#OTPModal").modal('hide');
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
         });
     });
 </script>
@@ -159,177 +228,8 @@
         $('.profile-field').prop("disabled", false);
         $('.profile-field').removeClass("disabled");
         $('.otp-code-button').show();
-        $('.mobile-field').removeClass('rounded-pill');
+        //$('.mobile-field').removeClass('rounded-pill');
         $('.edit-profile').hide();
         $('.save-profile').show();
     });
-
-    //$('.save-profile').click(function () {
-    //    $('.profile-field').prop("disabled", true);
-    //    $('.input-group.profile-field').addClass("disabled");
-    //    $('.otp-code-button').hide();
-    //    $('.mobile-field').addClass('rounded-pill');
-    //    $('.save-profile').hide();
-    //    $('.edit-profile').show();
-    //});
-
-</script>
-
-<!-- Vertically centered modal -->
-<div class="modal fade" id="OTPModal" tabindex="-1" aria-labelledby="OTPModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-primary" id="OTPModalTitle">@SharedHtmlLocalizer["VerifyMobileNumber"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="row">
-                    <div class="col-12 ">
-                        <div class="bg-light-secondary p-4 rounded">
-                            <form>
-                                <div class="row justify-content-center">
-                                    <div class="col-12 text-center">
-                                        @SharedHtmlLocalizer["PleaseEnterOTPcodeWhichHasBeenSentToMobileNumber"]<br> <span class="fw-bold">
-                                            @Model.FormattedMobile
-                                        </span>
-                                    </div>
-                                    <div class="col-12 col-lg-8">
-                                        <div id="otp" class="row align-items-center ">
-                                            <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder=""
-                                                       id="otp1" min="0" max="9" maxlength="1" pattern="[0-9]">
-                                            </div>
-                                            <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder=""
-                                                       id="otp2" min="0" max="9" maxlength="1" pattern="[0-9]">
-                                            </div>
-                                            <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder=""
-                                                       id="otp3" min="0" max="9" maxlength="1" pattern="[0-9]">
-                                            </div>
-                                            <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder=""
-                                                       id="otp4" min="0" max="9" maxlength="1" pattern="[0-9]">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-12 text-center">
-                                        <div id="timer" class="mb-3">04:59</div>
-                                    </div>
-                                    <div class="col-12 text-center">
-                                        <!-- Note for Developers: Once the counter finishes Resend OTP Button needs to show and verify OTP Button needs to be hidden-->
-                                        <button id="resend" type="button"
-                                                class="btn btn-secondary text-light rounded-pill me-1 d-none">
-                                            Resend OTP
-                                        </button>
-                                        <a href="#" class="btn btn-primary rounded-pill ms-1 verify-otp-button">Verify OTP</a>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // For OTP Module
-    function OTPInput() {
-        var inputs = document.querySelectorAll('#otp  *[id]');
-        // alert(inpts.length)
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].addEventListener('keydown', function (event) {
-                if (event.key === "Backspace") {
-                    inputs[i].value = '';
-                    if (i !== 0) inputs[i - 1].focus();
-                } else {
-                    // if (i === inputs.length - 1 && inputs[i].value !== '') {
-                    if (inputs[i].value !== '') {
-                        // alert('true')
-                        // return true;
-                        event.preventDefault();
-                    } else if (event.keyCode > 47 &&
-                        event.keyCode < 58) {
-                        // alert(i)
-                        if (inputs[i].value !== '') {
-
-
-                        } else {
-                            // return false;
-                            inputs[i].value = event.key;
-                            if (i !== inputs.length - 1) inputs[i + 1].focus();
-                            event.preventDefault();
-                        }
-                    } else if (event.keyCode > 64 && event.keyCode < 91) {
-                        inputs[i].value = String.fromCharCode(event.keyCode);
-                        // if (i !== inputs.length - 1) inputs[i +
-                        //     1].focus();
-                        event.preventDefault();
-                    }
-                }
-            });
-        }
-    }
-    OTPInput();
-    // Timer Scrit
-    document.getElementById('timer').innerHTML =
-        00 + ":" + 10;
-    startTimer();
-    $("#resend").attr("disabled", true)
-    $('#resend').click(function () {
-        document.getElementById('timer').innerHTML =
-            00 + ":" + 05;
-        startTimer();
-
-        $(this).attr("disabled", true)
-    })
-
-    function startTimer() {
-
-        var presentTime = document.getElementById('timer').innerHTML;
-        var timeArray = presentTime.split(/[:]+/);
-        var m = timeArray[0];
-        var s = checkSecond((timeArray[1] - 1));
-        if (s == 59) {
-            m = m - 1
-        }
-        if (m < 0) {
-            return
-
-        }
-
-        document.getElementById('timer').innerHTML =
-            m + ":" + s;
-        // console.log(m)
-        if (m === '0' && s === '00') {
-            $("#resend").attr("disabled", false)
-        }
-        setTimeout(startTimer, 1000);
-
-    }
-
-    function checkSecond(sec) {
-
-        if (sec < 10 && sec >= 0) {
-            sec = "0" + sec
-        }; // add zero in front of numbers < 10
-        if (sec < 0) {
-            sec = "59"
-        };
-        return sec;
-    }
-
-    $('.verify-otp-button').click(function () {
-        $('.verified-check').show();
-        $('#OTPModal').modal('hide');
-    });
-
 </script>

@@ -216,6 +216,11 @@ namespace Web.Controllers
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<CustomerModel>>("webapi/customer/getcustomer");
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null)
                 {
                     customerModel = responseModel.Data;
@@ -241,11 +246,15 @@ namespace Web.Controllers
                 var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
                 if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    response.StatusCode = 401;
+                    response.MessageCode = 401;
                     return Json(response);
                 }
 
                 response = await _apiHelper.PutAsync<APIResponseModel<CustomerModel>>("webapi/customer/editprofile", customerModel);
+                if (response.MessageCode == 401)
+                {
+                    return Json(response);
+                }
             }
             catch (Exception ex)
             {
@@ -426,6 +435,11 @@ namespace Web.Controllers
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress");
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
                     addressModels = responseModel.Data;
@@ -448,11 +462,15 @@ namespace Web.Controllers
                 var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
                 if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    response.StatusCode = 401;
+                    response.MessageCode = 401;
                     return Json(response);
                 }
 
                 response = await _apiHelper.PostAsync<APIResponseModel<AddressModel>>("webapi/customer/addaddresswithselect", addressModel);
+                if (response.MessageCode == 401)
+                {
+                    return Json(response);
+                }
             }
             catch (Exception ex)
             {
@@ -488,6 +506,11 @@ namespace Web.Controllers
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress?id=" + addressId);
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
                     addressModel = responseModel.Data[0];
@@ -512,11 +535,15 @@ namespace Web.Controllers
                 var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
                 if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    response.StatusCode = 401;
+                    response.MessageCode = 401;
                     return Json(response);
                 }
 
                 response = await _apiHelper.PutAsync<APIResponseModel<AddressModel>>("webapi/customer/updateaddress", addressModel);
+                if (response.MessageCode == 401)
+                {
+                    return Json(response);
+                }
             }
             catch (Exception ex)
             {
@@ -525,8 +552,7 @@ namespace Web.Controllers
 
             return Json(response);
         }
-
-        public async Task<IActionResult> WalletTransactions(int walletType)
+        public async Task<IActionResult> MyWallet()
         {
             WalletModel walletModel = new();
             try
@@ -537,8 +563,41 @@ namespace Web.Controllers
                     return RedirectToRoute("login");
                 }
 
-                ViewBag.WalletType = walletType;
-                var responseModel = await _apiHelper.GetAsync<APIResponseModel<WalletModel>>("webapi/customer/getwallettransactions?walletType=" + walletType);
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<WalletModel>>("webapi/customer/getwallettransactions?walletType=" + WalletType.Wallet);
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
+                if (responseModel.Success && responseModel.Data != null)
+                {
+                    walletModel = responseModel.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(walletModel);
+        }
+        public async Task<IActionResult> MyCashback()
+        {
+            WalletModel walletModel = new();
+            try
+            {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
+
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<WalletModel>>("webapi/customer/getwallettransactions?walletType=" + WalletType.Cashback);
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null)
                 {
                     walletModel = responseModel.Data;
@@ -564,6 +623,11 @@ namespace Web.Controllers
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<WalletPackageModel>>>("webapi/common/walletpackages");
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
                     walletPackageModels = responseModel.Data;
@@ -591,12 +655,16 @@ namespace Web.Controllers
                 var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
                 if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    responseModel.StatusCode = 401;
+                    responseModel.MessageCode = 401;
                     return Json(responseModel);
                 }
 
                 createPaymentModel.CustomerIp = _apiHelper.GetUserIP();
                 responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/customer/createwalletpackageorder", createPaymentModel);
+                if (responseModel.MessageCode == 401)
+                {
+                    return Json(responseModel);
+                }
             }
             catch (Exception ex)
             {

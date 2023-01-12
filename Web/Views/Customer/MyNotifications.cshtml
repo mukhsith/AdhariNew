@@ -8,9 +8,17 @@
 <input type="hidden" id="hdnNotificationCount" value="0" />
 <section class="main-content py-5 mb-5">
     <div class="container">
-        <div class="row">
+        <div class="row" id="dv-notification-list">
             <div class="col-12 col-xl-8 mx-auto">
                 <div id="dv-notifications"></div>
+            </div>
+        </div>
+        <div class="row" id="dv-no-notifications">
+            <div class="col-12 text-center">
+                <i class="display-1 fas fa-bell-slash text-center text-primary"></i>
+            </div>
+            <div class="col-12 text-center">
+                <h5 class="mt-3 text-primary">@SharedHtmlLocalizer["NoNotifications"]</h5>
             </div>
         </div>
     </div>
@@ -35,6 +43,16 @@
         var limit = 20;
         showLoader();
         $.get("@Url.RouteUrl("notificationsbyajax")", { page: pageCount, limit: limit }, function (result) {
+            debugger;
+            if (result.notificationCount == 0) {
+                $("#dv-notification-list").hide();
+                $("#dv-no-notifications").show();
+            }
+            else {
+                $("#dv-notification-list").show();
+                $("#dv-no-notifications").hide();
+            }
+
             $("#hdnNotificationCount").val(parseInt($("#hdnNotificationCount").val()) + parseInt(result.notificationCount));
             if (result.success) {
                 if (result.html == "") {

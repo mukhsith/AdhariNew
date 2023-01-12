@@ -480,7 +480,7 @@ namespace API.Helpers
 
                                 string url;
                                 if (walletPackageOrder.DeviceTypeId == DeviceType.Web)
-                                    url = _appSettings.WebsiteUrl + "CON/WPP/" + walletPackageOrder.OrderNumber;
+                                    url = _appSettings.WebsiteUrl + "WPP/" + walletPackageOrder.OrderNumber;
                                 else
                                     url = _appSettings.WebsiteUrl + "paymentresult";
 

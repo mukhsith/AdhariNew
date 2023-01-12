@@ -275,6 +275,11 @@ namespace Web.Controllers
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress?typeId=" + RelatedEntityType.Order);
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
                     addressModels = responseModel.Data;
@@ -367,6 +372,11 @@ namespace Web.Controllers
                 }
 
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<CheckOutModel>>("webapi/cart/getcheckoutsummary");
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null)
                 {
                     checkOutModel = responseModel.Data;

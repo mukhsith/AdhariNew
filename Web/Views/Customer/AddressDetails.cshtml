@@ -6,9 +6,7 @@
     breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("myaddresses"), Title = SharedHtmlLocalizer["MyAddresses"].Value });
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["AddressDetails"].Value });
 }
-
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
-
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row">
@@ -31,7 +29,6 @@
         </div>
     </div>
 </section>
-
 <script>
     $(document).ready(function () {
         disableAllElement("#frm-address input");
@@ -225,7 +222,7 @@
                         $(".edit-address").removeClass("d-none");
                     }
                     else {
-                        if (result.statusCode == 401) {
+                        if (result.messageCode == 401) {
                             var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
                             window.location.href = "/login?returnUrl=" + returnUrl;
                             return;
@@ -238,7 +235,6 @@
             });
         }
     }
-
 
     function loadGovernoratesEdit(id) {
         $.get("@Url.RouteUrl("getgovernorates")", function (result) {

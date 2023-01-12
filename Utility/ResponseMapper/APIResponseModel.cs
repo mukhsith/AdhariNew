@@ -8,6 +8,7 @@
         }
         public bool Success { get; set; }
         public string Message { get; set; }
+        public int MessageCode { get; set; }
         public int Id { get; set; }
         public int StatusCode { get; set; }
         public int DataRecordCount { get; set; }

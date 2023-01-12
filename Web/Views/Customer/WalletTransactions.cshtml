@@ -37,52 +37,48 @@
                     <h2 class="text-center text-primary fw-bold mb-0">@Model.FormattedCashbackBalance</h2>
                 }
             </div>
-            <div class="col-12 col-xl-10 mx-auto" id="dv-wallet">
-                @foreach (var transactionDates in Model.WalletTransactionByDates)
-                {
-                    <h6 class="mb-1 mt-5 text-primary">@transactionDates.FormattedDate</h6>
-                    @foreach (var transactions in transactionDates.WalletTransactions)
+            @if (Model.WalletTransactionByDates.Count > 0)
+            {
+                <div class="col-12 col-xl-10 mx-auto">
+                    @foreach (var transactionDates in Model.WalletTransactionByDates)
                     {
-                        <div class="bg-grey rounded-4 p-4 pb-1 mx-0 mb-3 position-relative">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4">
-                                        @foreach (var item in transactions.PaymentSummary)
-                                        {
-                                            <div class="col mb-3">
-                                                <p class="mb-0 fw-bold">@item.Title</p>
-                                                <span class="mb-0 @(item.Title == MessagesAr.TransactionType || item.Title == Messages.TransactionType ? transactionTypeClass : item.Title == MessagesAr.TransactionAmount || item.Title == Messages.TransactionAmount ? transactionAmountClass : "" )"
-                                                      style="background-color:@(item.Title == MessagesAr.TransactionType || item.Title == Messages.TransactionType ? transactions.ColorCode : "none");color:@(item.Title == MessagesAr.TransactionAmount || item.Title == Messages.TransactionAmount ? transactions.ColorCode : "")">@item.Value</span>
-                                                </div>
-                                            }
+                        <h6 class="mb-1 mt-5 text-primary">@transactionDates.FormattedDate</h6>
+                        @foreach (var transactions in transactionDates.WalletTransactions)
+                        {
+                            <div class="bg-grey rounded-4 p-4 pb-1 mx-0 mb-3 position-relative">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4">
+                                            @foreach (var item in transactions.PaymentSummary)
+                                            {
+                                                <div class="col mb-3">
+                                                    <p class="mb-0 fw-bold">@item.Title</p>
+                                                    <span class="mb-0 @(item.Title == MessagesAr.TransactionType || item.Title == Messages.TransactionType ? transactionTypeClass : item.Title == MessagesAr.TransactionAmount || item.Title == Messages.TransactionAmount ? transactionAmountClass : "" )"
+                                                          style="background-color:@(item.Title == MessagesAr.TransactionType || item.Title == Messages.TransactionType ? transactions.ColorCode : "none");color:@(item.Title == MessagesAr.TransactionAmount || item.Title == Messages.TransactionAmount ? transactions.ColorCode : "")">@item.Value</span>
+                                                    </div>
+                                                }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
-                }
-            </div>
+                </div>
+            }
         </div>
-        <div class="row mt-5" id="dv-empty-wallet">
-            <div class="col-12 text-center">
-                <i class="display-1 fas fa-wallet text-center text-primary"></i>
+        @if (Model.WalletTransactionByDates.Count == 0)
+        {
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <i class="display-1 fas fa-wallet text-center text-primary"></i>
+                </div>
+                <div class="col-12 text-center">
+                    <h5 class="mt-3 text-primary">@SharedHtmlLocalizer["NoTransactions"]</h5>
+                </div>
             </div>
-            <div class="col-12 text-center">
-                <h5 class="mt-3 text-primary">@SharedHtmlLocalizer["NoTransactions"]</h5>
-            </div>
-        </div>
+        }
         <div id="dv-loadmore" style="text-align: center;display:none;">
             <a id="a-more" class="btn btn-primary rounded-pill text-white fw-bold text-uppercase mb-md-4 mb-0">@SharedHtmlLocalizer["View More"]</a>
         </div>
     </div>
 </section>
-<script>
-    $(document).ready(function () {
-        if ($('#dv-wallet').children().length > 0) {
-            $("#dv-empty-wallet").hide();
-        }
-        else {
-            $("#dv-empty-wallet").show();
-        }
-    });
-</script>

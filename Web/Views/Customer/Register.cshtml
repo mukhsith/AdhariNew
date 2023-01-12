@@ -1,20 +1,20 @@
 ﻿@model Utility.Models.Frontend.CustomerManagement.CustomerModel
 @{
-    var breadCrumbItems = new List<BreadcrumbModel>(); 
-    breadCrumbItems.Add(new BreadcrumbModel() { Url = "SignUp", Title = SharedHtmlLocalizer["SignUp"].Value });    
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "SignUp", Title = SharedHtmlLocalizer["SignUp"].Value });
 }
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
-<section class="main-content py-5 mb-5" id="sec-register" >
+<section class="main-content py-5 mb-5" id="sec-register">
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-6 col-xl-4 mx-auto">
                 <div class="card mt-3 mt-md-0 rounded-5 border-secondary shadow">
                     <div class="card-body">
-                        <form  method="post" autocomplete="off" class="row g-3 p-3" id="register-form">
+                        <form method="post" autocomplete="off" class="row g-3 p-3" id="register-form">
                             <div asp-validation-summary="ModelOnly"></div>
                             <div class="col-12">
                                 <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger">*</span></label>
-                                <input type="text" asp-for="Name" class="form-control body-bg-secondary rounded-pill border-secondary"  placeholder="Enter your name">
+                                <input type="text" asp-for="Name" class="form-control body-bg-secondary rounded-pill border-secondary" placeholder="Enter your name">
                             </div>
 
                             <div class="col-md-12">
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="col-12 text-center">
-                                <a href="javascript:;" id="signup-btn" class="btn btn-primary color-white rounded-pill fw-bold px-5" >@SharedHtmlLocalizer["SignUp"]</a>
+                                <a href="javascript:;" id="signup-btn" class="btn btn-primary color-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignUp"]</a>
 
                             </div>
 
@@ -61,7 +61,7 @@
                                     style="display:none">
                                 @SharedHtmlLocalizer["Verify"]
                             </button>
-                             
+
 
                             <div class="col-12 text-center">
                                 <hr class="dropdown-divider body-bg-secondary border-secondary">
@@ -69,80 +69,19 @@
                             <div class="col-12 text-center">
                                 <h6 class="mb-2">@SharedHtmlLocalizer["AlreadyHaveAnAccount"]</h6>
                                 <a href="@Url.RouteUrl("signin")" class="btn btn-secondary rounded-pill px-5 fw-bold text-white">@SharedHtmlLocalizer["SignIn"]</a>
-                            </div> 
+                            </div>
                         </form>
-                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-
-<div class="modal fade"  id="OTPModal" tabindex="-1" aria-labelledby="OTPModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-primary" id="OTPModalTitle">@SharedHtmlLocalizer["VerifyMobileNumber"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@SharedHtmlLocalizer["Close"]"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="row">
-                    <div class="col-12 ">
-                        <div class="bg-light-secondary p-4 rounded">
-                            <form>
-                                <div class="row justify-content-center">
-                                    <div class="col-12 text-center">
-                                        <div class="col-sm-12 text-center">
-                                            <p class="mb-0" id="pVerificationMessage"></p>
-                                        </div>
-                                        @*Please enter OTP code which has been sent to Mobile Number<br> <span class="fw-bold" id="verifyMobile"></span>*@
-                                    </div>
-                                    <div class="col-12 col-lg-8">
-                                        <div id="otp" class="row align-items-center ">
-                                            <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp1" min="0" max="9" maxlength="1" pattern="[0-9]">
-                                            </div>
-                                            <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp2" min="0" max="9" maxlength="1" pattern="[0-9]">
-                                            </div>
-                                            <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp3" min="0" max="9" maxlength="1" pattern="[0-9]">
-                                            </div>
-                                            <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp4" min="0" max="9" maxlength="1" pattern="[0-9]">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-12 text-center">
-                                <div id="timer" class="mb-3">04:59</div>
-                            </div>
-                            <div class="col-12 text-center">
-                                <button id="resend" type="button" class="btn btn-secondary text-light rounded-pill me-1">@SharedHtmlLocalizer["ResendOTP"]</button>
-                                <a href="#" id="otp-verify-btn" class="btn btn-primary rounded-pill ms-1 verify-otp-button" >@SharedHtmlLocalizer["VerifyOTP"]</a>
-                                <input type="hidden" id="requestId" />
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
-</div>
-
+</section>
+@await Html.PartialAsync("_OTPModel")
 <script>
-
     $(document).ready(function () {
+        OTPInput();
         $("#resend").hide();
-       // $('#OTPModal').hide();
         $("#register-form").validate({
             rules: {
                 Name: {
@@ -190,9 +129,7 @@
                     EmailAddress: email
                 }, function (result) {
                     console.log(result);
-                    //otp code sent to mobile number
                     if (result.success) {
-                        //$("#sec-register").hide();
                         $("#pVerificationMessage").text(result.message);
                         $("#requestId").val(result.data.otpDetailId);
 
@@ -212,27 +149,27 @@
                         document.getElementById('timer').innerHTML = time;
                         startTimer();
                         $("#resend").hide();
-                        $("#otp-verify-btn").show();
+                        $("#otp-button").show();
 
                         let myModal = new bootstrap.Modal(document.getElementById('OTPModal'), {});
                         myModal.show();
                     }
                     else {
                         if (result.message != "")
-                            ToastAlert("error", "",result.message);
+                            ToastAlert("error", "", result.message);
                     }
                 });
             }
         });
 
-        $("#otp-verify-btn").on("click", function () {
+        $("#otp-button").on("click", function () {
             var requestId = $("#requestId").val();
             if (requestId.length == 0)
                 return;
 
             var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
             if (otp == "") {
-                ToastAlert("error", "","@SharedHtmlLocalizer["OTPIsRequired"]");
+                ToastAlert("error", "", "@SharedHtmlLocalizer["OTPIsRequired"]");
                 return;
             }
 
@@ -243,10 +180,9 @@
             $.post("@Url.RouteUrl("verifyOTP")", {
                 RequestId: requestId, OTP: otp, DeviceId: deviceId, DeviceToken: deviceToken, TypeId: typeId
             }, function (result) {
-                console.log(result);
                 if (result.success) {
-                        $('.verified-check').show();
-                        $('#OTPModal').modal('hide'); 
+                    $('.verified-check').show();
+                    $('#OTPModal').modal('hide');
                     window.location.href = "@Url.RouteUrl("home")";
                 }
                 else {
@@ -255,7 +191,6 @@
                 }
             });
         });
-
 
         $("#resend").click(function () {
             $("#otp1").val('');
@@ -274,90 +209,13 @@
                     document.getElementById('timer').innerHTML = time;
                     startTimer();
                     $("#resend").hide();
-                    $("#otp-verify-btn").show();
+                    $("#otp-button").show();
                 }
                 else {
                     if (result.message != "")
-                        ToastAlert("error","Alert",result.message);
+                        ToastAlert("error", "Alert", result.message);
                 }
             });
         });
     });
-
-    function OTPInput() {
-        var inputs = document.querySelectorAll('#otp  *[id]');
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].addEventListener('keydown', function (event) {
-                if (event.key === "Backspace") {
-                    inputs[i].value = '';
-                    if (i !== 0) {
-                        inputs[i - 1].focus();
-                        var txtOtp = inputs[i - 1].id;
-                        $("#" + txtOtp).removeAttr("readonly");
-                    }
-                } else {
-                    if (inputs[i].value !== '') {
-                        event.preventDefault();
-                    } else if ((event.keyCode > 47 && event.keyCode < 58) || (event.keyCode >= 96 && event.keyCode <= 105)) {
-                        if (inputs[i].value !== '') {
-
-
-                        } else {
-                            inputs[i].value = event.key;
-                            if (i !== inputs.length - 1) {
-                                inputs[i + 1].focus();
-                                var txtOtp = inputs[i + 1].id;
-                                $("#" + txtOtp).removeAttr("readonly");
-                            }
-                            event.preventDefault();
-                        }
-                    } else if (event.keyCode > 64 && event.keyCode < 91) {
-                        inputs[i].value = String.fromCharCode(event.keyCode);
-                        event.preventDefault();
-                    }
-                }
-            });
-        }
-    }
-
-    OTPInput();
-
-    function startTimer() {
-
-        var presentTime = document.getElementById('timer').innerHTML;
-        var timeArray = presentTime.split(/[:]+/);
-
-        var m = timeArray[0];
-        var s = checkSecond((timeArray[1] - 1));
-        if (s == 59) {
-            m = m - 1
-        }
-        if (m < 0) {
-            return
-        }
-        document.getElementById('timer').innerHTML = m + ":" + s;
-        console.log(m);
-        if (m === '0' && s === '00') {
-            $("#resend").show();
-            $("#otp-verify-btn").hide();
-        } else {
-            setTimeout(startTimer, 1000);
-        }
-    }
-
-    function checkSecond(sec) {
-        if (sec < 10 && sec >= 0) {
-            sec = "0" + sec
-        };
-        if (sec < 0) {
-            sec = "59"
-        };
-        return sec;
-    }
-
-    function millisToMinutesAndSeconds(millis) {
-        var minutes = Math.floor(millis / 60000);
-        var seconds = ((millis % 60000) / 1000).toFixed(0);
-        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-    }
 </script>

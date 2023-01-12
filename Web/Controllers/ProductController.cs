@@ -129,6 +129,11 @@ namespace Web.Controllers
 
                 ProductQueryParameters query = new();
                 var responseModel = await _apiHelper.PostAsync<APIResponseModel<List<ProductModel>>>("webapi/product/products", query);
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
                 if (responseModel.Success && responseModel.Data != null)
                 {
                     productModels = responseModel.Data;
@@ -153,11 +158,15 @@ namespace Web.Controllers
                 var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
                 if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    responseModel.StatusCode = 401;
+                    responseModel.MessageCode = 401;
                     return Json(responseModel);
                 }
 
                 responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/product/addorremovefavourite?productId=" + productId);
+                if (responseModel.MessageCode == 401)
+                {
+                    return Json(responseModel);
+                }
             }
             catch (Exception ex)
             {
@@ -181,11 +190,15 @@ namespace Web.Controllers
                 var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
                 if (string.IsNullOrEmpty(authenticationToken))
                 {
-                    responseModel.StatusCode = 401;
+                    responseModel.MessageCode = 401;
                     return Json(responseModel);
                 }
 
                 responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/product/addorremoveproductavailabilitynotifyrequest?productId=" + productId);
+                if (responseModel.MessageCode == 401)
+                {
+                    return Json(responseModel);
+                }
             }
             catch (Exception ex)
             {
