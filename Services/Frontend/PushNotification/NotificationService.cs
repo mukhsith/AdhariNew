@@ -1,4 +1,5 @@
 ﻿using Data.EntityFramework;
+using Data.NotifyTemplate;
 using Data.PushNotification;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,6 +16,17 @@ namespace Services.Frontend.PushNotification
         {
             _dbcontext = dbcontext;
         }
+
+        #region Admin Notification
+        public async Task<AdminNotificationTemplate> GetDefaultAdminNotificationTemplate()
+        {
+            var data = await _dbcontext
+                        .AdminNotificationTemplates
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync();
+            return data;
+        }
+        #endregion
 
         #region Device token
         public async Task<IList<DeviceToken>> GetAllDeviceToken(bool showHidden = false)

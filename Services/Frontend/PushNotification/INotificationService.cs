@@ -1,4 +1,4 @@
-﻿
+﻿using Data.NotifyTemplate;
 using Data.PushNotification;
 using System.Collections.Generic;
 using System.Threading.Tasks; 
@@ -6,6 +6,10 @@ namespace Services.Frontend.PushNotification
 {
     public interface INotificationService
     {
+        #region Admin Notification
+        Task<AdminNotificationTemplate> GetDefaultAdminNotificationTemplate();
+        #endregion
+
         #region Device token
         Task<IList<DeviceToken>> GetAllDeviceToken(bool showHidden = false);
         Task<DeviceToken> GetDeviceTokenByDeviceId(string deviceId);

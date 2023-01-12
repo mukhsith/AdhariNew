@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Services.Frontend.CouponPromotion.Interface;
 using Services.Frontend.CustomerManagement;
 using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.PushNotification;
 using Services.Frontend.Sales;
 using Services.Frontend.Shop;
 using System;
@@ -32,6 +33,7 @@ namespace API.Helpers
         private readonly IModelHelper _modelHelper;
         private readonly IWalletPackageService _walletPackageService;
         private readonly IQuickPaymentService _quickPaymentService;
+        private readonly INotificationService _notificationService;
         public PaymentHelper(IOptions<AppSettingsModel> options,
             ApplicationDbContext dbcontext,
             IProductService productService,
@@ -44,7 +46,8 @@ namespace API.Helpers
             IPromotionService promotionService,
             IModelHelper modelHelper,
             IWalletPackageService walletPackageService,
-            IQuickPaymentService quickPaymentService)
+            IQuickPaymentService quickPaymentService,
+            INotificationService notificationService)
         {
             _appSettings = options.Value;
             _dbcontext = dbcontext;
@@ -59,6 +62,7 @@ namespace API.Helpers
             _modelHelper = modelHelper;
             _walletPackageService = walletPackageService;
             _quickPaymentService = quickPaymentService;
+            _notificationService = notificationService;
         }
         public async Task<string> UpdatePaymentEntity(PaymentResponseModel paymentResponseModel)
         {
@@ -249,6 +253,14 @@ namespace API.Helpers
                                     await _commonHelper.SendOrderSMSNotification(orderModel: orderModel, isEnglish: isEnglish);
                                     if (!string.IsNullOrEmpty(orderModel.Customer.EmailAddress))
                                         await _commonHelper.SendOrderEmailNotification(orderModel: orderModel, isEnglish: isEnglish);
+
+                                    var adminNotificationTemplate = await _notificationService.GetDefaultAdminNotificationTemplate();
+                                    if (adminNotificationTemplate != null && adminNotificationTemplate.NewOrderNotificationEnabled)
+                                    {
+                                        if (!string.IsNullOrEmpty(adminNotificationTemplate.NewOrderNotificationToEmailAddress))
+                                            await _commonHelper.SendOrderAdminEmailNotification(orderModel: orderModel, isEnglish: isEnglish,
+                                                adminNotificationTemplate.NewOrderNotificationToEmailAddress, adminNotificationTemplate.NewOrderNotificationCCEmailAddress);
+                                    }
                                 }
                                 catch { }
 
@@ -421,6 +433,14 @@ namespace API.Helpers
                                         await _commonHelper.SendSubscriptionSMSNotification(subscriptionModel: subscriptionModel, isEnglish: isEnglish);
                                         if (!string.IsNullOrEmpty(subscriptionModel.Customer.EmailAddress))
                                             await _commonHelper.SendSubscriptionEmailNotification(subscriptionModel: subscriptionModel, isEnglish: isEnglish);
+
+                                        var adminNotificationTemplate = await _notificationService.GetDefaultAdminNotificationTemplate();
+                                        if (adminNotificationTemplate != null && adminNotificationTemplate.NewOrderNotificationEnabled)
+                                        {
+                                            if (!string.IsNullOrEmpty(adminNotificationTemplate.NewOrderNotificationToEmailAddress))
+                                                await _commonHelper.SendSubscriptionAdminEmailNotification(subscriptionModel: subscriptionModel, isEnglish: isEnglish,
+                                                    adminNotificationTemplate.NewOrderNotificationToEmailAddress, adminNotificationTemplate.NewOrderNotificationCCEmailAddress);
+                                        }
                                     }
                                     catch { }
                                 }

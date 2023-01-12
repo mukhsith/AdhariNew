@@ -62,6 +62,8 @@ namespace API.Helpers
         Task SendSubscriptionSMSNotification(SubscriptionModel subscriptionModel, bool isEnglish);
         Task SendOrderEmailNotification(OrderModel orderModel, bool isEnglish);
         Task SendSubscriptionEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish);
+        Task SendOrderAdminEmailNotification(OrderModel orderModel, bool isEnglish, string emailIds, string ccEmailIds);
+        Task SendSubscriptionAdminEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish, string emailIds, string ccEmailIds);
         #endregion
     }
 }

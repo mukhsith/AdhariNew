@@ -642,6 +642,8 @@ namespace API.Areas.Frontend.Factories
                     else if (cartAttributeModel.AttributeTypeId == AttributeType.RemoveWalletAmount)
                     {
                         cartAttribute.UseWalletAmount = false;
+                        if (cartAttribute.PaymentMethodId == (int)PaymentMethod.Wallet)
+                            cartAttribute.PaymentMethodId = null;
                         await _cartService.UpdateCartAttribute(cartAttribute);
                     }
                     else if (cartAttributeModel.AttributeTypeId == AttributeType.ApplyCoupon)

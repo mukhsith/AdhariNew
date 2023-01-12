@@ -401,6 +401,8 @@
     {
         public static string OrderConfirmationTitle = "تأكيد الطلب";
         public static string OrderEmailDescription = "تم تأكيد طلبك. التفاصيل كالتالي:";
+        public static string OrderAdminConfirmationTitle = "ORDER CONFIRMATION";
+        public static string OrderAdminEmailDescription = "An order has been confirmed. The details are as follows";
         public static string OrderCancellationTitle = "ORDER CANCELLED";
         public static string OrderCancellationEmailDescription = "Your order has been cancelled. The details are as follows";
         public static string CompanyName = "عذاري";

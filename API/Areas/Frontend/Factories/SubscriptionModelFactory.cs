@@ -281,6 +281,8 @@ namespace API.Areas.Frontend.Factories
                     else if (subscriptionAttributeModel.AttributeTypeId == AttributeType.RemoveWalletAmount)
                     {
                         subscriptionAttribute.UseWalletAmount = false;
+                        if (subscriptionAttribute.PaymentMethodId == (int)PaymentMethod.Wallet)
+                            subscriptionAttribute.PaymentMethodId = null;
                         await _cartService.UpdateSubscriptionAttribute(subscriptionAttribute);
                     }
                     else if (subscriptionAttributeModel.AttributeTypeId == AttributeType.ApplyCoupon)
