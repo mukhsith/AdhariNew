@@ -9,8 +9,6 @@
 
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
 
-<input type="hidden" id="selectedPackageAmount" value="0" />
-
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row">
@@ -21,7 +19,7 @@
                     @foreach (var item in Model)
                     {
                         <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
-                            <div class="package-card py-4 px-3 d-flex flex-column body-bg-secondary border border-secondary rounded-4 align-items-center h-100" data-amount="@item.FormattedAmount">
+                            <div class="package-card py-4 px-3 d-flex flex-column body-bg-secondary border border-secondary rounded-4 align-items-center h-100" data-id="@item.Id" data-amount="@item.FormattedAmount">
                                 <h4 class="mb-1 fw-bold text-primary text-center">@item.Title</h4>
                                 <h5 class="mb-3 fw-normal text-center">@item.Description</h5>
                                 <div class="d-flex flex-column w-100 mt-auto text-center">
@@ -56,7 +54,7 @@
             <div class="col-12 col-lg-4 mx-auto text-center payment-method" style="display: none;">
                 <div class="d-flex justify-content-center">
                     <a href="javascript:;" class="btn btn-secondary color-white rounded-pill col-5 me-2 fw-bold d-block d-md-none text-light package-card-back-btn">Back</a>
-                    <a href="payment-details-for-package.html" class="btn btn-primary color-white rounded-pill col-5 fw-bold continue-btn">Checkout</a>
+                    <a id="a-checkout" href="javascript:;" class="btn btn-primary color-white rounded-pill col-5 fw-bold continue-btn">@SharedHtmlLocalizer["Checkout"]</a>
                 </div>
             </div>
         </div>
@@ -92,11 +90,50 @@
                         </label>
                         <div class="d-flex align-items-center">
                             <label for="payment-method-radio${item.id}" class="text-end">${item.name}</label>
-                            <input id="payment-method-radio${item.id}" name="payment-method-radio" class="ms-1 ms-md-3" type="radio">
+                            <input id="payment-method-radio${item.id}" name="payment-method-radio" class="ms-1 ms-md-3" type="radio" value="${item.id}">
                         </div>
                     </div>`;
         return html;
     };
+
+
+        $("#a-checkout").click(function () {
+            var walletPackageId = $('div.package-card.active').attr('data-id');
+            var paymentMethodId = $('input[name="payment-method-radio"]:checked').val();
+            if (paymentMethodId == "" || paymentMethodId == null || paymentMethodId == undefined) {
+                ToastAlert('error', '', "@SharedHtmlLocalizer["PleaseChoosePaymentMethod"]");
+                return false;
+            }
+
+            showLoader();
+            $.post("@Url.RouteUrl("createwalletpackageorder")", {
+                WalletPackageId: walletPackageId,
+                PaymentMethodId: paymentMethodId
+            }, function (result) {
+                if (result.success && result.data != null) {
+                    if (result.data.redirectToPaymentPage) {
+                        window.location.href = result.data.paymentUrl;
+                    }
+                    else {
+                        window.location.href = "/ORD/" + result.data.entityNumber;
+                    }
+                }
+                else {
+                    hideLoader();
+
+                    if (result.statusCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+
+            return false;
+        });
 
     $(".package-card").click(function () {
         var amount = $(this).data('amount');

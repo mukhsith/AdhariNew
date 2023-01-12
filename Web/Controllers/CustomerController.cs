@@ -11,6 +11,7 @@ using Utility.API;
 using Utility.Enum;
 using Utility.Models.Frontend.CouponPromotion;
 using Utility.Models.Frontend.CustomerManagement;
+using Utility.Models.Frontend.Sales;
 using Utility.ResponseMapper;
 
 namespace Web.Controllers
@@ -477,20 +478,28 @@ namespace Web.Controllers
 
         public async Task<IActionResult> AddressDetails(int addressId)
         {
+            var addressModel = new AddressModel();
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    return RedirectToRoute("login");
+                }
+
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress?id=" + addressId);
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
-                    return View("AddressDetails", responseModel.Data);
+                    addressModel = responseModel.Data[0];
                 }
+
             }
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
             }
 
-            return View(new List<AddressModel>());
+            return View(addressModel);
         }
 
         [HttpPut]
@@ -566,6 +575,59 @@ namespace Web.Controllers
             }
 
             return View(walletPackageModels);
+        }
+
+        /// <summary>
+        /// Create Wallet Package Order
+        /// </summary>
+        /// <param name="createPaymentModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public virtual async Task<JsonResult> CreateWalletPackageOrder(CreatePaymentModel createPaymentModel)
+        {
+            var responseModel = new APIResponseModel<CreatePaymentModel>();
+            try
+            {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    responseModel.StatusCode = 401;
+                    return Json(responseModel);
+                }
+
+                createPaymentModel.CustomerIp = _apiHelper.GetUserIP();
+                responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/customer/createwalletpackageorder", createPaymentModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return Json(responseModel);
+        }
+
+        public async Task<IActionResult> WalletOrderResult(string orderNumber)
+        {
+            var walletPackageOrderModel = new WalletPackageOrderModel();
+            try
+            {
+                if (string.IsNullOrEmpty(orderNumber))
+                {
+                    return View(walletPackageOrderModel);
+                }
+
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<WalletPackageOrderModel>>>("webapi/customer/walletpackageorders?orderNumber=" + orderNumber);
+                if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
+                {
+                    walletPackageOrderModel = responseModel.Data[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(walletPackageOrderModel);
         }
 
         /// <summary>

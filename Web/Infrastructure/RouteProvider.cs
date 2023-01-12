@@ -442,6 +442,18 @@ namespace Web.Infrastructure
                    name: "paymentmethod",
                    pattern: "paymentmethod/{paymentRequestType}",
                    defaults: new { controller = "Common", action = "GetPaymentMehods" });
+
+            //to create wallet package order
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "createwalletpackageorder",
+                   pattern: "createwalletpackageorder",
+                   defaults: new { controller = "Customer", action = "CreateWalletPackageOrder" });
+
+            //wallet order result
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "walletorderresult",
+                   pattern: "CON/WPP/{orderNumber?}",
+                   defaults: new { controller = "Customer", action = "WalletOrderResult" });
         }
     }
 }

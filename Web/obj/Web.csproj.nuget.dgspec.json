@@ -10,14 +10,11 @@
         "projectUniqueName": "D:\\Development\\AdhariNew\\Utility\\Utility.csproj",
         "projectName": "Utility",
         "projectPath": "D:\\Development\\AdhariNew\\Utility\\Utility.csproj",
-        "packagesPath": "C:\\Users\\basith\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\mukhsith\\.nuget\\packages\\",
         "outputPath": "D:\\Development\\AdhariNew\\Utility\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\basith\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mukhsith\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -103,7 +100,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.415\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.414\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -113,14 +110,11 @@
         "projectUniqueName": "D:\\Development\\AdhariNew\\Web\\Web.csproj",
         "projectName": "Web",
         "projectPath": "D:\\Development\\AdhariNew\\Web\\Web.csproj",
-        "packagesPath": "C:\\Users\\basith\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\mukhsith\\.nuget\\packages\\",
         "outputPath": "D:\\Development\\AdhariNew\\Web\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\basith\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mukhsith\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -177,7 +171,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.415\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.414\\RuntimeIdentifierGraph.json"
         }
       }
     }

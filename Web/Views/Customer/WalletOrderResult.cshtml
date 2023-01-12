@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Utility.Models.Frontend.Sales.WalletPackageOrderModel
+@inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
+@using Utility.Enum
+@{
+    var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
+    Layout = "_Layout";
+}
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("mywallet", new { walletType = (int)(WalletType.Wallet) }), Title = SharedHtmlLocalizer["MyWallet"].Value });
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Checkout"].Value });
+}
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                @if (Model.PaymentStatusId == (int)PaymentStatus.Captured || Model.PaymentStatusId == (int)PaymentStatus.PendingCash)
+                {
+                    <i class="fa-solid fa-circle-check text-success success-icon text-center"></i>
+                    <h2 class="text-center mt-3">@SharedHtmlLocalizer["PaymentSuccessful"]</h2>
+                }
+                else
+                {
+                    <i class="fa-solid fa-circle-xmark text-danger success-icon text-center"></i>
+                    <h2 class="text-center mt-3">@SharedHtmlLocalizer["PaymentNotSuccessful"]</h2>
+                }
+            </div>
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="mb-4">
+                    <div class="bg-grey row rounded-4 p-3 mx-0">
+                        <ul class="list-group list-group-flush list-card rounded-top rounded-bottom">
+                            @foreach (var item in Model.PaymentSummary)
+                            {
+                                <li class="list-group-item d-flex justify-content-between border-secondary px-0">
+                                    <p class="mb-0 text-muted">@item.Title</p>
+                                    <p class="mb-0 text-primary fw-bold text-end ">@item.Value</p>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

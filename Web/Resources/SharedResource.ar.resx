@@ -558,6 +558,9 @@
   <data name="SaveAddress" xml:space="preserve">
     <value>Save Address</value>
   </data>
+  <data name="SaveProfile" xml:space="preserve">
+    <value>Save Profile</value>
+  </data>
   <data name="School" xml:space="preserve">
     <value>School</value>
   </data>

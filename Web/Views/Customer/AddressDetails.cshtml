@@ -1,8 +1,7 @@
-﻿@model IList<Utility.Models.Frontend.CustomerManagement.AddressModel>
+﻿@model Utility.Models.Frontend.CustomerManagement.AddressModel
 @inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
 @using Utility.Enum
 @{
-    var AddressData = Model.FirstOrDefault();
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("myaddresses"), Title = SharedHtmlLocalizer["MyAddresses"].Value });
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["AddressDetails"].Value });
@@ -39,7 +38,7 @@
         disableAllElement("#frm-address select");
         disableAllElement("#frm-address textarea");
 
-        switch (@AddressData.TypeId) {
+        switch (@Model.TypeId) {
             case @((int)AddressType.Home):
                 $('#Home-tab').trigger('click');
                 break;
@@ -62,24 +61,24 @@
                 break;
         }
 
-        loadGovernoratesEdit(@AddressData.GovernorateId);
-        loadAreasEdit(@AddressData.GovernorateId,@AddressData.AreaId);
+        loadGovernoratesEdit(@Model.GovernorateId);
+        loadAreasEdit(@Model.GovernorateId,@Model.AreaId);
 
         $("#myTab").hide();
-        setIntegerValue('hdnAddressTypeId', '@AddressData.TypeId');
-        setTextValue('AddressName', '@AddressData.Name');
+        setIntegerValue('hdnAddressTypeId', '@Model.TypeId');
+        setTextValue('AddressName', '@Model.Name');
 
-        setTextValue('Block', '@AddressData.Block');
-        setTextValue('Street', '@AddressData.Street');
-        setTextValue('Avenue', '@AddressData.Avenue');
-        setTextValue('HouseNo', '@AddressData.HouseNumber');
-        setTextValue('BuildingNo', '@AddressData.BuildingNumber');
-        setTextValue('FloorNo', '@AddressData.FloorNumber');
-        setTextValue('FlatNo', '@AddressData.FlatNumber');
-        setTextValue('SchoolName', '@AddressData.SchoolName');
-        setTextValue('MosqueName', '@AddressData.MosqueName');
-        setTextValue('GovernmentEntity', '@AddressData.GovernmentEntity');
-        setTextValue('Notes', '@AddressData.Notes');
+        setTextValue('Block', '@Model.Block');
+        setTextValue('Street', '@Model.Street');
+        setTextValue('Avenue', '@Model.Avenue');
+        setTextValue('HouseNo', '@Model.HouseNumber');
+        setTextValue('BuildingNo', '@Model.BuildingNumber');
+        setTextValue('FloorNo', '@Model.FloorNumber');
+        setTextValue('FlatNo', '@Model.FlatNumber');
+        setTextValue('SchoolName', '@Model.SchoolName');
+        setTextValue('MosqueName', '@Model.MosqueName');
+        setTextValue('GovernmentEntity', '@Model.GovernmentEntity');
+        setTextValue('Notes', '@Model.Notes');
 
         $(".edit-address").click(function () {
             $("#btn-save-address").removeClass("d-none");
@@ -194,7 +193,7 @@
         if ($("#frm-address").valid()) {
 
             var data = {
-                Id: @AddressData.Id,
+                Id: @Model.Id,
                 TypeId: $("#hdnAddressTypeId").val(),
                 Name: $("#AddressName").val(),
                 GovernorateId: $("#Governorate").val(),
