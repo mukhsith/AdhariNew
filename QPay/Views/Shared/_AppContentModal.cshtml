@@ -1,0 +1,93 @@
+﻿
+<!-- Vertically centered modal -->
+<div class="modal fade" id="PrivacyPolicyModal" tabindex="-1" aria-labelledby="PrivacyPolicyModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="PrivacyPolicyModalTitle">@SharedHtmlLocalizer["PrivacyPolicy"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@SharedHtmlLocalizer["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                <div class="summernote-content">
+                    <div id="PrivacyPolicyModalContent"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary text-light rounded-pill" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Vertically centered modal -->
+<div class="modal fade" id="TermsConditionsModal" tabindex="-1" aria-labelledby="TermsConditionsModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="TermsConditionsModalTitle">@SharedHtmlLocalizer["TermsAndConditions"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@SharedHtmlLocalizer["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                <div class="summernote-content">
+                    <div id="TermsAndCondiotionsContent"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary text-light rounded-pill" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Vertically centered modal -->
+<div class="modal fade" id="RefundPolicyModal" tabindex="-1" aria-labelledby="RefundPolicyModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="RefundPolicyModalTitle">@SharedHtmlLocalizer["Refund Policy"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@SharedHtmlLocalizer["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                <div class="summernote-content">
+                    <div id="RefundPolicyModalContent"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary text-light rounded-pill" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.privacy-policy').click(function () {
+            var _url = '@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.PrivacyPolicy })'
+            $.get(_url, function (data) {
+                if (data.content != null) {
+                    $("#PrivacyPolicyModalContent").html(data.content);
+                    $("#PrivacyPolicyModal").modal('show');
+                }
+            });
+        });
+
+        $('.terms-and-conditions').click(function () {
+            var _url = '@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.TermsCondition })'
+            $.get(_url, function (data) {
+                if (data.content != null) {
+                    $("#TermsAndCondiotionsContent").html(data.content);
+                    $("#TermsConditionsModal").modal('show');
+                }
+            });
+        });
+
+        $('.refund-policy').click(function () {
+            var _url = '@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.RefundPolicy })'
+            $.get(_url, function (data) {
+                if (data.content != null) {
+                    $("#RefundPolicyModalContent").html(data.content);
+                    $("#RefundPolicyModal").modal('show');
+                }
+            });
+        });
+    });
+</script>

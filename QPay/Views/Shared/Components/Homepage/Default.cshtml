@@ -1,0 +1,85 @@
+﻿@model Utility.Models.Frontend.CustomizedModel.HomepageModel
+@await Html.PartialAsync("_Banner", Model.Banners)
+@await Html.PartialAsync("_HeroTabs", Model.Categories)
+@foreach (var cat in Model.Categories)
+{
+    <section class="mb-2 mb-md-4" id="tab-@cat.Title.Replace(" ","-")">
+        <div class="container">
+            @if (!string.IsNullOrEmpty(@cat.ImageDesktopUrl) && !string.IsNullOrEmpty(@cat.ImageMobileUrl))
+            {
+                <div class="row mb-3 mb-md-5 rounded-5">
+                    <div class="col-12 d-block d-md-none">
+                        <img src="@cat.ImageDesktopUrl" class="img-fluid rounded-3" alt="">
+                    </div>
+                    <div class="col-12 d-none d-md-block">
+                        <img src="@cat.ImageMobileUrl" class="img-fluid rounded-5" alt="">
+                    </div>
+                </div>
+            }
+            <h2 class="text-center text-uppercase fw-bold text-primary my-3">@cat.Title</h2>
+            <div class="row justify-content-center">
+                @if (cat.ProductTypeId == ProductType.SubscriptionProduct)
+                {
+                    @foreach (var item in cat.Products.Where(x => x.ProductType == cat.ProductTypeId))
+                    {
+                        @await Html.PartialAsync("_ProductBox", item)
+                    }
+                }
+                else
+                {
+                    @foreach (var item in cat.Products.Where(x => x.CategoryId == cat.Id))
+                    {
+                        @await Html.PartialAsync("_ProductBox", item)
+                    }
+
+                }
+            </div>
+        </div>
+    </section>
+}
+<section class=" body-bg-secondary">
+    <div class="container pt-3 pb-5 py-md-5">
+        <div class="row justify-content-center pb-3 pb-md-0">
+            <div class="col-12 d-flex flex-column justify-content-center mb-3 mb-md-0 ">
+                <div class="d-flex flex-column justify-content-center mt-auto">
+                    <h3 class="text-center text-uppercase fw-bold  text-primary mb-3">@SharedHtmlLocalizer["DownloadOurApp"]</h3>
+                    <div class="d-flex justify-content-center  col-11 col-md-6 col-lg-4 col-xl-3 mx-auto pb-3 pb-md-2">
+                        <a href="@Model.CompanySetting.AppStoreLink" class="me-3" target="_blank" id="appSoreLink" rel="noopener noreferrer">
+                            <img src="~/assets/img/app-store.svg" alt="@SharedHtmlLocalizer["AppStoreLink"]">
+                        </a>
+                        <a href="@Model.CompanySetting.PlayStoreLink" class="me-0 me-md-3" target="_blank" id="playStoreLink" rel="noopener noreferrer">
+                            <img src="~/assets/img/google-play.svg" alt="@SharedHtmlLocalizer["GooglePlayLink"]">
+                        </a>
+                    </div>
+                    <ul class="navbar-nav mt-auto flex-row mb-2 mb-md-0 mx-auto d-md-none">
+                        @await Html.PartialAsync("_SocialMediaLinks", Model.CompanySetting)
+                    </ul>
+                    <div class="d-flex d-md-none align-items-center justify-content-center w-100">
+                        <div class="d-flex flex-column">
+                            <p class="mt-2 mb-1 text-center">
+                                @SharedHtmlLocalizer["Copyright"] © <span class="year"></span>
+                                <a class="text-white" href="@Url.RouteUrl("home")">@SharedHtmlLocalizer["Adhari"]</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<a href="#" class="floating-btn">
+    <i class="fas fa-shopping-cart"></i>
+    <small id="s-cart-count"></small>
+    <span class="me-4" id="sp-cart-subtotal"></span> <span id="sp-view-cart" class="p-0 ms-auto pe-3 float-end">@SharedHtmlLocalizer["ViewCart"]</span>
+</a>
+<script>
+    $(document).ready(function () {
+        $("#sp-view-cart").click(function (e) {
+            e.preventDefault();
+            var cartCount = $("#s-cart-count").html();
+            if (cartCount != "0") {
+                $("#a-cart").trigger("click");
+            }
+        });
+    });
+</script>
