@@ -29,7 +29,7 @@ namespace Web.Controllers
              IHttpContextAccessor httpContextAccessor) : base(razorViewEngine)
         {
             _apiHelper = apiHelper;
-            _logger = logger.CreateLogger(typeof(OrderController).Name);
+            _logger = logger.CreateLogger(typeof(CustomerController).Name);
             _appSettingsModel = options.Value;
             _httpContextAccessor = httpContextAccessor;
         }

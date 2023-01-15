@@ -2,10 +2,7 @@
 <html lang="@SharedHtmlLocalizer["HTMLLang"]" dir="@SharedHtmlLocalizer["HTMLDir"]">
 @{
     var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
-    // int.TryParse(Context.Request.Cookies["CountryId"], out int countryId);
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}";
-    var token = Convert.ToString(Context.Request.Cookies["AuthenticationToken"]);
-    bool loggedIn = !string.IsNullOrEmpty(token);
 }
 <head>
     <meta charset="utf-8">
@@ -16,7 +13,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="~/assets/img/fav/favicon-16x16.png">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-    <title>@SharedHtmlLocalizer["ProjectTitle"]</title>
+    <title>@SharedHtmlLocalizer["QuickPay"]</title>
     <link rel="stylesheet" href="~/assets/vendor/css/animate.css">
     <link rel="stylesheet" href="~/assets/vendor/css/ace-responsive-menu/ace-responsive-menu.css">
     @if (requestCultureFeature != "ar")
@@ -34,7 +31,7 @@
     <script src="~/assets/vendor/js/jquery.js"></script>
 </head>
 
-<body class="d-flex flex-column min-vh-100 home-page">
+<body class="d-flex flex-column min-vh-100">
     <div id="cover-spin"></div>
     <div class="position-fixed vw-100 vh-100 top-0 start-0 body-bg-secondary flex-column justify-content-center align-items-center loader-container" style="z-index: 999999; --bs-bg-opacity: 0.5;">
         <div class="spinner d-flex justify-content-center align-items-center">
@@ -42,28 +39,10 @@
         </div>
         <h3 class="text-primary mt-3">@SharedHtmlLocalizer["Loading"]</h3>
     </div>
-    @await Html.PartialAsync("_Header")
     <main role="main" class="mobile-bottom">
         @RenderBody()
     </main>
-    @await Html.PartialAsync("_Footer")
     <div class="toast-container position-fixed top-0 end-0 px-2 pb-2 pt-5 p-lg-3 mt-3 mt-lg-0" style="z-index: 100000;">
-    </div>
-    @await Html.PartialAsync("_AppContentModal")
-    <div class="modal fade show" id="common-model-popup" tabindex="-1" aria-labelledby="common-model-title" aria-modal="true" role="dialog" style="display: none;">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="common-model-popup-title"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="common-model-popup-description">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary text-light rounded-pill" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
-                </div>
-            </div>
-        </div>
     </div>    
     <script src="~/assets/vendor/js/bootstrap.bundle.js"></script>
     <script src="~/assets/js/util/autoPadding.js"></script>
@@ -80,203 +59,6 @@
     <script>
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            jQuery.validator.addMethod("phoneStartCheck", function (value, element) {
-                if (value.startsWith("0") || value.startsWith("1") || value.startsWith("2") || value.startsWith("3") || value.startsWith("7") || value.startsWith("8")) {
-                    return false;
-                }
-                return true;
-            }, "@SharedHtmlLocalizer["EnterAValidMobileNumber"]");
-
-            jQuery.validator.addMethod("customEmail", function (value, element, param) {
-                var regex = /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-                if (regex.test(value)) {
-                    return true;
-                }
-
-                return false;
-            });
-
-            // set copyright year
-            $('.year').html((new Date).getFullYear());
-        });
-
-        function showCoverSpin() {
-            $("#cover-spin").show();
-        }
-
-        function hideCoverSpin() {
-            $("#cover-spin").hide();
-        }
-
-        function validateMobileNumber(event) {
-            var key = window.event ? event.keyCode : event.which;
-            if (event.keyCode === 8 || event.keyCode === 46) {
-                return false;
-            } else if (key < 48 || key > 57) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        function addToCart(productId, quantity) {
-            if (quantity == "" || parseInt(quantity) == 0) {
-                showToastErrorMessage('@SharedHtmlLocalizer["Quantity should be greater than zero"]');
-                return;
-            }
-
-            $.post("@Url.RouteUrl("addcartitem")", { productId: productId, Quantity: quantity }, function (result) {
-                if (result.success) {
-                    if (result.data) {
-                        updateCartCount();
-                        $("#a-cart").css("cursor", "pointer");
-                        $("#a-cart").trigger("click")
-                    }
-                    else {
-                        if (result.message != "")
-                            ToastAlert("error", "", result.message);
-                    }
-                }
-                else {
-                    if (result.message != "")
-                        ToastAlert("error", "", result.message);
-                }
-            });
-
-            return false;
-        }
-
-        function addToFavourite(productId, productUrl, imgUrl, title, price, isfav, isList) {
-            $.get("@Url.RouteUrl("addorremovefavourite")", { productId: productId }, function (result) {
-                debugger;
-                console.log(isfav);
-                if (result.success) {
-                    if (result.data) {
-                        if (isList) {
-                            var elementId = '#i-add-to-favorite-' + productId;
-                            var imgClassName = $(elementId).attr('class');
-                            if (imgClassName == "fa-regular fa-heart fa-stack-1x") {
-                                $(elementId).attr('class', 'fa-solid fa-heart fa-stack-1x');
-                                ProductToastAlert('success', 'fa-solid fa-heart', result.message, '', imgUrl, title, price, productUrl);
-                            }
-                            else {
-                                $(elementId).attr('class', 'fa-regular fa-heart fa-stack-1x');
-                                ProductToastAlert('danger', 'fa-regular fa-heart', result.message, '', imgUrl, title, price, productUrl);
-                            }
-                        }
-                        else {
-                            var elementId = '#i-add-to-favorite-det';
-                            var imgClassName = $(elementId).attr('class');
-                            if (imgClassName == "fa-heart fa-regular") {
-                                $(elementId).attr('class', 'fa-heart fa-solid');
-                                $("#sp-add-fav").html("@SharedHtmlLocalizer["Remove from Favorites"]");
-                                ProductToastAlert('success', 'fa-regular fa-heart', result.message, '', imgUrl, title, price, productUrl);
-                            }
-                            else {
-                                $(elementId).attr('class', 'fa-heart fa-regular');
-                                $("#sp-add-fav").html("@SharedHtmlLocalizer["Add to Favorites"]");
-                                ProductToastAlert('danger', 'fa-regular fa-heart', result.message, '', imgUrl, title, price, productUrl);
-                            }
-                        }
-
-                        debugger;
-                        if (isfav == 1) {
-                            $("#product-box-" + productId).remove();
-                            if ($('#dv-product-box').children().length > 0) {
-                                $("#dv-empty-records").hide();
-                            }
-                            else {
-                                $("#dv-empty-records").show();
-                            }
-                        }
-                    }
-                }
-                else {
-                    if (result.messageCode == 401) {
-                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
-                        window.location.href = "/login?returnUrl=" + returnUrl;
-                        return;
-                    }
-                }
-            });
-
-            return false;
-        }
-
-        function notifyProduct(productId, productUrl, imgUrl, title, price) {
-            debugger;
-            $.get("@Url.RouteUrl("addorremoveproductavailability")", { productId: productId }, function (result) {
-                debugger;
-                if (result.success) {
-                    if (result.data) {
-                        var elementId = '#notify-product-' + productId;
-                        var currentText = $(elementId).text().trim();
-                        console.log(currentText);
-                        var doNotifyText = '@SharedHtmlLocalizer["Do not notify me"]';
-                        var notifyText = '@SharedHtmlLocalizer["Notify Me"]';
-                        if (currentText == notifyText) {
-                            $(elementId).html(doNotifyText);
-                            ProductToastAlert('secondary', 'fa-solid fa-bell', '@SharedHtmlLocalizer["Notification Added"]', result.message, imgUrl, title, price, productUrl);
-                        }
-                        else {
-                            $(elementId).html(notifyText);
-                            ProductToastAlert('secondary', 'fa-solid fa-bell-slash', '@SharedHtmlLocalizer["Notification Removed"]', result.message, imgUrl, title, price, productUrl);
-                        }
-                    }
-                    else {
-                        if (result.message != "") {
-                            ToastAlert('error', '', result.message);
-                        }
-                    }
-                }
-                else {
-                    if (result.messageCode == 401) {
-                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
-                        window.location.href = "/login?returnUrl=" + returnUrl;
-                        return;
-                    }
-                }
-            });
-
-            return false;
-        }
-
-        function updateCartCount() {
-            $.get("@Url.RouteUrl("getcartcount")", function (result) {
-                var count = 0;
-                var subTotal = "";
-                if (result != "") {
-                    var arrResult = result.split(",");
-                    if (arrResult.length == 2) {
-                        count = parseInt(arrResult[0]);
-                        subTotal = arrResult[1];
-                    }
-                }
-
-                if (count > 0) {
-                    $("#img-cart").attr("src", "/assets/img/icons/icon-cart.svg");
-                    $("#a-cart").css("cursor", "pointer");
-
-                    $("#mobile-img-cart").attr("src", "/assets/img/icons/icon-cart.svg");
-                    $("#a-mobile-cart").css("cursor", "pointer");
-                }
-                else {
-                    $("#img-cart").attr("src", "/assets/img/icons/icon-cart-empty.svg");
-                    $("#a-cart").css("cursor", "not-allowed");
-
-                    $("#mobile-img-cart").attr("src", "/assets/img/icons/icon-cart-empty.svg");
-                    $("#a-mobile-cart").css("cursor", "not-allowed");
-                }
-
-                $("#s-cart-count").html(count);
-                $("#sp-cart-subtotal").html(subTotal);
-
-                $("body").css("visibility", "visible");
-            });
-        }
     </script>
 </body>
 </html>

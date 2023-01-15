@@ -117,12 +117,12 @@ namespace Adhari
                 FileProvider = new PhysicalFileProvider(Path.Combine(path, @"Pdfs")),
                 RequestPath = new PathString("/Pdfs")
             }); 
-            //email template folder
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(path, @"EmailTemplates")),
-                RequestPath = new PathString("/EmailTemplates")
-            });
+            ////email template folder
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(path, @"EmailTemplates")),
+            //    RequestPath = new PathString("/EmailTemplates")
+            //});
 
             app.UseRouting();
 
