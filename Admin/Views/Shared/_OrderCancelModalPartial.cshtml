@@ -1,0 +1,62 @@
+﻿
+<div class="modal fade" id="order-cancel" data-bs-keyboard="false" tabindex="-1" aria-labelledby="order-cancelLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content border-secondary">
+
+            <div class="modal-header border-secondary body-bg-secondary">
+                <h5 class="modal-title fw-bold text-primary" id="order-cancelLabel">@SharedHtmlLocalizer["CancelOrder"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <input type="hidden" id="dialogOrderId" value="" />
+                <input type="hidden" id="dialogOrderTypeId" value="1" />
+            </div>
+            <div class="modal-body">
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="ordercanceloption" id="refund_with_total" value="1">
+                    <label class="form-check-label" for="">@SharedHtmlLocalizer["RefundWithDeliveryCharges"]</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="ordercanceloption" id="refund_without_total" value="2">
+                    <label class="form-check-label" for="">@SharedHtmlLocalizer["RefundWihtoutDeliveryCharges"]</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success save-btn" onclick="cancelOrder()">@SharedHtmlLocalizer["Save"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        cancelOrder = () => {
+            let orderId = $("#order-cancel .modal-header #dialogOrderId").val();
+            let dialogOrderTypeId = $("#order-cancel .modal-header #dialogOrderTypeId").val();
+            if ($('#order-cancel .modal-body input[type=radio]').is(':checked') == false) {
+                ToastAlert('error', 'Refund', 'Please select refund with or without delivery charges');
+            } else {
+               
+                //onl for two options, becareful
+                var withFee = $('#order-cancel .modal-body input[type=radio]')[0].checked;
+                 
+                let submitData = new FormData();
+                submitData.append("orderId", orderId);
+                submitData.append("orderTypeId", dialogOrderTypeId);
+                submitData.append("orderStatusId", 3);//cancelled
+                submitData.append("refundDeliveryFee", withFee);
+                ajaxPost("order/UpdateOrderStatus", submitData, cbCancelOrderSuccess);
+            }
+        }
+          
+    });
+
+    cbCancelOrderSuccess = (data) => {
+        if (data.success) {
+            ToastAlert('success', 'Order', 'Order cancelled successfully');
+            reloadPage();
+        } else { 
+            ToastAlert('error', 'Order', data.message);
+        }
+    }
+</script>

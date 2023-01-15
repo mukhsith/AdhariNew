@@ -1,0 +1,256 @@
+﻿@*
+    @model Utility.Models.Admin.OrderParamModel
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    
+*@
+@{
+}
+
+@model  APIResponseModel<Utility.Models.Frontend.Sales.OrderModel>
+<header class="page-header">
+    <h2>Order Details</h2> 
+    <div class="end-wrapper text-end me-5">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+<div class="row">
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Order Summary</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+                        <label for="">Order Mode</label>
+                        <div class="fw-bold">@Model.Data.OrderSummary.OrderModeText</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Initiated From</label>
+                        <div class="fw-bold">@Model.Data.OrderSummary.SalesmanName</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Driver</label>
+                        <div class="fw-bold">@Model.Data.OrderSummary.DriverName</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Order Status</label>
+                        <div class="text-success fw-bold">@Model.Data.OrderSummary.OrderStatusText</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Delivery Details</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="">Address Name</label>
+                        <div class="fw-bold">@Model.Data.Address.Name</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Governorate</label>
+                        <div class="fw-bold">@Model.Data.Address.GovernorateName</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Area</label>
+                        <div class="fw-bold">@Model.Data.Address.AreaName</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Block</label>
+                        <div class="fw-bold">@Model.Data.Address.Block</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Street</label>
+                        <div class="fw-bold">@Model.Data.Address.Street</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Avenue</label>
+                        <div class="fw-bold">@Model.Data.Address.Avenue</div>
+                    </div>
+                    <div class="col-12 col-md-6 mb-3">
+                        <label for="">Notes</label>
+                        <div class="fw-bold"> @Model.Data.Address.Notes </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Customer Details</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="">Customer Name</label>
+                        <div class="fw-bold">@Model.Data.Customer.Name</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Customer Email</label>
+                        <div class="fw-bold">@Model.Data.Customer.EmailAddress</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Customer Mobile</label>
+                        <div class="fw-bold">@Model.Data.Customer.FormattedMobile</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Payment Details</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="">Order Number</label>
+                        <div class="fw-bold">@Model.Data.OrderNumber</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Transaction Date</label>
+                        <div class="fw-bold">@Model.Data.FormattedDate</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Payment Method</label>
+                        <div class="fw-bold"><span class="px-2 rounded-pill fw-bold bg-info text-light">@Model.Data.PaymentMethod.Name</span></div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Payment Result</label>
+                        <div class="fw-bold">@Model.Data.PaymentResult</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Payment ID</label>
+                        <div class="fw-bold">@Model.Data.PaymentId</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Payment Reference</label>
+                        <div class="fw-bold">@Model.Data.PaymentRefId</div>
+                    </div>
+                    <!-- <div class="col-md-3 mb-3">
+                      <label for="">Order Status</label>
+                      <div class="text-success fw-bold">Delivered</div>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Items Details</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- ========== Start Table Block ========== -->
+                        <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="datatable-default-">
+                            <thead>
+                                <tr>
+                                    <th data-priority="1" class="">No.</th>
+                                    <th data-priority="2" class="">Image</th>
+                                    <th data-priority="3" class="">Product Name</th>
+                                    <th data-priority="4" class="">Product ID</th>
+                                    <th data-priority="4" class="">Price Paid</th>
+                                    <th data-priority="5" class="">Quantity</th>
+                                    <th data-priority="6" class="">Total Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border-secondary">
+                                @foreach (var item in Model.Data.OrderItems)
+                                {
+                                    <tr class="">
+                                        <td class="" data-th="No.">@item.ProductId</td>
+                                        <td class="" data-th="Image"><img src='@item.Product.ImageUrl' class='img-fluid' width='100px'></td>
+                                        <td class="" data-th="Product Name">@item.Product.Title</td>
+                                        <td class="" data-th="Product ID">@item.ProductId</td>
+                                        <td class="" data-th="Price Paid">@item.FormattedUnitPrice</td>
+                                        <td class="" data-th="Quantity">@item.Quantity</td>
+                                        <td class="" data-th="Total Amount">@item.FormattedTotal</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                        <!-- ========== End Table Block ========== -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Payment Summary</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    @foreach (var pay in @Model.Data.PaymentSummary)
+                    {
+                        <div class="col-md-3 mb-3">
+                            <label for="">@pay.Title</label>
+                            <div class="fw-bold">@pay.Value</div>
+                        </div>
+
+                    }
+                     
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+    <div class="col-12 d-flex justify-content-between">
+        <a href="javascript:;" onclick="downloadPDF(@Model.Data.Id)" class="btn btn-primary btn-lg fw-bold print-page">Print Order Details</a>
+        @*<a href="javascript:;" class="btn btn-primary btn-lg fw-bold btn-danger">Cancel Order</a>*@
+
+    </div>
+</div>
+<script src="~/developer/js/Order/orderDetails.js" asp-append-version="true"></script>

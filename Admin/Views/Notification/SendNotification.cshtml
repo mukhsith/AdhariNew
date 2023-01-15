@@ -1,0 +1,300 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<link rel="stylesheet" href="~/assets/vendor/css/emojionearea.min.css" />
+<script src="~/assets/vendor/js/emojionearea.min.js"></script>
+<header class="page-header">
+    <h2> Send Notification</h2>
+    <div class="end-wrapper text-end me-5">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">SMS Notification</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="card-title text-primary mb-2">
+                            Send SMS Notification<span class="text-body">
+                                <!-- ========== Start Tooltip ========== -->
+                                <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip"
+                                   title="Sends an SMS Notification to all phone numbers registered as customers"
+                                   data-bs-original-title="Sends an SMS Notification to all phone numbers registered as customers"
+                                   aria-label="Sends an SMS Notification to all phone numbers registered as customers"></i>
+                                <!-- ========== End Tooltip ========== -->
+                            </span>
+                        </h2>
+                        <div class="row mt-2">
+                            <form method="post" id="dataForm" name="dataForm" enctype="multipart/form-data">
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <!-- ========== Start Simple Text Area ========== -->
+                                    <label for="" class="form-label ">SMS Message<span class=" text-danger">*</span></label>
+                                    <textarea class="form-control form-control-lg rounded-4 border-secondary  "
+                                              name="SMSmessage" id="SMSmessage"
+                                              aria-describedby="SMS Message" placeholder="Message" rows="3" required></textarea>
+
+
+                                    <!-- ========== End Simple Text Area ========== -->
+                                </div>
+
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label for="" class="form-label ">SMS Language<span class=" text-danger">*</span></label>
+                                    <select data-plugin-selectTwo
+                                            class="form-control form-control-lg border border-secondary rounded-4 h-100"
+                                            style="height: 48px"
+                                            name="languageList" id="languageList" data-plugin-options='{ "placeholder": "Select a Product...", "allowClear": true,"height": "48px" }'>
+                                        <option value="0">English</option>
+                                        <option value="64">Arabic</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label for="" class="form-label ">Customer <span class=" text-danger">*</span></label>
+                                    <select data-plugin-selectTwo
+                                            class="form-control form-control-lg border border-secondary rounded-4 h-100"
+                                            style="height: 48px"
+                                            name="customerList" id="customerList" data-plugin-options='{ "placeholder": "Select a Product...", "allowClear": true,"height": "48px" }'>
+                                    </select>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <button id="btnSave" class="btn btn-primary btn-lg save-btn  fw-bold">Send</button>
+                                    <!--<a href="javascript:;" onclick="sendNotification()" data-notification-type="1" data-bs-toggle="modal" data-bs-target="#confirmationRequestModal"
+                                       class="btn btn-primary btn-lg fw-bold mt-3 open-send-notification">Send</a>-->
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Mobile (PUSH) Notification</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="card-title text-primary mb-2">
+                            Send Mobile (PUSH) Notification<span class="text-body">
+                                <!-- ========== Start Tooltip ========== -->
+                                <i class="fas fa-question-circle fs-5  ms-2" data-bs-toggle="tooltip" title="Sends a Mobile (PUSH) Notification to all devices with the Application installed" data-bs-original-title="Sends a Mobile (PUSH) Notification to all devices with the Application installed" aria-label="Sends a Mobile (PUSH) Notification to all devices with the Application installed"></i>
+                                <!-- ========== End Tooltip ========== -->
+                            </span>
+                        </h2>
+                       
+                        <form method="post" id="dataForm2" name="dataForm2" enctype="multipart/form-data">
+                            <div class="row mt-2">
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">Title (En)<span class=" text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg rounded-4 border-secondary mb-3"
+                                           name="titleEn" id="titleEn" aria-describedby="Title (En)" placeholder="" value="" required>
+
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                    <!-- ========== Start Simple Text Area ========== -->
+                                    <label for="" class="form-label ">Message (En)<span class=" text-danger">*</span></label>
+                                    <textarea class="form-control form-control-lg rounded-4 border-secondary  enableemojis"
+                                              name="messageEn" id="messageEn" aria-describedby="Message (En)" placeholder="Message" rows="3" required></textarea>
+
+
+                                    <!-- ========== End Simple Text Area ========== -->
+                                </div>
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <!-- ========== Start Simple Input Field ========== -->
+
+                                    <label for="" class="form-label">Title (Ar)<span class=" text-danger">*</span></label>
+                                    <input type="text" dir="rtl" class="form-control form-control-lg rounded-4 border-secondary mb-3"
+                                           name="titleAr" id="titleAr" aria-describedby="Title (Ar)" placeholder="" value="" required>
+
+
+                                    <!-- ========== End Simple Input Field ========== -->
+                                    <!-- ========== Start Simple Text Area ========== -->
+                                    <label for="" class="form-label ">Message (Ar)<span class=" text-danger">*</span></label>
+                                    <textarea dir="rtl" class="form-control form-control-lg rounded-4 border-secondary text-end dir-rtl enableemojis"
+                                              name="messageAr" id="messageAr" aria-describedby="Message (Ar)" placeholder="Message" rows="3" required></textarea>
+
+
+                                    <!-- ========== End Simple Text Area ========== -->
+                                </div>
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label for="" class="form-label ">Customer <span class=" text-danger">*</span></label>
+                                    <select data-plugin-selectTwo
+                                            class="form-control form-control-lg border border-secondary rounded-4 h-100"
+                                            style="height: 48px"
+                                            name="customerIdList" id="customerIdList" data-plugin-options='{ "placeholder": "Select a Product...", "allowClear": true,"height": "48px" }'>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <button id="btnSave1" class="btn btn-primary btn-lg save-btn  fw-bold">Send</button>
+
+                                </div>
+                            </div>
+                        </form>
+                       
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        $(".enableemojis").emojioneArea();
+    });
+
+    var customerList = [];
+    $(document).ready(function () {
+        fillDropDownList('customerList', 'Customer/GetAllForSMSNotification', false, '', 'mobileNumber', 'name');
+        fillDropDownList('customerIdList', 'Customer/GetAllForSMSNotification', false, '', 'id', 'name');
+
+        $("#dataForm").validate({
+            rules: {
+                message: { required: true },
+                customerList: { required: true },
+            },
+            messages: {
+                message: { required: 'Required' },
+                customerList: { required: 'Required' },
+            },
+            submitHandler: function (form, event) {
+                event.preventDefault();
+                $("#confirmationRequestModal .modal-footer #dialogNotificationTypeId").val("1");
+                $('#confirmationRequestModal').modal("show");
+            }
+        });
+
+        $("#dataForm2").validate({
+            rules: {
+                messageEn: { required: true },
+                messageAr: { required: true },
+                titleEn: { required: true },
+                titleAr: { required: true },
+                customerIdList: { required: true },
+            },
+            messages: {
+                messageEn: { required: 'Required' },
+                messageAr: { required: 'Required' },
+                titleEn: { required: 'Required' },
+                titleAr: { required: 'Required' },
+                customerIdList: { required: 'Required' },
+            },
+            submitHandler: function (form, event) {
+                event.preventDefault();
+                $("#confirmationRequestModal .modal-footer #dialogNotificationTypeId").val("2");
+                $('#confirmationRequestModal').modal("show");
+            }
+        });
+    });
+
+    sendNotification = () => {
+        $('#confirmationRequestModal').modal("hide");
+        var notificationType = $("#confirmationRequestModal .modal-footer #dialogNotificationTypeId").val();
+
+        if (notificationType == "1") {
+            showLoader();
+            let submitData = new FormData();
+            submitData.append('message', getTextValue('SMSmessage'));
+            submitData.append('mobileNumber', getSelectedItemValue('customerList'));
+            submitData.append('languageId', getSelectedItemValue('languageList'));
+            ajaxPost("NotificationTemplate/CreateSMSPush", submitData,
+                function (data) {
+                    showLog(data);
+                    if (data.success) {
+                        ToastAlert('success', "SMS Message", "Message created successfully");
+                        setTextValue("message", "");
+                    } else {
+                        console.log(data);
+                    }
+                    hideLoader();
+                });
+            fillDropDownList('customerList', 'Customer/GetAllForSMSNotification', false, '', 'mobileNumber', 'name');
+        } else if (notificationType == "2") {
+            {
+                showLoader();
+                let submitData = new FormData();
+                submitData.append('messageEn', $('#messageEn').html());
+                submitData.append('messageAr', $('#messageAr').html());
+                submitData.append('titleEn', getTextValue('titleEn'));
+                submitData.append('titleAr', getTextValue('titleAr'));
+                submitData.append('customerId', getSelectedItemValue('customerIdList'));
+                ajaxPost("Notification/CreateNotification", submitData,
+                    function (data) {
+                        showLog(data);
+                        if (data.success) {
+                            ToastAlert('success', "Push Notification ","Push Notification created successfully");
+
+                            
+                          //  setTimeout(() => location.href = "/Notification/SendNotification", 4500);
+                            //setTextValue("messageEn", "");
+                            //setTextValue("messageAr", "");
+                            $('#messageEn').html('');
+                            $('#messageAr').html('');
+                            $(".emojionearea-editor").html('');
+                            
+                            setTextValue("titleEn", "");
+                            setTextValue("titleAr", "");
+                        } else {
+                            console.log(data);
+                        }
+                        hideLoader();
+                    });
+
+                
+                fillDropDownList('customerIdList', 'Customer/GetAllForSMSNotification', false, '', 'id', 'name');
+            }
+        }
+    }
+</script>
+
+
+
+<div class="modal fade" id="confirmationRequestModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmationRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content border-secondary">
+
+            <div class="modal-header border-secondary body-bg-secondary">
+                <h5 class="modal-title fw-bold text-primary" id="confirmationRequestModalLabel">Send Notifications</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="m-0">Are you sure you want to send the notifications?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <input type="hidden" id="dialogNotificationTypeId" value="" />
+                <button type="button" class="btn btn-success send-notification-btn" onclick="sendNotification()">Confirm</button>
+
+
+            </div>
+        </div>
+    </div>
+</div>

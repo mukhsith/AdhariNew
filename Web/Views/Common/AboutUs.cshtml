@@ -1,0 +1,20 @@
+﻿@model SiteContentModel
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["AboutUs"].Value });
+}
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6 mx-auto">
+                <img src="@Html.Raw(Model.ImageUrl)" class="img-fluid" alt="@SharedHtmlLocalizer["AboutUs"]">
+            </div>
+            <div class="col-12">
+                <div class="summernote-content">
+                    @Html.Raw(Model.Content)
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

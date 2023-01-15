@@ -1,0 +1,69 @@
+﻿@model Data.Common.BaseEntityId
+<header class="page-header">
+    <h2> @(@Model.Id > 0 ? @SharedHtmlLocalizer["EditBlockedDeliveryDate"] : @SharedHtmlLocalizer["NewBlockedDeliveryDate"].Value)</h2>
+    <input type="hidden" value="@Model.Id" id="Id" />
+    <div class="end-wrapper text-end me-5">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["BlockedDeliveryDateDetails"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <form method="post" id="dataForm" name="dataForm" enctype="multipart/form-data">
+                    @await Html.PartialAsync("_FormHiddenFieldsPartial")
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <!-- ========== Start Datepicker Field ========== -->
+                                <label for="Date-range-id" class="form-label">@SharedHtmlLocalizer["BlockDateRange"]<span class=" text-danger">*</span></label>
+                                <div class="input-daterange input-group rounded-4" data-plugin-datepicker>
+                                    <span class="input-group-text rounded-4 border border-secondary">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </span> 
+                                    <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary " name="fromDate" id="fromDate" aria-describedby="" placeholder="" value="" required>
+                                     <span class="input-group-text border-start-0 border-end-0 border-secondary rounded-0">
+                                        to
+                                    </span> 
+                                    <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary " name="toDate" id="toDate" aria-describedby="" placeholder="" value="" required>
+                                     
+                                </div> 
+                            </div>
+                            <div class="col-12 mb-3">
+                                <!-- ========== Start Simple Text Area ========== -->
+                                <label for="" class="form-label ">@SharedHtmlLocalizer["Notes"]<span class=" text-danger">*</span></label>
+                                <textarea class="form-control form-control-lg rounded-4 border-secondary " name="note" id="note" aria-describedby="@SharedHtmlLocalizer["Notes"]" placeholder="" rows="3" required></textarea>
+
+
+                                <!-- ========== End Simple Text Area ========== -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button id="btnSave" class="btn btn-primary btn-lg save-btn fw-bold">@SharedHtmlLocalizer["Save"]</button>
+                            <button type="button" class="btn btn-warning" onclick="history.go(-1)">@SharedHtmlLocalizer["Back"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+
+<script src="~/developer/js/Delivery/BlockedDate_CRUD.js" asp-append-version="true"></script>
+

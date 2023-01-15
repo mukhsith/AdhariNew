@@ -1,0 +1,121 @@
+﻿@model IList<Utility.Models.Frontend.CustomerManagement.AddressModel>
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["MyAddresses"].Value });
+}
+@inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        @if (Model.Count > 0)
+        {
+            <div class="row">
+                <div class="col-12">
+                    @foreach (var item in Model)
+                    {
+                        <div class="bg-grey row rounded-4 p-3 mx-0 mb-3">
+                            <a href="@Url.RouteUrl("addressdetails",new { addressId=item.Id })">
+                                <div class="row">
+                                    <div class="col-11">
+                                        <div class="row row-cols-2 row-cols-md-3 row-cols-xl-6">
+                                            <div class="col mb-2">
+                                                <p class="mb-0 fw-bold">@SharedHtmlLocalizer["Name"]</p>
+                                                <p class="mb-0 text-dark">@item.Name</p>
+                                            </div>
+                                            <div class="col mb-2">
+                                                <p class="mb-0 fw-bold">@SharedHtmlLocalizer["Type"]</p>
+                                                <p class="mb-0 text-dark">Home</p>
+                                            </div>
+                                            @if (!string.IsNullOrEmpty(item.Block))
+                                            {
+                                                <div class="col mb-2">
+                                                    <p class="mb-0 fw-bold">@SharedHtmlLocalizer["BlockNo"]</p>
+                                                    <p class="mb-0 text-dark">@item.Block</p>
+                                                </div>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.Street))
+                                            {
+                                                <div class="col mb-2">
+                                                    <p class="mb-0 fw-bold">@SharedHtmlLocalizer["StreetNo"]</p>
+                                                    <p class="mb-0 text-dark">@item.Street</p>
+                                                </div>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.HouseNumber))
+                                            {
+                                                <div class="col mb-2">
+                                                    <p class="mb-0 fw-bold">@SharedHtmlLocalizer["HouseNo"]</p>
+                                                    <p class="mb-0 text-dark">@item.HouseNumber</p>
+                                                </div>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.Avenue))
+                                            {
+                                                <div class="col mb-2">
+                                                    <p class="mb-0 fw-bold">@SharedHtmlLocalizer["AvenueNo"]</p>
+                                                    <p class="mb-0 text-dark">@item.Avenue</p>
+                                                </div>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.BuildingNumber))
+                                            {
+                                                <div class="col mb-2">
+                                                    <p class="mb-0 fw-bold">@SharedHtmlLocalizer["BuildingNo"]</p>
+                                                    <p class="mb-0 text-dark">@item.BuildingNumber</p>
+                                                </div>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.FloorNumber))
+                                            {
+                                                <div class="col mb-2">
+                                                    <p class="mb-0 fw-bold">@SharedHtmlLocalizer["FloorNo"]</p>
+                                                    <p class="mb-0 text-dark">@item.FloorNumber</p>
+                                                </div>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.FlatNumber))
+                                            {
+                                                <div class="col mb-2">
+                                                    <p class="mb-0 fw-bold">@SharedHtmlLocalizer["FlatNo"]</p>
+                                                    <p class="mb-0 text-dark">@item.FlatNumber</p>
+                                                </div>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.AreaName))
+                                            {
+                                                <div class="col mb-2">
+                                                    <p class="mb-0 fw-bold">@SharedHtmlLocalizer["Area"]</p>
+                                                    <p class="mb-0 text-dark">@item.AreaName</p>
+                                                </div>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.GovernorateName))
+                                            {
+                                                <div class="col mb-2">
+                                                    <p class="mb-0 fw-bold">@SharedHtmlLocalizer["Governorate"]</p>
+                                                    <p class="mb-0 text-dark">@item.GovernorateName</p>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-1 d-flex align-items-center justify-content-end pb-3 pb-xl-0">
+                                        <i class="fa fa-chevron-right"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 text-center">
+                    <i class="display-1 fas fa-location-dot text-center text-primary"></i>
+                </div>
+                <div class="col-12 text-center">
+                    <h5 class="mt-3 text-primary">@SharedHtmlLocalizer["NoSavedAddresses"]</h5>
+                </div>
+            </div>
+        }
+        <div class="col-12 text-center mb-3">
+            <a href="@Url.RouteUrl("addnewaddress")" class="btn btn-primary rounded-pill px-5 fw-bold text-light">
+                @SharedHtmlLocalizer["AddNewAddress"]
+            </a>
+        </div>
+    </div>
+</section>

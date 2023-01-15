@@ -1,0 +1,49 @@
+﻿@model Data.Common.BaseEntityId
+<header class="page-header">
+    <h2> @(@Model.Id > 0 ? @SharedHtmlLocalizer["EditRole"] : @SharedHtmlLocalizer["NewRole"])</h2>
+    <input type="hidden" value="@Model.Id" id="Id" />
+    <div class="end-wrapper text-end me-5">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+
+<div class="row">
+    <div class="col">
+        <section class="card">
+            <header class="card-header">
+                <h2 class="card-title">@SharedHtmlLocalizer["RoleDetails"]</h2>
+            </header>
+            <div class="card-body">
+                <form method="post" id="dataForm" name="dataForm" enctype="multipart/form-data">
+                  @await Html.PartialAsync("_FormHiddenFieldsPartial")
+                    <div class="row mb-3">
+                        <!-- Title -->
+                        <div class="mb-3 col-md-4">
+                            <label for="name">@SharedHtmlLocalizer["RoleName"]<span class=" text-danger">*</span></label>
+                            <input type="text" class="form-control" name="name" id="name" aria-describedby="@SharedHtmlLocalizer["RoleName"]" oninput="maxlength(event);" maxlength="15" required>
+                            <span class="characters-used"></span>
+                            <div class="invalid-feedback">
+                                @SharedHtmlLocalizer["PleaseEnterARoleName"]
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <button id="btnSave" class="btn btn-primary btn-lg save-btn fw-bold">@SharedHtmlLocalizer["Save"]</button>
+                            <button type="button" class="btn btn-warning" onclick="history.go(-1)">@SharedHtmlLocalizer["Back"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div> 
+<script src="~/developer/js/systemUserManagement/UserRole_CRUD.js" asp-append-version="true"></script>
+ 

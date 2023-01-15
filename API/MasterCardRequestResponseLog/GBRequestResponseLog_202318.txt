@@ -1,0 +1,6 @@
+-----------Log Details on  1/8/2023 2:19:18 PM-----------------
+-------------------------------------------------------------------------------------
+apiOperation:INITIATE_CHECKOUT,apiPassword:73745c418836a8027b81f008035b7d4a,apiUsername:merchant.TEST900233001,merchant:TEST900233001,order.id:1110646482,order.amount:35.000,order.currency:KWD,order.description:Order for subscription payment,order.reference:1110646482,interaction.operation:PURCHASE,interaction.returnUrl:https://localhost:44380/payment/getmastercardpaymentreceipt/1110646482/SubscriptionOrder/82,interaction.merchant.name:FORMAN CO,interaction.merchant.address.line1:Sharq,interaction.merchant.address.line2:Kuwait City,billing.address.street:Kuwait City,billing.address.city:Kuwait City,billing.address.postcodeZip:1111,billing.address.stateProvince:Kuwait City,billing.address.country:KWT,interaction.displayControl.billingAddress:HIDE,interaction.displayControl.customerEmail:HIDE,interaction.displayControl.shipping:HIDE,transaction.reference:TR1110646482
+--------------------------------*End*------------------------------------------
+
+

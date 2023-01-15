@@ -1,0 +1,213 @@
+﻿@model Utility.Models.Frontend.Content.CompanySettingModel
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["ContactUs"].Value });
+}
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="text-center text-primary">@SharedHtmlLocalizer["AnyQuestionsOrSuggestions?ContactUs!"]</h4>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 col-lg-10 mx-auto">
+                        <div class="row">
+                            <div class="col-12 col-lg-4 mx-auto mb-3 d-flex align-items-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex mb-3">
+                                            <span class="fa-stack me-2">
+                                                <i class="fa-solid fa-circle fa-stack-2x text-primary"></i>
+                                                <i class="fa-solid fa-location-dot fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                            <div class="content w-100">
+                                                <h6 class="mb-2">@Model.Address</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="d-flex mb-3">
+                                                    <span class="fa-stack me-2">
+                                                        <i class="fa-solid fa-circle fa-stack-2x text-primary"></i>
+                                                        <i class="fa-solid fa-phone fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                    <div class="content">
+                                                        <h6 class="mb-2"><bdi><a href="tel:+@Model.MobileNumber">+@Model.MobileNumber</a></bdi></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="d-flex mb-3">
+                                                    <span class="fa-stack me-2">
+                                                        <i class="fa-solid fa-circle fa-stack-2x text-primary"></i>
+                                                        <i class="fa-solid fa-envelope fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                    <div class="content">
+                                                        <h6 class="mb-2"><a href="mailto:@Model.EmailAddress">@Model.EmailAddress</a></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-8">
+                                <div class="card mt-3 mt-md-0 rounded-5 border-secondary shadow">
+                                    <div class="card-body">
+                                        <form id="contact-form" class="row">
+
+                                            <div class="col-12 col-md-6 mb-3">
+                                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]</label>
+                                                <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary"
+                                                       id="Name" name="Name" placeholder="@SharedHtmlLocalizer["EnterYourName"]">
+                                                <div id="dvErrorName"></div>
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-3">
+                                                <label for="inputEmail" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
+                                                <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary"
+                                                       id="EmailAddress" name="EmailAddress" placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]">
+                                                <div id="dvErrorEmailAddress"></div>
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-3">
+                                                <label for="inputMobile" class="form-label mb-0">@SharedHtmlLocalizer["MobileNumber"]</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0">
+                                                        <img src="assets/img/Kuwait_flag.svg" width="25">
+                                                    </span>
+                                                    <span class="input-group-text border border-secondary border-start-0 p-1" id="basic-addon1">
+                                                        <bdi>+965</bdi>
+                                                    </span>
+                                                    <input type="text" class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
+                                                           id="MobileNumber" name="MobileNumber"
+                                                           onkeypress="return validateMobileNumber(event);"
+                                                           maxlength="8"
+                                                           placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]">
+                                                </div>
+                                                <div id="dvErrorMobileNumber"></div>
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-3">
+                                                <label for="inputSubject" class="form-label mb-0">@SharedHtmlLocalizer["Subject"]</label>
+                                                <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary"
+                                                       id="Subject" name="Subject" placeholder="@SharedHtmlLocalizer["EnterSubject"]">
+                                                <div id="dvErrorSubject"></div>
+                                            </div>
+                                            <div class="col-12 mb-3">
+                                                <label for="inputMessage" class="form-label mb-0">@SharedHtmlLocalizer["Message"]</label>
+                                                <textarea class="form-control body-bg-secondary rounded-4 border-secondary"
+                                                          id="Message" name="Message" rows="3"></textarea>
+                                                <div id="dvErrorMessage"></div>
+                                            </div>
+                                            <div class="col-12 text-center">
+                                                <a href="#" id="submit-btn" class="btn btn-primary rounded-pill fw-bold">@SharedHtmlLocalizer["Submit"]</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var iti;
+    $(document).ready(function () {
+        $("#contact-form").validate({
+            rules: {
+                Name: { required: true },
+                EmailAddress: { required: true, customEmail: true },
+                MobileNumber: { required: true, rangelength: [8, 8], phoneStartCheck: true },
+                Subject: { required: true },
+                Message: { required: true },
+            },
+            messages: {
+                Name: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["NameIsRequired"]</span></div>"
+                },
+                EmailAddress: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EmailIsRequired"]</span></div>",
+                    customEmail: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidEmail"]</span></div>"
+                },
+                MobileNumber: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["MobileNumberIsRequired"]</span></div>",
+                    rangelength: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["MobileNumberShouldBe8Digits"]</span></div>",
+                    phoneStartCheck: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidMobileNumber"]</span></div>"
+                },
+                Subject: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["SubjectIsRequired"]</span></div>"
+                },
+                Message: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["MessageIsRequired"]</span></div>"
+                },
+            },
+            errorPlacement: function ($error, $element) {
+                var name = $element.attr("name");
+                $("#dvError" + name).append($error);
+            }
+        });
+
+        $('#submit-btn').click(function () {
+            $('#contact-form').validate();
+            if ($("#contact-form").valid()) {
+                showLoader();
+                var name = $("#Name").val();
+                var emailAddress = $("#EmailAddress").val();
+                var countryCode = "+965";
+                var mobileNumber = $("#MobileNumber").val();
+                var number = countryCode + mobileNumber;
+                var subject = $("#Subject").val();
+                var message = $("#Message").val();
+
+                $.post("@Url.RouteUrl("contactus")", {
+                    Name: name,
+                    EmailAddress: emailAddress,
+                    MobileNumber: number,
+                    Subject: subject,
+                    Message: message
+                }, function (result) {
+                    hideLoader();
+                    if (result.success) {
+                        if (result.message != "")
+                            ToastAlert('success', '', result.message);
+
+                        $("#Name").val('');
+                        $("#EmailAddress").val('');
+                        $("#MobileNumber").val('');
+                        $("#Subject").val('');
+                        $("#Message").val('');
+                    }
+                    else {
+                        if (result.message != "")
+                            ToastAlert('error',result.message);
+                    }
+                });
+            }
+
+            return false;
+        });
+
+        //var input = document.querySelector("#MobileNumber");
+        //iti = window.intlTelInput(input, {
+        //    initialCountry: "kw",
+        //    separateDialCode: true,
+        //    preferredCountries: ["kw"]
+        //});
+
+        //var getPadding = $('#MobileNumber').css('padding-left');
+
+        //if ($('body').css('direction') == 'rtl') {
+        //    $('html').attr('dir', 'rtl');
+        //    $('#MobileNumber').css('padding-right', getPadding);
+        //    console.log(getPadding);
+        //    $('#MobileNumber').css('padding-left', '8px');
+        //}
+    });
+</script>

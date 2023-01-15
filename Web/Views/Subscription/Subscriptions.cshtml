@@ -1,0 +1,76 @@
+﻿@model List<SubscriptionModel>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
+@{
+    Layout = "_Layout";
+    var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["MySubscriptions"].Value });
+}
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        @if (Model.Count > 0)
+        {
+            <div class="row">
+                <div class="col-12">
+                    @foreach (var item in Model)
+                    {
+                        <div class="bg-grey row rounded-4 p-3 mx-0 mb-3">
+                            <a href="@Url.RouteUrl("subscriptiondetails",new { subscriptionNumber=item.SubscriptionNumber })">
+                                <div class="row">
+                                    <div class="col-11">
+                                        <div class="row">
+                                            <div class="col-6 col-md-2 mb-3 mb-xl-0">
+                                                <p class="mb-0 fw-bold">@SharedHtmlLocalizer["SubscriptionID"]</p>
+                                                <p class="mb-0 text-dark">@item.SubscriptionNumber</p>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3 mb-xl-0">
+                                                <p class="mb-1 fw-bold">@SharedHtmlLocalizer["Status"]</p>
+                                                <span class="mb-0 text-light py-0 px-2 rounded-pill" style="background-color: @item.SubscriptionStatusColor;">@item.SubscriptionStatusName</span>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3 mb-xl-0">
+                                                <p class="mb-0 fw-bold">@SharedHtmlLocalizer["SubscriptionDate"]</p>
+                                                <p class="mb-0 text-dark">@item.FormattedDate</p>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3 mb-xl-0">
+                                                <p class="mb-0 fw-bold">@SharedHtmlLocalizer["SubscriptionAmount"]</p>
+                                                <p class="mb-0 text-dark">@item.FormattedTotal</p>
+                                            </div>
+                                            <div class="col-12 col-md-4 mb-3 mb-xl-0">
+                                                <p class="mb-0 fw-bold">@SharedHtmlLocalizer["SubscriptionName"]</p>
+                                                <p class="mb-0 text-dark">@item.SubscriptionTitle</p>
+                                                <ul class="body-bg-secondary border border-secondary rounded-3 text-muted p-2 m-0">
+                                                    @foreach (var subscriptionPackTitle in item.SubscriptionPackTitles)
+                                                    {
+                                                        <li class="d-flex justify-content-between mb-1">
+                                                            <p class="m-0">@subscriptionPackTitle.Title</p>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 d-flex align-items-center justify-content-end pb-3 pb-xl-0">
+                                        <i class="fa fa-chevron-right"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 text-center">
+                    <i class="display-1 fas fa-cart-shopping text-center text-primary"></i>
+                </div>
+                <div class="col-12 text-center">
+                    <h5 class="mt-3 text-primary">@SharedHtmlLocalizer["NoSubscriptions"]</h5>
+                </div>
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,26 @@
+﻿ @{
+     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+     ViewData["Title"] = "Session Expired";
+}
+<title>Session Expired</title>
+<section class="body-sign">
+    <div class="center-sign">
+
+        <div class="panel card-sign text-center">
+            <div class="card-body text-center p-4">
+                <h1 class="text-primary text-center mt-0 mb-2">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </h1>
+                <h3 class="text-primary text-center">Your session has expired</h3>
+                <p class="text-start mt-3 mb-0 fw-bold">What could have caused this?</p>
+                <ul class="text-start">
+                    <li>You have not logged in yet.</li>
+                    <li>You may have logged in, but closed the browser.</li>
+                    <li>You may have logged in, but your session expired.</li>
+                </ul>
+                <!-- <p class="text-center mt-3">Your session has timed-out or expired due to inactivity. Please Sign In again.</p> -->
+                <a href="/account/index" class="btn btn-lg btn-primary text-center">Sign In</a>
+            </div>
+        </div>
+    </div>
+</section>

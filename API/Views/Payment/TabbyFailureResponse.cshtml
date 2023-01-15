@@ -1,0 +1,24 @@
+﻿<html>
+<head>
+</head>
+<body>
+    <div class="row">
+        <script src="@ViewBag.CheckOutUrl"
+                data-error="@ViewBag.MasterCardInteractionReturnUrl"
+                data-cancel="@ViewBag.MasterCardInteractionReturnUrl"
+                data-complete="@ViewBag.MasterCardInteractionReturnUrl">
+        </script>
+        <script type="text/javascript">
+            function errorCallback(error) {
+                console.log(JSON.stringify(error));
+            }
+            Checkout.configure({
+                session: {
+                    id: '@ViewBag.SessionId'
+                }
+            });
+            Checkout.showPaymentPage();
+        </script>
+    </div>
+</body>
+</html>

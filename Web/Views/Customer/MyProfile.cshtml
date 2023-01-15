@@ -1,0 +1,235 @@
+﻿@model Utility.Models.Frontend.CustomerManagement.CustomerModel
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["MyProfile"].Value });
+}
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6 mx-auto">
+                <div class="mb-4">
+                    <div class="bg-grey row rounded-4 p-3 mx-0">
+                        <form class="row g-3 mt-0" id="form-myprofile">
+                            <div class="col-12">
+                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]</label>
+                                <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
+                                       id="inputName" placeholder="@SharedHtmlLocalizer["EnterYourName"]" value="@Model.Name" disabled>
+                                <div id="dvErrorName">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="inputName2" class="form-label mb-0">
+                                    @SharedHtmlLocalizer["MobileNumber"]<span class="verified-check ms-1 fw-bold text-success" style="display: none;">
+                                        @SharedHtmlLocalizer["Verified"] <i class="fa-solid fa-circle-check"></i>
+                                    </span>
+                                </label>
+                                <div class="input-group disabled profile-field ">
+                                    <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0 bg-grey">
+                                        <img src="/assets/img/Kuwait_flag.svg" width="25">
+                                    </span>
+                                    <span class="input-group-text border border-secondary border-start-0 p-1" id="basic-addon1">
+                                        <bdi>+965</bdi>
+                                    </span>
+                                    <input type="tel" id="inputMobileNumber"
+                                           class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary mobile-field profile-field"
+                                           required="" placeholder="Mobile" value="@Model.MobileNumber" maxlength="8" disabled>
+                                    <div id="dvErrorMobileNumber">
+                                    </div>
+                                    @*<button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
+                                                data-bs-toggle="modal" data-bs-target="#OTPModal" type="button" style="display:none">
+                                            @SharedHtmlLocalizer["Verify"]
+                                        </button>*@
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="inputEmail4" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
+                                <input type="email" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
+                                       id="inputEmail4" placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]" value="@Model.EmailAddress" disabled>
+                                <div id="dvErrorEmailAddress">
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <a href="javascript:;" class="btn btn-primary rounded-pill px-5 fw-bold edit-profile">@SharedHtmlLocalizer["EditProfile"]</a>
+                                <a href="javascript:;" id="a-save-profile" class="btn btn-secondary rounded-pill px-5 fw-bold text-light save-profile"
+                                   style="display: none;">@SharedHtmlLocalizer["SaveProfile"]</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@await Html.PartialAsync("_OTPModel")
+<script>
+    $(document).ready(function () {
+        OTPInput();
+        $("#resend").hide();
+        $('#sec-otp-verification').hide();
+
+        $("#form-myprofile").validate({
+            ignore: [],
+            rules: {
+                Name: {
+                    required: true
+                },
+                EmailAddress: {
+                    required: true, customEmail: true
+                },
+                MobileNumber: {
+                    required: true, rangelength: [8]
+                }
+            },
+            messages: {
+                Name: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["NameIsRequired"]</span></div>"
+                },
+                EmailAddress: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EmailIsRequired"]</span></div>",
+                    customEmail: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidEmail"]</span></div>"
+                },
+                MobileNumber: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["MobileNumberIsRequired"]</span></div>",
+                    rangelength: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidMobileNumber"]</span></div>"
+                }
+            },
+            errorPlacement: function ($error, $element) {
+                var name = $element.attr("name");
+                $("#dvError" + name).append($error);
+            }
+        });
+
+        $("#a-save-profile").click(function () {
+            $('#form-myprofile').validate();
+            if ($("#form-myprofile").valid()) {
+                $.post("@Url.RouteUrl("myprofile")", {
+                    Name: $("#inputName").val(),
+                    EmailAddress: $("#inputEmail4").val(),
+                    MobileNumber: $("#inputMobileNumber").val()
+                }, function (result) {
+                    debugger;
+                    if (result.success) {
+                        if (result.data != null) {
+                            if (result.data.otpDetailId > 0) {
+                                $("#pVerificationMessage").text(result.message);
+                                $("#requestId").val(result.data.otpDetailId);
+
+                                var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
+                                document.getElementById('timer').innerHTML = time;
+                                startTimer();
+                                $("#resend").hide();
+                                $("#otp-button").show();
+
+                                let myModal = new bootstrap.Modal(document.getElementById('OTPModal'), {});
+                                myModal.show();
+                            }
+                            else {
+                                setTextValue('inputName', result.data.name);
+                                setTextValue('inputEmail4', result.data.emailAddress);
+                                setTextValue('inputMobileNumber', result.data.mobileNumber);
+
+                                $('.profile-field').prop("disabled", true);
+                                $('.input-group.profile-field').addClass("disabled");
+                                $('.otp-code-button').hide();
+                                $('.mobile-field').addClass('rounded-pill');
+                                $('.save-profile').hide();
+                                $('.edit-profile').show();
+                            }
+                        }
+                        else {
+                            if (result.message != "")
+                                showToastErrorMessage(result.message);
+                        }
+                    }
+                    else {
+                        if (result.messageCode == 401) {
+                            var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                            window.location.href = "/login?returnUrl=" + returnUrl;
+                            return;
+                        }
+
+                        if (result.message != "")
+                            showToastErrorMessage(result.message);
+                    }
+                });
+            }
+        });
+
+        $("#resend").click(function () {
+            $("#otp1").val('');
+            $("#otp2").val('');
+            $("#otp3").val('');
+            $("#otp4").val('');
+
+            var otpDetailId = $("#requestId").val();
+            if (otpDetailId.length == 0)
+                return;
+
+            $.get("@Url.RouteUrl("resendOTP")", { otpDetailId: otpDetailId }, function (result) {
+                if (result.success) {
+                    $("#requestId").val(result.data.otpDetailId);
+                    var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
+                    document.getElementById('timer').innerHTML = time;
+                    startTimer();
+                    $("#resend").hide();
+                    $("#otp-button").show();
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+        });
+
+        $("#otp-button").on("click", function () {
+            var requestId = $("#requestId").val();
+            if (requestId.length == 0)
+                return;
+
+            var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
+            if (otp == "") {
+                ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
+                return;
+            }
+
+            var typeId = @((int)NotificationType.UpdateMobileNumber);
+
+            $.post("@Url.RouteUrl("verifyOTP")", {
+                RequestId: requestId, OTP: otp, TypeId: typeId
+            }, function (result) {
+                if (result.success) {
+                    debugger;
+                    setTextValue('inputName', result.data.name);
+                    setTextValue('inputEmail4', result.data.emailAddress);
+                    setTextValue('inputMobileNumber', result.data.mobileNumber);
+
+                    $('#sec-otp-verification').hide();
+                    $('.profile-field').prop("disabled", true);
+                    $('.input-group.profile-field').addClass("disabled");
+                    $('.otp-code-button').hide();
+                    $('.mobile-field').addClass('rounded-pill');
+                    $('.save-profile').hide();
+                    $('.edit-profile').show();
+
+                    $("#OTPModal").modal('hide');
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $('.edit-profile').click(function () {
+        $('.profile-field').prop("disabled", false);
+        $('.profile-field').removeClass("disabled");
+        $('.otp-code-button').show();
+        //$('.mobile-field').removeClass('rounded-pill');
+        $('.edit-profile').hide();
+        $('.save-profile').show();
+    });
+</script>

@@ -1,0 +1,180 @@
+﻿@model Utility.Models.Frontend.CustomerManagement.CustomerModel
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "Signin", Title = SharedHtmlLocalizer["SignIn"].Value });
+}
+
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 col-xl-4 mx-auto">
+                <div class="card mt-3 mt-md-0 rounded-5 border-secondary shadow">
+                    <div class="card-body">
+                        <form asp-route="login" method="post" autocomplete="off" class="row g-3 p-3" id="login-form">
+                            <div asp-validation-summary="ModelOnly"></div>
+                            <div class="col-md-12">
+                                <label for="inputMobile" class="form-label mb-0">@SharedHtmlLocalizer["MobileNumber"]</label>
+                                <div class="input-group">
+                                    <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0">
+                                        <img src="~/assets/img/Kuwait_flag.svg" width="25">
+                                    </span>
+                                    <span class="input-group-text border border-secondary border-start-0 p-1" id="basic-addon1">
+                                        <bdi>+965</bdi>
+                                    </span>
+                                    <input type="tel" asp-for="MobileNumber"
+                                           class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
+                                           aria-label="@SharedHtmlLocalizer["EnterYourMobileNumber"]"
+                                           maxlength="8" onkeypress="return validateMobileNumber(event);"
+                                           placeholder="" />
+                                    <div class="invalid-feedback" id="dvError">
+                                    </div>
+                                    <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
+                                            data-bs-toggle="modal" data-bs-target="#OTPModal" type="button"
+                                            style="display:none">
+                                        @SharedHtmlLocalizer["Verify"]
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <a id="signin-btn" class="btn btn-primary color-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignIn"]</a>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <hr class="dropdown-divider body-bg-secondary border-secondary">
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <h6 class="mb-2">@SharedHtmlLocalizer["DontHaveAnAccount"]</h6>
+                                <a href="@Url.RouteUrl("register")" class="btn btn-secondary text-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignUp"]</a>
+                            </div>
+
+
+                            <div class="col-12 text-center">
+                                <h6 class="mb-2">@SharedHtmlLocalizer["OR"]</h6>
+                                <a href="@Url.RouteUrl("home")" class="text-primary rounded-pill fw-bold px-5">@SharedHtmlLocalizer["ContinueAsGuest"]</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@await Html.PartialAsync("_OTPModel")
+<script>
+    $(document).ready(function () {
+        OTPInput();
+        $("#resend").hide();
+        var returnUrl = "@Model.ReturnUrl";
+
+        $('#sec-otp-verification').hide();
+
+        $("#login-form").validate({
+            rules: {
+                MobileNumber: {
+                    required: true, rangelength: [8, 8], phoneStartCheck: true
+                }
+            },
+            messages: {
+                MobileNumber: {
+                    required: "<span>@SharedHtmlLocalizer["MobileNumberIsRequired"]</span>",
+                    rangelength: "<span>@SharedHtmlLocalizer["MobileNumberShouldBe8Digits"]</span>",
+                    phoneStartCheck: "<span>@SharedHtmlLocalizer["EnterAValidMobileNumber"]</span>"
+                }
+            },
+            errorElement: 'div',
+            errorLabelContainer: '#dvError'
+        });
+
+
+        $("#signin-btn").click(function (event) {
+            event.preventDefault();
+            $('#login-form').validate();
+            if ($("#login-form").valid()) {
+                var mobileNumber = $("#MobileNumber").val();
+                $.post("@Url.RouteUrl("login")", { MobileNumber: mobileNumber }, function (result) {
+                    console.log(result)
+                    if (result.success) {
+                        console.log(result);
+                        $("#pVerificationMessage").text(result.message);
+                        $("#requestId").val(result.data.otpDetailId);
+
+                        var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
+                        document.getElementById('timer').innerHTML = time;
+                        startTimer();
+                        $("#resend").hide();
+                        $("#otp-button").show();
+
+                        let myModal = new bootstrap.Modal(document.getElementById('OTPModal'), {});
+                        myModal.show();
+                    }
+                    else {
+                        if (result.message != "") {
+                            ToastAlert('error', '', result.message);
+                        }
+                    }
+                });
+            }
+        });
+
+        $("#resend").click(function () {
+            $("#otp1").val('');
+            $("#otp2").val('');
+            $("#otp3").val('');
+            $("#otp4").val('');
+
+            var otpDetailId = $("#requestId").val();
+            if (otpDetailId.length == 0)
+                return;
+
+            $.get("@Url.RouteUrl("resendOTP")", { otpDetailId: otpDetailId }, function (result) {
+                if (result.success) {
+                    $("#requestId").val(result.data.otpDetailId);
+                    var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
+                    document.getElementById('timer').innerHTML = time;
+                    startTimer();
+                    $("#resend").hide();
+                    $("#otp-button").show();
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+        });
+
+        $("#otp-button").on("click", function () {
+            var requestId = $("#requestId").val();
+            if (requestId.length == 0)
+                return;
+
+            var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
+            if (otp == "") {
+                ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
+                return;
+            }
+
+            var typeId = @((int)NotificationType.Login);
+
+            $.post("@Url.RouteUrl("verifyOTP")", {
+                RequestId: requestId, OTP: otp, TypeId: typeId
+            }, function (result) {
+                if (result.success) {
+                    $('#sec-otp-verification').hide();
+                    if (returnUrl == "") {
+                        window.location.href = "@Url.RouteUrl("home")";
+                    }
+                    else {
+                        window.location.href = returnUrl;
+                    }
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+        });
+    });
+</script>

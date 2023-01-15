@@ -1,0 +1,95 @@
+﻿@model Data.Common.BaseEntityId
+<header class="page-header">
+    <h2>@SharedHtmlLocalizer["SocialMediaLinks"]</h2> 
+    <div class="end-wrapper text-end me-5">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["SocialMediaLinks"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+                    <!-- ========== Start ios7 Switch ========== -->
+                    <div class="switch switch-sm switch-primary my-0  ">
+                    </div>
+                    <!-- ========== End ios7 Switch ========== -->
+                </div>
+            </header>
+            <div class="card-body ">
+                <form method="post" id="dataForm" name="dataForm" enctype="multipart/form-data">
+                    @await Html.PartialAsync("_FormHiddenFieldsPartial")
+                    <div class="row">
+                        <div class="col-12 col-lg-6 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+                            <label for="facebookLink" class="form-label">@SharedHtmlLocalizer["Facebook"]</label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="facebookLink" id="facebookLink" aria-describedby="@SharedHtmlLocalizer["Facebook"]" placeholder="https://facebook.com" value="">
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["EnterValidURL"]</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+                            <label for="instagramPageURL" class="form-label">@SharedHtmlLocalizer["Instagram"]</label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="instagramLink" id="instagramLink" aria-describedby="Instagram" placeholder="https://instagram.com" value="">
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["EnterValidURL"]</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+                            <label for="twitterLink" class="form-label">@SharedHtmlLocalizer["Twitter"]</label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="twitterLink" id="twitterLink" aria-describedby="">@SharedHtmlLocalizer["Twitter"]" placeholder="https://twitter.com" value="">
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["EnterValidURL"]</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+                            <label for="youtubeLink" class="form-label">@SharedHtmlLocalizer["Youtube"]</label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="youtubeLink" id="youtubeLink" aria-describedby="@SharedHtmlLocalizer["Youtube"]" placeholder="https://youtube.com" value="">
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["EnterValidURL"]</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+                            <label for="whatsAppLink" class="form-label">@SharedHtmlLocalizer["WhatsApp"]</label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="whatsAppLink" id="whatsAppLink" aria-describedby="@SharedHtmlLocalizer["WhatsApp"]" placeholder="https://wa.me/965XXXXXXXX" value="">
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["EnterValidURL"]</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+                            <label for="tiktokLink" class="form-label">@SharedHtmlLocalizer["Tiktok"]</label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="tiktokLink" id="tiktokLink" aria-describedby="@SharedHtmlLocalizer["Tiktok"]" placeholder="TikTok ID" value="">
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["EnterValidURL"]</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+                            <label for="snapchatURL" class="form-label">@SharedHtmlLocalizer["Snapchat"]</label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="snapchatLink" id="snapchatLink" aria-describedby="Snapchat" placeholder="https://snapchat.com/add/username" value="">
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["EnterValidURL"]</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button id="btnSave" class="btn btn-primary btn-lg save-btn  fw-bold">@SharedHtmlLocalizer["Save"]</button>
+                            <button type="button" class="btn btn-warning" onclick="history.go(-1)">@SharedHtmlLocalizer["Back"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+ 
+<script src="~/developer/js/SiteContent/SocialMediaLink_CRUD.js" asp-append-version="true"></script>
+

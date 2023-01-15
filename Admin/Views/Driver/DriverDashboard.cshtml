@@ -1,0 +1,166 @@
+﻿@model DriverDeliverySummaryModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<header class="page-header">
+    <h2>@SharedHtmlLocalizer["DeliveriesToday"]</h2>
+    <div class="right-wrapper text-end me-3">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="bx bx-home-alt"></i>
+                </a>
+            </li>
+
+        </ol>
+
+    </div>
+</header>
+
+<div class="row">
+
+    <div class="col-12 col-lg-4">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-success">
+                <h2 class="card-title text-light text-center w-100">
+                    <i class='fa-solid fa-truck me-2'></i> @SharedHtmlLocalizer["DeliveriesDueToday"]
+                </h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="deliveriesDueToday">@Model.Pending</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+
+    <div class="col-12 col-lg-4">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-info">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-cube me-2'></i> @SharedHtmlLocalizer["OrderDeliveriesToday"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="orderDeliveriesToday">@Model.Completed</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+
+    <div class="col-12 col-lg-4" style="display:none">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-warning">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-cubes me-2'></i> @SharedHtmlLocalizer["SubscriptionDeliveriesToday"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="subscriptionDeliveriesToday">8</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+
+<div class="row pt-0">
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["DeliveryList"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="d-flex mb-3">
+                    <div class="body-bg-primary py-1 px-3 rounded-pill me-2">
+                        @SharedHtmlLocalizer["Subscription"]
+                    </div>
+                    <div class="body-bg-warning py-1 px-3 rounded-pill me-2">
+                        @SharedHtmlLocalizer["NormalOrder"]
+                    </div>
+                </div>
+                <!-- ========== Start Table Block ========== -->
+                <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="datatable-default-">
+                    <thead>
+                        <tr>
+                            <th data-priority="0" class=""></th>
+                            <th data-priority="1" class="">@SharedHtmlLocalizer["OrderID"]</th>
+                            <th data-priority="2" class="">@SharedHtmlLocalizer["OrderDate"]</th>
+                            <th data-priority="1" class="">@SharedHtmlLocalizer["OrderType"]</th>
+                            <th data-priority="3" class="">@SharedHtmlLocalizer["Area"]</th>
+                            <th data-priority="4" class="">@SharedHtmlLocalizer["DeliveryFee"]</th>
+                            <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
+                            <th data-priority="5" class="">@SharedHtmlLocalizer["PaymentStatus"]</th>
+                            <th data-priority="6" class="text-center">@SharedHtmlLocalizer["Actions"]</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-secondary">
+                        <tr class="body-bg-warning">
+                            <td class="" data-th=""></td>
+                            <td class="" data-th="Order ID">1023</td>
+                            <td class="" data-th="Order Date">16-07-2022</td>
+                            <td class="" data-th="Order Type">Subscription</td>
+                            <td class="" data-th="Area">Fahaheel</td>
+                            <td class="" data-th="Delivery Fee">KWD 2.000</td>
+                            <td class="" data-th="Total Amount (KWD)">20.000</td>
+                            <td class="" data-th="Payment Status"><span class='px-2 rounded-pill bg-warning fw-bold text-light'>To be paid</span></td>
+                            <td class="text-start">
+                                <a href="order-details.html" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Order" data-bs-original-title="View Order" aria-label="View Order"><i class="fa fa-eye"></i></a>
+                                <span data-bs-toggle="modal" data-bs-target="#send-payment-link-modal"> <a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Send Payment Link" data-bs-original-title="Send Payment Link" aria-label="Send Payment Link"><i class="fas fa-money-bill-wave"></i></a> </span>
+                                <span data-bs-toggle="modal" data-bs-target="#confirm-delivery-modal"> <a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delivered" data-bs-original-title="Delivered" aria-label="Delivered"><i class="fas fa-check"></i></a> </span>
+                                <span data-bs-toggle="modal" data-bs-target="#cancel-order-modal"> <a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cancel Order" data-bs-original-title="Cancel Order" aria-label="Cancel Order"><i class="fas fa-xmark"></i></a> </span>
+                                <span data-bs-toggle="modal" data-bs-target="#reschedule-delivery-modal"> <a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reschedule Order" data-bs-original-title="Reschedule Order" aria-label="Reschedule Order"><i class="fas fa-calendar-plus"></i></a> </span>
+                            </td>
+                        </tr>
+                        <tr class="body-bg-primary">
+                            <td class="" data-th=""></td>
+                            <td class="" data-th="Order ID">1023</td>
+                            <td class="" data-th="Order Date">16-07-2022</td>
+                            <td class="" data-th="Order Type">Order</td>
+                            <td class="" data-th="Area">Salmiya</td>
+                            <td class="" data-th="Delivery Fee">KWD 1.500</td>
+                            <td class="" data-th="Total Amount (KWD)">20.000</td>
+                            <td class="" data-th="Payment Status"><span class='px-2 rounded-pill bg-success fw-bold text-light'>Paid</span></td>
+                            <td class="text-start">
+                                <a href="order-details.html" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Order" data-bs-original-title="View Order" aria-label="View Order"><i class="fa fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- ========== End Table Block ========== -->
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+
+    </div>
+</div>
+
+<script src="~/developer/js/Driver/DriverDashboard_Datatable.js" asp-append-version="true"></script>
+@await Html.PartialAsync("_SendPaymentLinkModalPartial")
+@await Html.PartialAsync("_ConfrimDeliveryModalPartial")
+@await Html.PartialAsync("_RescheduleDeliveryModalPartial")

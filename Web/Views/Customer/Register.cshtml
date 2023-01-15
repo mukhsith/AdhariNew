@@ -1,0 +1,221 @@
+﻿@model Utility.Models.Frontend.CustomerManagement.CustomerModel
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "SignUp", Title = SharedHtmlLocalizer["SignUp"].Value });
+}
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<section class="main-content py-5 mb-5" id="sec-register">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 col-xl-4 mx-auto">
+                <div class="card mt-3 mt-md-0 rounded-5 border-secondary shadow">
+                    <div class="card-body">
+                        <form method="post" autocomplete="off" class="row g-3 p-3" id="register-form">
+                            <div asp-validation-summary="ModelOnly"></div>
+                            <div class="col-12">
+                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger">*</span></label>
+                                <input type="text" asp-for="Name" class="form-control body-bg-secondary rounded-pill border-secondary" placeholder="Enter your name">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="inputMobile" class="form-label mb-0">@SharedHtmlLocalizer["MobileNumber"]<span class="ms-1 text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0">
+                                        <img src="~/assets/img/Kuwait_flag.svg" width="25">
+                                    </span>
+                                    <span class="input-group-text border border-secondary border-start-0 p-1" id="basic-addon1">
+                                        <bdi>+965</bdi>
+                                    </span>
+                                    <input type="tel" asp-for="MobileNumber"
+                                           class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
+                                           aria-label="@SharedHtmlLocalizer["EnterYourMobileNumber"]"
+                                           maxlength="8" onkeypress="return validateMobileNumber(event);"
+                                           placeholder="" />
+                                    <div class="invalid-feedback" id="dvError">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="inputEmail4" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
+                                <input type="email" asp-for="EmailAddress"
+                                       class="form-control body-bg-secondary rounded-pill border-secondary"
+                                       placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]">
+                            </div>
+                            <div class="col-12 col-lg-9 mx-auto">
+                                <div class="form-check">
+                                    <input class="form-check-input mt-0 me-2" type="checkbox" id="gridCheck">
+                                    <label class="form-check-label d-block" for="gridCheck">
+                                        I agree to the
+                                        <a href="javascript:;" class="text-primary fw-bold privacy-policy">@SharedHtmlLocalizer["PrivacyPolicy"]</a> &
+                                        <a href="javascript:;" class="text-primary fw-bold terms-and-conditions">@SharedHtmlLocalizer["TermsAndConditions"]</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <a href="javascript:;" id="signup-btn" class="btn btn-primary color-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignUp"]</a>
+
+                            </div>
+
+                            <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
+                                    data-bs-toggle="modal" data-bs-target="#OTPModal" type="button"
+                                    style="display:none">
+                                @SharedHtmlLocalizer["Verify"]
+                            </button>
+
+
+                            <div class="col-12 text-center">
+                                <hr class="dropdown-divider body-bg-secondary border-secondary">
+                            </div>
+                            <div class="col-12 text-center">
+                                <h6 class="mb-2">@SharedHtmlLocalizer["AlreadyHaveAnAccount"]</h6>
+                                <a href="@Url.RouteUrl("signin")" class="btn btn-secondary rounded-pill px-5 fw-bold text-white">@SharedHtmlLocalizer["SignIn"]</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@await Html.PartialAsync("_OTPModel")
+<script>
+    $(document).ready(function () {
+        OTPInput();
+        $("#resend").hide();
+        $("#register-form").validate({
+            rules: {
+                Name: {
+                    required: true
+                },
+                EmailAddress: {
+                    required: true, email: true
+                },
+                MobileNumber: {
+                    required: true, rangelength: [8, 8], phoneStartCheck: true
+                }
+            },
+            messages: {
+                Name: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["NameIsRequired"]</span></div>",
+                },
+                EmailAddress: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EmailIsRequired"]</span></div>",
+                    email: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidEmail"]</span></div>",
+                },
+                MobileNumber: {
+                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["MobileNumberIsRequired"]</span></div>",
+                    rangelength: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["MobileNumberShouldBe8Digits"]</span></div>",
+                    phoneStartCheck: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidMobileNumber"]</span></div>"
+                }
+            },
+            errorPlacement: function ($error, $element) {
+                var name = $element.attr("name");
+                $("#dvError" + name).append($error);
+            }
+        });
+
+        $("#signup-btn").click(function (event) {
+            event.preventDefault();
+            $('#register-form').validate();
+            if ($("#register-form").valid()) {
+                var name = $("#Name").val();
+                var mobileNumber = $("#MobileNumber").val();
+                var email = $("#EmailAddress").val();
+                $("#verifyMobile").text("+965" + mobileNumber);
+
+                $.post("@Url.RouteUrl("register")", {
+                    Name: name,
+                    MobileNumber: mobileNumber,
+                    EmailAddress: email
+                }, function (result) {
+                    console.log(result);
+                    if (result.success) {
+                        $("#pVerificationMessage").text(result.message);
+                        $("#requestId").val(result.data.otpDetailId);
+
+                        WindowWidth = $(window).width();
+                        WindowHeight = $(window).height();
+                        BodyHeight = $('body').height();
+                        if (BodyHeight < WindowHeight) {
+                            if (WindowWidth > 768) {
+                                $('footer').attr('class', 'fixed-bottom')
+                            }
+                        }
+                        else {
+                            $('footer').removeClass('fixed-bottom')
+                        }
+
+                        var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
+                        document.getElementById('timer').innerHTML = time;
+                        startTimer();
+                        $("#resend").hide();
+                        $("#otp-button").show();
+
+                        let myModal = new bootstrap.Modal(document.getElementById('OTPModal'), {});
+                        myModal.show();
+                    }
+                    else {
+                        if (result.message != "")
+                            ToastAlert("error", "", result.message);
+                    }
+                });
+            }
+        });
+
+        $("#otp-button").on("click", function () {
+            var requestId = $("#requestId").val();
+            if (requestId.length == 0)
+                return;
+
+            var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
+            if (otp == "") {
+                ToastAlert("error", "", "@SharedHtmlLocalizer["OTPIsRequired"]");
+                return;
+            }
+
+            var deviceId = "";
+            var deviceToken = "";
+            var typeId = @((int)NotificationType.Register);
+
+            $.post("@Url.RouteUrl("verifyOTP")", {
+                RequestId: requestId, OTP: otp, DeviceId: deviceId, DeviceToken: deviceToken, TypeId: typeId
+            }, function (result) {
+                if (result.success) {
+                    $('.verified-check').show();
+                    $('#OTPModal').modal('hide');
+                    window.location.href = "@Url.RouteUrl("home")";
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert("error", "Alert", result.message);
+                }
+            });
+        });
+
+        $("#resend").click(function () {
+            $("#otp1").val('');
+            $("#otp2").val('');
+            $("#otp3").val('');
+            $("#otp4").val('');
+
+            var otpDetailId = $("#requestId").val();
+            if (otpDetailId.length == 0)
+                return;
+
+            $.get("@Url.RouteUrl("resendOTP")", { otpDetailId: otpDetailId }, function (result) {
+                if (result.success) {
+                    $("#requestId").val(result.data.otpDetailId);
+                    var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
+                    document.getElementById('timer').innerHTML = time;
+                    startTimer();
+                    $("#resend").hide();
+                    $("#otp-button").show();
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert("error", "Alert", result.message);
+                }
+            });
+        });
+    });
+</script>

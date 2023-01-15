@@ -1,0 +1,317 @@
+﻿
+@model Data.Common.BaseEntityId
+<header class="page-header">
+    <h2>New Order</h2>
+    <div class="end-wrapper text-end me-5">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+
+<div class="row">
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Customer Details</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <form method="post" id="dataForm" name="dataForm" enctype="multipart/form-data">
+                    <input type="hidden" id="customerId" value="" />
+                    <div class="row">
+                        <div class="col-12 col-lg-3 mb-3">
+                            <label class="form-label">Customer Mobile Number<span class=" text-danger">*</span></label>
+                            <div class="input-group mb-3">
+                                <!-- ========== Start Simple Input Field ========== -->
+
+
+                                <input type="tel" class="form-control form-control-lg rounded-4 border-secondary " name="customerMobile" id="customerMobile" aria-describedby=""
+                                       onkeypress='return validateMobileNumber(event)' onkeyup="enableVerifyButton(this)" maxlength="8">
+
+                                <div class="invalid-feedback">Please Enter Customer&#x27;s Mobile Number</div>
+                                <!-- ========== End Simple Input Field ========== -->
+                                <button class="btn btn-secondary text-light btn-lg fw-bold rounded-4 verify-btn" id="verifyButton" type="button" onclick="getCustomer()" style="display:none">Verify</button>
+                            </div>
+                            @*<small>Send <a href="#" class="text-primary fw-bold">verification link</a> to this number</small>*@
+                        </div>
+                        <div class="col-12 col-lg-3 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+
+                            <label for="categoryNameEn" class="form-label">Customer Name<span class=" text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="customerName" id="customerName" aria-describedby="Customer Name" placeholder="" value="">
+
+                            <div class="invalid-feedback">Please Enter the Customer&#x27;s Name</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+                        <div class="col-12 col-lg-3 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+
+                            <label for="categoryEmail" class="form-label">Customer Email</label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="customerEmail" id="customerEmail" aria-describedby="Customer Email" placeholder="" value="">
+
+                            <div class="invalid-feedback">Please Enter the Customer&#x27;s Email</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+                        <!-- ========== Start Simple Select Field Block ========== -->
+                        <div class="col-12 col-lg-3 mb-3">
+                            <label for="" class="form-label">Customer Type</label>
+                            <select class="form-select form-select-lg rounded-4 border-secondary" name="customerTypeList" id="customerTypeList" aria-describedby="Customer Type">
+                                <option value="0">B2C</option>
+                                <option value="1">B2B</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <button id="btnCreateCustomer" class="btn btn-primary btn-lg rounded-4 h-100 ms-2" style="display:none">Create Customer</button>
+
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+
+
+        <div class="tabs" id="divProductTabs">
+            <ul class="nav nav-tabs border-secondary">
+                <li class="nav-item active">
+                    <a class="nav-link" data-bs-target="#normal" href="#normal" data-bs-toggle="tab">Normal Order</a>
+                </li>
+                <li class="nav-item" style="display:none">
+                    <a class="nav-link" data-bs-target="#subscription" href="#subscription" data-bs-toggle="tab">Subscription</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="normal" class="tab-pane active">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 d-flex align-items-center">
+                            <h2 class="card-title mb-2 ">Add items to Order</h2>
+                        </div>
+                        <div class="col-12 col-lg-6 d-flex align-items-center mb-3">
+
+                            <select data-plugin-selectTwo class="form-control form-control-lg border border-secondary rounded-4 h-100"
+                                    style="height: 48px"
+                                    name="normalProductList" id="normalProductList"
+                                    data-plugin-options='{ "placeholder": "Select a Product...", "allowClear": true,"height": "48px" }'>
+                            </select>
+                            <button class="btn btn-primary btn-lg add-normal-product-btn rounded-4 h-100 ms-2" type="button">Add</button>
+                        </div>
+
+                        <hr class="border border-secondary">
+                        <div class="col-12">
+                            <table class="table border-secondary align-middle mb-0 mobile-optimised normal-datatable-default-"
+                                   id="normal-datatable-default-">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Product Image</th>
+                                        <th>Product Name</th>
+                                        <th>Base Price</th>
+                                        <th>Quantity Added</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="border-secondary">
+                                </tbody>
+                                <tfoot style="display: none;">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Total Price</th>
+                                        <th>Total Quantity</th>
+                                        <th></th>
+
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total-normal-price">Total Price</td>
+                                        <td class="total-normal-qty">Total Quantity</td>
+                                        <td></td>
+
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ==========  Delivery Details  ========== -->
+        <section class="card mb-3 border border-secondary" id="divDeliveryDetials" style="display:none">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Delivery Details</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+                </div>
+            </header>
+            <div class="card-body " id="display-addresses">
+                <div class="row">
+                    <div class="col-12 col-lg-10 mx-auto">
+                        <div class="row addresses">
+
+                        </div>
+                        @*<div class="row justify-content-center my-3">
+                            <div class="col-3 p-0">
+                                <hr class="dropdown-divider body-bg-secondary border-secondary">
+                            </div>
+                            <div class="col-1 text-center text-secondary p-0">OR</div>
+                            <div class="col-3 p-0">
+                                <hr class="dropdown-divider body-bg-secondary border-secondary">
+                            </div>
+                        </div>*@
+                        <div class="row">
+                            <div class="text-center">
+                                <a href="javascript:;" class="btn btn-secondary text-light rounded-pill" data-bs-toggle="modal" data-bs-target="#addNewAddressModal">Add New Address</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+        <!-- ========== discount and promotion ==========-->
+        <section class="card mb-3 border border-secondary" id="divdiscountPromotion" style="display:none">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Discounts & Promotions</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-12 col-lg-4 mb-3 mb-md-0">
+                        <div class="d-flex justify-content-between flex-column flex-md-row align-items-start align-items-md-center mb-3">
+                            <p class="text-primary fw-bold mb-0 mt-0">
+                                Cashback Amount
+                                <span class="text-muted text-start ms-md-auto fw-bold">Available: </span><span class="text-muted text-start ms-md-auto fw-bold" id="cashbackAmountFormatted">KWD 5.000</span>
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-4" id="payFromWallet">
+                        <div class="d-flex justify-content-between flex-column flex-md-row align-items-start align-items-md-center mb-3">
+                            <p class="text-primary fw-bold mb-0 mt-0">
+                                Wallet Amount
+                                <span class="text-muted text-start ms-md-auto fw-bold">Available: </span><span class="text-muted text-start ms-md-auto fw-bold" id="walletAmountFormatted">KWD 5.000</span>
+                            </p>
+                        </div>
+
+                        <div class="input-group mb-3 mb-md-0">
+                            <div class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary">
+                                <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <label class="ms-2">Pay from Wallet</label>
+                            </div>
+                            <div class="input-group-text border border-end-0 border-secondary">
+                                <label class="">KWD</label>
+                            </div>
+
+                            <input type="number" class="form-control rounded-5 border-secondary body-bg-secondary" placeholder="0.000" min="0" max="32"
+                                   aria-label="Text input with checkbox">
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-4">
+                        <div class="w-100 text-center">
+                            <div class="d-flex justify-content-between flex-column align-items-start mb-3">
+                                <p class="text-primary text-start fw-bold mb-0">Promotion Code</p>
+                            </div>
+                        </div>
+                        <div class="input-group promotion-input-field mb-3 mb-md-0">
+                            <button class="btn btn-outline-secondary rounded-end rounded-pill body-bg-secondary fw-bold lh-1" type="button" onclick="hidePromotionCodeField()">×</button>
+                            <input type="text" class="form-control border-secondary body-bg-secondary" placeholder="Enter Code">
+                            <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold promotion-code-button" type="button">Submit</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+
+        <!-- -->
+        <!-- ========== End Card Block ========== -->
+        <!-- ========== Start Payment Summary Block ========== -->
+        <section class="card mb-3 border border-secondary" id="divPaymentSummary" style="display:none">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Payment Summary</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="">Subtotal</label>
+                        <div class="fw-bold" id="subtotal">KWD 0.000</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Delivery Fee</label>
+                        <div class="fw-bold" id="deliveryFee">KWD 0.000</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Cashback Discount</label>
+                        <div class="fw-bold text-secondary" id="cashbackDiscount">- KWD 0.000</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Wallet Amount</label>
+                        <div class="fw-bold text-secondary" id="walletAmount">- KWD 0.000</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Promotion Code Use</label>
+                        <div class="fw-bold text-secondary" id="couponCode"></div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Promotion Code Discount</label>
+                        <div class="fw-bold text-secondary" id="couponDiscount">- KWD 0.000</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">Grand Total</label>
+                        <div class="fw-bold" id="grandTotal">KWD 0.000</div>
+                    </div>
+                    <div class="col-12 col-lg-4 mb-3">
+
+                        <!-- ========== Start Simple Select Field Block ========== -->
+                        <label for="" class="form-label">Payment Method</label>
+                        <select class="form-select form-select-lg rounded-4 border-secondary" name="paymentMethodList" id="paymentMethodList" aria-describedby="Payment Method">
+                            <option value="0">Please Select...</option>
+                            <option value="4">Cash On Delivery</option>
+                            <option value="6">Quickpay Link</option>
+                            @*<option value="3">Cash Received</option>*@
+                        </select>
+
+
+                        <!-- ========== End Simple Select Field Block ========== -->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#send-payment-link-modal" onclick="createOrder()" class="btn btn-primary btn-lg fw-bold save-btn">Save Order</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+@await Html.PartialAsync("_AddressModalPartial")
+<script src="~/developer/js/Order/create_order.js" asp-append-version="true"></script>

@@ -1,0 +1,109 @@
+﻿<header class="page-header">
+    <h2>@SharedHtmlLocalizer["BaseProducts"]</h2>
+    <div class="right-wrapper text-end me-3">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="bx bx-home-alt"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+<div class="row">
+    <div class="col">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["BaseProducts"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+                    <button class="btn btn-primary btn-sm " onclick="window.location = '/Product/ProductAddEdit?id=0';">@SharedHtmlLocalizer["AddNewBaseProduct"]</button>
+                </div>
+            </header>
+            <div class="card-body ">
+                <table class="table border-secondary align-middle mb-0 mobile-optimised datatable-default-" id="datatable-default-">
+                    <thead>
+                        <tr>
+                            <th data-priority="10" class="">@SharedHtmlLocalizer["ID"]</th>
+                            <th data-priority="12" class="">@SharedHtmlLocalizer["DisplayOrder"]</th>
+                            <th data-priority="2" class="">@SharedHtmlLocalizer["Status"]</th>
+                            <th data-priority="3" class="">@SharedHtmlLocalizer["Image"]</th>
+                            <th data-priority="4" class="">@SharedHtmlLocalizer["TitleEn"]</th>
+                            <th data-priority="11" class="">@SharedHtmlLocalizer["TitleAr"]</th>
+                            <th data-priority="5" class="">@SharedHtmlLocalizer["Stock"]</th>
+                            <th data-priority="7" class="">@SharedHtmlLocalizer["Actions"]</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-secondary">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+ 
+<!-- end: page -->
+<script src="~/developer/js/Product/Product_Datatable.js" asp-append-version="true"></script>
+
+<div class="modal fade" id="stock_modal" tabindex="-1" role="dialog" aria-labelledby="stock_modalTitleId" aria-modal="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@SharedHtmlLocalizer["Restock"]</h5>
+                <input type="hidden" id="productId" name="productId" />
+                <input type="hidden" id="productType" name="productType" /> 
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-2">
+                            <label class="form-label fw-bold">@SharedHtmlLocalizer["CurrentStock"]</label>
+                            <p class="mb-0 fs-3 mt-3 text-center source-stock">0</p>
+                        </div>
+                        <div class="col-8">
+                            <label class="form-label fw-bold">@SharedHtmlLocalizer["Action"]</label>
+                            <div class="input-group mb-3">
+                                <!-- ========== Start Simple Input Field ========== --> 
+                                <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="stockInput" id="stockInput" aria-describedby="" placeholder="0" value="" min="1">
+
+
+                                <!-- ========== End Simple Input Field ========== --> 
+                                <button class="btn btn-secondary text-light fw-bold dropdown-toggle rounded-4 stock-action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">@SharedHtmlLocalizer["AddToStock"]</button>
+                                <ul class="dropdown-menu dropdown-menu-end stock-action-option">
+                                    <li class="active"><a class="dropdown-item" data-action="1" href="#">@SharedHtmlLocalizer["AddToStock"]</a> </li>
+                                    <li><a class="dropdown-item" data-action="2" href="#">@SharedHtmlLocalizer["RemoveFromStock"]</a></li>
+                                    <li> <hr class="dropdown-divider"> </li>
+                                    <li><a class="dropdown-item" data-action="3" href="#">@SharedHtmlLocalizer["SetStock"]</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <label class="form-label fw-bold">@SharedHtmlLocalizer["NewStock"]</label>
+                            <p class="mb-0 fs-3 mt-3 text-center updated-stock">0</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- ========== Start Simple Text Area ========== -->
+                            <label for="" class="form-label fw-bold">@SharedHtmlLocalizer["Notes"]</label>
+                            <textarea class="form-control form-control-lg rounded-4 border-secondary " 
+                                      name="stockNote" id="stockNote" aria-describedby="Notes" 
+                                      placeholder="@SharedHtmlLocalizer["EnterNotesAboutStockUpdate"]" rows="3"></textarea>
+
+
+                            <!-- ========== End Simple Text Area ========== -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger fw-bold" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success fw-bold save-btn" onclick="updateStock()">@SharedHtmlLocalizer["Update"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

@@ -1,0 +1,404 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Utility.Models.Frontend.Shop.CheckOutModel
+@inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
+@using Utility.Enum
+@{
+    var breadCrumbItems = new List<BreadcrumbModel>();
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("checkoutaddress"), Title = SharedHtmlLocalizer["Addresses"].Value });
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Review"].Value });
+}
+@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 offset-lg-2 col-lg-8">
+                <div class="customer-details mb-4">
+                    <div class="d-flex justify-content-between flex-column align-items-start align-items-md-center mb-3">
+                        <h4 class="text-primary text-start text-lg-center fw-bold mb-0">@SharedHtmlLocalizer["CustomerDetails"]</h4>
+                        @if (!string.IsNullOrEmpty(Model.Customer.Name))
+                        {
+                            <span class="text-muted text-start text-lg-center ">
+                                @SharedHtmlLocalizer["Not"] <b>@Model.Customer.Name</b> <a class="text-nowrap" href="@Url.RouteUrl("logout")">@SharedHtmlLocalizer["SignOut"]</a>
+                            </span>
+                        }
+                    </div>
+                    <div class="bg-grey row rounded-4 p-3 mx-0">
+                        <div class="col-12 col-md-4">
+                            <label for="name" class="fw-bold">@SharedHtmlLocalizer["Name"]</label>
+                            <p class="text-primary mb-0">@Model.Customer.Name</p>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="email" class="fw-bold">@SharedHtmlLocalizer["Email"]</label>
+                            <p class="text-primary mb-0">@Model.Customer.EmailAddress</p>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="number" class="fw-bold">@SharedHtmlLocalizer["MobileNumber"]</label>
+                            <p class="text-primary mb-0">@Model.Customer.FormattedMobile</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="delivery-details mb-4">
+                    <div class="d-flex justify-content-start justify-content-lg-center align-items-center mb-3">
+                        <h4 class="text-primary text-start text-lg-center fw-bold mb-0">@SharedHtmlLocalizer["DeliveryDetails"]</h4>
+                    </div>
+                    <div class="bg-grey row rounded-4 p-3 mx-0 mb-3">
+                        <div class="col-12">
+                            <label for="name" class="fw-bold">@SharedHtmlLocalizer["DeliveryAddress"]</label>
+                            <p class="text-primary mb-0">
+                                @Model.AddressText
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-grey row rounded-4 p-3 mx-0">
+                        <div class="col-12">
+                            <label for="name" class="fw-bold">@SharedHtmlLocalizer["DeliveryDate"]</label>
+                            <p class="text-primary mb-0">@Model.EstimatedDeliveryValue</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 offset-lg-2 col-lg-8">
+                <div class="your-order mb-4">
+                    <h4 class="text-primary text-start text-lg-center fw-bold mb-3">@SharedHtmlLocalizer["YourItems"]</h4>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var CartItem in Model.CartItems)
+                        {
+                            <li class="list-group-item border-0 px-0 py-2">
+                                <div class="d-flex flex-row bg-grey rounded-4 p-2">
+                                    <img src="@CartItem.Product.ImageUrl" class="me-3 rounded-3" alt="product-image" height="75">
+                                    <div class="d-flex flex-column me-auto w-100">
+                                        <a href="@CartItem.Product.ImageUrl" class="mb-0 fw-bold">@CartItem.Product.Title</a>
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <div class="w-auto py-1 me-2">
+                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]</label>
+                                                    <p class="text-primary fw-bold fs-51 mb-0">@CartItem.Quantity</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-7">
+                                                <div class="w-auto py-1 me-2">
+                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
+                                                    <p class="text-primary fw-bold fs-51 mb-0">@CartItem.FormattedTotal</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="promotion-code mb-4">
+                            <div class="bg-grey rounded-4 p-3 text-center mx-0">
+                                <a href="javascript:;" class="promotion-code text-secondary text-center mb-0 fw-bold w-100 my-2" onclick="showPromotionCodeField()">@SharedHtmlLocalizer["PromotionCode"]</a>
+                                <div class="w-100 text-center">
+                                    <div class="input-group promotion-input-field" style="">
+                                        <button class="btn btn-outline-secondary rounded-end rounded-3 body-bg-secondary fw-bold fs-3 lh-1 CloseBtn" type="button" onclick="hidePromotionCodeField()">×</button>
+                                        <input type="text" id="txt-coupon-code" class="form-control border-secondary body-bg-secondary PromoCodeValue"
+                                               value="@Model.CartSummary.CouponCode" placeholder="@SharedHtmlLocalizer["EnterCode"]">
+                                        <button id="btn-apply-coupon-code" class="btn btn-outline-secondary rounded-start rounded-3 body-bg-secondary fw-bold promotion-code-button" type="button">
+                                            @(string.IsNullOrEmpty(Model.CartSummary.CouponCode)? @SharedHtmlLocalizer["Apply"] : @SharedHtmlLocalizer["Remove"])
+                                        </button>
+                                        <div class="valid-feedback">
+                                            @SharedHtmlLocalizer["PromotionCodeApplied"]
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            @SharedHtmlLocalizer["PleaseEnterAValidPromotionCode"]
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="order-notes mb-4">
+                            <div class="bg-grey rounded-4 p-3 mx-0">
+                                <label for="inputNotes" class="form-label">@SharedHtmlLocalizer["Notes"]</label>
+                                <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" id="txt-notes" rows="3" placeholder="@SharedHtmlLocalizer["ProvideAnySpecialRequestsHere"]"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="payment-method mb-4">
+                            <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentMethod"]</h4>
+                            @if (Model.CartSummary.WalletBalanceAmount > 0)
+                            {
+                                <div class="inputGroup border-0 border-secondary rounded-4 body-bg-secondary d-flex justify-content-between align-items-center mb-3 py-3 px-0">
+                                    <div class="d-flex ms-3">
+                                        <input id="payment-method-wallet" class="form-check-input mt-0" type="checkbox">
+                                        <div class="ms-3">
+                                            <span>@SharedHtmlLocalizer["PayFromWallet"]</span>
+                                            <strong class="ms-2">@Model.CartSummary.FormattedWalletBalanceAmount</strong>
+                                        </div>
+                                    </div>
+                                    <label for="payment-method-wallet" class="me-1">
+                                        <i class="fa-solid fa-wallet me-2 fs-4"></i>
+                                    </label>
+                                </div>
+                            }
+                            <div class="bg-grey rounded-4 p-3 mx-0">
+                                <ul class="list-group list-group-flush px-0 mb-0">
+                                    @foreach (var paymentMethod in Model.PaymentMethods)
+                                    {
+                                        var paymentMethodNames = paymentMethod.Name.Split("\r\n");
+                                        <div class="inputGroup border-secondary list-group-item d-flex justify-content-between align-items-center px-0">
+                                            <label for="payment-method-@paymentMethod.Id" class="">
+                                                <img src="@paymentMethod.ImageUrl" class="" alt="product-image" height="25">
+                                            </label>
+                                            <div class="d-flex align-items-center">
+                                                <label for="payment-method-@paymentMethod.Id" class="text-end">
+                                                    @paymentMethodNames[0]
+                                                    @if (paymentMethodNames.Count() == 2)
+                                                    {
+                                                        <br />
+                                                        @paymentMethodNames[1]
+                                                    }
+                                                </label>
+                                                <input id="payment-method-@paymentMethod.Id" name="payment-method-radio" class="ms-3" type="radio"
+                                                       value="@paymentMethod.Id" @(paymentMethod.Selected ? "checked" : "")>
+                                            </div>
+                                        </div>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 offset-lg-2 col-lg-8 cart-summary">
+                        @await Html.PartialAsync("_CartSummary", Model.CartSummary)
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-check d-flex justify-content-center mx-auto text-start mb-3">
+                    <input class="form-check-input mt-0 me-2" type="checkbox" id="gridCheck">
+                    <label class="form-check-label d-block" for="gridCheck">
+                        @SharedHtmlLocalizer["IAgreeToThe"]
+                        <a id="a-privacy-policy" class="text-primary fw-bold" href="#">
+                            @SharedHtmlLocalizer["PrivacyPolicy"]
+                        </a> & <a id="a-terms" class="text-primary fw-bold" href="#">
+                            @SharedHtmlLocalizer["TermsAndConditions"]
+                        </a>
+                    </label>
+                </div>
+                <div id="dvErrorhdnTerms">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 text-center">
+            <a id="a-checkout" href="#" class="btn btn-primary color-white rounded-pill fw-bold px-5 continue-btn">@SharedHtmlLocalizer["Checkout"]</a>
+        </div>
+    </div>
+</section>
+<input type="hidden" id="hdn-applied-coupon-code" />
+<script>
+    jQuery(document).ready(function () {
+        var appliedCouponCode = '@Model.CartSummary.CouponCode';
+        if (appliedCouponCode == null || appliedCouponCode == "") {
+            hidePromotionCodeField();
+        }
+        else {
+            showPromotionCodeField();
+            applyCouponAddedClass();
+        }
+
+        $("#hdn-applied-coupon-code").val(appliedCouponCode);
+        $('input[type=radio][name=payment-method-radio]').change(function () {
+            $.post("@Url.RouteUrl("savecartattributes")", { PaymentMethodId: this.value, AttributeTypeId: @((int)AttributeType.SelectPaymentMethod) }, function (result) {
+                if (result.success) {
+                    $(".cart-summary").empty();
+                    $(".cart-summary").append(result.formattedCartSummary);
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+        });
+
+        $("#payment-method-wallet").change(function () {
+            var attributeTypeId = 0;
+
+            if ($(this).is(':checked')) {
+                attributeTypeId = @((int)AttributeType.AddWalletAmount);
+            } else {
+                attributeTypeId = @((int)AttributeType.RemoveWalletAmount);
+            }
+
+            $.post("@Url.RouteUrl("savecartattributes")", { AttributeTypeId: attributeTypeId }, function (result) {
+                if (result.success) {
+                    $(".cart-summary").empty();
+                    $(".cart-summary").append(result.formattedCartSummary);
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+        });
+
+        $("#a-privacy-policy").click(function () {
+            $.get("@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.PrivacyPolicy })", function (result) {
+                if (result.content != "") {
+                    $("#common-model-popup-title").html("@SharedHtmlLocalizer["PrivacyPolicy"]");
+                    $("#common-model-popup-description").html(result.content);
+                    $('#common-model-popup').modal('show');
+                }
+            });
+        });
+
+        $("#a-terms").click(function () {
+            $.get("@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.TermsCondition })", function (result) {
+                if (result.content != "") {
+                    $("#common-model-popup-title").html("@SharedHtmlLocalizer["TermsAndConditions"]");
+                    $("#common-model-popup-description").html(result.content);
+                    $('#common-model-popup').modal('show');
+                }
+            });
+        });
+
+        $("#a-checkout").click(function () {
+            var paymentMethodId = $('input[name="payment-method-radio"]:checked').val();
+            if (paymentMethodId == "" || paymentMethodId == null || paymentMethodId == undefined) {
+                ToastAlert('error', '', "@SharedHtmlLocalizer["PleaseChoosePaymentMethod"]");
+                return false;
+            }
+
+            if ($("#gridCheck").prop('checked') == false) {
+                $("#dvErrorhdnTerms").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Please check 'I agree to the Terms & Conditions'"]</span></div>");
+                return false;
+            }
+
+            showLoader();
+            debugger;
+            var notes = $("#txt-notes").val();
+            $.post("@Url.RouteUrl("createorder")", {
+                Notes: notes
+            }, function (result) {
+                if (result.success && result.data != null) {
+                    if (result.data.redirectToPaymentPage) {
+                        window.location.href = result.data.paymentUrl;
+                    }
+                    else {
+                        window.location.href = "/ORD/" + result.data.entityNumber;
+                    }
+                }
+                else {
+                    hideLoader();
+
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+
+            return false;
+        });
+    });
+
+    $('.promotion-code-button').click(function () {
+        if (!$(".promotion-input-field").hasClass("promocode-applied")) {
+            if ($(".PromoCodeValue").val()) {
+                applyCouponCode();
+            }
+            else {
+                $(".promotion-input-field .form-control").removeClass("is-valid");
+                $(".promotion-input-field .form-control").addClass("is-invalid");
+            }
+        }
+        else {
+            applyCouponCode();
+        }
+    });
+
+    function showPromotionCodeField() {
+        $('.promotion-input-field').show("fast");
+    }
+
+    function hidePromotionCodeField() {
+        $('.promotion-input-field').hide("fast");
+    }
+
+    function applyCouponCode() {
+        var couponCode = $("#txt-coupon-code").val();
+        var currentCouponCode = $("#hdn-applied-coupon-code").val();
+
+        if (currentCouponCode == "") {
+            if (couponCode == "") {
+                ToastAlert('error', '', "@SharedHtmlLocalizer["Enter coupon code"]");
+                return false;
+            }
+        }
+
+        var attributeTypeId = 0;
+        if (currentCouponCode != "") {
+            attributeTypeId = @((int)AttributeType.RemoveCoupon);
+        }
+        else {
+            attributeTypeId = @((int)AttributeType.ApplyCoupon);
+        }
+
+        $.post("@Url.RouteUrl("savecartattributes")", { CouponCode: couponCode, AttributeTypeId: attributeTypeId }, function (result) {
+            if (result.success) {
+                $(".cart-summary").empty();
+                $(".cart-summary").append(result.formattedCartSummary);
+
+                currentCouponCode = result.cartSummary.couponCode;
+                $("#hdn-applied-coupon-code").val(currentCouponCode);
+
+                if (currentCouponCode != "" && currentCouponCode != null) {
+                    applyCouponAddedClass();
+                }
+                else {
+                    applyCouponRemovedClass();
+                }
+            }
+            else {
+                if (result.message != "")
+                    ToastAlert('error', '', result.message);
+            }
+        });
+
+        return false;
+    }
+
+    function applyCouponAddedClass() {
+        // To Pay Price Update
+        $('.to-pay-price').html("KWD 24.000");
+        $('.discount-value').show("fast");
+        // Remove Invalid Class
+        $(".promotion-input-field .form-control").removeClass("is-invalid");
+        // Add Valid Class + Preparation for removal of cross button
+        $(".promotion-input-field .form-control").addClass("is-valid rounded-end rounded-3");
+        // Disabling Input field
+        $(".promotion-input-field .form-control").prop("disabled", true);
+        // Removal of cross button
+        $(".CloseBtn").hide();
+        // Changing Apply button HTML to Remove
+        $(".promotion-code-button").html("@SharedHtmlLocalizer["Remove"]");
+        // Changing Classes to change look
+        $(".promotion-code-button").toggleClass("btn-outline-secondary btn-outline-danger");
+        // Updating Overall Status
+        $(".promotion-input-field").addClass("promocode-applied");
+    }
+
+    function applyCouponRemovedClass() {
+        $(".promotion-code-button").html("@SharedHtmlLocalizer["Apply"]");
+        $(".promotion-code-button").toggleClass("btn-outline-secondary btn-outline-danger");
+        $(".promotion-input-field .form-control").prop("disabled", false);
+        $(".promotion-input-field .form-control").removeClass("is-valid rounded-end rounded-3");
+        $('.discount-value').hide("fast");
+        $(".CloseBtn").show();
+        $(".promotion-input-field").removeClass("promocode-applied");
+        $("#txt-coupon-code").val('');
+    }
+</script>

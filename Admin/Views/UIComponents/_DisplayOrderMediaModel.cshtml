@@ -1,0 +1,74 @@
+﻿<div class="modal fade" id="DisplayOrderMediaModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 300px;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold text-uppercase">Change display order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="" class="form-label">Enter display order</label>
+                    <input type="number" class="form-control" name="displayorderMediavalue" id="displayorderMediavalue" aria-describedby="helpId" placeholder="" min="0">
+                    <input type="hidden" class="form-control" name="displayMediaApiName" id="displayMediaApiName" placeholder="">
+                    <input type="hidden" class="form-control" name="displayMediaImageId" id="displayMediaImageId" placeholder="">
+                    <input type="hidden" class="form-control" name="displayorderMediaId" id="displayorderMediaId" placeholder="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="updateDisplayOrderMedia()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+
+<script type="text/javascript">
+    var PopupDisplayOrderMedia = function (apiName, newsId, imageId,  num) {
+        $('#DisplayOrderMediaModel').modal('toggle');
+        $("#displayorderMediaId").val(newsId);
+        $("#displayMediaApiName").val(apiName);
+        $("#displayMediaImageId").val(imageId);
+        $("#displayorderMediavalue").val(num);
+        $("#displayorderMediavalue").focus();
+ 
+    };
+
+        updateDisplayOrderMedia = () => {
+            var endpoint = getAPIUrl() + $('#displayMediaApiName').val() +
+                "/UpdateDisplayOrderMedia?"
+                + "id=" + $('#displayorderMediaId').val()
+                + "&refId=" + $('#displayMediaImageId').val()
+                + "&num=" + $('#displayorderMediavalue').val();
+            
+            $('#DisplayOrderMediaModel').modal('toggle');
+            showLog(endpoint);
+            showLoader();
+            $.ajax({
+                url: endpoint,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": 'Bearer ' + getToken()
+                },
+                success: function (data) {
+                    hideLoader();
+                    
+                    if (data.success) {
+                        reloadPage();
+                    } else {
+                        showLog(data);
+                        alert('failed');
+                    }
+
+                },
+                error: function (xhr) {
+                    hideLoader(); 
+                    alert('error', xhr);
+                }
+            });
+        }
+    
+</script>
+
