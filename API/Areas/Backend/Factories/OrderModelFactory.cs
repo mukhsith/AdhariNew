@@ -29,6 +29,8 @@ using Services.Backend.Content.Interface;
 using API.Areas.Backend.Helpers;
 using Utility.Models.Admin.Delivery;
 using Utility.Models.Frontend.Sales;
+using Utility.Models.Frontend.CustomizedModel;
+using Services.Backend.Template.Interface;
 
 namespace API.Areas.Backend.Factories
 {
@@ -50,6 +52,9 @@ namespace API.Areas.Backend.Factories
         private readonly ISubscriptionService _subscriptionService;
         private readonly IPromotionService _promotionService;
         private readonly IPaymentMethodService _paymentMethodService;
+        private readonly IQuickPaymentService _quickPaymentService;
+        private readonly INotificationTemplateService _notificationTemplateService;
+        private readonly IPaymentHelper _paymentHelper;
         private readonly IAPIHelper _apiHelper;
         public OrderModelFactory(ILoggerFactory logger,
             IOptions<AppSettingsModel> options,
@@ -67,6 +72,9 @@ namespace API.Areas.Backend.Factories
             ISubscriptionService  subscriptionService,
             IPromotionService promotionService,
             IPaymentMethodService paymentMethodService,
+            IQuickPaymentService quickPaymentService,
+            INotificationTemplateService notificationTemplateService,
+        IPaymentHelper paymentHelper,
             IAPIHelper apiHelper)
         {
             _logger = logger.CreateLogger(typeof(OrderModelFactory).Name);
@@ -85,6 +93,9 @@ namespace API.Areas.Backend.Factories
             _subscriptionService = subscriptionService;
             _promotionService = promotionService;
             _paymentMethodService = paymentMethodService;
+            _quickPaymentService = quickPaymentService;
+            _notificationTemplateService = notificationTemplateService;
+            _paymentHelper = paymentHelper;
             _apiHelper = apiHelper;
         }
 
@@ -124,7 +135,7 @@ namespace API.Areas.Backend.Factories
             return model;
         }
 
-        public async Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel createOrderModel)
+        public async Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel adminCreateOrderModel)
         {
             var response = new APIResponseModel<AdminCreateOrderModel>();
 
@@ -226,39 +237,39 @@ namespace API.Areas.Backend.Factories
                     deliveryFee = area.DeliveryFee;
                 }
 
-                if (!cartAttribute.PaymentMethodId.HasValue)
+                if (adminCreateOrderModel.PaymentMethodId==0)
                 {
                     response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
                     return response;
                 }
-                else
-                {
-                    var paymentMethod = await _paymentMethodService.GetPaymentMethodById(cartAttribute.PaymentMethodId.Value);
-                    if (paymentMethod == null)
-                    {
-                        response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
-                        return response;
-                    }
+                //else
+                //{
+                //    var paymentMethod = await _paymentMethodService.GetPaymentMethodById(adminCreateOrderModel.PaymentMethodId.Value);
+                //    if (paymentMethod == null)
+                //    {
+                //        response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
+                //        return response;
+                //    }
 
-                    if (paymentMethod.Deleted)
-                    {
-                        response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
-                        return response;
-                    }
+                //    if (paymentMethod.Deleted)
+                //    {
+                //        response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
+                //        return response;
+                //    }
 
-                    if (!paymentMethod.Active)
-                    {
-                        response.Message = isEnglish ? Messages.PaymentMethodNotActive : MessagesAr.PaymentMethodNotActive;
-                        return response;
-                    }
+                //    if (!paymentMethod.Active)
+                //    {
+                //        response.Message = isEnglish ? Messages.PaymentMethodNotActive : MessagesAr.PaymentMethodNotActive;
+                //        return response;
+                //    }
 
 
-                    if (!paymentMethod.NormalCheckoutRegisteredCustomer)
-                    {
-                        response.Message = isEnglish ? Messages.PaymentMethodNotAvailable : MessagesAr.PaymentMethodNotAvailable;
-                        return response;
-                    }
-                }
+                //    if (!paymentMethod.NormalCheckoutRegisteredCustomer)
+                //    {
+                //        response.Message = isEnglish ? Messages.PaymentMethodNotAvailable : MessagesAr.PaymentMethodNotAvailable;
+                //        return response;
+                //    }
+                //}
 
                 //if (cartAttribute.WalletUsedAmount > 0)
                 //{
@@ -410,16 +421,19 @@ namespace API.Areas.Backend.Factories
                     OrderNumber = string.Empty,
                     OrderStatusId = OrderStatus.Discarded,
                     CustomerLanguageId = isEnglish ? 1 : 2,
-                    CustomerIp = createOrderModel.CustomerIp,
-                    PaymentMethodId = cartAttribute.PaymentMethodId.Value,
+                    CustomerIp = "1:0",
+                    PaymentMethodId = adminCreateOrderModel.PaymentMethodId,
                     PaymentStatusId = PaymentStatus.Canceled,
                     CreatedOn = DateTime.Now,
                     DeviceTypeId = deviceTypeId,
                     DeliveryDate = dateAndSlot.Item1,
                     DeliveryTimeSlotId = dateAndSlot.Item2,
                     SubTotal = orderItems.Sum(a => a.Total),
-                    DeliveryFee = deliveryFee
+                    DeliveryFee = deliveryFee,
+                    OrderTypeId = OrderType.Offline,
+                    Notes = ""
                 };
+
 
                 Coupon coupon = null;
                 if (cartAttribute.CouponId.HasValue)
@@ -517,46 +531,112 @@ namespace API.Areas.Backend.Factories
 
                     await _cartService.HoldAndReleaseCartItem(customerId: customer.Id, isHold: true);
 
-                    if (order.PaymentMethodId == (int)PaymentMethod.KNET)
+
+                    if (order.PaymentMethodId == (int)PaymentMethod.Cash)
                     {
-                        var paymentUrlRequestModel = new PaymentUrlRequestModel
+                        var paymentResponseModel = new PaymentResponseModel()
                         {
-                            LangId = order.CustomerLanguageId.ToString(),
                             Amount = order.Total.ToString("N3"),
-                            TrackId = order.OrderNumber.ToString(),
                             EntityId = order.Id.ToString(),
-                            CustomerId = order.CustomerId.ToString(),
-                            RequestType = PaymentRequestType.Order.ToString()
+                            RequestType = PaymentRequestType.Order.ToString(),
+                            Result = "captured"
                         };
 
-                        var paymentUrl = await _apiHelper.PostAsync<string>("Home/GetPaymentUrl", paymentUrlRequestModel, baseUrl: _appSettings.PaymentAPIUrl);
-                        if (!string.IsNullOrEmpty(paymentUrl))
-                        {
-                            createOrderModel.PaymentUrl = paymentUrl;
-
-                            if (order.DeviceTypeId == DeviceType.Web)
-                                createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "ORD/" + order.OrderNumber;
-                            else
-                                createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "paymentresult";
-
-                            createOrderModel.OrderId = order.Id;
-                        }
+                        var url = await _paymentHelper.UpdatePaymentEntity(paymentResponseModel);
                     }
-                    else if (order.PaymentMethodId == (int)PaymentMethod.VISAMASTER)
+                    else if (order.PaymentMethodId == (int)PaymentMethod.QPay)
                     {
-                        var value = Cryptography.Encrypt(PaymentRequestType.Order.ToString() + "-" + order.Id);
-                        createOrderModel.PaymentUrl = _appSettings.APIBaseUrl + "payment/requestgbmasterpayment?value=" + value;
+                        var qpayNumber = string.Empty;
+                        QuickPayment qpayByNumber = null;
+                        do
+                        {
+                            qpayNumber = "10" + Common.GenerateRandomNo();
+                            qpayByNumber = await _quickPaymentService.GetqpayByNumber(qpayNumber);
+                        }
+                        while (qpayByNumber != null);
 
-                        if (order.DeviceTypeId == DeviceType.Web)
-                            createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "ORD/" + order.OrderNumber;
-                        else
-                            createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "paymentresult";
+                        var qpayModel = new QuickPayment()
+                        {
+                            Amount = order.Total,
+                            EntityId = order.Id,
+                            CustomerId= customer.Id,
+                            PaymentNumber= qpayNumber,
+                            MobileNumber = customer.MobileNumber,
+                            PaymentRequestTypeId = PaymentRequestType.Order
 
-                        createOrderModel.OrderId = order.Id;
+                        };
+
+                        var _QpayInfo = await _quickPaymentService.Create(qpayModel);
+                        var Message = string.Empty;
+                        var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(NotificationType.QPay);
+                        if (notificationTemplate == null)
+                        {
+                            var Qlink = _appSettings.QuickPayUrl + qpayNumber;
+                            if (customer.LanguageId == 1)
+                            {
+                                Message = notificationTemplate.PushMessageEn.Replace("{link}", Qlink).Replace("{ordernumber}", orderNumber);
+                            }
+                            else
+                            {
+                                Message = notificationTemplate.PushMessageAr.Replace("{link}", Qlink).Replace("{ordernumber}", orderNumber);
+
+                            }
+
+                           await _notificationTemplateService.CreateQpaySMSPush(Message, customer.MobileNumber, customer.LanguageId);
+
+                        }
+
+
+                       var paymentResponseModel = new PaymentResponseModel()
+                        {
+                            Amount = order.Total.ToString("N3"),
+                            EntityId = order.Id.ToString(),
+                            RequestType = PaymentRequestType.Order.ToString(),
+                            Result = "captured"
+                        };
+
+                        var url = await _paymentHelper.UpdatePaymentEntity(paymentResponseModel);
                     }
-                }
+                    //if (order.PaymentMethodId == (int)PaymentMethod.KNET)
+                    //{
+                    //    var paymentUrlRequestModel = new PaymentUrlRequestModel
+                    //    {
+                    //        LangId = order.CustomerLanguageId.ToString(),
+                    //        Amount = order.Total.ToString("N3"),
+                    //        TrackId = order.OrderNumber.ToString(),
+                    //        EntityId = order.Id.ToString(),
+                    //        CustomerId = order.CustomerId.ToString(),
+                    //        RequestType = PaymentRequestType.Order.ToString()
+                    //    };
 
-                response.Data = createOrderModel;
+                    //    var paymentUrl = await _apiHelper.PostAsync<string>("Home/GetPaymentUrl", paymentUrlRequestModel, baseUrl: _appSettings.PaymentAPIUrl);
+                    //    if (!string.IsNullOrEmpty(paymentUrl))
+                    //    {
+                    //        createOrderModel.PaymentUrl = paymentUrl;
+
+                    //        if (order.DeviceTypeId == DeviceType.Web)
+                    //            createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "ORD/" + order.OrderNumber;
+                    //        else
+                    //            createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "paymentresult";
+
+                    //        createOrderModel.OrderId = order.Id;
+                    //    }
+                    //}
+                    //else if (order.PaymentMethodId == (int)PaymentMethod.VISAMASTER)
+                    //{
+                    //    var value = Cryptography.Encrypt(PaymentRequestType.Order.ToString() + "-" + order.Id);
+                    //    createOrderModel.PaymentUrl = _appSettings.APIBaseUrl + "payment/requestgbmasterpayment?value=" + value;
+
+                    //    if (order.DeviceTypeId == DeviceType.Web)
+                    //        createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "ORD/" + order.OrderNumber;
+                    //    else
+                    //        createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "paymentresult";
+
+                    //    createOrderModel.OrderId = order.Id;
+                    //}
+                }
+               
+                response.Data = adminCreateOrderModel;
                 response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
                 response.Success = true;
             }
@@ -825,6 +905,10 @@ namespace API.Areas.Backend.Factories
 
             return result;
         }
+
+
+
+
 
       
         //public async Task<DataTableResult<List<DeliveriesDashboard>>> GetNotDispatchedDataTable(DataTableParam param,

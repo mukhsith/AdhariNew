@@ -14,7 +14,7 @@ namespace API.Areas.Frontend.Controllers
     public class ProductController : BaseController
     {
         private readonly IProductModelFactory _productModelFactory;
-        public ProductController(IOptions<AppSettingsModel> options, 
+        public ProductController(IOptions<AppSettingsModel> options,
             IProductModelFactory productModelFactory) : base(options)
         {
             _productModelFactory = productModelFactory;
@@ -49,6 +49,12 @@ namespace API.Areas.Frontend.Controllers
         public async Task<APIResponseModel<bool>> AddOrRemoveProductAvailabilityNotifyRequest(int productId)
         {
             return await _productModelFactory.AddOrRemoveProductAvailabilityNotifyRequest(isEnglish: isEnglish, customerId: LoggedInCustomerId, productId: productId);
+        }
+
+        [HttpGet, Route("/webapi/product/sendlowstockemail")]
+        public async Task<APIResponseModel<object>> SendLowStockEmail()
+        {
+            return await _productModelFactory.SendLowStockEmailNotification(isEnglish: isEnglish, apiKey: ServiceAPIKey);
         }
     }
 }

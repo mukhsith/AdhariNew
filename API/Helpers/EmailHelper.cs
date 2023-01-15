@@ -8,6 +8,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Utility.API;
+using Utility.Enum;
 
 namespace API.Helpers
 {
@@ -21,7 +22,7 @@ namespace API.Helpers
             _appSettings = options.Value;
             _queuedEmailService = queuedEmailService;
         }
-        public async Task SendEmail(string emailIds, string subject, string emailBody, bool htmlContent = false, string ccEmailIds = "",
+        public async Task SendEmail(NotificationType notificationTypeId, string emailIds, string subject, string emailBody, bool htmlContent = false, string ccEmailIds = "",
             string bccEmailIds = "", string attachmentFilePaths = "", string attachmentFileNames = "")
         {
             string from = _appSettings.EmailFromAddress;
@@ -36,6 +37,7 @@ namespace API.Helpers
 
             var queuedEmail = new QueuedEmail
             {
+                NotificationTypeId = notificationTypeId,
                 From = from,
                 DisplayName = displayName,
                 To = emailIds,

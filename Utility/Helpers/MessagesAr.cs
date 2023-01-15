@@ -457,6 +457,12 @@
         public static string Duration = "مدة";
         public static string DeliveryDay = "يوم التوصيل";
         public static string Online = "عبر الانترنت";
+        public static string LowStockTitle = "LOW STOCK REPORT";
+        public static string LowStockDescription = "The following products have low stock";
+        public static string ProductDetails = "Product Details";
+        public static string Dear = "Dear";
+        public static string Admin = "Admin";
+        public static string LowStockFooter = "Click here for more details";
     }
     #endregion
 }

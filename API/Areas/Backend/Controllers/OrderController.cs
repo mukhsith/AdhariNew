@@ -373,6 +373,24 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
 
         }
+
+
+        /// <summary>
+        /// Create order
+        /// </summary>
+        [HttpPost, Route("api/order/createorder")]
+        // public async Task<APIResponseModel<CreatePaymentModel>> CreateOrder([FromBody] CreatePaymentModel createPaymentModel)
+        public async Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder([FromBody] AdminCreateOrderModel _adminCreateOrderModel)
+        {
+
+
+            var offlineOrder= await _orderModelFactory.CreateOrder(isEnglish: true, customerId: _adminCreateOrderModel.CustomerId, deviceTypeId: DeviceType.Web, adminCreateOrderModel: _adminCreateOrderModel);
+
+
+            return offlineOrder;
+        }
+
+
         //[HttpPost, Route("api/Order/UpdateStatus")]
         //public async Task<IActionResult> UpdateStatus(int Id, OrderStatus status = OrderStatus.Failed)
         //{

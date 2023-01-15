@@ -3,6 +3,7 @@ using API.Helpers;
 using AutoMapper;
 using Data.Shop;
 using Microsoft.Extensions.Logging;
+using Services.Frontend.Content.Interface;
 using Services.Frontend.CouponPromotion.Interface;
 using Services.Frontend.CustomerManagement;
 using Services.Frontend.Locations;
@@ -30,6 +31,7 @@ namespace API.Areas.Frontend.Factories
         private readonly ICommonHelper _commonHelper;
         private readonly ICouponService _couponService;
         private readonly IAreaService _areaService;
+        private readonly IPaymentMethodService _paymentMethodService;
         public CartModelFactory(ILoggerFactory logger,
             IModelHelper modelHelper,
             ICustomerService customerService,
@@ -38,7 +40,8 @@ namespace API.Areas.Frontend.Factories
             ICommonHelper commonHelper,
             IMapper mapper,
             ICouponService couponService,
-            IAreaService areaService)
+            IAreaService areaService,
+            IPaymentMethodService paymentMethodService)
         {
             _logger = logger.CreateLogger(typeof(CartModelFactory).Name);
             _modelHelper = modelHelper;
@@ -49,6 +52,7 @@ namespace API.Areas.Frontend.Factories
             _mapper = mapper;
             _couponService = couponService;
             _areaService = areaService;
+            _paymentMethodService = paymentMethodService;
         }
         public async Task<APIResponseModel<object>> PrepareCartItemCount(bool isEnglish, int customerId = 0, string customerGuidValue = "")
         {
@@ -643,7 +647,14 @@ namespace API.Areas.Frontend.Factories
                     {
                         cartAttribute.UseWalletAmount = false;
                         if (cartAttribute.PaymentMethodId == (int)PaymentMethod.Wallet)
+                        {
                             cartAttribute.PaymentMethodId = null;
+                            var paymentMethods = await _paymentMethodService.GetAllPaymentMethod(paymentRequestType: PaymentRequestType.Order);
+                            if (paymentMethods.Count > 0)
+                            {
+                                cartAttribute.PaymentMethodId = paymentMethods.FirstOrDefault().Id;
+                            }
+                        }
                         await _cartService.UpdateCartAttribute(cartAttribute);
                     }
                     else if (cartAttributeModel.AttributeTypeId == AttributeType.ApplyCoupon)

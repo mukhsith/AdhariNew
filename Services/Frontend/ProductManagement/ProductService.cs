@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using Data.ProductManagement;
-using AutoMapper;
 using Utility.Enum;
 using Data.Shop;
 
@@ -16,7 +15,6 @@ namespace Services.Frontend.ProductManagement.Interface
     {
         protected readonly ApplicationDbContext _dbcontext;
         protected string ErrorMessage = string.Empty;
-        protected IMapper mapper;
         public ProductService(ApplicationDbContext dbcontext)
         {
             _dbcontext = dbcontext;
@@ -106,6 +104,11 @@ namespace Services.Frontend.ProductManagement.Interface
         {
             var data = _dbcontext.ProductDetails.Where(x => !x.Deleted && x.ProductId == productId);
 
+            return await data.AsNoTracking().ToListAsync();
+        }
+        public async Task<List<Product>> GetAllLowStockProduct(int lowStockThreshold)
+        {
+            var data = _dbcontext.Products.Where(x => !x.Deleted && x.Active && x.ProductType == ProductType.BaseProduct && x.Stock <= lowStockThreshold);
             return await data.AsNoTracking().ToListAsync();
         }
         #endregion

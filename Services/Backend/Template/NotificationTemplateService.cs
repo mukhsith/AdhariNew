@@ -73,7 +73,12 @@ namespace Services.Backend.Template.Interface
             }
             return result;
         }
-         
+
+        public async Task<NotificationTemplate> GetNotificationTemplateByTypeId(NotificationType notificationType)
+        {
+            var data = await _dbcontext.NotificationTemplates.Where(a => a.TypeId == notificationType).FirstOrDefaultAsync();
+            return data;
+        }
 
         public async Task<NotificationTemplate> GetById(int id)
         {
@@ -219,6 +224,26 @@ namespace Services.Backend.Template.Interface
             return await _dbcontext.SaveChangesAsync()>1;
         }
 
+
+        public async Task CreateQpaySMSPush(string message, string mobileNumber, int languageId = 0)
+        {
+            SMS_Push sms_Push = new();
+            sms_Push.Push_ID = 0;
+            sms_Push.Push_MessageID = 1;
+            sms_Push.Push_Message = message;
+            sms_Push.Push_ANI = mobileNumber;
+            sms_Push.Push_DNIS = _dbcontext.Company_SenderIDs.FirstOrDefault().SenderID_Text.Trim();
+            sms_Push.Push_OperatorID = 2;
+            sms_Push.Push_Lang = (byte)languageId;
+            sms_Push.Push_ScheduleDate = DateTime.Now;
+            sms_Push.Push_Date = DateTime.Now;
+            sms_Push.Push_Status = 0;
+
+            await _dbcontext.SMS_Pushes.AddAsync(sms_Push);
+            await _dbcontext.SaveChangesAsync();
+
+
+        }
         //public Task<bool> UpdateDisplayOrderSMSTemplate(int id, int num = 0)
         //{
         //    throw new NotImplementedException();

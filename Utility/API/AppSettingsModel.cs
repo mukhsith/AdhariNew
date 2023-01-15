@@ -10,6 +10,8 @@
         public string APIBaseUrl { get; set; }
         public string APIBaseUrl2 { get; set; }
         public string WebsiteUrl { get; set; }
+        public string AdminUrl { get; set; }
+        public string QuickPayUrl { get; set; }
         public string QuickPaymentWebsiteUrl { get; set; }
         public string PaymentAPIUrl { get; set; }
         public string PaymentAPIAccessToken { get; set; }

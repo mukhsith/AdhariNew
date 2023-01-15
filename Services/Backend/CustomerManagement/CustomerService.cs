@@ -185,9 +185,12 @@ namespace Services.Backend.CustomerManagement
 
         public async Task<Address> GetAddressById(int id)
         {
-            var data = await _dbcontext.Addresses.FindAsync(id);
+            var data = await _dbcontext.Addresses
+                     .Include(a => a.Area).ThenInclude(a => a.Governorate)
+                .Where(x=> x.Id==id).AsNoTracking().FirstOrDefaultAsync();
             return data;
         }
+
         public async Task<Address> CreateAddress(Address model)
         {
             await _dbcontext.Addresses.AddAsync(model);

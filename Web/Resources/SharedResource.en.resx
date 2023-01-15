@@ -330,6 +330,9 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="House" xml:space="preserve">
+    <value>House</value>
+  </data>
   <data name="HouseNo" xml:space="preserve">
     <value>House No.</value>
   </data>

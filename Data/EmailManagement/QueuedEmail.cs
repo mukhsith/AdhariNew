@@ -1,10 +1,12 @@
 ﻿using Data.Common;
 using System;
+using Utility.Enum;
 
 namespace Data.EmailManagement
 {
     public partial class QueuedEmail : BaseEntityDate
     {
+        public NotificationType NotificationTypeId { get; set; }
         public string From { get; set; }
         public string DisplayName { get; set; }
         public string To { get; set; }

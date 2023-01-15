@@ -22,7 +22,15 @@ namespace Services.Backend.Sales
         {
             _dbcontext = dbcontext;
         }
-        
+
+        public async Task<QuickPayment> Create(QuickPayment model)
+        {
+            model.CreatedOn = DateTime.Now;
+            await _dbcontext.QuickPayments.AddAsync(model);
+            await _dbcontext.SaveChangesAsync();
+            return model;
+        }
+
         public async Task<List<QuickPayment>> GetPaymentById(PaymentRequestType type, int entityId)
         {
             var items = await _dbcontext.QuickPayments
@@ -122,6 +130,16 @@ namespace Services.Backend.Sales
 
             return false;
         }
-        
+
+
+        public async Task<QuickPayment> GetqpayByNumber(string qpayNumber)
+        {
+            var data = await _dbcontext.QuickPayments
+                .Where(a => a.PaymentNumber == qpayNumber)
+                .FirstOrDefaultAsync();
+
+            return data;
+        }
+
     }
 }

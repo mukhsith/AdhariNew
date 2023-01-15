@@ -11,5 +11,6 @@ namespace API.Areas.Frontend.Factories
         Task<APIResponseModel<List<ProductModel>>> PrepareProducts(bool isEnglish, ProductQueryParameters p);
         Task<APIResponseModel<bool>> AddOrRemoveFavourite(bool isEnglish, int customerId, int productId);
         Task<APIResponseModel<bool>> AddOrRemoveProductAvailabilityNotifyRequest(bool isEnglish, int customerId, int productId);
+        Task<APIResponseModel<object>> SendLowStockEmailNotification(bool isEnglish, string apiKey);
     }
 }

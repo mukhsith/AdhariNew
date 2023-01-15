@@ -11,5 +11,7 @@
         SubscriptionReceipt = 7,
         OrderCancelled = 8,
         SubscriptionCancelled = 9,
+        QPay = 10,
+        LowStock = 11
     }
 }

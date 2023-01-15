@@ -223,10 +223,7 @@
     <value>المبلغ (د.ك)</value>
   </data>
   <data name="AnyQuestionsOrSuggestions?ContactUs!" xml:space="preserve">
-    <value>If you have any questions or suggestions? Please contact us.</value>
-  </data>
-  <data name="AnyQuestionsOrSuggestions?ContactUs!1" xml:space="preserve">
-    <value>If you have any questions or suggestions? Please contact us.</value>
+    <value>إذا كانت لديك أي أسئلة أو اقتراحات ، الرجاء التواصل معنا.</value>
   </data>
   <data name="Apartment" xml:space="preserve">
     <value>شقة</value>
@@ -334,7 +331,7 @@
     <value>قطعة مطلوبة</value>
   </data>
   <data name="BlockNo" xml:space="preserve">
-    <value>قطعة</value>
+    <value>رقم القطعة</value>
   </data>
   <data name="BlockStartDate" xml:space="preserve">
     <value>تاريخ بدء الحظر</value>
@@ -891,6 +888,9 @@
   <data name="Home" xml:space="preserve">
     <value>الرئيسيه</value>
   </data>
+  <data name="House" xml:space="preserve">
+    <value>منزل</value>
+  </data>
   <data name="HouseNo" xml:space="preserve">
     <value>رقم المنزل</value>
   </data>
@@ -1034,9 +1034,6 @@
   </data>
   <data name="MyAddresses" xml:space="preserve">
     <value>عناويني</value>
-  </data>
-  <data name="MyChalet" xml:space="preserve">
-    <value>My Chalet</value>
   </data>
   <data name="MyFavorites" xml:space="preserve">
     <value>مفضلتي</value>

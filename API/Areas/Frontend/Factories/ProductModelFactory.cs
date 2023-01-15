@@ -1,13 +1,17 @@
 ﻿using API.Areas.Frontend.Helpers;
+using API.Helpers;
 using Data.CustomerManagement;
 using Data.ProductManagement;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Services.Frontend.CustomerManagement;
 using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.PushNotification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Utility.API;
 using Utility.Helpers;
 using Utility.Models.Frontend.ProductManagement;
 using Utility.Models.QueryParameters;
@@ -18,18 +22,27 @@ namespace API.Areas.Frontend.Factories
     public class ProductModelFactory : IProductModelFactory
     {
         private readonly ILogger _logger;
+        private readonly AppSettingsModel _appSettings;
         private readonly IModelHelper _modelHelper;
         private readonly IProductService _productService;
         private readonly ICustomerService _customerService;
+        private readonly INotificationService _notificationService;
+        private readonly ICommonHelper _commonHelper;
         public ProductModelFactory(ILoggerFactory logger,
+            IOptions<AppSettingsModel> options,
             IModelHelper modelHelper,
             IProductService productService,
-            ICustomerService customerService)
+            ICustomerService customerService,
+            INotificationService notificationService,
+            ICommonHelper commonHelper)
         {
             _logger = logger.CreateLogger(typeof(ProductModelFactory).Name);
+            _appSettings = options.Value;
             _modelHelper = modelHelper;
             _productService = productService;
             _customerService = customerService;
+            _notificationService = notificationService;
+            _commonHelper = commonHelper;
         }
         public async Task<APIResponseModel<List<ProductModel>>> PrepareProducts(bool isEnglish, ProductQueryParameters p)
         {
@@ -212,6 +225,43 @@ namespace API.Areas.Frontend.Factories
                 }
 
                 response.Data = true;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
+        public async Task<APIResponseModel<object>> SendLowStockEmailNotification(bool isEnglish, string apiKey)
+        {
+            var response = new APIResponseModel<object>();
+            try
+            {
+                if (_appSettings.ServiceAPIKey != apiKey)
+                {
+                    response.Message = isEnglish ? Messages.AccessRightInvalid : MessagesAr.AccessRightInvalid;
+                    return response;
+                }
+
+                var adminNotificationTemplate = await _notificationService.GetDefaultAdminNotificationTemplate();
+                if (adminNotificationTemplate != null && adminNotificationTemplate.LowStockEnabled)
+                {
+                    var products = await _productService.GetAllLowStockProduct(adminNotificationTemplate.LowStockThresholdQuantity);
+                    if (products.Count > 0)
+                    {
+                        var emailIds = adminNotificationTemplate.LowStockToEmailAddress;
+                        if (!string.IsNullOrEmpty(emailIds))
+                        {
+                            var ccEmailIds = adminNotificationTemplate.LowStockCCEmailAddress;
+                            await _commonHelper.SendLowStockEmailNotification(products: products, isEnglish: true, emailIds: emailIds, ccEmailIds: ccEmailIds);
+                        }
+                    }
+                }
+
+                response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
                 response.Success = true;
             }
             catch (Exception ex)

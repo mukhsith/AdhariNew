@@ -282,7 +282,14 @@ namespace API.Areas.Frontend.Factories
                     {
                         subscriptionAttribute.UseWalletAmount = false;
                         if (subscriptionAttribute.PaymentMethodId == (int)PaymentMethod.Wallet)
+                        {
                             subscriptionAttribute.PaymentMethodId = null;
+                            var paymentMethods = await _paymentMethodService.GetAllPaymentMethod(paymentRequestType: PaymentRequestType.Order);
+                            if (paymentMethods.Count > 0)
+                            {
+                                subscriptionAttribute.PaymentMethodId = paymentMethods.FirstOrDefault().Id;
+                            }
+                        }                            
                         await _cartService.UpdateSubscriptionAttribute(subscriptionAttribute);
                     }
                     else if (subscriptionAttributeModel.AttributeTypeId == AttributeType.ApplyCoupon)

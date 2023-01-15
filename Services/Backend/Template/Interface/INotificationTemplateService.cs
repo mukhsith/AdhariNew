@@ -3,7 +3,8 @@ using Data.NotifyTemplate;
 using Data.SMS;
 using System.Collections.Generic; 
 using System.Threading.Tasks;
-using Utility.API; 
+using Utility.API;
+using Utility.Enum;
 
 namespace Services.Backend.Template.Interface
 {
@@ -13,9 +14,10 @@ namespace Services.Backend.Template.Interface
         #region   NotificationTemplate Service  
         Task<IEnumerable<NotificationTemplate>> GetAll();
         Task<DataTableResult<List<NotificationTemplate>>> GetAllForDataTable(DataTableParam param);
-         
-       
-       Task<NotificationTemplate> GetById(int id);
+
+        Task<NotificationTemplate> GetNotificationTemplateByTypeId(NotificationType notificationType);
+
+        Task<NotificationTemplate> GetById(int id);
         Task<NotificationTemplate> Create(NotificationTemplate model);
         Task<bool> Update(NotificationTemplate model);
         Task<bool> Delete(NotificationTemplate model);
@@ -32,6 +34,8 @@ namespace Services.Backend.Template.Interface
 
         #region SMS push
         Task<bool> CreateSMSPush(string message, string mobileNumber, int languageId = 0);
+
+        Task CreateQpaySMSPush(string message, string mobileNumber, int languageId = 0);
         #endregion
     }
 }

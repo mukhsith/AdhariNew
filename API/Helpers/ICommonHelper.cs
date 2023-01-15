@@ -3,6 +3,7 @@ using Data.CustomerManagement;
 using Data.ProductManagement;
 using Data.Sales;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Utility.Enum;
 using Utility.Models.Frontend.Sales;
@@ -64,6 +65,7 @@ namespace API.Helpers
         Task SendSubscriptionEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish);
         Task SendOrderAdminEmailNotification(OrderModel orderModel, bool isEnglish, string emailIds, string ccEmailIds);
         Task SendSubscriptionAdminEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish, string emailIds, string ccEmailIds);
+        Task SendLowStockEmailNotification(List<Product> products, bool isEnglish, string emailIds, string ccEmailIds);
         #endregion
     }
 }

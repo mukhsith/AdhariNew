@@ -223,10 +223,7 @@
     <value>Amount (KWD)</value>
   </data>
   <data name="AnyQuestionsOrSuggestions?ContactUs!" xml:space="preserve">
-    <value>Any questions or suggestions? Contact Us!</value>
-  </data>
-  <data name="AnyQuestionsOrSuggestions?ContactUs!1" xml:space="preserve">
-    <value>Any questions or suggestions? Contact Us!</value>
+    <value>If you have any questions or suggestions? Please contact us.</value>
   </data>
   <data name="Apartment" xml:space="preserve">
     <value>Apartment</value>
@@ -891,6 +888,9 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="House" xml:space="preserve">
+    <value>منزل</value>
+  </data>
   <data name="HouseNo" xml:space="preserve">
     <value>House No.</value>
   </data>
@@ -1034,9 +1034,6 @@
   </data>
   <data name="MyAddresses" xml:space="preserve">
     <value>My Addresses</value>
-  </data>
-  <data name="MyChalet" xml:space="preserve">
-    <value>My Chalet</value>
   </data>
   <data name="MyFavorites" xml:space="preserve">
     <value>My Favorites</value>

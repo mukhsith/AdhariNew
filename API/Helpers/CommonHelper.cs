@@ -1613,7 +1613,7 @@ namespace API.Helpers
                 string websiteUrl = _appSettings.WebsiteUrl.EndsWith("/") ? _appSettings.WebsiteUrl.Remove(_appSettings.WebsiteUrl.Length - 1, 1) : _appSettings.WebsiteUrl;
                 orderHtml = orderHtml.Replace("{Footer-Website}", websiteUrl);
 
-                await _emailHelper.SendEmail(emailIds: orderModel.Customer.EmailAddress, subject: subject + " - " + orderModel.OrderNumber, emailBody: orderHtml, htmlContent: true);
+                await _emailHelper.SendEmail(notificationTypeId: notificationType, emailIds: orderModel.Customer.EmailAddress, subject: subject + " - " + orderModel.OrderNumber, emailBody: orderHtml, htmlContent: true);
             }
         }
         public async Task SendSubscriptionEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish)
@@ -1728,7 +1728,7 @@ namespace API.Helpers
                 string websiteUrl = _appSettings.WebsiteUrl.EndsWith("/") ? _appSettings.WebsiteUrl.Remove(_appSettings.WebsiteUrl.Length - 1, 1) : _appSettings.WebsiteUrl;
                 orderHtml = orderHtml.Replace("{Footer-Website}", websiteUrl);
 
-                await _emailHelper.SendEmail(emailIds: subscriptionModel.Customer.EmailAddress, subject: subject + " - " + subscriptionModel.SubscriptionNumber, emailBody: orderHtml, htmlContent: true);
+                await _emailHelper.SendEmail(notificationTypeId: notificationType, emailIds: subscriptionModel.Customer.EmailAddress, subject: subject + " - " + subscriptionModel.SubscriptionNumber, emailBody: orderHtml, htmlContent: true);
             }
         }
         public async Task SendOrderAdminEmailNotification(OrderModel orderModel, bool isEnglish, string emailIds, string ccEmailIds)
@@ -1843,7 +1843,7 @@ namespace API.Helpers
                 string websiteUrl = _appSettings.WebsiteUrl.EndsWith("/") ? _appSettings.WebsiteUrl.Remove(_appSettings.WebsiteUrl.Length - 1, 1) : _appSettings.WebsiteUrl;
                 orderHtml = orderHtml.Replace("{Footer-Website}", websiteUrl);
 
-                await _emailHelper.SendEmail(emailIds: emailIds, ccEmailIds: ccEmailIds, subject: subject + " - " + orderModel.OrderNumber, emailBody: orderHtml, htmlContent: true);
+                await _emailHelper.SendEmail(notificationTypeId: notificationType, emailIds: emailIds, ccEmailIds: ccEmailIds, subject: subject + " - " + orderModel.OrderNumber, emailBody: orderHtml, htmlContent: true);
             }
         }
         public async Task SendSubscriptionAdminEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish, string emailIds, string ccEmailIds)
@@ -1958,7 +1958,50 @@ namespace API.Helpers
                 string websiteUrl = _appSettings.WebsiteUrl.EndsWith("/") ? _appSettings.WebsiteUrl.Remove(_appSettings.WebsiteUrl.Length - 1, 1) : _appSettings.WebsiteUrl;
                 orderHtml = orderHtml.Replace("{Footer-Website}", websiteUrl);
 
-                await _emailHelper.SendEmail(emailIds: emailIds, ccEmailIds: ccEmailIds, subject: subject + " - " + subscriptionModel.SubscriptionNumber, emailBody: orderHtml, htmlContent: true);
+                await _emailHelper.SendEmail(notificationTypeId: notificationType, emailIds: emailIds, ccEmailIds: ccEmailIds, subject: subject + " - " + subscriptionModel.SubscriptionNumber, emailBody: orderHtml, htmlContent: true);
+            }
+        }
+        public async Task SendLowStockEmailNotification(List<Product> products, bool isEnglish, string emailIds, string ccEmailIds)
+        {
+            NotificationType notificationType = NotificationType.LowStock;
+            var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(notificationType);
+            if (notificationTemplate != null && notificationTemplate.EmailEnabled)
+            {
+                string subject = isEnglish ? notificationTemplate.EmailSubjectEn : notificationTemplate.EmailSubjectAr;
+                string emailMessage = isEnglish ? notificationTemplate.EmailMessageEn : notificationTemplate.EmailMessageAr;
+
+                emailMessage = emailMessage.Replace("{Base-Url}", _appSettings.APIBaseUrl);
+                emailMessage = emailMessage.Replace("{Logo-Image}", _appSettings.APIBaseUrl + "images/logo.png");
+                emailMessage = emailMessage.Replace("{Body-Style}", isEnglish ? "direction: ltr;" : "direction: rtl;");
+
+                emailMessage = emailMessage.Replace("{Title}", isEnglish ? OrderPDF.LowStockTitle : OrderPDFAr.LowStockTitle);
+                emailMessage = emailMessage.Replace("{Description}", isEnglish ? OrderPDF.LowStockDescription : OrderPDFAr.LowStockDescription);
+                emailMessage = emailMessage.Replace("{Customer-Name-Header}", isEnglish ? OrderPDF.Dear + " " + OrderPDF.Admin : OrderPDFAr.Dear + " " + OrderPDFAr.Admin);
+                emailMessage = emailMessage.Replace("{Product-Details}", isEnglish ? OrderPDF.ProductDetails : OrderPDFAr.ProductDetails);
+
+                emailMessage = emailMessage.Replace("{Product-Name}", isEnglish ? OrderPDF.Name : OrderPDFAr.Name);
+                emailMessage = emailMessage.Replace("{Quantity}", isEnglish ? OrderPDF.Quantity : OrderPDFAr.Quantity);
+
+                var items = string.Empty;
+                foreach (var product in products)
+                {
+                    var name = isEnglish ? product.NameEn : product.NameAr;
+                    items = items + @"<tr>
+                                        <td style='background-color: #f2f9ff;width:50%'>
+                                            <p style='margin: 0;'>" + name + @"</p>
+                                        </td>
+                                        <td style='width:50%'>
+                                            <p style='margin: 0;'>" + product.Stock + @"</p>
+                                        </td>
+                                    </tr>";
+                }
+                emailMessage = emailMessage.Replace("{Product-Details-Value}", items);
+
+                emailMessage = emailMessage.Replace("{Footer-Value}", isEnglish ? OrderPDF.LowStockFooter : OrderPDFAr.LowStockFooter);
+                string websiteUrl = _appSettings.AdminUrl.EndsWith("/") ? _appSettings.AdminUrl.Remove(_appSettings.WebsiteUrl.Length - 1, 1) : _appSettings.AdminUrl;
+                emailMessage = emailMessage.Replace("{Footer-Website}", websiteUrl);
+
+                await _emailHelper.SendEmail(notificationTypeId: notificationType, emailIds: emailIds, ccEmailIds: ccEmailIds, subject: subject, emailBody: emailMessage, htmlContent: true);
             }
         }
         #endregion

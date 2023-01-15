@@ -14,6 +14,7 @@ namespace Services.Frontend.ProductManagement.Interface
         Task<Product> GetById(int id);
         Task<Product> GetProductBySeoName(string seoName);
         Task<IList<ProductDetail>> GetAllProductDetail(int productId);
+        Task<List<Product>> GetAllLowStockProduct(int lowStockThreshold);
         #endregion
 
         #region Product Stock Management       

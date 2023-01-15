@@ -276,9 +276,60 @@ displayCartItems = (data) => {
         $("#divDeliveryDetials").show();
         $("#divdiscountPromotion").show();
         $("#divPaymentSummary").show();
+        //$('#subtotal').html(data.formattedCartTotal);
+        //$('#grandTotal').html(data.formattedCartTotal);
+        getCartSummary();
+
     }
 
 }
+
+
+
+
+getCartSummary = () => {
+    ajaxGetCart("Cart/getcartsummary?customerId=" + $("#customerId").val(),
+        function (data) {
+            if (data.success) {
+                setTimeout(displayCartSummary(data), 500);
+            } else {
+                emptyDataTable();
+            }
+            //hideLoader();
+        });
+}
+
+
+displayCartSummary = (data) => {
+   
+    if (data.data == null) return;
+    //var quantity = 0;
+    
+    if (data.data.total >= 0) {
+
+        $.each(data.data.amountSplitUps, function (a, item) {
+
+            if (item.title == "Items") {
+                $('#subtotal').html(item.value);
+            }
+            else if (item.title == "Delivery Amount") {
+                $('#deliveryFee').html(item.value);
+            }
+        });
+        //$('#subtotal').html(data.data.AmountSplitUps[0].value);
+        //$('#deliveryFee').html(data.data.AmountSplitUps[1].value);
+
+        $('#cashbackDiscount').html(data.data.formattedWalletBalanceAmount);
+        $('#walletAmount').html(data.data.formattedWalletUsedAmount);
+        $('#couponCode').html(data.data.couponCode);
+        $('#couponDiscount').html(data.formattedCartTotal);
+        $('#grandTotal').html(data.data.formattedTotal);
+   
+
+    }
+
+}
+
 
 saveAttributes = (code) => {
     /*$.post("@Url.RouteUrl("savecartattributes")", { CouponCode: code, AttributeTypeId: attributeTypeId },
@@ -343,4 +394,20 @@ emptyDataTable = () => {
     $('.normal-datatable-default- tbody').empty();
      
 }
-
+createOrder = () => {
+  
+    var fromBody = {
+        'CustomerId': $("#customerId").val(),
+        'PaymentMethodId': getSelectedItemValue('paymentMethodList')
+      
+    };
+    ajaxPostCart("order/createorder", fromBody,
+        function (data) {
+            if (data.success) {
+                setTimeout(getCartItems(), 500);
+            } else {
+                console.log(data);
+            }
+            //hideLoader();
+        });
+}
