@@ -391,6 +391,40 @@ namespace API.Areas.Backend.Controllers
         }
 
 
+        /// <summary>
+        /// Create order
+        /// </summary>
+        [HttpPost, Route("api/order/SendQpay")]
+        // public async Task<APIResponseModel<CreatePaymentModel>> CreateOrder([FromBody] CreatePaymentModel createPaymentModel)
+        public async Task<IActionResult> SendQpay(int CustomerID, int OrderID, string OrderNumber,decimal Ordertotal)
+        {
+            ResponseMapper<bool> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                 var item = await _orderModelFactory.AddQPay(CustomerID,OrderID, OrderNumber, Ordertotal);
+                
+
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
+            return Ok(response);
+
+            //var offlineOrder = await _orderModelFactory.CreateOrder(isEnglish: true, customerId: _adminCreateOrderModel.CustomerId, deviceTypeId: DeviceType.Web, adminCreateOrderModel: _adminCreateOrderModel);
+
+
+            //return offlineOrder;
+        }
+
+
+
+
         //[HttpPost, Route("api/Order/UpdateStatus")]
         //public async Task<IActionResult> UpdateStatus(int Id, OrderStatus status = OrderStatus.Failed)
         //{

@@ -36,7 +36,7 @@ namespace Utility.Models.Admin.Delivery
         public string FormattedDeliveryFee{ get; set; }
         public int CustomerId { get; set; }
         public int SubscriptionID { get; set; }
-
+        public string MobileNumber { get; set; }
     }
 
 

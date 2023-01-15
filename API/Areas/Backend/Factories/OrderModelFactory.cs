@@ -569,16 +569,16 @@ namespace API.Areas.Backend.Factories
                         var _QpayInfo = await _quickPaymentService.Create(qpayModel);
                         var Message = string.Empty;
                         var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(NotificationType.QPay);
-                        if (notificationTemplate == null)
+                        if (notificationTemplate != null)
                         {
                             var Qlink = _appSettings.QuickPayUrl + qpayNumber;
                             if (customer.LanguageId == 1)
                             {
-                                Message = notificationTemplate.PushMessageEn.Replace("{link}", Qlink).Replace("{ordernumber}", orderNumber);
+                                Message = notificationTemplate.SMSMessageEn.Replace("{link}", Qlink).Replace("{ordernumber}", orderNumber);
                             }
                             else
                             {
-                                Message = notificationTemplate.PushMessageAr.Replace("{link}", Qlink).Replace("{ordernumber}", orderNumber);
+                                Message = notificationTemplate.SMSMessageAr.Replace("{link}", Qlink).Replace("{ordernumber}", orderNumber);
 
                             }
 
@@ -908,9 +908,68 @@ namespace API.Areas.Backend.Factories
 
 
 
+        public async Task<APIResponseModel<bool>> AddQPay(int CustomerId, int orderID, string OrderNumber,decimal Ordertotal)
+        {
+            var response = new APIResponseModel<bool>();
+            try
+            {
 
 
-      
+                var customer = await _customerService.GetCustomerById(CustomerId);
+                if (customer == null)
+                {
+                    response.Message = Messages.CustomerNotExists;
+                    return response;
+                }
+                var qpayNumber = string.Empty;
+                QuickPayment qpayByNumber = null;
+                do
+                {
+                    qpayNumber = "10" + Common.GenerateRandomNo();
+                    qpayByNumber = await _quickPaymentService.GetqpayByNumber(qpayNumber);
+                }
+                while (qpayByNumber != null);
+
+                var qpayModel = new QuickPayment()
+                {
+                    Amount = Ordertotal,
+                    EntityId = orderID,
+                    CustomerId = CustomerId,
+                    PaymentNumber = qpayNumber,
+                    MobileNumber = customer.MobileNumber,
+                    PaymentRequestTypeId = PaymentRequestType.Order
+
+                };
+
+                var _QpayInfo = await _quickPaymentService.Create(qpayModel);
+                var Message = string.Empty;
+                var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(NotificationType.QPay);
+                if (notificationTemplate != null)
+                {
+                    var Qlink = _appSettings.QuickPayUrl + qpayNumber;
+                    if (customer.LanguageId == 1)
+                    {
+                        Message = notificationTemplate.SMSMessageEn.Replace("{link}", Qlink).Replace("{ordernumber}", qpayNumber);
+                    }
+                    else
+                    {
+                        Message = notificationTemplate.SMSMessageAr.Replace("{link}", Qlink).Replace("{ordernumber}", qpayNumber);
+
+                    }
+
+                    await _notificationTemplateService.CreateQpaySMSPush(Message, customer.MobileNumber, customer.LanguageId);
+
+                }
+            }
+            catch (Exception exp)
+            {
+                _logger.LogError("OrderModelFactor:", exp.Message);
+            }
+
+            return response;
+        }
+
+
         //public async Task<DataTableResult<List<DeliveriesDashboard>>> GetNotDispatchedDataTable(DataTableParam param,
         //                             bool isEnglish, string orderNumber = null,
         //                             DateTime? startDate = null, int? orderModeId = null, int? orderTypeId = null,

@@ -47,7 +47,7 @@
                                     <!-- ========== Start Simple Text Area ========== -->
                                     <label for="" class="form-label ">SMS Message<span class=" text-danger">*</span></label>
                                     <textarea class="form-control form-control-lg rounded-4 border-secondary  "
-                                              name="message" id="message"
+                                              name="SMSmessage" id="SMSmessage"
                                               aria-describedby="SMS Message" placeholder="Message" rows="3" required></textarea>
 
 
@@ -221,7 +221,7 @@
         if (notificationType == "1") {
             showLoader();
             let submitData = new FormData();
-            submitData.append('message', getTextValue('message'));
+            submitData.append('message', getTextValue('SMSmessage'));
             submitData.append('mobileNumber', getSelectedItemValue('customerList'));
             submitData.append('languageId', getSelectedItemValue('languageList'));
             ajaxPost("NotificationTemplate/CreateSMSPush", submitData,
@@ -235,12 +235,13 @@
                     }
                     hideLoader();
                 });
+            fillDropDownList('customerList', 'Customer/GetAllForSMSNotification', false, '', 'mobileNumber', 'name');
         } else if (notificationType == "2") {
             {
                 showLoader();
                 let submitData = new FormData();
-                submitData.append('messageEn', getTextValue('messageEn'));
-                submitData.append('messageAr', getTextValue('messageAr'));
+                submitData.append('messageEn', $('#messageEn').html());
+                submitData.append('messageAr', $('#messageAr').html());
                 submitData.append('titleEn', getTextValue('titleEn'));
                 submitData.append('titleAr', getTextValue('titleAr'));
                 submitData.append('customerId', getSelectedItemValue('customerIdList'));
@@ -248,9 +249,16 @@
                     function (data) {
                         showLog(data);
                         if (data.success) {
-                            ToastAlert('success', "Push Notification ", "Push Notification created successfully");
-                            setTextValue("messageEn", "");
-                            setTextValue("messageAr", "");
+                            ToastAlert('success', "Push Notification ","Push Notification created successfully");
+
+                            
+                          //  setTimeout(() => location.href = "/Notification/SendNotification", 4500);
+                            //setTextValue("messageEn", "");
+                            //setTextValue("messageAr", "");
+                            $('#messageEn').html('');
+                            $('#messageAr').html('');
+                            $(".emojionearea-editor").html('');
+                            
                             setTextValue("titleEn", "");
                             setTextValue("titleAr", "");
                         } else {
@@ -258,6 +266,9 @@
                         }
                         hideLoader();
                     });
+
+                
+                fillDropDownList('customerIdList', 'Customer/GetAllForSMSNotification', false, '', 'id', 'name');
             }
         }
     }

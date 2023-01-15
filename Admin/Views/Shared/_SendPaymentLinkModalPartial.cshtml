@@ -16,15 +16,15 @@
             <div class="modal-body">
                 <p>@SharedHtmlLocalizer["PaymentLinkWillBeSentToTheFollowingPhoneNumber"]</p>
                 <!-- ========== Start Simple Input Field ========== -->
-                <input type="tel" class="form-control form-control-lg rounded-4 border-secondary "
+                <input type="number" class="form-control form-control-lg rounded-4 border-secondary "
                        name="dialogMobileNumber" id="dialogMobileNumber" aria-describedby="" placeholder=""
-                       value="91234567" max="8" required>
+                      readonly max="8">
                 <!-- ========== End Simple Input Field ========== -->
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
-                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="copyPaymentLink()">@SharedHtmlLocalizer["CopyURL"]</button>
+                @*<button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="copyPaymentLink()">@SharedHtmlLocalizer["CopyURL"]</button>*@
                 <button type="button" class="btn btn-success send-sms-btn" onclick="sendPaymentLink()">@SharedHtmlLocalizer["Send"]</button>
             </div>
         </div>
@@ -32,6 +32,9 @@
 </div>
 <script>
     $(document).ready(function () {
+
+
+       
         copyPaymentLink = () => {
 
             alert("copy Payment link not implemented");

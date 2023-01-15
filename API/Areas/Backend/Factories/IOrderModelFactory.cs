@@ -27,6 +27,10 @@ namespace API.Areas.Backend.Factories
         Task<APIResponseModel<bool>> ReOrder(bool isEnglish, int customerId, int id);
         Task<bool> UpdateOrderStatus(int orderId, OrderStatus orderStatusId, bool refundDeliveryFee = false,string notes=null);
         Task<bool> AddDriver(int orderId, int driverId);
+
+        Task<APIResponseModel<bool>> AddQPay(int CustomerId, int orderID, string OrderNumber, decimal Ordertotal);
+
+
         Task<bool> RemoveDriver(int orderId);
         Task<bool> RescheduleDelivery(int orderId, DateTime? dateTime = null);
         //Task<DataTableResult<List<DeliveriesDashboard>>> GetNotDispatchedDataTable(

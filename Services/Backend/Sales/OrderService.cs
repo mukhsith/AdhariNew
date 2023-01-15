@@ -408,6 +408,7 @@ namespace Services.Backend.Sales
                         AreaName = x.Address.Area != null ? x.Address.Area.NameEn : "",
                         SubscriptionNumber="",
                         SubscriptionID=0,
+                        MobileNumber= x.Customer.MobileNumber,
                         CustomerId = x.Customer.Id,
                         CreatedOn = x.CreatedOn
                     }).ToListAsync();
@@ -439,6 +440,7 @@ namespace Services.Backend.Sales
                          AreaName = x.Subscription.Address.Area != null ? x.Subscription.Address.Area.NameEn : "",
                          SubscriptionNumber = x.Subscription.SubscriptionNumber,
                          SubscriptionID= x.Subscription.Id,
+                         MobileNumber = x.Subscription.Customer.MobileNumber,
                          CustomerId = x.Subscription.CustomerId,
                          CreatedOn = x.CreatedOn,
                      }).ToListAsync();
