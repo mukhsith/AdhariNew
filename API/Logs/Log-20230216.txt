@@ -1,6 +1,0 @@
-2023-02-16T16:18:52.0097196+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
-2023-02-16T16:18:52.0153242+03:00  [INF] Hosting environment: "Development" (c3307c92)
-2023-02-16T16:18:52.0173334+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
-2023-02-16T16:28:09.1286277+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
-2023-02-16T16:28:09.1329260+03:00  [INF] Hosting environment: "Development" (c3307c92)
-2023-02-16T16:28:09.1342034+03:00  [INF] Content root path: "D:\Development\Adhari\API" (b5d60022)
