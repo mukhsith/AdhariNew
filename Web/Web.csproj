@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Customer\WalletOrderResult.cshtml" />
     <Content Remove="Views\Shared\Components\Header\_OLD_Default.cshtml" />
   </ItemGroup>
 
@@ -26,7 +25,6 @@
     <None Include="Views\Customer\ChangePasswordByEmail.cshtml" />
     <None Include="Views\Customer\ForgotPassword.cshtml" />
     <None Include="Views\Customer\Login.cshtml" />
-    <None Include="Views\Customer\WalletOrderResult.cshtml" />
     <None Include="Views\Product\FavoriteProducts.cshtml" />
     <None Include="Views\Customer\MyProfile.cshtml" />
     <None Include="Views\Order\GuestOrderDetails.cshtml" />

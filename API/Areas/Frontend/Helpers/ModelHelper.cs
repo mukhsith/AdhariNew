@@ -189,8 +189,10 @@ namespace API.Areas.Frontend.Helpers
             QuickPaymentModel quickPayModel = new();
 
             quickPayModel.QuickPayNumber = quickPayment.PaymentNumber;
-            quickPayModel.FormattedAmount = await _commonHelper.ConvertDecimalToString(value: quickPayment.Amount, isEnglish: isEnglish);
-            quickPayModel.PaymentStatusId = (int)quickPayment.PaymentStatusId;
+            quickPayModel.FormattedAmount = await _commonHelper.ConvertDecimalToString(value: quickPayment.Amount, isEnglish: isEnglish, includeZero: true);
+
+            if (quickPayment.PaymentStatusId.HasValue)
+                quickPayModel.PaymentStatusId = (int)quickPayment.PaymentStatusId;
 
             var customer = await _customerService.GetCustomerById(quickPayment.CustomerId);
             if (customer != null)
