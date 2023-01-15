@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Utility.API;
 using Utility.Models.Frontend.CustomizedModel;
@@ -21,33 +18,40 @@ namespace Web.Controllers
     {
         private readonly IAPIHelper _apiHelper;
         private readonly ILogger _logger;
+        private readonly AppSettingsModel _appSettings;
         private IStringLocalizer<SharedResource> _sharedLocalizer;
-        public HomeController(IAPIHelper apiHelper,ILoggerFactory logger, IStringLocalizer<SharedResource> sharedLocalizer)
+        public HomeController(IAPIHelper apiHelper,
+            ILoggerFactory logger,
+            IOptions<AppSettingsModel> options,
+            IStringLocalizer<SharedResource> sharedLocalizer)
         {
             _apiHelper = apiHelper;
             _logger = logger.CreateLogger(typeof(HomeController).Name);
+            _appSettings = options.Value;
             _sharedLocalizer = sharedLocalizer;
         }
 
         public async Task<IActionResult> Index(string quickPayNumber)
         {
-            var quickPaymentModel = new QuickPaymentModel();
+            if (string.IsNullOrEmpty(quickPayNumber))
+            {
+                return Redirect(_appSettings.WebsiteUrl);
+            }
+
             try
             {
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<QuickPaymentModel>>("webapi/common/quickpay?quickPayNumber=" + quickPayNumber);
-                
                 if (responseModel.Success && responseModel.Data != null)
                 {
-                    quickPaymentModel = responseModel.Data;
+                    return View(responseModel.Data);
                 }
-
             }
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
             }
 
-            return View(quickPaymentModel);
+            return Redirect(_appSettings.WebsiteUrl);
         }
 
         [HttpPost]

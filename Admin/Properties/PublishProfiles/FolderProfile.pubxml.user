@@ -5,6 +5,6 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\Projects\Adhari\pub\admin</_PublishTargetUrl>
-    <History>True|2023-01-12T10:33:58.3445563Z;True|2023-01-10T11:44:02.4158640+03:00;True|2023-01-10T10:26:02.4822070+03:00;True|2023-01-05T14:49:07.2615701+03:00;True|2023-01-05T14:13:56.2589628+03:00;True|2023-01-05T14:12:30.1286741+03:00;</History>
+    <History>True|2023-01-15T09:19:40.6591336Z;True|2023-01-12T13:33:58.3445563+03:00;True|2023-01-10T11:44:02.4158640+03:00;True|2023-01-10T10:26:02.4822070+03:00;True|2023-01-05T14:49:07.2615701+03:00;True|2023-01-05T14:13:56.2589628+03:00;True|2023-01-05T14:12:30.1286741+03:00;</History>
   </PropertyGroup>
 </Project>

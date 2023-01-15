@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
 @model Utility.Models.Frontend.CustomizedModel.QuickPaymentModel
-
 @{
     var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
@@ -11,7 +10,6 @@
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
 
 }
-
 <section class="py-5 mb-5">
     <div class="container">
         <div class="row">
@@ -64,39 +62,35 @@
         </div>
     </div>
 </section>
-
 <script>
-
     $(document).ready(function () {
+        $('input[type=radio][name=payment-method-radio]').change(function () {
+            $("#a-proceed-payment").attr('disabled', false);
+        });
 
-    });
-
-    $('input[type=radio][name=payment-method-radio]').change(function () {
-        $("#a-proceed-payment").attr('disabled', false);
-    });
-
-    $("#a-proceed-payment").click(function () {
-        var paymentMethodId = $('input[name="payment-method-radio"]:checked').val();
-        alert(paymentMethodId);
-        showLoader();
-        $.post("@Url.RouteUrl("createqpay")", {
-            QuickPayNumber: @Model.QuickPayNumber,
-            PaymentMethodId: paymentMethodId
+        $("#a-proceed-payment").click(function () {
+            debugger;
+            var paymentMethodId = $('input[name="payment-method-radio"]:checked').val();
+            $.post("@Url.RouteUrl("createqpay")", {
+                QuickPayNumber: '@Model.QuickPayNumber',
+                PaymentMethodId: 1
             }, function (result) {
-            if (result.success && result.data != null) {
-                if (result.data.redirectToPaymentPage) {
-                    window.location.href = result.data.paymentUrl;
+                debugger;
+                if (result.success && result.data != null) {
+                    if (result.data.redirectToPaymentPage) {
+                        window.location.href = result.data.paymentUrl;
+                    }
+                    else {
+                        window.location.href = "/ORD/" + result.data.entityNumber;
+                    }
                 }
                 else {
-                    window.location.href = "/ORD/" + result.data.entityNumber;
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
                 }
-            }
-            else {
-                hideLoader();
-                if (result.message != "")
-                    ToastAlert('error', '', result.message);
-            }
+            });
+
+            return false;
         });
-        return false;
     });
 </script>
