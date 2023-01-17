@@ -93,6 +93,7 @@
         public string MyFatoorahErrorUrl { get; set; }
 
         //Email Configuration
+        public bool SendInBackground { get; set; }
         public string DefaultOTPEmailIds { get; set; }
         public string EmailFromAddress { get; set; }
         public string EmailSMTP { get; set; }

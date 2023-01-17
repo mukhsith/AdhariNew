@@ -15,8 +15,9 @@
                             <div class="col-12">
                                 <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger">*</span></label>
                                 <input type="text" asp-for="Name" class="form-control body-bg-secondary rounded-pill border-secondary" placeholder="Enter your name">
+                                <div id="dvErrorName">
+                                </div>
                             </div>
-
                             <div class="col-md-12">
                                 <label for="inputMobile" class="form-label mb-0">@SharedHtmlLocalizer["MobileNumber"]<span class="ms-1 text-danger">*</span></label>
                                 <div class="input-group">
@@ -30,9 +31,9 @@
                                            class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
                                            aria-label="@SharedHtmlLocalizer["EnterYourMobileNumber"]"
                                            maxlength="8" onkeypress="return validateMobileNumber(event);"
-                                           placeholder="" />
-                                    <div class="invalid-feedback" id="dvError">
-                                    </div>
+                                           placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]" />
+                                </div>
+                                <div id="dvErrorMobileNumber">
                                 </div>
                             </div>
                             <div class="col-12">
@@ -40,35 +41,30 @@
                                 <input type="email" asp-for="EmailAddress"
                                        class="form-control body-bg-secondary rounded-pill border-secondary"
                                        placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]">
+                                <div id="dvErrorEmailAddress">
+                                </div>
                             </div>
                             <div class="col-12 col-lg-9 mx-auto">
                                 <div class="form-check">
                                     <input class="form-check-input mt-0 me-2" type="checkbox" id="gridCheck">
                                     <label class="form-check-label d-block" for="gridCheck">
-                                        I agree to the
+                                        @SharedHtmlLocalizer["IAgreeToThe"]
                                         <a href="javascript:;" class="text-primary fw-bold privacy-policy">@SharedHtmlLocalizer["PrivacyPolicy"]</a> &
                                         <a href="javascript:;" class="text-primary fw-bold terms-and-conditions">@SharedHtmlLocalizer["TermsAndConditions"]</a>
                                     </label>
                                 </div>
+                                <div id="dvErrorhdnTerms">
+                                </div>
                             </div>
                             <div class="col-12 text-center">
                                 <a href="javascript:;" id="signup-btn" class="btn btn-primary color-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignUp"]</a>
-
                             </div>
-
-                            <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
-                                    data-bs-toggle="modal" data-bs-target="#OTPModal" type="button"
-                                    style="display:none">
-                                @SharedHtmlLocalizer["Verify"]
-                            </button>
-
-
                             <div class="col-12 text-center">
                                 <hr class="dropdown-divider body-bg-secondary border-secondary">
                             </div>
                             <div class="col-12 text-center">
                                 <h6 class="mb-2">@SharedHtmlLocalizer["AlreadyHaveAnAccount"]</h6>
-                                <a href="@Url.RouteUrl("signin")" class="btn btn-secondary rounded-pill px-5 fw-bold text-white">@SharedHtmlLocalizer["SignIn"]</a>
+                                <a href="@Url.RouteUrl("login")" class="btn btn-secondary rounded-pill px-5 fw-bold text-white">@SharedHtmlLocalizer["SignIn"]</a>
                             </div>
                         </form>
                     </div>
@@ -115,13 +111,19 @@
         });
 
         $("#signup-btn").click(function (event) {
+            debugger;
             event.preventDefault();
+
             $('#register-form').validate();
             if ($("#register-form").valid()) {
+                if ($("#gridCheck").prop('checked') == false) {
+                    $("#dvErrorhdnTerms").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["Please check 'I agree to the Terms & Conditions'"]</span></div>");
+                    return false;
+                }
+
                 var name = $("#Name").val();
                 var mobileNumber = $("#MobileNumber").val();
                 var email = $("#EmailAddress").val();
-                $("#verifyMobile").text("+965" + mobileNumber);
 
                 $.post("@Url.RouteUrl("register")", {
                     Name: name,

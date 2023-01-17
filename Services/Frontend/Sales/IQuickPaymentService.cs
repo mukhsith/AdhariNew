@@ -7,8 +7,6 @@ namespace Services.Frontend.Sales
     {
         Task<QuickPayment> GetQuickPaymentById(int id);
         Task<QuickPayment> GetQuickPaymentByPaymentNumber(string paymentNumber);
-        Task<QuickPayment> CreateQuickPayment(QuickPayment model);
         Task<bool> UpdateQuickPayment(QuickPayment model);
-        Task<bool> DeleteQuickPayment(QuickPayment model);
     }
 }

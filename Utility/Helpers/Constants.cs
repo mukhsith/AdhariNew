@@ -68,5 +68,6 @@ namespace Utility.Helpers
         /// </summary>
         public const string ActionLogout = "Logout";
 
+        public const string ControllerDriverHome = "/driver/DriverDashboard";
     }
 }

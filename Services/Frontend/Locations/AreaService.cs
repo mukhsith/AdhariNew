@@ -1,16 +1,13 @@
-﻿using Data.CustomerManagement;
-using Data.EntityFramework;
+﻿using Data.EntityFramework;
 using Data.Locations;
 using Microsoft.EntityFrameworkCore;
-using Services.Backend.Locations.Interface;
-using Services.Base;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Services.Frontend.Locations
 {
-    public class AreaService :  IAreaService
+    public class AreaService : IAreaService
     {
         protected readonly ApplicationDbContext _dbcontext;
         public AreaService(ApplicationDbContext dbcontext)
@@ -19,24 +16,24 @@ namespace Services.Frontend.Locations
         }
         public async Task<IList<Area>> GetAll(bool showHidden = false, int? countryId = null)
         {
-            var data = await _dbcontext
+            var data = _dbcontext
                         .Areas
-                        .Where(x => x.Deleted == false)
-                        .ToListAsync();
+                        .Where(x => x.Deleted == false);
 
             if (!showHidden)
             {
-                data = data.Where(a => a.Active).ToList();
+                data = data.Where(a => a.Active);
             }
 
             if (countryId.HasValue)
             {
-                data = data.Where(a => a.CountryId == countryId).ToList();
+                data = data.Where(a => a.CountryId == countryId);
             }
 
-            return data;
-        }
+            data = data.OrderBy(a => a.DisplayOrder).ThenByDescending(a => a.Id);
 
+            return await data.ToListAsync();
+        }
         public async Task<Area> GetById(int id)
         {
             var data = await _dbcontext.Areas.Where(a => a.Id == id).Include(a => a.Country).FirstOrDefaultAsync();

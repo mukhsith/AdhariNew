@@ -3,11 +3,11 @@ using API.Helpers;
 using AutoMapper;
 using Data.Shop;
 using Microsoft.Extensions.Logging;
-using Services.Frontend.Content.Interface;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.Content;
+using Services.Frontend.CouponPromotion;
 using Services.Frontend.CustomerManagement;
 using Services.Frontend.Locations;
-using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.ProductManagement;
 using Services.Frontend.Shop;
 using System;
 using System.Collections.Generic;
@@ -648,12 +648,16 @@ namespace API.Areas.Frontend.Factories
                         cartAttribute.UseWalletAmount = false;
                         if (cartAttribute.PaymentMethodId == (int)PaymentMethod.Wallet)
                         {
-                            cartAttribute.PaymentMethodId = null;
-                            var paymentMethods = await _paymentMethodService.GetAllPaymentMethod(paymentRequestType: PaymentRequestType.Order);
-                            if (paymentMethods.Count > 0)
-                            {
-                                cartAttribute.PaymentMethodId = paymentMethods.FirstOrDefault().Id;
-                            }
+                            cartAttribute.PaymentMethodId = cartAttribute.OtherPaymentMethodId;
+                            cartAttribute.OtherPaymentMethodId = null;
+                            //if (!cartAttribute.PaymentMethodId.HasValue)
+                            //{
+                            //    var paymentMethods = await _paymentMethodService.GetAllPaymentMethod(paymentRequestType: PaymentRequestType.Order);
+                            //    if (paymentMethods.Count > 0)
+                            //    {
+                            //        cartAttribute.PaymentMethodId = paymentMethods.FirstOrDefault().Id;
+                            //    }
+                            //}
                         }
                         await _cartService.UpdateCartAttribute(cartAttribute);
                     }

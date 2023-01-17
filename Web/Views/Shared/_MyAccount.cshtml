@@ -1,16 +1,11 @@
-﻿@model bool
-
- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAccount" aria-labelledby="offcanvasAccountLabel">
+﻿<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAccount" aria-labelledby="offcanvasAccountLabel">
     <div class="offcanvas-header border-bottom">
         <h5 id="offcanvasAccountLabel" class="mb-0">@SharedHtmlLocalizer["MyAccount"]</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="@SharedHtmlLocalizer["Close"]"></button>
     </div>
     <div class="offcanvas-body p-0">
         <ul class="navbar-nav ">
-            @if (Model)
-            {
-                @await Html.PartialAsync("_MyAccountLinks")
-            }
+            @await Html.PartialAsync("_MyAccountLinks")
         </ul>
     </div>
-</div> 
+</div>

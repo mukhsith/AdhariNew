@@ -7,11 +7,11 @@ using Data.Sales;
 using Data.Shop;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Services.Frontend.Content.Interface;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.Content;
+using Services.Frontend.CouponPromotion;
 using Services.Frontend.CustomerManagement;
 using Services.Frontend.Locations;
-using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.ProductManagement;
 using Services.Frontend.Sales;
 using Services.Frontend.Shop;
 using System;
@@ -283,13 +283,17 @@ namespace API.Areas.Frontend.Factories
                         subscriptionAttribute.UseWalletAmount = false;
                         if (subscriptionAttribute.PaymentMethodId == (int)PaymentMethod.Wallet)
                         {
-                            subscriptionAttribute.PaymentMethodId = null;
-                            var paymentMethods = await _paymentMethodService.GetAllPaymentMethod(paymentRequestType: PaymentRequestType.Order);
-                            if (paymentMethods.Count > 0)
-                            {
-                                subscriptionAttribute.PaymentMethodId = paymentMethods.FirstOrDefault().Id;
-                            }
-                        }                            
+                            subscriptionAttribute.PaymentMethodId = subscriptionAttribute.OtherPaymentMethodId;
+                            subscriptionAttribute.OtherPaymentMethodId = null;
+                            //if (!subscriptionAttribute.PaymentMethodId.HasValue)
+                            //{
+                            //    var paymentMethods = await _paymentMethodService.GetAllPaymentMethod(paymentRequestType: PaymentRequestType.Order);
+                            //    if (paymentMethods.Count > 0)
+                            //    {
+                            //        subscriptionAttribute.PaymentMethodId = paymentMethods.FirstOrDefault().Id;
+                            //    }
+                            //}
+                        }
                         await _cartService.UpdateSubscriptionAttribute(subscriptionAttribute);
                     }
                     else if (subscriptionAttributeModel.AttributeTypeId == AttributeType.ApplyCoupon)
@@ -700,7 +704,7 @@ namespace API.Areas.Frontend.Factories
                     DiscountValueApplied = discountAmount,
                     DiscountAmount = discountAmount,
                     SubTotal = subscriptionPrice,
-                    DeliveryFee = deliveryFee,
+                    DeliveryFee = fullPayment ? deliveryFee * subscriptionDuration.NumberOfMonths : deliveryFee,
                     CustomerLanguageId = isEnglish ? 1 : 2,
                     CustomerIp = createPaymentModel.CustomerIp,
                     CreatedOn = DateTime.Now,
@@ -948,17 +952,20 @@ namespace API.Areas.Frontend.Factories
             {
                 var subscriptions = new List<Subscription>();
 
-                var customer = await _customerService.GetCustomerById(customerId);
-                if (customer == null || customer.Deleted)
+                if (customerId > 0)
                 {
-                    response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
-                    return response;
-                }
+                    var customer = await _customerService.GetCustomerById(customerId);
+                    if (customer == null || customer.Deleted)
+                    {
+                        response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                        return response;
+                    }
 
-                if (!customer.Active)
-                {
-                    response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
-                    return response;
+                    if (!customer.Active)
+                    {
+                        response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                        return response;
+                    }
                 }
 
                 bool loadDetails = false;

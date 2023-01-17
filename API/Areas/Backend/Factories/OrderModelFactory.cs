@@ -862,6 +862,54 @@ namespace API.Areas.Backend.Factories
             return false;
         }
 
+        public async Task<bool> UpdateDriverOrderStatus(int orderId, int orderType, OrderStatus orderStatusId, bool refundDeliveryFee = false, string notes = "")
+        {
+            if(orderStatusId== OrderStatus.Delivered)
+            {
+                if (orderType == 1)
+                {
+                    var order = await _orderService.GetOrderById(orderId);
+                    if (order is not null)
+                    {
+                        return await _orderService.UpdateOrderPaymentStatus(order, (int)OrderStatus.Delivered, (int)PaymentStatus.Captured);
+                    }
+                }
+                else if (orderType == 2)
+                {
+                    var order = await _subscriptionService.GetSubscriptionOrderById(orderId);
+                    if (order is not null)
+                    {
+                        return await _subscriptionService.UpdateOrderPaymentStatus(order, true, (int)PaymentStatus.Captured);
+                    }
+                }
+
+            }
+            else if(orderStatusId == OrderStatus.Confirmed) // driver dashbord cancel
+            {
+                if (orderType == 1)
+                {
+                    var order = await _orderService.GetOrderById(orderId);
+                    if (order is not null)
+                    {
+                        return await _orderService.UpdateDriverdetails(order, (int)OrderStatus.Confirmed, (int)order.PaymentStatusId);
+                    }
+                }
+                else if (orderType == 2)
+                {
+                    var order = await _subscriptionService.GetSubscriptionOrderById(orderId);
+                    if (order is not null)
+                    {
+                        return await _subscriptionService.UpdateOrderPaymentStatus(order, false, (int) order.PaymentStatusId);
+                    }
+                }
+            }
+           
+            return false;
+        }
+
+
+
+
         public async Task<bool> AddDriver(int orderId, int driverId)
         {
             return await _orderService.AddDriver(orderId, driverId);
@@ -890,10 +938,11 @@ namespace API.Areas.Backend.Factories
             try
             {
                 result = await _orderService.GetAllOrdersForDeliveries(param);
-                foreach (var item in result.Data)
+               foreach (var item in result.Data)
                 {
                     item.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(item.DeliveryFee, param.IsEnglish, 1, true);
                     item.FormattedTotal = await _commonHelper.ConvertDecimalToString(item.Total, param.IsEnglish, 1, true);
+                    item.OrderStatus = _commonHelper.GetOrderStatusName(item.OrderStatusId, param.IsEnglish);
                 }
 
                 return result;

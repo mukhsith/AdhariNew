@@ -18,11 +18,13 @@ configureActions = () => {
         if (action == "#notdispatched") {
             selectedTab = 0;
             selectedDataTableName = "#notdispatched-datatable-default-";
+            searchForDataTable();
         } else {
             selectedTab = 1;
             selectedDataTableName = "#dispatched-datatable-default-";
+            searchFordispatchedDataTable();
         }
-        searchForDataTable();
+        
         showLog(action);
     });
 }
@@ -46,7 +48,6 @@ searchForDataTable = () => {
                 d.selectedTab = selectedTab;
                 d.orderNumber = getTextValue("orderNumber");
                 d.deliveryDate = getDatePickerValue("deliveryDate");
-
                 d.orderModeID = getSelectedItemValue("orderTypeList");
                 d.orderTypeId = getSelectedItemValue("orderModeList");
                 d.areaId = getSelectedItemValue("areaList");
@@ -74,9 +75,91 @@ searchForDataTable = () => {
             { "data": "orderModeName" },
             { "data": "orderTypeName" },
             { "data": "areaName" },
+            { "data": "customerName" },
+            { "data": "mobileNumber" },
+            { "data": "formattedTotal" },
+            { "data": "orderStatus", "name": "orderStatusId", render: function (data, type, row) { return getOrderStatusHtml(row); }, },
+            { "data": null, render: function (data, type, row) { return getActionsHtml(row); }, },
+        ],
+        createdRow: function (row, data, dataIndex) {
+            if (data['orderTypeName'] == 'Normal') {
+                $(row).addClass('body-bg-warning odd');
+            }
+        }
+        //createdRow: function (row, data, index) { 
+        //    //change display order value, to avoid page refresh
+        //    $(row).attr('data-rowid', data.id);
+        //   // $(row).find('td:eq(1)').attr('data-displayorder', row.id);
+
+        //    //    Reinitialize ios-switch
+        //    //$(row).find('[data-plugin-ios-switch]').themePluginIOS7Switch();
+        //}, 
+        //columnDefs: [{ 'targets': 0, 'checkboxes': { 'selectRow': true } }],
+        //select: { 'style': 'multi' },
+        //order: [ [1, 'asc'] ],
+        //initComplete: function (settings, json) {
+        //    $(".table").find("input[type='checkbox']").addClass("form-check-input");
+
+        //}
+
+    });
+
+}
+
+
+
+searchFordispatchedDataTable = () => {
+    if ($.fn.dataTable.isDataTable(selectedDataTableName)) {
+        $(selectedDataTableName).DataTable().destroy();
+    }
+
+    $(selectedDataTableName).DataTable({
+        responsive: true,
+        searching: true,
+        serverSide: true,
+        "ajax": {
+            url: getAPIUrl() + "Order/GetDeliveriesForDataTable",
+            type: "POST",
+            headers: { "Authorization": 'Bearer ' + getToken() },
+            data: function (d) {
+                var search = $(":input[type=search]").val();
+                if (search.length <= 0) { showLoader(); }
+                d.selectedTab = selectedTab;
+                d.orderNumber = getTextValue("orderNumber");
+                d.deliveryDate = getDatePickerValue("deliveryDate");
+                d.orderModeID = getSelectedItemValue("orderTypeList");
+                d.orderTypeId = getSelectedItemValue("orderModeList");
+                d.areaId = getSelectedItemValue("areaList");
+                d.driverId = getSelectedItemValue("driverList");
+            },
+            "datatype": "json",
+            "dataSrc": function (json) {
+                showLog(json);
+                checkAPIResponse(json);
+                hideLoader();
+                return json.data;
+            },
+            error: function (error) {
+                showLog('error' + error);
+            },
+        },
+
+        "columns": [
+            { "data": "id" },
+            { "data": "orderNumber" },
+            { "data": "createdOn", render: function (data, type, row) { return getFormatedDate(row.createdOn); } },
+            { "data": "deliveryDate", render: function (data, type, row) { return getFormatedDate(row.deliveryDate); } },
+            /* { "data": "deliveryDate", render: row.deliveryDate.datetime('dd/MM/yyyy') },*/
+            /*         { "data": "deliveryDate" },*/
+            { "data": "orderModeName" },
+            { "data": "orderTypeName" },
+            { "data": "areaName" },
+            { "data": "customerName" },
+            { "data": "mobileNumber" },
             { "data": "formattedDeliveryFee" },
             { "data": "formattedTotal" },
             { "data": "driverName" },
+            { "data": "orderStatus", "name": "orderStatusId", render: function (data, type, row) { return getOrderStatusHtml(row); }, },
             { "data": null, render: function (data, type, row) { return getActionsHtml(row); }, },
         ],
         createdRow: function (row, data, dataIndex) {
@@ -117,20 +200,21 @@ getActionsHtml = (row) => {
 
 
     }
+    if (row.orderStatusId != 3) {
+        if (selectedTab == 0 && row.driverId == null) {
+            html += `<span data-bs-toggle="modal" class="open-dispatch-delivery-modal" data-id="${row.id}" data-bs-target="#dispatch-delivery-modal"><a href="javascript: ; " class="mb-1 mt-1 me-1 btn btn-sm btn-warning dispatch-delivery-btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Dispatch Delivery" aria-label="Dispatch Delivery"><i class="fas fa-truck"></i></a></span>`;
 
-    if (selectedTab == 0 && row.driverId == null) {
-        html += `<span data-bs-toggle="modal" class="open-dispatch-delivery-modal" data-id="${row.id}" data-bs-target="#dispatch-delivery-modal"><a href="javascript: ; " class="mb-1 mt-1 me-1 btn btn-sm btn-warning dispatch-delivery-btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Dispatch Delivery" aria-label="Dispatch Delivery"><i class="fas fa-truck"></i></a></span>`;
-
-    } else if (selectedTab == 1 && row.driverId != null) {
-        html += `<span data-bs-toggle="modal" class="open-dispatch-delivery-modal" data-id="${row.id}" data-bs-target="#dispatch-delivery-modal"> <a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-danger dispatch-delivery-btn"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reassign Driver" data-bs-original-title="Reassign Driver" aria-label="Reassign Driver" ><i class="fas fa-exchange "></i></a> </span>`;
-    }
-    if (row.orderStatusId != 4) {
-        if (row.total >0) {
-            html += `<span data-bs-toggle="modal" class="open-send-payment-link-modal" data-id="${row.id}" data-customerId="${row.mobileNumber}" data-bs-target="#send-payment-link-modal"> <a href='#' onclick='SendQpay(${row.id},${row.mobileNumber},${row.customerId},${row.total},${row.orderNumber});' class="mb-1 mt-1 me-1 btn btn-sm btn-info"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Send Payment Link" data-bs-original-title="Send Payment Link" aria-label="Send Payment Link" ><i class="fas fa-money-bill-wave"></i></a> </span>`;
+        } else if (selectedTab == 1 && row.driverId != null) {
+            html += `<span data-bs-toggle="modal" class="open-dispatch-delivery-modal" data-id="${row.id}" data-bs-target="#dispatch-delivery-modal"> <a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-danger dispatch-delivery-btn"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reassign Driver" data-bs-original-title="Reassign Driver" aria-label="Reassign Driver" ><i class="fas fa-exchange "></i></a> </span>`;
         }
-        else {
-            html += `<span data-bs-toggle="modal" class="open-reschedule-delivery-modal" data-id="${row.id}" data-bs-target="#reschedule-delivery-modal"> <a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-dark"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reschedule Order" data-bs-original-title="Reschedule Order" aria-label="Reschedule Order" ><i class="fas fa-calendar-plus"></i></a> </span>
+        if (row.orderStatusId != 4) {
+            if (row.total > 0 && row.paymentStatusId !=2) {
+                html += `<span data-bs-toggle="modal" class="open-send-payment-link-modal" data-id="${row.id}" data-customerId="${row.mobileNumber}" data-bs-target="#send-payment-link-modal"> <a href='#' onclick='SendQpay(${row.id},${row.mobileNumber},${row.customerId},${row.total},${row.orderNumber});' class="mb-1 mt-1 me-1 btn btn-sm btn-info"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Send Payment Link" data-bs-original-title="Send Payment Link" aria-label="Send Payment Link" ><i class="fas fa-money-bill-wave"></i></a> </span>`;
+            }
+            else {
+                html += `<span data-bs-toggle="modal" class="open-reschedule-delivery-modal" data-id="${row.id}" data-bs-target="#reschedule-delivery-modal"> <a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-dark"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reschedule Order" data-bs-original-title="Reschedule Order" aria-label="Reschedule Order" ><i class="fas fa-calendar-plus"></i></a> </span>
                      `;
+            }
         }
     }
 
@@ -174,10 +258,56 @@ cbGetPDFSuccess = (data) => {
 SendQpay = (OrderID, MobileNumber, CustomerId, Total, OrderNumber) => {
     //alert(MobileNumber);
     setTextValue("dialogMobileNumber", MobileNumber);
+    setTextValue("dialogOrderId", OrderID);
+    setTextValue("dialogCustomerId", CustomerId);
+    setTextValue("dialogTotal", Total);
+    setTextValue("dialogOrderNumber", OrderNumber);
     
     
+    //var endpoint = getAPIUrl() + "Order/SendQpay?CustomerID=" + CustomerId +
+    //    "&OrderID=" + OrderID + "&OrderNumber=" + OrderNumber + "&Ordertotal=" + Total ;
+
+    ////$('#DisplayOrderModel').modal('toggle');
+
+    ////showLoader();
+    //$.ajax({
+    //    url: endpoint,
+    //    method: "POST",
+    //    headers: {
+    //        "Content-Type": "application/json",
+    //        "Authorization": 'Bearer ' + getToken()
+    //    },
+    //    success: function (data) {
+    //        hideLoader();
+    //        if (data.success) {
+    //           // updateDataTableDisplayOrder(data);
+    //            ToastAlert('success', 'Order', 'QPay link send Successfully');
+    //            hideLoader();
+    //        }
+    //        //else {
+    //        //    showLog(data);
+    //        //    ToastAlert('danger', 'Order', data.message);
+    //        //}
+
+    //    },
+    //    error: function (xhr) {
+    //        hideLoader();
+    //        ToastAlert('error', 'Display Order', xhr);
+    //    }
+    //});
+}
+
+
+sendPaymentLink=() => {
+
+
+    var OrderID = getTextValue("dialogOrderId");
+    var CustomerId = getTextValue("dialogCustomerId");
+    var Total = getTextValue("dialogTotal");
+    var OrderNumber = getTextValue("dialogOrderNumber");
+
     var endpoint = getAPIUrl() + "Order/SendQpay?CustomerID=" + CustomerId +
-        "&OrderID=" + OrderID + "&OrderNumber=" + OrderNumber + "&OrderNumber=" + Total ;
+        "&OrderID=" + OrderID + "&OrderNumber=" + OrderNumber + "&Ordertotal=" + Total ;
 
     //$('#DisplayOrderModel').modal('toggle');
 
@@ -191,19 +321,22 @@ SendQpay = (OrderID, MobileNumber, CustomerId, Total, OrderNumber) => {
         },
         success: function (data) {
             hideLoader();
-            if (data.success) {
-                updateDataTableDisplayOrder(data);
+            /*if (data.success) {*/
+                // updateDataTableDisplayOrder(data);
                 ToastAlert('success', 'Order', 'QPay link send Successfully');
-            } else {
-                showLog(data);
-                ToastAlert('danger', 'Order', data.message);
-            }
+                hideLoader();
+            //}
+            //else {
+            //    showLog(data);
+            //    ToastAlert('danger', 'Order', data.message);
+            //}
+            $("#send-payment-link-modal").modal('hide');
 
         },
         error: function (xhr) {
             hideLoader();
-            ToastAlert('error', 'Display Order', xhr);
+            //ToastAlert('error', 'Display Order', xhr);
         }
     });
-}
 
+}

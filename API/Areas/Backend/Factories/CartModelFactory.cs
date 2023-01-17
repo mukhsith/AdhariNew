@@ -4,10 +4,10 @@ using AutoMapper;
 using Data.Shop;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.CouponPromotion;
 using Services.Frontend.CustomerManagement;
 using Services.Frontend.Locations;
-using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.ProductManagement;
 using Services.Frontend.Shop;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,6 @@ namespace API.Areas.Backend.Factories
         private readonly ICartService _cartService;
         private readonly IProductService _productService;
         private readonly ICommonHelper _commonHelper;
-        private readonly ICountryService _countryService;
         private readonly ICategoryService _categoryService;
         private readonly ICouponService _couponService;
         private readonly IPromotionService _promotionService;
@@ -44,7 +43,6 @@ namespace API.Areas.Backend.Factories
             ICartService cartService,
             IProductService productService,
             ICommonHelper commonHelper,
-            ICountryService countryService,
             IMapper mapper,
             ICategoryService categoryService,
             ICouponService couponService,
@@ -58,7 +56,6 @@ namespace API.Areas.Backend.Factories
             _cartService = cartService;
             _productService = productService;
             _commonHelper = commonHelper;
-            _countryService = countryService;
             _mapper = mapper;
             _categoryService = categoryService;
             _couponService = couponService;

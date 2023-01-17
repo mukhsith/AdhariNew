@@ -10,5 +10,6 @@ namespace Data.Shop
         public int? PaymentMethodId { get; set; }
         public bool UseWalletAmount { get; set; }
         public string Notes { get; set; }
+        public int? OtherPaymentMethodId { get; set; }
     }
 }

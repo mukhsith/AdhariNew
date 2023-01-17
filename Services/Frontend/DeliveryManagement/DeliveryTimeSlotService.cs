@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
-using Services.Frontend.DeliveryManagement.Interface;
+using Services.Frontend.DeliveryManagement;
 using Data.DeliveryManagement;
 
-namespace Services.Frontend.Locations.Interface
+namespace Services.Frontend.Locations
 {
     public class DeliveryTimeSlotService : IDeliveryTimeSlotService
     {

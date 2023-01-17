@@ -23,7 +23,7 @@ using Utility.ResponseMapper;
 
 namespace API.Areas.Backend.Controllers
 {
-    public class NotificationController : BaseController 
+    public class NotificationController : BaseController
     {
         private readonly INotificationService _get;
         private readonly ILogger _logger;
@@ -31,12 +31,12 @@ namespace API.Areas.Backend.Controllers
             IOptions<AppSettingsModel> options,
             ISystemUserService systemUserService,
             INotificationService get,
-            ILoggerFactory logger) : 
+            ILoggerFactory logger) :
             base(options, systemUserService, PermissionTypes.NotificationTemplates)
         {
             _get = get;
             _logger = logger.CreateLogger(typeof(NotificationController).Name);
-             
+
         }
 
         [HttpPost, Route("api/Notification/CreateNotification")]
@@ -47,6 +47,7 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
                 model.CreatedBy = this.UserId;
+                model.Active = true;
 
                 var item = await _get.CreateNotification(model);
                 response.GetById(item);

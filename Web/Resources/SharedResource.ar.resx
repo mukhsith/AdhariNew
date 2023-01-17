@@ -123,17 +123,26 @@
   <data name="AddNewAddress" xml:space="preserve">
     <value>أضف عنوان جديد</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>العنوان</value>
+  </data>
   <data name="AddressDetails" xml:space="preserve">
     <value>تفاصيل العنوان</value>
   </data>
   <data name="AddressName" xml:space="preserve">
     <value>اسم العنوان</value>
   </data>
+  <data name="AddressNameIsRequired" xml:space="preserve">
+    <value>اسم العنوان مطلوب</value>
+  </data>
   <data name="AddToCart" xml:space="preserve">
     <value>أضف إلى السلة</value>
   </data>
   <data name="AddToFavorites" xml:space="preserve">
     <value>اضافة الى المفضلة</value>
+  </data>
+  <data name="Adhari" xml:space="preserve">
+    <value>عذاري</value>
   </data>
   <data name="Adhari Logo" xml:space="preserve">
     <value>شعار عذاري</value>
@@ -156,8 +165,11 @@
   <data name="Area" xml:space="preserve">
     <value>منطقة</value>
   </data>
+  <data name="AreaIsRequired" xml:space="preserve">
+    <value>المنطقة مطلوبة</value>
+  </data>
   <data name="Avenue" xml:space="preserve">
-    <value>جاده</value>
+    <value>الجادة</value>
   </data>
   <data name="AvenueNameOrNumber" xml:space="preserve">
     <value>اسم أو الرقم الجادة</value>
@@ -169,7 +181,10 @@
     <value>رجوع</value>
   </data>
   <data name="Block" xml:space="preserve">
-    <value>قطعة</value>
+    <value>القطعة</value>
+  </data>
+  <data name="BlockIsRequired" xml:space="preserve">
+    <value>القطعة مطلوب</value>
   </data>
   <data name="BlockNo" xml:space="preserve">
     <value>رقم القطعة</value>
@@ -182,6 +197,9 @@
   </data>
   <data name="BuildingNo." xml:space="preserve">
     <value>رقم المبنى</value>
+  </data>
+  <data name="BuildingNoIsRequired" xml:space="preserve">
+    <value>رقم المبنى مطلوب</value>
   </data>
   <data name="BuildingNumber" xml:space="preserve">
     <value>رقم المبنى</value>
@@ -197,6 +215,9 @@
   </data>
   <data name="CashbackAmount" xml:space="preserve">
     <value>مبلغ الاسترداد النقدي</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>فئة</value>
   </data>
   <data name="Checkout" xml:space="preserve">
     <value>الدفع</value>
@@ -300,6 +321,9 @@
   <data name="FlatNo." xml:space="preserve">
     <value>رقم الشقة</value>
   </data>
+  <data name="FlatNoIsRequired" xml:space="preserve">
+    <value>رقم الشقة مطلوب</value>
+  </data>
   <data name="FlatNumber" xml:space="preserve">
     <value>رقم الشقة</value>
   </data>
@@ -309,6 +333,9 @@
   <data name="FloorNo." xml:space="preserve">
     <value>رقم الدور</value>
   </data>
+  <data name="FloorNoIsRequired" xml:space="preserve">
+    <value>رقم الدور مطلوب</value>
+  </data>
   <data name="FloorNumber" xml:space="preserve">
     <value>رقم الدور</value>
   </data>
@@ -316,13 +343,19 @@
     <value>رابط Google Play</value>
   </data>
   <data name="Government" xml:space="preserve">
-    <value>حكومة</value>
+    <value>مكتب حكومي</value>
   </data>
   <data name="GovernmentEntity" xml:space="preserve">
-    <value>جهة حكومية</value>
+    <value>اسم الجهه</value>
+  </data>
+  <data name="GovernmentEntityIsRequired" xml:space="preserve">
+    <value>اسم الجهه مطلوب</value>
   </data>
   <data name="Governorate" xml:space="preserve">
     <value>محافظة</value>
+  </data>
+  <data name="GovernorateIsRequired" xml:space="preserve">
+    <value>المحافظة مطلوب</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
     <value>المجموع الإجمالي</value>
@@ -338,6 +371,9 @@
   </data>
   <data name="HouseNo." xml:space="preserve">
     <value>رقم المنزل</value>
+  </data>
+  <data name="HouseNoIsRequired" xml:space="preserve">
+    <value>رقم المنزل مطلوب</value>
   </data>
   <data name="HouseNumber" xml:space="preserve">
     <value>رقم المنزل</value>
@@ -384,6 +420,9 @@
   <data name="MosqueName" xml:space="preserve">
     <value>اسم المسجد</value>
   </data>
+  <data name="MosqueNameIsRequired" xml:space="preserve">
+    <value>اسم المسجد مطلوب</value>
+  </data>
   <data name="MyAccount" xml:space="preserve">
     <value>حسابي</value>
   </data>
@@ -421,7 +460,7 @@
     <value>الاسم مطلوب</value>
   </data>
   <data name="NoNotifications" xml:space="preserve">
-    <value>No Notifications</value>
+    <value>لا توجد إشعارات</value>
   </data>
   <data name="NoOrders" xml:space="preserve">
     <value>لا يوجد طلبات</value>
@@ -516,6 +555,9 @@
   <data name="PaymentSummary" xml:space="preserve">
     <value>ملخص الدفع</value>
   </data>
+  <data name="PleaseCheckIAgreeToTheTermsAndConditions" xml:space="preserve">
+    <value>يرجى تحديد 'أوافق على الشروط والأحكام'</value>
+  </data>
   <data name="PleaseChoosePaymentMethod" xml:space="preserve">
     <value>الرجاء اختيار طريقة الدفع</value>
   </data>
@@ -537,6 +579,9 @@
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>سياسة الخصوصية</value>
   </data>
+  <data name="ProceedToCheckout" xml:space="preserve">
+    <value>الذهاب الى بوابة الدفع</value>
+  </data>
   <data name="ProjectTitle" xml:space="preserve">
     <value>عذاري</value>
   </data>
@@ -555,8 +600,17 @@
   <data name="RefundPolicy" xml:space="preserve">
     <value>سياسة الاسترجاع</value>
   </data>
+  <data name="RemoveFromFavorites" xml:space="preserve">
+    <value>إزالة من المفضلة</value>
+  </data>
+  <data name="Reorder" xml:space="preserve">
+    <value>إعادة الطلب</value>
+  </data>
   <data name="ResendOTP" xml:space="preserve">
     <value>إعادة إرسال OTP</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>مراجعة</value>
   </data>
   <data name="SaveAddress" xml:space="preserve">
     <value>حفظ العنوان</value>
@@ -570,8 +624,14 @@
   <data name="SchoolName" xml:space="preserve">
     <value>اسم المدرسة</value>
   </data>
+  <data name="SchoolNameIsRequired" xml:space="preserve">
+    <value>اسم المدرسة مطلوب</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>بحث</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>اختر</value>
   </data>
   <data name="SelectDeliveryDate" xml:space="preserve">
     <value>حدد تاريخ التسليم</value>
@@ -600,11 +660,17 @@
   <data name="SignUp" xml:space="preserve">
     <value>اشتراك</value>
   </data>
+  <data name="Size" xml:space="preserve">
+    <value>الحجم</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>حالة</value>
   </data>
   <data name="Street" xml:space="preserve">
-    <value>شارع</value>
+    <value>الشارع</value>
+  </data>
+  <data name="StreetIsRequired" xml:space="preserve">
+    <value>رقم الشارع مطلوب</value>
   </data>
   <data name="StreetNameOrNumber" xml:space="preserve">
     <value>اسم الشارع أو الرقم</value>
@@ -683,6 +749,12 @@
   </data>
   <data name="VerifyOTP" xml:space="preserve">
     <value>تحقق من OTP</value>
+  </data>
+  <data name="ViewCart" xml:space="preserve">
+    <value>عرض عربة التسوق</value>
+  </data>
+  <data name="WalletAmount" xml:space="preserve">
+    <value>محفظةالمبلغ</value>
   </data>
   <data name="WalletPrepaidCards" xml:space="preserve">
     <value>بطاقات المحفظة مسبقة الدفع</value>

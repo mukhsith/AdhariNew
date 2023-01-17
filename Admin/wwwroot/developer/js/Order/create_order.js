@@ -61,16 +61,16 @@ validateCreateCustomer = () => {
             });
         }
     });
-
-    $('input[type=radio][name=address]').change(function () {
-        var selectedTab = $(this).attr('id');
-        $(this).closest('.addresses').find('.inputGroup').removeClass('active');
-        $(this).closest('.inputGroup').addClass('active');
-        $('.continue-btn').removeClass('disabled');
-    });
-
-   
 }
+
+$(document).on("change", "input[type=radio][name=address]", function () {
+    var selectedTab = $(this).attr('id');
+    console.log(selectedTab);
+    $(this).closest('.addresses').find('.inputGroup').removeClass('active');
+    $(this).closest('.inputGroup').addClass('active');
+    $('.continue-btn').removeClass('disabled');
+});
+
 
 addCustomerAddress = () => {
     var addressType = $(".delivery-addresses .active a").attr('id');
@@ -117,18 +117,32 @@ showAddressListSuccess = (data) => {
 
     if (data == null) { return; }
     var address = $("#display-addresses .row .addresses").html('');
-    for (const r of data.data) { //no of rows
+
+    $(data.data).each(function (index, item) {
         var html = `<div class="col-12 col-md-4 mb-3">
-                        <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3">
+                        <div class="inputGroup ${index === 0 ? "active" : ""} h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3">
                             <label for="address-0" class="w-100">
-                                <p class="address-name card-text mb-0 fw-bold">${r.name}</p>
-                                <p class="address-content card-text mb-0"> ${r.addressText}</p>
+                                <p class="address-name card-text mb-0 fw-bold">${item.name}</p>
+                                <p class="address-content card-text mb-0"> ${item.addressText}</p>
                             </label>
-                                <input data-id="${r.id}" id="${r.id}" name="${r.id}" type="radio" >
+                                <input data-id="${item.id}" id="${item.id}" name="address" type="radio" ${index === 0 ? "checked" : ""} >
                         </div>
                     </div>`;
         address.append(html);
-    }
+    });
+
+    //for (const r of data.data) { //no of rows
+    //    var html = `<div class="col-12 col-md-4 mb-3">
+    //                    <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3">
+    //                        <label for="address-0" class="w-100">
+    //                            <p class="address-name card-text mb-0 fw-bold">${r.name}</p>
+    //                            <p class="address-content card-text mb-0"> ${r.addressText}</p>
+    //                        </label>
+    //                            <input data-id="${r.id}" id="${r.id}" name="address" type="radio" >
+    //                    </div>
+    //                </div>`;
+    //    address.append(html);
+    //}
 }
  
 
@@ -189,7 +203,8 @@ addCartItem = (productId, quantity) => {
     ajaxPostCart("Cart/AddCartItem", fromBody,
         function (data) { 
             if (data.success) {
-                setTimeout(getCartItems(), 500);
+                saveAttributes();
+                /*setTimeout(getCartItems(), 500);*/
             } else {
                 console.log(data);
             }
@@ -331,35 +346,13 @@ displayCartSummary = (data) => {
 }
 
 
-saveAttributes = (code) => {
-    /*$.post("@Url.RouteUrl("savecartattributes")", { CouponCode: code, AttributeTypeId: attributeTypeId },
-      SelectAddress = 1,
-     AddWalletAmount = 2,
-        RemoveWalletAmount = 3,
-         ApplyCoupon = 4,
-         RemoveCoupon = 5,
-        SelectPaymentMethod = 6,
-         Subscribe = 7
-    
-     * ,[CustomerId]
-      ,[CouponId]
-      ,[AddressId]
-      ,[PaymentMethodId]
-      ,[CreatedBy]
-      ,[CreatedOn]
-      ,[ModifiedBy]
-      ,[ModifiedOn]
-      ,[Deleted]
-      ,[UseWalletAmount]
-     */
+saveAttributes = () => {
+    var selectedAddressId = $('input[type=radio][name=address]:checked').val();
     var fromBody = {
-        'CouponCode': getTextValue('customerId'),
-        'CouponCode': getTextValue('customerId'),
+        'CustomerId': getTextValue('customerId'),
+        'AddressId': selectedAddressId,
+        'AttributeTypeId': 1,
         'countryId': 1,
-        'id': cartId,
-        'cartId': cartId,
-        'productId': productId,
-        'quantity': qty
     };
     ajaxPostCart("Cart/savecartattributes", fromBody,
         function (data) {
@@ -371,6 +364,7 @@ saveAttributes = (code) => {
             //hideLoader();
         });
 }
+
 initilizeDataTable = () => {
     console.log("Ready normal product table");
     if ($.fn.dataTable.isDataTable(".normal-datatable-default-")) {

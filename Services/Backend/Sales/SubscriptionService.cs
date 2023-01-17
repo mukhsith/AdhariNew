@@ -112,6 +112,15 @@ namespace Services.Backend.Sales
 
             return data;
         }
+
+
+        public async Task<bool> UpdateOrderPaymentStatus(SubscriptionOrder order, bool isDelivered, int paymentStatusId)
+        {
+            order.Delivered = isDelivered;
+            _dbcontext.SubscriptionOrders.Update(order);
+            return await _dbcontext.SaveChangesAsync() > 0;
+        }
+
         public async Task<Subscription> GetSubscriptionBySubscriptionNumber(string subscriptionNumber)
         {
             var data = await _dbcontext.Subscriptions

@@ -31,10 +31,26 @@ namespace Web.Controllers
             _appSettingsModel = options.Value;
             _logger = logger.CreateLogger(typeof(ProductController).Name);
         }
-        public IActionResult Products(string seoName)
+        public async Task<IActionResult> Products(string seoName)
         {
-            ViewBag.SeoName = seoName;
-            return View();
+            var categoryModel = new CategoryModel();
+            try
+            {
+                if (!string.IsNullOrEmpty(seoName))
+                {
+                    var responseCategoriesModel = await _apiHelper.GetAsync<APIResponseModel<List<CategoryModel>>>("webapi/common/categories?seoName=" + seoName);
+                    if (responseCategoriesModel.Success && responseCategoriesModel.Data != null && responseCategoriesModel.Data.Count > 0)
+                    {
+                        categoryModel = responseCategoriesModel.Data[0];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(categoryModel);
         }
         public async Task<JsonResult> ProductsByAjax(string seoName, int limit, int page, bool search = false, string keyword = "")
         {

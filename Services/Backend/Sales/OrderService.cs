@@ -20,7 +20,7 @@ namespace Services.Backend.Sales
     public class OrderService : IOrderService
     {
         protected readonly ApplicationDbContext _dbcontext;
-
+   
         public int Confirmed { get; private set; }
 
         public OrderService(ApplicationDbContext dbcontext)
@@ -225,14 +225,22 @@ namespace Services.Backend.Sales
         {
             DriverDeliverySummaryModel summary = new();
             var orders = await _dbcontext.Orders
-                                         .Select(x => new { x.DeliveryDate, x.DriverId, x.OrderStatusId })
+                                         .Select(x => new DeliveriesDashboard()  { DeliveryDate= x.DeliveryDate,DriverId= x.DriverId,OrderStatusId= x.OrderStatusId })
                                          .Where(x => x.DeliveryDate.Date == DateTime.Now.Date
-                                                  && x.DriverId == driverId)
+                                                  && x.DriverId == driverId && x.OrderStatusId!= OrderStatus.Cancelled)
                                          .AsNoTracking().ToListAsync();
 
+            var subscriptions = await _dbcontext.SubscriptionOrders
+                  .Include(x => x.Subscription)
+              .Include(x => x.Driver)
+                    .Select(x => new DeliveriesDashboard() { DeliveryDate = x.DeliveryDate, DriverId = x.DriverId, OrderStatusId = x.Confirmed ? OrderStatus.Confirmed : OrderStatus.Pending })
+                                         .Where(x => x.DeliveryDate.Date == DateTime.Now.Date
+                                                  && x.DriverId == driverId).AsNoTracking().ToListAsync();
 
-            summary.Pending = orders.Where(x => x.OrderStatusId == OrderStatus.Delivered).Count();
-            summary.Completed = orders.Where(x => x.OrderStatusId != OrderStatus.Delivered).Count();
+            var items = orders.Union(subscriptions).AsQueryable();
+
+            summary.Pending = items.Where(x => x.OrderStatusId == OrderStatus.Delivered).Count();
+            summary.Completed = items.Where(x => x.OrderStatusId != OrderStatus.Delivered).Count();
             return summary;
         }
 
@@ -410,7 +418,12 @@ namespace Services.Backend.Sales
                         SubscriptionID=0,
                         MobileNumber= x.Customer.MobileNumber,
                         CustomerId = x.Customer.Id,
-                        CreatedOn = x.CreatedOn
+                        CreatedOn = x.CreatedOn,
+                        OrderStatus = "",
+                        CustomerName = x.Customer.Name,
+                        PaymentStatus = x.PaymentStatusId == PaymentStatus.Captured ? param.IsEnglish ? Messages.Paid : MessagesAr.Paid : param.IsEnglish ? Messages.NotPaid : MessagesAr.NotPaid,
+                        DeliveryStatus = x.OrderStatusId== OrderStatus.Delivered ? param.IsEnglish ? Messages.Delivered : MessagesAr.Delivered : param.IsEnglish ? Messages.Pending : MessagesAr.Pending,
+                        Delivered = x.OrderStatusId == OrderStatus.Delivered ? true : false,
                     }).ToListAsync();
 
                 var subscriptions = await _dbcontext.SubscriptionOrders
@@ -443,6 +456,11 @@ namespace Services.Backend.Sales
                          MobileNumber = x.Subscription.Customer.MobileNumber,
                          CustomerId = x.Subscription.CustomerId,
                          CreatedOn = x.CreatedOn,
+                         OrderStatus ="",
+                         CustomerName= x.Subscription.Customer.Name,
+                         PaymentStatus = x.PaymentStatusId == PaymentStatus.Captured ? param.IsEnglish ? Messages.Paid : MessagesAr.Paid : param.IsEnglish ? Messages.NotPaid : MessagesAr.NotPaid,
+                         DeliveryStatus = x.Delivered ? param.IsEnglish ? Messages.Delivered : MessagesAr.Delivered : param.IsEnglish ? Messages.Pending : MessagesAr.Pending,
+                         Delivered = x.Delivered,
                      }).ToListAsync();
 
                 var items = orders.Union(subscriptions).AsQueryable();
@@ -529,6 +547,7 @@ namespace Services.Backend.Sales
                 {
                     items = items.OrderByDescending(x => x.CreatedOn);
                 }
+
 
 
                 result.RecordsTotal = items.Count();
@@ -712,31 +731,89 @@ namespace Services.Backend.Sales
             try
             {
 
-                var items = _dbcontext.Orders
-                    .Include(x => x.Customer)
-                    .Include(x => x.Address).ThenInclude(x => x.Area)
-                    .Include(x => x.Driver)
-                    .Where(x => x.Deleted == false)
-                    .Select(x => new DeliveriesDashboard()
-                    {
+                var orders = await _dbcontext.Orders
+                     .Include(x => x.Customer)
+                     .Include(x => x.Address).ThenInclude(x => x.Area)
+                     .Include(x => x.Driver)
+                     .Where(x => x.Deleted == false &&
+                     (x.PaymentStatusId == PaymentStatus.Captured || x.PaymentStatusId == PaymentStatus.PendingCash))
+                     .Select(x => new DeliveriesDashboard()
+                     {
 
-                        Id = x.Id,
-                        OrderNumber = x.OrderNumber,
-                        DeliveryDate = x.DeliveryDate,
-                        PaymentStatusId = x.PaymentStatusId,
-                        OrderTypeId = x.OrderTypeId,
-                        OrderStatusId = x.OrderStatusId,
-                        DriverId = x.DriverId,
-                        DeliveryFee = x.DeliveryFee,
-                        Total = x.Total,
-                        Deleted = x.Deleted,
-                        AddressAreadId = x.Address.AreaId,
-                        OrderTypeName = "Normal",
-                        DriverName = x.Driver != null ? x.Driver.FullName : "",
-                        AreaName = x.Address.Area != null ? x.Address.Area.NameEn : "",
-                        CustomerId = x.Customer.Id,
-                        CreatedOn = x.CreatedOn,
-                    });
+                         Id = x.Id,
+                         OrderNumber = x.OrderNumber,
+                         DeliveryDate = x.DeliveryDate,
+                         PaymentStatusId = x.PaymentStatusId,
+                         OrderTypeId = x.OrderTypeId,
+                         OrderModeID = OrderMode.Normal,
+                         OrderStatusId = x.OrderStatusId,
+                         DriverId = x.DriverId,
+                         DeliveryFee = x.DeliveryFee,
+                         Total = x.Total,
+                         Deleted = x.Deleted,
+                         AddressAreadId = x.Address.AreaId,
+                         OrderTypeName = param.IsEnglish ? Messages.Normal : MessagesAr.Normal,
+                         OrderModeName = param.IsEnglish ? Messages.Online : MessagesAr.Online,
+                         DriverName = x.Driver != null ? x.Driver.FullName : "",
+                         AreaName = x.Address.Area != null ? x.Address.Area.NameEn : "",
+                         SubscriptionNumber = "",
+                         SubscriptionID = 0,
+                         MobileNumber = x.Customer.MobileNumber,
+                         CustomerId = x.Customer.Id,
+                         CreatedOn = x.CreatedOn,
+                         OrderStatus = "",
+                         CustomerName = x.Customer.Name,
+                         PaymentStatus = x.PaymentStatusId == PaymentStatus.Captured ? param.IsEnglish ? Messages.Paid : MessagesAr.Paid : param.IsEnglish ? Messages.NotPaid : MessagesAr.NotPaid,
+                         DeliveryStatus = x.OrderStatusId == OrderStatus.Delivered ? param.IsEnglish ? Messages.Delivered : MessagesAr.Delivered : param.IsEnglish ? Messages.Pending : MessagesAr.Pending,
+                         Delivered = x.OrderStatusId == OrderStatus.Delivered ? true : false,
+                     }).ToListAsync();
+
+                var subscriptions = await _dbcontext.SubscriptionOrders
+                   //var items = _dbcontext.SubscriptionOrders
+                   .Include(x => x.Subscription)
+               //.ThenInclude(y => y.Customer)
+               .Include(x => x.Driver)
+                .Where(x => x.Deleted == false &&
+                (x.PaymentStatusId == PaymentStatus.Captured || x.PaymentStatusId == PaymentStatus.PendingCash))
+                     .Select(x => new DeliveriesDashboard()
+                     {
+                         Id = x.Id,
+                         OrderNumber = x.OrderNumber,
+                         DeliveryDate = x.DeliveryDate,
+                         PaymentStatusId = (PaymentStatus)x.PaymentStatusId,
+                         OrderTypeId = OrderType.Online,
+                         OrderModeID = OrderMode.Subscription,
+                         OrderStatusId = x.Confirmed ? OrderStatus.Confirmed : OrderStatus.Pending,
+                         DriverId = x.DriverId,
+                         DeliveryFee = x.DeliveryFee,
+                         Total = x.Total,
+                         Deleted = x.Deleted,
+                         AddressAreadId = x.Subscription.Address.AreaId,
+                         OrderTypeName = param.IsEnglish ? Messages.Subscription : MessagesAr.Subscription,
+                         OrderModeName = param.IsEnglish ? Messages.Online : MessagesAr.Online,
+                         DriverName = x.Driver != null ? x.Driver.FullName : "",
+                         AreaName = x.Subscription.Address.Area != null ? x.Subscription.Address.Area.NameEn : "",
+                         SubscriptionNumber = x.Subscription.SubscriptionNumber,
+                         SubscriptionID = x.Subscription.Id,
+                         MobileNumber = x.Subscription.Customer.MobileNumber,
+                         CustomerId = x.Subscription.CustomerId,
+                         CreatedOn = x.CreatedOn,
+                         OrderStatus = "",
+                         CustomerName = x.Subscription.Customer.Name,
+                         PaymentStatus = x.PaymentStatusId == PaymentStatus.Captured ? param.IsEnglish ? Messages.Paid : MessagesAr.Paid : param.IsEnglish ? Messages.NotPaid : MessagesAr.NotPaid,
+                         DeliveryStatus = x.Delivered ? param.IsEnglish ? Messages.Delivered : MessagesAr.Delivered : param.IsEnglish ? Messages.Pending : MessagesAr.Pending,
+                         Delivered = x.Delivered
+                     }).ToListAsync();
+
+                var items = orders.Union(subscriptions).AsQueryable();
+
+                if (driverId>0)
+                {
+                    items = items.Where(x => x.DriverId == driverId);
+
+                }
+
+                items = items.Where(x => x.DeliveryDate.Date == DateTime.Now.Date);
 
 
                 //Sorting
@@ -753,8 +830,8 @@ namespace Services.Backend.Sales
 
                 result.RecordsTotal = items.Count();
                 result.RecordsFiltered = items.Count();
-                result.Data = await items.Skip(param.Skip).Take(param.PageSize).AsNoTracking().ToListAsync();
-
+                // result.Data = await items.Skip(param.Skip).Take(param.PageSize).AsNoTracking().ToListAsync();
+               result.Data = items.Skip(param.Skip).Take(param.PageSize).AsNoTracking().ToList();
                 return result;
             }
             catch (Exception err)
@@ -889,6 +966,23 @@ namespace Services.Backend.Sales
             _dbcontext.Orders.Update(order);
             await _dbcontext.SaveChangesAsync();
         }
+
+        public async Task<bool> UpdateOrderPaymentStatus(Order order, int orderStatusId, int paymentStatusId)
+        {
+            order.OrderStatusId = (OrderStatus)orderStatusId;
+            order.PaymentStatusId = (PaymentStatus)paymentStatusId;
+            _dbcontext.Orders.Update(order);
+            return await _dbcontext.SaveChangesAsync() > 0;
+        }
+        public async Task<bool> UpdateDriverdetails(Order order, int orderStatusId, int paymentStatusId)
+        {
+            order.OrderStatusId = (OrderStatus)orderStatusId;
+            order.PaymentStatusId = (PaymentStatus)paymentStatusId;
+            order.DriverId = null;
+           _dbcontext.Orders.Update(order);
+            return await _dbcontext.SaveChangesAsync() > 0;
+        }
+
         public async Task<int> GetOrderCountByCouponAndCustomer(int couponId, int? customerId = null, string customerGuidValue = "")
         {
             var data = _dbcontext.Orders.Where(a => a.CouponId == couponId);

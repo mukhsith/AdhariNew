@@ -43,7 +43,6 @@
         var limit = 20;
         showLoader();
         $.get("@Url.RouteUrl("notificationsbyajax")", { page: pageCount, limit: limit }, function (result) {
-            debugger;
             if (result.notificationCount == 0) {
                 $("#dv-notification-list").hide();
                 $("#dv-no-notifications").show();

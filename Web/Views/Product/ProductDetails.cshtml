@@ -92,6 +92,8 @@
                                                     <option value="@item.Id">@item.Title</option>
                                                 }
                                             </select>
+                                            <div id="dvErrorDuration">
+                                            </div>
                                         </div>
                                         <!-- Delivery Date -->
                                         <div class="col-6 mb-3">
@@ -103,6 +105,8 @@
                                                     <option value="@item.Id">@item.Title</option>
                                                 }
                                             </select>
+                                            <div id="dvErrorDeliveryDate">
+                                            </div>
                                         </div>
                                     </div>
                                 }
@@ -156,7 +160,7 @@
                                        onclick="return addToFavourite(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice',0,false);">
                                         <i id="i-add-to-favorite-det" class="fa-heart @(Model.Favorite?"fa-solid":"fa-regular")"></i>
                                         <span class="wishlist-btn-text" id="sp-add-fav">
-                                            @(Model.Favorite? SharedHtmlLocalizer["Remove from Favorites"].Value: SharedHtmlLocalizer["Add to Favorites"].Value)
+                                            @(Model.Favorite? SharedHtmlLocalizer["RemoveFromFavorites"].Value: SharedHtmlLocalizer["AddToFavorites"].Value)
                                         </span>
                                     </a>
                                     <div class="dropdown">
@@ -250,13 +254,24 @@
                 return;
             }
 
+            var valid = true;
             if (durationId == "") {
-                ToastAlert('error', '', '@SharedHtmlLocalizer["SelectDuration"]');
-                return;
+                valid = false;
+                $("#dvErrorDuration").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["SelectDuration"]</span></div>");
+            }
+            else {
+                $("#dvErrorDuration").hide();
             }
 
             if (deliveryDateId == "") {
-                ToastAlert('error', '', '@SharedHtmlLocalizer["SelectDeliveryDate"]');
+                valid = false;
+                $("#dvErrorDeliveryDate").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["SelectDeliveryDate"]</span></div>");
+            }
+            else {
+                $("#dvErrorDeliveryDate").hide();
+            }
+
+            if (!valid) {
                 return;
             }
 

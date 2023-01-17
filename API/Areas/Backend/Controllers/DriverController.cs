@@ -102,7 +102,39 @@ namespace API.Areas.Backend.Controllers
             }
             return Ok(response);
         }
-         
+
+
+        [HttpPost, Route("api/driver/GetDeliveryDataTable")]
+        public async Task<IActionResult> GetDeliveryDataTable()
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+
+                //driver id will be taken login userid                
+                var items = await _get.GetTodayDeliveriesDataTable(base.GetDataTableParameters, this.UserId);
+                foreach (var item in items.Data)
+                {
+                    item.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(item.DeliveryFee, IsEnglish, 1, true);
+                    item.FormattedTotal = await _commonHelper.ConvertDecimalToString(item.Total, IsEnglish, 1, true);
+                }
+                //var items = await _get.GetAllForDeliveriesDataTable(base.GetDataTableParameters, IsEnglish, orderNumber, _orderDate, _orderModeId, _orderTypeId, _areaId, _driverId);
+
+                // response.GetAll(items);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
+
+
+
         /// <summary>
         /// To get orders
         /// </summary>
@@ -121,7 +153,7 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                var item = await _orderModelFactory.UpdateOrderStatus(order.OrderId, order.OrderStatusId, order.RefundDeliveryFee,order.Notes);
+                var item = await _orderModelFactory.UpdateDriverOrderStatus(order.OrderId,order.OrderTypeId, order.OrderStatusId, order.RefundDeliveryFee,order.Notes);
                 response.Update(item);
             }
             catch (Exception ex)

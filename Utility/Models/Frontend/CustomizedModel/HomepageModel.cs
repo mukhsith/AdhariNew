@@ -6,13 +6,8 @@ namespace Utility.Models.Frontend.CustomizedModel
 {
     public class HomepageModel
     {
-        public HomepageModel()
-        {
-            Categories = new List<CategoryModel>();
-            Banners = new List<BannerModel>();
-        }
-        public IEnumerable<BannerModel> Banners { get; set; }
-        public IEnumerable<CategoryModel> Categories { get; set; }
+        public List<BannerModel> Banners { get; set; } = new();
+        public List<CategoryModel> Categories { get; set; } = new();
         public CompanySettingModel CompanySetting { get; set; }
     }
 }

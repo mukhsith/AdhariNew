@@ -11,7 +11,9 @@
                 <h5 class="modal-title fw-bold text-primary" id="send-payment-link-modalLabel">@SharedHtmlLocalizer["SendPaymentLink"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <input type="hidden" id="dialogOrderId" value="" />
-                <input type="hidden" id="dialogOrderTypeId" value="1" />
+                <input type="hidden" id="dialogCustomerId" value="" />
+                <input type="hidden" id="dialogTotal" value="" />
+                <input type="hidden" id="dialogOrderNumber" value="" />
             </div>
             <div class="modal-body">
                 <p>@SharedHtmlLocalizer["PaymentLinkWillBeSentToTheFollowingPhoneNumber"]</p>
@@ -30,14 +32,14 @@
         </div>
     </div>
 </div>
-<script>
+@*<script>
     $(document).ready(function () {
 
 
        
         copyPaymentLink = () => {
 
-            alert("copy Payment link not implemented");
+            //alert("copy Payment link not implemented");
             let orderId = $("#send-payment-link-modal .modal-header #dialogOrderId").val();
             let dialogOrderTypeId = $("#send-payment-link-modal .modal-header #dialogOrderTypeId").val();
             let submitData = new FormData();
@@ -77,4 +79,4 @@
             ToastAlert('error', 'Send Payment Link', data.message);
         }
     }
-</script>
+</script>*@

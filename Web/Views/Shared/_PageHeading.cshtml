@@ -1,8 +1,7 @@
-﻿
-@model List<BreadcrumbModel>
+﻿@model List<BreadcrumbModel>
 @{
     var counter = 0;
-    var title = @Model.Count() == 2 ? @Model[1].Title : @Model.Count() == 1 ? @Model.FirstOrDefault().Title : "";
+    var title = Model.Count() == 2 ? Model[1].Title : Model.Count() == 1 ? Model.FirstOrDefault().Title : "";
 }
 <section class="breadcrumb-bg d-flex">
     <div class="container d-flex flex-column justify-content-center align-items-center w-100">
@@ -19,21 +18,17 @@
                 <li class="breadcrumb-item ">
                     <a href="@Url.RouteUrl("home")">@SharedHtmlLocalizer["Home"]</a>
                 </li>
-
                 @foreach (var item in Model)
                 {
                     counter++;
-
-                    @if (counter == Model.Count())//last item should not be active
+                    @if (counter == Model.Count())
                     {
                         <li class="breadcrumb-item" aria-current="page"><a href="@Url.RouteUrl(item.Url)">@item.Title</a></li>
                     }
                     else
                     {
                         <li class="breadcrumb-item active" aria-current="page"><a href="@item.Url">@item.Title</a></li>
-
                     }
-
                 }
             </ol>
         </nav>

@@ -14,7 +14,7 @@
                             <div class="col-12">
                                 <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]</label>
                                 <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
-                                       id="inputName" placeholder="@SharedHtmlLocalizer["EnterYourName"]" value="@Model.Name" disabled>
+                                       id="Name" name="Name" placeholder="@SharedHtmlLocalizer["EnterYourName"]" value="@Model.Name" disabled>
                                 <div id="dvErrorName">
                                 </div>
                             </div>
@@ -31,21 +31,18 @@
                                     <span class="input-group-text border border-secondary border-start-0 p-1" id="basic-addon1">
                                         <bdi>+965</bdi>
                                     </span>
-                                    <input type="tel" id="inputMobileNumber"
+                                    <input type="tel" id="MobileNumber" name="MobileNumber"
                                            class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary mobile-field profile-field"
-                                           required="" placeholder="Mobile" value="@Model.MobileNumber" maxlength="8" disabled>
-                                    <div id="dvErrorMobileNumber">
-                                    </div>
-                                    @*<button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
-                                                data-bs-toggle="modal" data-bs-target="#OTPModal" type="button" style="display:none">
-                                            @SharedHtmlLocalizer["Verify"]
-                                        </button>*@
+                                           maxlength="8" onkeypress="return validateMobileNumber(event);" value="@Model.MobileNumber"
+                                           placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]" disabled />
+                                </div>
+                                <div id="dvErrorMobileNumber">
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label for="inputEmail4" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
+                                <label for="EmailAddress" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
                                 <input type="email" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
-                                       id="inputEmail4" placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]" value="@Model.EmailAddress" disabled>
+                                       id="EmailAddress" name="EmailAddress" placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]" value="@Model.EmailAddress" disabled>
                                 <div id="dvErrorEmailAddress">
                                 </div>
                             </div>
@@ -78,7 +75,7 @@
                     required: true, customEmail: true
                 },
                 MobileNumber: {
-                    required: true, rangelength: [8]
+                    required: true, rangelength: [8, 8], phoneStartCheck: true
                 }
             },
             messages: {
@@ -104,11 +101,10 @@
             $('#form-myprofile').validate();
             if ($("#form-myprofile").valid()) {
                 $.post("@Url.RouteUrl("myprofile")", {
-                    Name: $("#inputName").val(),
-                    EmailAddress: $("#inputEmail4").val(),
-                    MobileNumber: $("#inputMobileNumber").val()
+                    Name: $("#Name").val(),
+                    EmailAddress: $("#EmailAddress").val(),
+                    MobileNumber: $("#MobileNumber").val()
                 }, function (result) {
-                    debugger;
                     if (result.success) {
                         if (result.data != null) {
                             if (result.data.otpDetailId > 0) {
@@ -125,9 +121,9 @@
                                 myModal.show();
                             }
                             else {
-                                setTextValue('inputName', result.data.name);
-                                setTextValue('inputEmail4', result.data.emailAddress);
-                                setTextValue('inputMobileNumber', result.data.mobileNumber);
+                                setTextValue('Name', result.data.name);
+                                setTextValue('EmailAddress', result.data.emailAddress);
+                                setTextValue('MobileNumber', result.data.mobileNumber);
 
                                 $('.profile-field').prop("disabled", true);
                                 $('.input-group.profile-field').addClass("disabled");
@@ -199,10 +195,9 @@
                 RequestId: requestId, OTP: otp, TypeId: typeId
             }, function (result) {
                 if (result.success) {
-                    debugger;
-                    setTextValue('inputName', result.data.name);
-                    setTextValue('inputEmail4', result.data.emailAddress);
-                    setTextValue('inputMobileNumber', result.data.mobileNumber);
+                    setTextValue('Name', result.data.name);
+                    setTextValue('EmailAddress', result.data.emailAddress);
+                    setTextValue('MobileNumber', result.data.mobileNumber);
 
                     $('#sec-otp-verification').hide();
                     $('.profile-field').prop("disabled", true);
@@ -220,16 +215,13 @@
                 }
             });
         });
-    });
-</script>
 
-<script>
-    $('.edit-profile').click(function () {
-        $('.profile-field').prop("disabled", false);
-        $('.profile-field').removeClass("disabled");
-        $('.otp-code-button').show();
-        //$('.mobile-field').removeClass('rounded-pill');
-        $('.edit-profile').hide();
-        $('.save-profile').show();
+        $('.edit-profile').click(function () {
+            $('.profile-field').prop("disabled", false);
+            $('.profile-field').removeClass("disabled");
+            $('.otp-code-button').show();
+            $('.edit-profile').hide();
+            $('.save-profile').show();
+        });
     });
 </script>

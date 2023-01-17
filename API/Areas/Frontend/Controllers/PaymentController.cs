@@ -2,9 +2,9 @@
 using Data.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.CouponPromotion;
 using Services.Frontend.CustomerManagement;
-using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.ProductManagement;
 using Services.Frontend.Sales;
 using Services.Frontend.Shop;
 using System;
@@ -165,6 +165,14 @@ namespace API.Areas.Frontend.Controllers
         #endregion
 
         #region  Master
+
+        [HttpGet, Route("/payment/testapplepay")]
+        public async Task<IActionResult> TestApplePay(string value)
+        {
+            var request = await _masterCardHelper.CreateRequest2(45, "34324234",
+                               PaymentRequestType.Order.ToString(), 654645, "Order for product sale payment");
+            return View();
+        }
 
         /// <summary>
         /// Create gulf bank master card payment request

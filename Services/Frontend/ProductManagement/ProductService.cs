@@ -9,12 +9,11 @@ using Data.ProductManagement;
 using Utility.Enum;
 using Data.Shop;
 
-namespace Services.Frontend.ProductManagement.Interface
+namespace Services.Frontend.ProductManagement
 {
     public class ProductService : IProductService
     {
         protected readonly ApplicationDbContext _dbcontext;
-        protected string ErrorMessage = string.Empty;
         public ProductService(ApplicationDbContext dbcontext)
         {
             _dbcontext = dbcontext;
@@ -75,6 +74,8 @@ namespace Services.Frontend.ProductManagement.Interface
                 var favoriteProductIds = (await GetAllFavorite(customerId: customerId)).GroupBy(a => a.ProductId).Select(a => a.Key).ToList();
                 data = data.Where(a => favoriteProductIds.Contains(a.Id));
             }
+
+            data = data.OrderBy(a => a.DisplayOrder).ThenByDescending(a => a.Id);
 
             return await data.AsNoTracking().ToListAsync();
         }

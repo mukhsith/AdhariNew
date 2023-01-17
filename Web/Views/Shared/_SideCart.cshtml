@@ -47,7 +47,7 @@
     <p class="text-uppercase text-primary mb-2">@SharedHtmlLocalizer["GrandTotal"]</p>
     <h5 class="text-uppercase fw-bold mb-3">@Model.FormattedSubTotal</h5>
     <div class="d-flex flex-row">
-        <a href="@Url.RouteUrl("checkout")" class="btn btn-primary rounded-pill text-white fw-bold w-100">@SharedHtmlLocalizer["Checkout"]</a>
+        <a href="@Url.RouteUrl("checkout")" class="btn btn-primary rounded-pill text-white fw-bold w-100">@SharedHtmlLocalizer["ProceedToCheckout"]</a>
         @*<a href="#" onclick="return deletecartitems();" class="btn btn-outline-primary text-primary w-100 ms-1">@SharedHtmlLocalizer["ClearCart"]</a>*@
     </div>
     <div class="d-grid gap-2 mt-3">
@@ -92,6 +92,11 @@
                 updateCartCount();
                 $("#offcanvasCart").empty();
                 $("#offcanvasCart").append(result.cartContents);
+
+                var cartItems = $(".cart-item");
+                if (cartItems.length == 0) {
+                    $('#offcanvasCart').offcanvas('hide');
+                }
             }
         });
 

@@ -24,9 +24,8 @@
                                     </span>
                                     <input type="tel" asp-for="MobileNumber"
                                            class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
-                                           aria-label="@SharedHtmlLocalizer["EnterYourMobileNumber"]"
-                                           maxlength="8" onkeypress="return validateMobileNumber(event);"
-                                           placeholder="" />
+                                           maxlength="8" onkeypress="return validateMobileNumber(event);" aria-label="@SharedHtmlLocalizer["EnterYourMobileNumber"]"
+                                           placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]" />
                                     <div class="invalid-feedback" id="dvError">
                                     </div>
                                     <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
@@ -36,7 +35,6 @@
                                     </button>
                                 </div>
                             </div>
-
                             <div class="col-12 text-center">
                                 <a id="signin-btn" class="btn btn-primary color-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignIn"]</a>
                             </div>

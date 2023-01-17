@@ -36,7 +36,7 @@ namespace API.Areas.Frontend.Helpers
 
         #region Category
         IList<CategoryModel> PrepareCategoryModels(IEnumerable<Category> models, bool isEnglish);
-        CategoryModel PrepareCategoryModel(Category model, bool isEnglish);
+        CategoryModel PrepareCategoryModel(Category category, bool isEnglish);
         #endregion
 
         #region Customer

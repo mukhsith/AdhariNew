@@ -123,17 +123,26 @@
   <data name="AddNewAddress" xml:space="preserve">
     <value>Add New Address</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
   <data name="AddressDetails" xml:space="preserve">
     <value>Address Details</value>
   </data>
   <data name="AddressName" xml:space="preserve">
     <value>Address Name</value>
   </data>
+  <data name="AddressNameIsRequired" xml:space="preserve">
+    <value>Address name is required</value>
+  </data>
   <data name="AddToCart" xml:space="preserve">
     <value>Add to Cart</value>
   </data>
   <data name="AddToFavorites" xml:space="preserve">
     <value>Add to Favorites</value>
+  </data>
+  <data name="Adhari" xml:space="preserve">
+    <value>Adhari</value>
   </data>
   <data name="Adhari Logo" xml:space="preserve">
     <value>Adhari Logo</value>
@@ -156,6 +165,9 @@
   <data name="Area" xml:space="preserve">
     <value>Area</value>
   </data>
+  <data name="AreaIsRequired" xml:space="preserve">
+    <value>Area is required</value>
+  </data>
   <data name="Avenue" xml:space="preserve">
     <value>Avenue</value>
   </data>
@@ -171,6 +183,9 @@
   <data name="Block" xml:space="preserve">
     <value>Block</value>
   </data>
+  <data name="BlockIsRequired" xml:space="preserve">
+    <value>Block is required</value>
+  </data>
   <data name="BlockNo" xml:space="preserve">
     <value>Block No.</value>
   </data>
@@ -182,6 +197,9 @@
   </data>
   <data name="BuildingNo." xml:space="preserve">
     <value>Building No.</value>
+  </data>
+  <data name="BuildingNoIsRequired" xml:space="preserve">
+    <value>Building No is required</value>
   </data>
   <data name="BuildingNumber" xml:space="preserve">
     <value>Building Number</value>
@@ -197,6 +215,9 @@
   </data>
   <data name="CashbackAmount" xml:space="preserve">
     <value>Cashback Amount</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
   </data>
   <data name="Checkout" xml:space="preserve">
     <value>Checkout</value>
@@ -300,6 +321,9 @@
   <data name="FlatNo." xml:space="preserve">
     <value>Flat No.</value>
   </data>
+  <data name="FlatNoIsRequired" xml:space="preserve">
+    <value>Flat No is required</value>
+  </data>
   <data name="FlatNumber" xml:space="preserve">
     <value>Flat Number</value>
   </data>
@@ -308,6 +332,9 @@
   </data>
   <data name="FloorNo." xml:space="preserve">
     <value>Floor No.</value>
+  </data>
+  <data name="FloorNoIsRequired" xml:space="preserve">
+    <value>Floor No is required</value>
   </data>
   <data name="FloorNumber" xml:space="preserve">
     <value>Floor Number</value>
@@ -321,8 +348,14 @@
   <data name="GovernmentEntity" xml:space="preserve">
     <value>Government Entity</value>
   </data>
+  <data name="GovernmentEntityIsRequired" xml:space="preserve">
+    <value>Government entity is required</value>
+  </data>
   <data name="Governorate" xml:space="preserve">
     <value>Governorate</value>
+  </data>
+  <data name="GovernorateIsRequired" xml:space="preserve">
+    <value>Governorate is required</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
     <value>Grand Total</value>
@@ -338,6 +371,9 @@
   </data>
   <data name="HouseNo." xml:space="preserve">
     <value>House No.</value>
+  </data>
+  <data name="HouseNoIsRequired" xml:space="preserve">
+    <value>House No is required</value>
   </data>
   <data name="HouseNumber" xml:space="preserve">
     <value>House Number</value>
@@ -383,6 +419,9 @@
   </data>
   <data name="MosqueName" xml:space="preserve">
     <value>Mosque Name</value>
+  </data>
+  <data name="MosqueNameIsRequired" xml:space="preserve">
+    <value>Mosque name is required</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
     <value>My Account</value>
@@ -516,6 +555,9 @@
   <data name="PaymentSummary" xml:space="preserve">
     <value>Payment Summary</value>
   </data>
+  <data name="PleaseCheckIAgreeToTheTermsAndConditions" xml:space="preserve">
+    <value>Please check 'I agree to the Terms &amp; Conditions'</value>
+  </data>
   <data name="PleaseChoosePaymentMethod" xml:space="preserve">
     <value>Please choose payment method</value>
   </data>
@@ -537,6 +579,9 @@
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy Policy</value>
   </data>
+  <data name="ProceedToCheckout" xml:space="preserve">
+    <value>Proceed to Checkout</value>
+  </data>
   <data name="ProjectTitle" xml:space="preserve">
     <value>Adhari</value>
   </data>
@@ -555,8 +600,17 @@
   <data name="RefundPolicy" xml:space="preserve">
     <value>Refund Policy</value>
   </data>
+  <data name="RemoveFromFavorites" xml:space="preserve">
+    <value>RemoveFromFavorites</value>
+  </data>
+  <data name="Reorder" xml:space="preserve">
+    <value>Reorder</value>
+  </data>
   <data name="ResendOTP" xml:space="preserve">
     <value>Resend OTP</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Review</value>
   </data>
   <data name="SaveAddress" xml:space="preserve">
     <value>Save Address</value>
@@ -570,8 +624,14 @@
   <data name="SchoolName" xml:space="preserve">
     <value>School Name</value>
   </data>
+  <data name="SchoolNameIsRequired" xml:space="preserve">
+    <value>School name is required</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
   </data>
   <data name="SelectDeliveryDate" xml:space="preserve">
     <value>Select delivery date</value>
@@ -600,11 +660,17 @@
   <data name="SignUp" xml:space="preserve">
     <value>Sign Up</value>
   </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="Street" xml:space="preserve">
     <value>Street</value>
+  </data>
+  <data name="StreetIsRequired" xml:space="preserve">
+    <value>Street is required</value>
   </data>
   <data name="StreetNameOrNumber" xml:space="preserve">
     <value>Street Name or Number</value>
@@ -683,6 +749,12 @@
   </data>
   <data name="VerifyOTP" xml:space="preserve">
     <value>Verify OTP</value>
+  </data>
+  <data name="ViewCart" xml:space="preserve">
+    <value>View Cart</value>
+  </data>
+  <data name="WalletAmount" xml:space="preserve">
+    <value>Wallet Amount</value>
   </data>
   <data name="WalletPrepaidCards" xml:space="preserve">
     <value>Wallet Prepaid Cards</value>

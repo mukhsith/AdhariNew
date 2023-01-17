@@ -2,8 +2,9 @@
 @{
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Checkout"].Value });
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["SignIn"].Value });
 }
-@await Html.PartialAsync("_PageHeading", breadCrumbItems)
+@await Html.PartialAsync("_PageHeading2", breadCrumbItems)
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row">
@@ -100,7 +101,10 @@
                                             <span class="input-group-text border border-secondary border-start-0 p-1" id="basic-addon1">
                                                 <bdi>+965</bdi>
                                             </span>
-                                            <input type="tel" id="LoginMobileNumber" name="LoginMobileNumber" class="form-control border-start-0 rounded-5 border-secondary body-bg-secondary" placeholder="Mobile">
+                                            <input type="tel" id="LoginMobileNumber" name="LoginMobileNumber"
+                                                   class="form-control border-start-0 rounded-5 border-secondary body-bg-secondary"
+                                                   maxlength="8" onkeypress="return validateMobileNumber(event);"
+                                                   placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]" />
                                         </div>
                                         <div id="dvErrorLoginMobileNumber">
                                         </div>
@@ -223,8 +227,6 @@
 
                     var name = $("#Name").val();
                     var mobileNumber = $("#MobileNumber").val();
-                    var email = $("#EmailAddress").val();
-                    $("#verifyMobile").text("+965" + mobileNumber);
                     var email = $("#EmailAddress").val();
                     var guest = false;
                     if (type == 1)

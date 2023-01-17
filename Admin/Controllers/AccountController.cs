@@ -25,13 +25,13 @@ namespace Admin.Controllers
 {
     public class AccountController : Controller
     {
-       
+
         //private readonly IConfiguration _config;IConfiguration config,// _config = config;
         private readonly IAPIHelper _apiHelper;
         private readonly AppSettingsModel _appSettings;
-        public AccountController( IAPIHelper apiHelper, IOptions<AppSettingsModel> appSettings)
+        public AccountController(IAPIHelper apiHelper, IOptions<AppSettingsModel> appSettings)
         {
-           
+
             _apiHelper = apiHelper;
             _appSettings = appSettings.Value;
         }
@@ -53,19 +53,19 @@ namespace Admin.Controllers
                 return View(login);
             }
             //
-            
+
             var responseModel = await _apiHelper.PostAsync<APIResponseModel<AuthenticationResult>>("SystemUser/LoginAdminNew", login, PostContentType.applicationJson);
-             
+
             //var responseModel = await _apiHelper.GetAsync< APIResponse<AuthenticationResult>>("SystemUser/LoginAdmin?emailaddress=" + login.EmailAddress + "&password=" + login.Password);
             if (responseModel == null)
             {
                 ModelState.AddModelError("Validation Error", "Email Address or Password is incorrect");
                 return View(login);
             }
-            if (responseModel.Success && responseModel != null && responseModel.Data.AccessToken!=null)
+            if (responseModel.Success && responseModel != null && responseModel.Data.AccessToken != null)
             {
 
-               
+
                 if (!string.IsNullOrEmpty(responseModel.Data.AccessToken.ToString()))
                 {
                     AuthenticationResult auth = Utility.API.APIHelper.IsValidToken(responseModel.Data.AccessToken, _appSettings);
@@ -82,9 +82,17 @@ namespace Admin.Controllers
                         Response.Cookies.Append(Constants.ClaimTypeFullName, auth.User.FullName, cookieOptions);
                         Response.Cookies.Append(Constants.ClaimTypeRoleName, auth.User.RoleName, cookieOptions);
                         Response.Cookies.Append(Constants.ClaimAuthenticationToken, responseModel.Data.AccessToken, cookieOptions);
-                        Response.Redirect(Constants.ControllerHome, true);
-
-                    } else {  //if no valid token logout
+                        if (auth.User.RoleId == "4")
+                        {
+                            Response.Redirect(Constants.ControllerDriverHome, true);
+                        }
+                        else
+                        {
+                            Response.Redirect(Constants.ControllerHome, true);
+                        }
+                    }
+                    else
+                    {  //if no valid token logout
                         return View(nameof(Logout));
                     }
 
@@ -93,7 +101,7 @@ namespace Admin.Controllers
             }
             return View(nameof(Index)); //if success 
         }
-     
+
         public IActionResult Logout()
         {
             // HttpContext.Response.Cookies.Delete(Constants.ClaimTypeId);

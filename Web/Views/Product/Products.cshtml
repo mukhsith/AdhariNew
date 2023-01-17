@@ -1,7 +1,7 @@
-﻿@{
-    var seoName = ViewBag.SeoName;
+﻿@model Utility.Models.Frontend.ProductManagement.CategoryModel
+@{
     var breadCrumbItems = new List<BreadcrumbModel>();
-    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = seoName });
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = Model.Title });
 }
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
 <input type="hidden" id="hdnPageCount" value="0" />
@@ -35,7 +35,7 @@
         var pageCount = parseInt($("#hdnPageCount").val()) + 1;
         var limit = 1000;
         showLoader();
-        $.get("@Url.RouteUrl("productsbyajax")", { seoName: '@seoName', page: pageCount, limit: limit }, function (result) {
+        $.get("@Url.RouteUrl("productsbyajax")", { seoName: '@Model.SeoName', page: pageCount, limit: limit }, function (result) {
             $("#hdnProductCount").val(parseInt($("#hdnProductCount").val()) + parseInt(result.productCount));
             if (result.success) {
                 if (result.html == "") {

@@ -5,14 +5,15 @@ using Data.Content;
 using Data.CouponPromotion;
 using Data.CustomerManagement;
 using Data.Locations;
+using Data.ProductManagement;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Services.Frontend.Content.Interface;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.Content;
+using Services.Frontend.CouponPromotion;
 using Services.Frontend.CustomerManagement;
 using Services.Frontend.Locations;
-using Services.Frontend.Locations.Interface;
-using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.Locations;
+using Services.Frontend.ProductManagement;
 using Services.Frontend.Sales;
 using Services.Frontend.Shop;
 using System;
@@ -175,20 +176,28 @@ namespace API.Areas.Frontend.Factories
                 var baseUrlCategory = _appSettings.APIBaseUrl + _appSettings.ImageCategory;
 
                 HomepageModel homepage = new();
-                homepage.Banners = await _bannerService.GetAll(isEnglish);
 
-                var categories = (await _categoryService.GetAllHero(isEnglish, baseUrlCategory)).ToList();
+                var banners = await _bannerService.GetAll();
+                foreach (var banner in banners)
+                {
+                    var bannerModel = _modelHelper.PrepareBannerModel(banner, isEnglish);
+                    homepage.Banners.Add(bannerModel);
+                }                   
+
+                var categories = await _categoryService.GetAll();
                 foreach (var category in categories)
                 {
+                    var categoryModel = _modelHelper.PrepareCategoryModel(category, isEnglish);
                     var products = (await _productService.GetAll(categoryId: category.Id)).ToList();
                     foreach (var product in products)
                     {
                         var productModel = await _modelHelper.PrepareProductModel(product: product, isEnglish: isEnglish, customerGuidValue: customerGuidValue,
                             customer: customer, loadPrice: true, calculateStock: true, loadCategory: true, loadCartQuantity: true);
-                        category.Products.Add(productModel);
+                        categoryModel.Products.Add(productModel);
                     }
+
+                    homepage.Categories.Add(categoryModel);
                 }
-                homepage.Categories = categories;
 
                 var cartItems = await _cartService.GetAllCartItem(customerGuidValue: customerGuidValue, customerId: customerId);
                 if (cartItems.Count > 0)
@@ -406,19 +415,35 @@ namespace API.Areas.Frontend.Factories
             var response = new APIResponseModel<List<CategoryModel>>();
             try
             {
-                var baseUrlCategory = _appSettings.APIBaseUrl + _appSettings.ImageCategory;
-                var categories = (await _categoryService.GetAllHero(isEnglish, baseUrlCategory)).ToList();
-
-                if (id.HasValue)
+                var categories = new List<Category>();
+                if (id.HasValue && id.Value > 0)
                 {
-                    categories = categories.Where(a => a.Id == id.Value).ToList();
+                    var category = await _categoryService.GetById(id.Value);
+                    if (category != null && !category.Deleted && category.Active)
+                    {
+                        categories.Add(category);
+                    }
                 }
                 else if (!string.IsNullOrEmpty(seoName))
                 {
-                    categories = categories.Where(a => a.SeoName.ToLower() == seoName.ToLower()).ToList();
+                    var category = await _categoryService.GetBySeoName(seoName);
+                    if (category != null && !category.Deleted && category.Active)
+                    {
+                        categories.Add(category);
+                    }
+                }
+                else
+                {
+                    categories = await _categoryService.GetAll();
                 }
 
-                response.Data = categories;
+                List<CategoryModel> categoryModels = new();
+                foreach (var category in categories)
+                {
+                    categoryModels.Add(_modelHelper.PrepareCategoryModel(category, isEnglish));
+                }
+
+                response.Data = categoryModels;
                 response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
                 response.Success = true;
             }
@@ -472,11 +497,14 @@ namespace API.Areas.Frontend.Factories
             var response = new APIResponseModel<PageHeaderModel>();
             try
             {
-                var baseUrlCategory = _appSettings.APIBaseUrl + _appSettings.ImageCategory;
-                var categories = (await _categoryService.GetAllHero(isEnglish, baseUrlCategory)).ToList();
-
                 PageHeaderModel pageHeader = new();
-                pageHeader.Categories = categories;
+
+                var categories = await _categoryService.GetAll();
+                foreach (var category in categories)
+                {
+                    var categoryModel = _modelHelper.PrepareCategoryModel(category, isEnglish);
+                    pageHeader.Categories.Add(categoryModel);
+                }
 
                 var companySettings = await PrepareCompanySettingModel(isEnglish: isEnglish);
                 pageHeader.CompanySettings = companySettings.Data;

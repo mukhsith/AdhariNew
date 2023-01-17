@@ -49,7 +49,7 @@ namespace API.Helpers
                 AttachmentFilePaths = attachmentFilePaths,
                 AttachmentFileNames = attachmentFileNames
             };
-            queuedEmail = await _queuedEmailService.Create(queuedEmail);
+            queuedEmail = await _queuedEmailService.CreateQueuedEmail(queuedEmail);
 
             MailMessage message = new()
             {
@@ -104,10 +104,17 @@ namespace API.Helpers
 
             try
             {
-                smtpClient.Send(message);
+                if (_appSettings.SendInBackground)
+                {
+                    Task t1 = Task.Run(() => smtpClient.Send(message));
+                }
+                else
+                {
+                    smtpClient.Send(message);
+                }
 
                 queuedEmail.SentOn = DateTime.Now;
-                await _queuedEmailService.Update(queuedEmail);
+                await _queuedEmailService.UpdateQueuedEmail(queuedEmail);
             }
             catch (Exception ex)
             {
@@ -125,7 +132,7 @@ namespace API.Helpers
                 }
 
                 queuedEmail.ErrorMessage = errorMessage;
-                await _queuedEmailService.Update(queuedEmail);
+                await _queuedEmailService.UpdateQueuedEmail(queuedEmail);
             }
         }
     }

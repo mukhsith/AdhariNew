@@ -1,39 +1,21 @@
 ﻿using Data.Content;
 using Data.EntityFramework;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Utility.API;
-using System.Linq.Dynamic.Core;
-using Services.Base;
 
-namespace Services.Frontend.Content.Interface
+namespace Services.Frontend.Content
 {
-
-    public class CustomerFeedbackService : Repository<CustomerFeedback>, ICustomerFeedbackService
+    public class CustomerFeedbackService : ICustomerFeedbackService
     {
-     
-        public CustomerFeedbackService(ApplicationDbContext dbcontext) : base(dbcontext) { }
- 
-        #region CustomerFeedback 
-         
-        
-        
-        public override async Task<CustomerFeedback> GetById(int id)
+        protected readonly ApplicationDbContext _dbcontext;
+        public CustomerFeedbackService(ApplicationDbContext dbcontext)
         {
-            var data = await _dbcontext.CustomerFeedbacks.FindAsync(id);
-            return data;
+            _dbcontext = dbcontext;
         }
-
-        public async Task<CustomerFeedback> Add( CustomerFeedback model)
+        public async Task<CustomerFeedback> Add(CustomerFeedback model)
         {
             var data = await _dbcontext.CustomerFeedbacks.AddAsync(model);
             await _dbcontext.SaveChangesAsync();
             return data.Entity;
         }
-        #endregion
-
     }
 }

@@ -2,9 +2,9 @@
 using Data.CustomerManagement;
 using Data.EntityFramework;
 using Microsoft.Extensions.Options;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.CouponPromotion;
 using Services.Frontend.CustomerManagement;
-using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.ProductManagement;
 using Services.Frontend.PushNotification;
 using Services.Frontend.Sales;
 using Services.Frontend.Shop;
@@ -250,19 +250,24 @@ namespace API.Helpers
                                 {
                                     bool isEnglish = order.CustomerLanguageId == 1;
                                     var orderModel = await _modelHelper.PrepareOrderModel(order: order, isEnglish: isEnglish, loadDetails: true);
-                                    await _commonHelper.SendOrderSMSNotification(orderModel: orderModel, isEnglish: isEnglish);
-                                    if (!string.IsNullOrEmpty(orderModel.Customer.EmailAddress))
-                                        await _commonHelper.SendOrderEmailNotification(orderModel: orderModel, isEnglish: isEnglish);
-
-                                    var adminNotificationTemplate = await _notificationService.GetDefaultAdminNotificationTemplate();
-                                    if (adminNotificationTemplate != null && adminNotificationTemplate.NewOrderNotificationEnabled)
+                                    if (orderModel != null)
                                     {
-                                        if (!string.IsNullOrEmpty(adminNotificationTemplate.NewOrderNotificationToEmailAddress))
-                                            await _commonHelper.SendOrderAdminEmailNotification(orderModel: orderModel, isEnglish: isEnglish,
-                                                adminNotificationTemplate.NewOrderNotificationToEmailAddress, adminNotificationTemplate.NewOrderNotificationCCEmailAddress);
+                                        await _commonHelper.SendOrderSMSNotification(orderModel: orderModel, isEnglish: isEnglish);
+                                        if (!string.IsNullOrEmpty(orderModel.Customer.EmailAddress))
+                                            await _commonHelper.SendOrderEmailNotification(orderModel: orderModel, isEnglish: isEnglish);
+
+                                        var adminNotificationTemplate = await _notificationService.GetDefaultAdminNotificationTemplate();
+                                        if (adminNotificationTemplate != null && adminNotificationTemplate.NewOrderNotificationEnabled)
+                                        {
+                                            if (!string.IsNullOrEmpty(adminNotificationTemplate.NewOrderNotificationToEmailAddress))
+                                                await _commonHelper.SendOrderAdminEmailNotification(orderModel: orderModel, isEnglish: isEnglish,
+                                                    adminNotificationTemplate.NewOrderNotificationToEmailAddress, adminNotificationTemplate.NewOrderNotificationCCEmailAddress);
+                                        }
                                     }
                                 }
-                                catch { }
+                                catch (Exception ex)
+                                {
+                                }
 
                                 return url;
                             }
@@ -430,19 +435,24 @@ namespace API.Helpers
                                     {
                                         bool isEnglish = subscription.CustomerLanguageId == 1;
                                         var subscriptionModel = await _modelHelper.PrepareSubscriptionModel(subscription: subscription, isEnglish: isEnglish, loadDetails: true);
-                                        await _commonHelper.SendSubscriptionSMSNotification(subscriptionModel: subscriptionModel, isEnglish: isEnglish);
-                                        if (!string.IsNullOrEmpty(subscriptionModel.Customer.EmailAddress))
-                                            await _commonHelper.SendSubscriptionEmailNotification(subscriptionModel: subscriptionModel, isEnglish: isEnglish);
-
-                                        var adminNotificationTemplate = await _notificationService.GetDefaultAdminNotificationTemplate();
-                                        if (adminNotificationTemplate != null && adminNotificationTemplate.NewOrderNotificationEnabled)
+                                        if (subscriptionModel != null)
                                         {
-                                            if (!string.IsNullOrEmpty(adminNotificationTemplate.NewOrderNotificationToEmailAddress))
-                                                await _commonHelper.SendSubscriptionAdminEmailNotification(subscriptionModel: subscriptionModel, isEnglish: isEnglish,
-                                                    adminNotificationTemplate.NewOrderNotificationToEmailAddress, adminNotificationTemplate.NewOrderNotificationCCEmailAddress);
+                                            await _commonHelper.SendSubscriptionSMSNotification(subscriptionModel: subscriptionModel, isEnglish: isEnglish);
+                                            if (!string.IsNullOrEmpty(subscriptionModel.Customer.EmailAddress))
+                                                await _commonHelper.SendSubscriptionEmailNotification(subscriptionModel: subscriptionModel, isEnglish: isEnglish);
+
+                                            var adminNotificationTemplate = await _notificationService.GetDefaultAdminNotificationTemplate();
+                                            if (adminNotificationTemplate != null && adminNotificationTemplate.NewOrderNotificationEnabled)
+                                            {
+                                                if (!string.IsNullOrEmpty(adminNotificationTemplate.NewOrderNotificationToEmailAddress))
+                                                    await _commonHelper.SendSubscriptionAdminEmailNotification(subscriptionModel: subscriptionModel, isEnglish: isEnglish,
+                                                        adminNotificationTemplate.NewOrderNotificationToEmailAddress, adminNotificationTemplate.NewOrderNotificationCCEmailAddress);
+                                            }
                                         }
                                     }
-                                    catch { }
+                                    catch (Exception ex)
+                                    {
+                                    }
                                 }
 
                                 return url;

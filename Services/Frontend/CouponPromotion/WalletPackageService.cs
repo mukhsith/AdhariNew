@@ -2,7 +2,7 @@
 using Data.EntityFramework;
 using Data.Sales;
 using Microsoft.EntityFrameworkCore;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.CouponPromotion;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +13,6 @@ namespace Services.Frontend.CouponPromotion
     public class WalletPackageService : IWalletPackageService
     {
         protected readonly ApplicationDbContext _dbcontext;
-        protected string ErrorMessage = string.Empty;
         public WalletPackageService(ApplicationDbContext dbcontext)
         {
             _dbcontext = dbcontext;

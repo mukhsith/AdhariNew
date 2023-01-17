@@ -802,7 +802,7 @@ getOrderStatusHtml = (row) => {
     } else if (row.orderStatusId == 2) {
         return `<span class='px-2 fw-bold text-primary'>Confirmed</span>`;
     } else if (row.orderStatusId == 3) {
-        return `<span class='px-2 fw-bold text-secondary'>Cancelled</span>`;
+        return `<span class='px-2 fw-bold text-danger'>Cancelled</span>`;
     } else if (row.orderStatusId == 4) {
         return `<span class='px-2 fw-bold text-secondary'>Delivered</span>`;
     } else if (row.orderStatusId == 5) {
@@ -820,6 +820,32 @@ getOrderStatusHtml = (row) => {
     }
 }
 
+
+getOrderPaidStatusHtml = (row) => {
+    if (row.paymentStatusId == 1) /*Pending*/ {
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>Unpaid</span>`;
+    } else if (row.paymentStatusId == 2) /*Captured*/ {
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>Paid</span>`;
+    } else if (row.paymentStatusId == 3) /*NotCaptured*/ {
+        return `<span class='px-2 fw-bold text-secondary'>NotCaptured</span>`;
+    } else if (row.paymentStatusId == 4) /*Canceled*/ {
+        return `<span class='px-2 fw-bold text-secondary'>Canceled</span>`;
+    } else if (row.paymentStatusId == 5) /*PendingCash*/ {
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>Unpaid</span>`;
+    }
+}
+
+
+getOrderDeliveryStatusHtml = (row) => {
+    if (row.delivered == true) /*Pending*/ {
+        return `<span class='px-2 rounded-pill bg-primary fw-bold text-light'>` + row.deliveryStatus +`</span>`;
+    } else
+    {
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>` + row.deliveryStatus +`</span>`;
+    }
+}
+
+
 getPaymentMethodHtml = (row) => {
     if (row.paymentMethodId == 1) {
         return `<span class='px-2 rounded-pill fw-bold text-light bg-info'>KNET</span>`;
@@ -832,6 +858,14 @@ getPaymentMethodHtml = (row) => {
     }  else if (row.paymentMethodId == 5) {
         return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>Wallet</span>`;
     }  
+}
+
+getOrderDeliveryHtml = (row) => {
+    if (row.orderTypeId == 1) {
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>Online</span>`;
+    } else {
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>Offline</span>`;
+    }
 }
 
 getPaymentStatusHtml = (row) => {

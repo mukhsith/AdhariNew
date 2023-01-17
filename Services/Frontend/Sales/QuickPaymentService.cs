@@ -31,21 +31,10 @@ namespace Services.Frontend.Sales
 
             return data;
         }
-        public async Task<QuickPayment> CreateQuickPayment(QuickPayment model)
-        {
-            await _dbcontext.QuickPayments.AddAsync(model);
-            await _dbcontext.SaveChangesAsync();
-            return model;
-        }
         public async Task<bool> UpdateQuickPayment(QuickPayment model)
         {
             _dbcontext.Update(model);
             return await _dbcontext.SaveChangesAsync() > 0;
-        }
-        public async Task<bool> DeleteQuickPayment(QuickPayment model)
-        {
-            model.Deleted = true;
-            return await UpdateQuickPayment(model);
         }
     }
 }

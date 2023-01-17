@@ -15,9 +15,11 @@ namespace API.Helpers
         #region Utilities
         Task<string> ConvertDecimalToString(decimal value, bool isEnglish, int countryId = 0, bool? includeZero = false);
         Tuple<string, string> GetOrderStatusNameAndColorCode(OrderStatus statusId, bool isEnglish);
+        string GetOrderStatusName(OrderStatus statusId, bool isEnglish);
         Tuple<string, string> GetSubscriptionStatusNameAndColorCode(SubscriptionStatus statusId, bool isEnglish);
         string GetPaymentResultTitle(PaymentStatus PaymentStatusId, bool isEnglish);
         Tuple<string, string> GetPaymentResultNameAndColorCode(PaymentStatus PaymentStatusId, bool isEnglish);
+        string GetAddressTypeTitle(AddressType addressType, bool isEnglish);
         string GetTimeAgo(DateTime dateTime, bool isEnglish);
         #endregion
 

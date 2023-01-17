@@ -37,6 +37,12 @@ namespace Utility.Models.Admin.Delivery
         public int CustomerId { get; set; }
         public int SubscriptionID { get; set; }
         public string MobileNumber { get; set; }
+        public string OrderStatus { get; set; }
+        public string CustomerName { get; set; }
+        public string PaymentStatus { get; set; }
+        public string DeliveryStatus { get; set; }
+        public bool Delivered { get; set; }
+
     }
 
 

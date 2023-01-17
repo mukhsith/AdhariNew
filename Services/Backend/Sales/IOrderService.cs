@@ -60,6 +60,9 @@ namespace Services.Backend.Sales
         Task<bool> UpdateOrder(Order model);
         Task<bool> DeleteOrder(Order model);
         Task UpdateOrderStatus(Order order, int orderStatusId);
+        Task<bool> UpdateOrderPaymentStatus(Order order, int orderStatusId, int paymentStatusId);
+        Task<bool> UpdateDriverdetails(Order order, int orderStatusId, int paymentStatusId);
+
         Task<int> GetOrderCountByCouponAndCustomer(int couponId, int? customerId = null, string customerGuidValue = "");
         #endregion
 

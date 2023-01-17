@@ -64,7 +64,8 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
+    @await Html.PartialAsync("_MyAccount")
     <script src="~/assets/vendor/js/bootstrap.bundle.js"></script>
     <script src="~/assets/js/util/autoPadding.js"></script>
     <script src="~/assets/js/util/crossPlatform.js"></script>
@@ -133,7 +134,7 @@
                     if (result.data) {
                         updateCartCount();
                         $("#a-cart").css("cursor", "pointer");
-                        $("#a-cart").trigger("click")
+                        //$("#a-cart").trigger("click")
                     }
                     else {
                         if (result.message != "")
@@ -151,7 +152,6 @@
 
         function addToFavourite(productId, productUrl, imgUrl, title, price, isfav, isList) {
             $.get("@Url.RouteUrl("addorremovefavourite")", { productId: productId }, function (result) {
-                debugger;
                 console.log(isfav);
                 if (result.success) {
                     if (result.data) {
@@ -182,7 +182,6 @@
                             }
                         }
 
-                        debugger;
                         if (isfav == 1) {
                             $("#product-box-" + productId).remove();
                             if ($('#dv-product-box').children().length > 0) {
@@ -207,9 +206,7 @@
         }
 
         function notifyProduct(productId, productUrl, imgUrl, title, price) {
-            debugger;
             $.get("@Url.RouteUrl("addorremoveproductavailability")", { productId: productId }, function (result) {
-                debugger;
                 if (result.success) {
                     if (result.data) {
                         var elementId = '#notify-product-' + productId;

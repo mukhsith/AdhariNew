@@ -9,12 +9,12 @@ using Data.PushNotification;
 using Data.Sales;
 using Data.Shop;
 using Microsoft.Extensions.Options;
-using Services.Frontend.Content.Interface;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.Content;
+using Services.Frontend.CouponPromotion;
 using Services.Frontend.CustomerManagement;
-using Services.Frontend.DeliveryManagement.Interface;
+using Services.Frontend.DeliveryManagement;
 using Services.Frontend.Locations;
-using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.ProductManagement;
 using Services.Frontend.Sales;
 using Services.Frontend.Shop;
 using System;
@@ -81,20 +81,11 @@ namespace API.Areas.Frontend.Helpers
         {
             var bannerModel = _mapper.Map<BannerModel>(banner);
 
-            if (isEnglish)
-            {
-                if (string.IsNullOrEmpty(banner.ImageNameEn))
-                    bannerModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageBannerDefault;
-                else
-                    bannerModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageBannerResized + banner.ImageNameEn;
-            }
+            var imageName = isEnglish ? banner.ImageNameEn : banner.ImageNameAr;
+            if (string.IsNullOrEmpty(imageName))
+                bannerModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageBannerDefault;
             else
-            {
-                if (string.IsNullOrEmpty(banner.ImageNameAr))
-                    bannerModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageBannerDefault;
-                else
-                    bannerModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageBannerResized + banner.ImageNameAr;
-            }
+                bannerModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageBannerResized + imageName;
 
             return bannerModel;
 
@@ -273,12 +264,12 @@ namespace API.Areas.Frontend.Helpers
                     });
                 }
 
-                if (!string.IsNullOrEmpty(paymentResult))
+                if (quickPayment.PaymentStatusId.HasValue)
                 {
                     patmentSummary.Add(new KeyValuPairModel
                     {
                         Title = isEnglish ? Messages.PaymentResult : MessagesAr.PaymentResult,
-                        Value = quickPayment.PaymentResult,
+                        Value = _commonHelper.GetPaymentResultTitle(quickPayment.PaymentStatusId.Value, isEnglish),
                         DisplayOrder = 5
                     });
                 }
@@ -326,11 +317,38 @@ namespace API.Areas.Frontend.Helpers
             List<CategoryModel> items = new();
             return items;
         }
-        public CategoryModel PrepareCategoryModel(Category model, bool isEnglish)
+        public CategoryModel PrepareCategoryModel(Category category, bool isEnglish)
         {
-            var itemModel = _mapper.Map<CategoryModel>(model);
-            itemModel.Title = isEnglish ? model.NameEn : model.NameAr;
-            return itemModel;
+            var categoryModel = _mapper.Map<CategoryModel>(category);
+
+            categoryModel.Title = isEnglish ? category.NameEn : category.NameAr;
+
+            if (string.IsNullOrEmpty(category.ImageName))
+                categoryModel.HoverImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryDefault;
+            else
+                categoryModel.HoverImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryResized + category.ImageName;
+
+            if (string.IsNullOrEmpty(category.ImageNormalIconName))
+                categoryModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryDefault;
+            else
+                categoryModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryResized + category.ImageNormalIconName;
+
+            if (string.IsNullOrEmpty(category.ImageSelectedIconName))
+                categoryModel.SelectedImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryDefault;
+            else
+                categoryModel.SelectedImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryResized + category.ImageSelectedIconName;
+
+            if (string.IsNullOrEmpty(category.ImageDesktopName))
+                categoryModel.ImageDesktopUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryDefault;
+            else
+                categoryModel.ImageDesktopUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryResized + category.ImageDesktopName;
+
+            if (string.IsNullOrEmpty(category.ImageMobileName))
+                categoryModel.ImageMobileUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryDefault;
+            else
+                categoryModel.ImageMobileUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryResized + category.ImageMobileName;
+
+            return categoryModel;
 
         }
         #endregion
@@ -350,6 +368,8 @@ namespace API.Areas.Frontend.Helpers
         public async Task<AddressModel> PrepareAddressModel(Address address, bool isEnglish)
         {
             var addressModel = _mapper.Map<AddressModel>(address);
+
+            addressModel.TypeTitle = _commonHelper.GetAddressTypeTitle((AddressType)address.TypeId, isEnglish);
 
             var governorate = address.Area.Governorate;
             if (governorate != null)
@@ -606,7 +626,7 @@ namespace API.Areas.Frontend.Helpers
                 patmentSummary.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.PaymentResult : MessagesAr.PaymentResult,
-                    Value = walletPackageOrderModel.PaymentResult,
+                    Value = _commonHelper.GetPaymentResultTitle(walletPackageOrder.PaymentStatusId, isEnglish),
                     DisplayOrder = 6
                 });
 
@@ -665,8 +685,7 @@ namespace API.Areas.Frontend.Helpers
 
             if (loadCategory)
             {
-                var categoryModel = PrepareCategoryModel(model: product.Category, isEnglish: isEnglish);
-                productModel.CategoryName = categoryModel.Title;
+                productModel.CategoryName = isEnglish ? product.Category.NameEn : product.Category.NameAr;
             }
 
             if (product.ItemSize != null)
@@ -990,6 +1009,8 @@ namespace API.Areas.Frontend.Helpers
                 {
                     walletUsedAmount = grossTotal;
 
+                    if (cartAttribute.PaymentMethodId != (int)Utility.Enum.PaymentMethod.Wallet)
+                        cartAttribute.OtherPaymentMethodId = cartAttribute.PaymentMethodId;
                     cartAttribute.PaymentMethodId = (int)Utility.Enum.PaymentMethod.Wallet;
                     await _cartService.UpdateCartAttribute(cartAttribute);
 
@@ -999,7 +1020,8 @@ namespace API.Areas.Frontend.Helpers
                 {
                     if (cartAttribute.PaymentMethodId == (int)Utility.Enum.PaymentMethod.Wallet)
                     {
-                        cartAttribute.PaymentMethodId = null;
+                        cartAttribute.PaymentMethodId = cartAttribute.OtherPaymentMethodId;
+                        cartAttribute.OtherPaymentMethodId = null;
                         await _cartService.UpdateCartAttribute(cartAttribute);
                     }
                 }
@@ -1239,7 +1261,7 @@ namespace API.Areas.Frontend.Helpers
                 patmentSummary.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.PaymentResult : MessagesAr.PaymentResult,
-                    Value = orderModel.PaymentResult,
+                    Value = _commonHelper.GetPaymentResultTitle(order.PaymentStatusId, isEnglish),
                     DisplayOrder = 5
                 });
 
@@ -1354,12 +1376,19 @@ namespace API.Areas.Frontend.Helpers
 
             decimal price = product.GetPriceFrontend(b2bCustomer);
             decimal discountedPrice = product.GetDiscountedPriceFrontend(b2bCustomer);
-
             subscriptionPrice = (discountedPrice > 0 ? discountedPrice : price) * subscriptionAttribute.Quantity.Value;
+
+            bool fullPayment = false;
             if (subscriptionAttribute.PaymentMethodId.HasValue && subscriptionAttribute.PaymentMethodId.Value == (int)Utility.Enum.PaymentMethod.Tabby)
             {
+                fullPayment = true;
                 if (!product.SpecialPackage)
                     subscriptionPrice *= subscriptionDuration.NumberOfMonths;
+            }
+            else
+            {
+                if (product.SpecialPackage)
+                    fullPayment = true;
             }
 
             if (app)
@@ -1420,6 +1449,9 @@ namespace API.Areas.Frontend.Helpers
                     if (area != null)
                     {
                         deliveryFee = await _commonHelper.GetDeliveryFeeByAreaId(areaId: area.Id);
+                        if (fullPayment)
+                            deliveryFee *= subscriptionDuration.NumberOfMonths;
+
                         AmountSplitUps.Add(new KeyValuPairModel
                         {
                             Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
@@ -1472,6 +1504,8 @@ namespace API.Areas.Frontend.Helpers
                 {
                     walletUsedAmount = grossTotal;
 
+                    if (subscriptionAttribute.PaymentMethodId != (int)Utility.Enum.PaymentMethod.Wallet)
+                        subscriptionAttribute.OtherPaymentMethodId = subscriptionAttribute.PaymentMethodId;
                     subscriptionAttribute.PaymentMethodId = (int)Utility.Enum.PaymentMethod.Wallet;
                     await _cartService.UpdateSubscriptionAttribute(subscriptionAttribute);
 
@@ -1481,7 +1515,8 @@ namespace API.Areas.Frontend.Helpers
                 {
                     if (subscriptionAttribute.PaymentMethodId == (int)Utility.Enum.PaymentMethod.Wallet)
                     {
-                        subscriptionAttribute.PaymentMethodId = null;
+                        subscriptionAttribute.PaymentMethodId = subscriptionAttribute.OtherPaymentMethodId;
+                        subscriptionAttribute.OtherPaymentMethodId = null;
                         await _cartService.UpdateSubscriptionAttribute(subscriptionAttribute);
                     }
                 }
@@ -1652,7 +1687,7 @@ namespace API.Areas.Frontend.Helpers
                 List<KeyValuPairModel> patmentSummary = new();
                 patmentSummary.Add(new KeyValuPairModel
                 {
-                    Title = isEnglish ? Messages.OrderNumber : MessagesAr.OrderNumber,
+                    Title = isEnglish ? Messages.SubscriptionNumber : MessagesAr.SubscriptionNumber,
                     Value = subscription.SubscriptionNumber,
                     DisplayOrder = 0
                 });
@@ -1688,7 +1723,7 @@ namespace API.Areas.Frontend.Helpers
                 patmentSummary.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.PaymentResult : MessagesAr.PaymentResult,
-                    Value = subscriptionModel.PaymentResult,
+                    Value = _commonHelper.GetPaymentResultTitle((PaymentStatus)subscriptionModel.PaymentStatusId, isEnglish),
                     DisplayOrder = 5
                 });
 
@@ -1726,6 +1761,13 @@ namespace API.Areas.Frontend.Helpers
 
                 //order summary
                 List<KeyValuPairModel> amountSplitUps = new();
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.SubscriptionNumber : MessagesAr.SubscriptionNumber,
+                    Value = subscription.SubscriptionNumber,
+                    DisplayOrder = 0
+                });
+
                 amountSplitUps.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.Quantity : MessagesAr.Quantity,
@@ -1806,6 +1848,13 @@ namespace API.Areas.Frontend.Helpers
 
                 //subscription details
                 List<KeyValuPairModel> subscriptionDetails = new();
+                subscriptionDetails.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.SubscriptionNumber : MessagesAr.SubscriptionNumber,
+                    Value = subscription.SubscriptionNumber,
+                    DisplayOrder = 0
+                });
+
                 subscriptionDetails.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.Quantity : MessagesAr.Quantity,

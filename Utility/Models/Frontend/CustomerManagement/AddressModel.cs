@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public int TypeId { get; set; }
+        public string TypeTitle { get; set; }
         public string Name { get; set; }
         public string MobileNumber { get; set; }
         public string EmailAddress { get; set; }

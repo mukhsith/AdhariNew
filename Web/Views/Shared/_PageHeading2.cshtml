@@ -1,0 +1,37 @@
+﻿@model List<BreadcrumbModel>
+@{
+    var counter = 0;
+    var title = Model.FirstOrDefault().Title;
+    var items = Model.Skip(1);
+}
+<section class="breadcrumb-bg d-flex">
+    <div class="container d-flex flex-column justify-content-center align-items-center w-100">
+        <ul class="trail-items breadcrumb d-block d-md-none">
+            <li class="trail-item trail-begin">
+                <a href="javascript:history.back(1);">
+                    <i class="fa fa-angle-double-left"></i>@SharedHtmlLocalizer["Back"]
+                </a>
+            </li>
+        </ul>
+        <h3 class="text-center mb-1 mb-md-2">@title</h3>
+        <nav class="d-flex justify-content-center" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item ">
+                    <a href="@Url.RouteUrl("home")">@SharedHtmlLocalizer["Home"]</a>
+                </li>
+                @foreach (var item in items)
+                {
+                    counter++;
+                    @if (counter == items.Count())
+                    {
+                        <li class="breadcrumb-item" aria-current="page"><a href="@Url.RouteUrl(item.Url)">@item.Title</a></li>
+                    }
+                    else
+                    {
+                        <li class="breadcrumb-item active" aria-current="page"><a href="@item.Url">@item.Title</a></li>
+                    }
+                }
+            </ol>
+        </nav>
+    </div>
+</section>

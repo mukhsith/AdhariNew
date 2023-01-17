@@ -394,6 +394,12 @@
         public static string Subscription = "Subscription";
         public static string Normal = "Normal";
         public static string UnitPrice = "Unit Price";
+        public static string SubscriptionNumber = "Subscription Number";
+        public static string Appartment = "Appartment";
+        public static string Office = "Office";
+        public static string School = "School";
+        public static string Mosque = "Mosque";
+        public static string Government = "Government";
     }
     #region ORDER PRINT PDF
     public static class OrderPDF

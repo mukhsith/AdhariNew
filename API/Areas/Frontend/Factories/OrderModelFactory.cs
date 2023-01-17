@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using Utility.Models.Frontend.Sales;
 using API.Helpers;
 using Utility.API;
-using Services.Frontend.ProductManagement.Interface;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.ProductManagement;
+using Services.Frontend.CouponPromotion;
 using Services.Frontend.Sales;
 using Utility.ResponseMapper;
 using Utility.Helpers;
@@ -20,7 +20,7 @@ using Data.CouponPromotion;
 using Utility.Enum;
 using Data.ProductManagement;
 using Data.CustomerManagement;
-using Services.Frontend.Content.Interface;
+using Services.Frontend.Content;
 using Utility.Models.KNET;
 using Utility;
 using Data.Shop;
@@ -569,18 +569,21 @@ namespace API.Areas.Frontend.Factories
             {
                 var orders = new List<Order>();
 
-                var customer = await _customerService.GetCustomerById(customerId);
-                if (customer == null || customer.Deleted)
+                if (customerId > 0)
                 {
-                    response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
-                    return response;
-                }
+                    var customer = await _customerService.GetCustomerById(customerId);
+                    if (customer == null || customer.Deleted)
+                    {
+                        response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                        return response;
+                    }
 
-                if (!customer.Active)
-                {
-                    response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
-                    return response;
-                }
+                    if (!customer.Active)
+                    {
+                        response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                        return response;
+                    }
+                }                
 
                 bool loadDetails = false;
                 if (id > 0)

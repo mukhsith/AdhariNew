@@ -18,6 +18,9 @@ namespace Services.Backend.Sales
         Task<Subscription> GetSubscriptionBySubscriptionNumber(string subscriptionNumber);
         
         Task<SubscriptionOrder> GetSubscriptionOrderById(int id);
+
+        Task<bool> UpdateOrderPaymentStatus(SubscriptionOrder order, bool isDelivered, int paymentStatusId);
+
         Task<DailySubscriptionSummaryModel> GetSubscriptionTodaySales();
         Task<DataTableResult<List<AdminSubscriptionModel>>> GetSubscriptions(AdminSubscriptionOrderParam param);
         Task<dynamic> GetSubscriptionSalesOrders(AdminSubscriptionOrderParam param);

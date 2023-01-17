@@ -5,7 +5,7 @@ using Data.ProductManagement;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Services.Frontend.CustomerManagement;
-using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.ProductManagement;
 using Services.Frontend.PushNotification;
 using System;
 using System.Collections.Generic;

@@ -3,19 +3,16 @@ using Microsoft.Extensions.DependencyInjection;
 using API.Areas.Frontend.Factories;
 using API.Areas.Frontend.Helpers;
 using Services.Frontend.Content;
-using Services.Frontend.Content.Interface;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.CouponPromotion;
 using Services.Frontend.CustomerManagement;
 using Services.Frontend.Locations;
-using Services.Frontend.Locations.Interface;
-using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.ProductManagement;
 using Services.Frontend.Sales;
 using Services.Frontend.EmailManagement;
 using Services.Frontend.SMS;
 using Services.Frontend.Shop;
 using Services.Frontend.PushNotification;
-using Services.Frontend.DeliveryManagement.Interface;
-using Services.Frontend.CouponPromotion;
+using Services.Frontend.DeliveryManagement;
 
 namespace API.Extensions
 {
@@ -29,7 +26,6 @@ namespace API.Extensions
             serviceCollection.AddScoped<IContactDetailService, ContactDetailService>();
             serviceCollection.AddScoped<ICustomerFeedbackService, CustomerFeedbackService>();
             serviceCollection.AddScoped<ISocialMediaLinkService, SocialMediaLinkService>();
-            serviceCollection.AddScoped<IDisplayWebControlService, DisplayWebControlService>();
             serviceCollection.AddScoped<ICompanySettingService, CompanySettingService>();
             serviceCollection.AddScoped<IPaymentMethodService, PaymentMethodService>();
             serviceCollection.AddScoped<IDeliveryBlockedDateService, DeliveryBlockedDateService>();
@@ -47,15 +43,12 @@ namespace API.Extensions
 
             //Location Service
             serviceCollection.AddScoped<IAreaService, AreaService>();
-            serviceCollection.AddScoped<ICountryService, CountryService>();
             serviceCollection.AddScoped<IGovernorateService, GovernorateService>();
 
             //products Service
             serviceCollection.AddScoped<ICategoryService, CategoryService>();
-            serviceCollection.AddScoped<IItemSizeService, ItemSizeService>();
             serviceCollection.AddScoped<IProductService, ProductService>();
-            serviceCollection.AddScoped<IProductStockHistoryService, ProductStockHistoryService>();
-
+            
             //Push Servicve
             serviceCollection.AddScoped<INotificationService, NotificationService>();
 

@@ -232,6 +232,7 @@ namespace API.Areas.Backend.Controllers
                 {
                     item.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(item.DeliveryFee, IsEnglish, 1, true);
                     item.FormattedTotal = await _commonHelper.ConvertDecimalToString(item.Total, IsEnglish, 1, true);
+                    item.OrderStatus = _commonHelper.GetOrderStatusName(item.OrderStatusId, IsEnglish);
                 }
                 //var items = await _get.GetAllForDeliveriesDataTable(base.GetDataTableParameters, IsEnglish, orderNumber, _orderDate, _orderModeId, _orderTypeId, _areaId, _driverId);
 
@@ -396,14 +397,14 @@ namespace API.Areas.Backend.Controllers
         /// </summary>
         [HttpPost, Route("api/order/SendQpay")]
         // public async Task<APIResponseModel<CreatePaymentModel>> CreateOrder([FromBody] CreatePaymentModel createPaymentModel)
-        public async Task<IActionResult> SendQpay(int CustomerID, int OrderID, string OrderNumber,decimal Ordertotal)
+        public async Task<IActionResult> SendQpay(int CustomerID, int OrderID, string OrderNumber, string Ordertotal)
         {
             ResponseMapper<bool> response = new();
             try
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                 var item = await _orderModelFactory.AddQPay(CustomerID,OrderID, OrderNumber, Ordertotal);
+                 var item = await _orderModelFactory.AddQPay(CustomerID,OrderID, OrderNumber,Convert.ToDecimal(Ordertotal));
                 
 
                 return Ok(item);

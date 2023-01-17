@@ -5,18 +5,15 @@ using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using Data.CouponPromotion;
 
-namespace Services.Frontend.CouponPromotion.Interface
+namespace Services.Frontend.CouponPromotion
 {
     public class CouponService : ICouponService
     {
         protected readonly ApplicationDbContext _dbcontext;
-        protected string ErrorMessage = string.Empty;
         public CouponService(ApplicationDbContext dbcontext)
         {
             _dbcontext = dbcontext;
         }
-
-        #region Coupon          
         public async Task<Coupon> GetById(int id)
         {
             var data = await _dbcontext.Coupons.FindAsync(id);
@@ -32,6 +29,5 @@ namespace Services.Frontend.CouponPromotion.Interface
             _dbcontext.Update(model);
             return await _dbcontext.SaveChangesAsync() > 0;
         }
-        #endregion
     }
 }

@@ -1,38 +1,19 @@
-﻿
-using Data.Content;
+﻿using Data.Content;
 using Data.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using Services.Frontend.Content.Interface;
-using Services.Base;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Utility.Enum;
-using Utility.Models.Frontend.Content;
-using Utility.Models.Frontend.CustomizedModel;
 
 namespace Services.Frontend.Content
 {
-    public class SiteContentService :  ISiteContentService
+    public class SiteContentService : ISiteContentService
     {
         protected readonly ApplicationDbContext _dbcontext;
-        protected string ErrorMessage = string.Empty;
         public SiteContentService(ApplicationDbContext dbcontext)
         {
             _dbcontext = dbcontext;
         }
-        
-        public async Task<IList<SiteContent>> GetAll()
-        {
-            var data = await _dbcontext
-                        .SiteContents
-                        .Where(x => x.Deleted == false && x.Active==true)
-                        .AsNoTracking()
-                        .ToListAsync();
-            return data;
-        }
-
         public async Task<SiteContent> GetByType(AppContentType appContentType)
         {
             var data = await _dbcontext
@@ -40,16 +21,14 @@ namespace Services.Frontend.Content
                        .Where(x => x.Deleted == false && x.AppContentType == appContentType)
                        .AsNoTracking()
                        .FirstOrDefaultAsync();
-            
+
             if (data is not null)
-                {
-                    data.Active = await GetDisplayWebControl(data);
-                }
-            
+            {
+                data.Active = await GetDisplayWebControl(data);
+            }
+
             return data;
         }
-
-         
         private async Task<bool> GetDisplayWebControl(SiteContent item)
         {
             var webcontrol = await _dbcontext.DisplayWebControls.Where(x => x.ControlId == (int)item.AppContentType).AsNoTracking().FirstOrDefaultAsync();
@@ -59,6 +38,5 @@ namespace Services.Frontend.Content
             }
             return false;
         }
-         
     }
 }

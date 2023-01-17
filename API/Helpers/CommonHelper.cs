@@ -7,13 +7,12 @@ using Data.Sales;
 using Data.Shop;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Services.Frontend.CouponPromotion.Interface;
+using Services.Frontend.CouponPromotion;
 using Services.Frontend.CustomerManagement;
-using Services.Frontend.DeliveryManagement.Interface;
+using Services.Frontend.DeliveryManagement;
 using Services.Frontend.EmailManagement;
 using Services.Frontend.Locations;
-using Services.Frontend.Locations.Interface;
-using Services.Frontend.ProductManagement.Interface;
+using Services.Frontend.ProductManagement;
 using Services.Frontend.Sales;
 using Services.Frontend.Shop;
 using Services.Frontend.SMS;
@@ -36,7 +35,6 @@ namespace API.Helpers
     public class CommonHelper : ICommonHelper
     {
         private readonly AppSettingsModel _appSettings;
-        private readonly ICountryService _countryService;
         private readonly ICouponService _couponService;
         private readonly IProductService _productService;
         private readonly IAreaService _areaService;
@@ -53,7 +51,6 @@ namespace API.Helpers
         private readonly ISubscriptionService _subscriptionService;
         private readonly IEmailHelper _emailHelper;
         public CommonHelper(IOptions<AppSettingsModel> options,
-            ICountryService countryService,
             ICouponService couponService,
             IProductService productService,
             IAreaService cityService,
@@ -71,7 +68,6 @@ namespace API.Helpers
             IEmailHelper emailHelper)
         {
             _appSettings = options.Value;
-            _countryService = countryService;
             _couponService = couponService;
             _productService = productService;
             _areaService = cityService;
@@ -94,18 +90,9 @@ namespace API.Helpers
         {
             string formattedValue = string.Empty;
 
-            if (countryId == 0)
-                countryId = 1;
-
-            var country = await _countryService.GetById(countryId);
-            if (country == null)
-            {
-                return string.Empty;
-            }
-
-            var currencyEn = country.CurrencyCodeEn;
-            var currencyAr = country.CurrencyCodeAr;
-            var currencyFormat = "{0:" + country.CurrencyFormat + "}";
+            var currencyEn = "KWD";
+            var currencyAr = "د.ك";
+            var currencyFormat = "{0:" + "0.000" + "}";
 
             if (includeZero == true)
             {
@@ -185,6 +172,52 @@ namespace API.Helpers
             var result = new Tuple<string, string>(name, colorCode);
             return result;
         }
+        public string GetOrderStatusName(OrderStatus statusId, bool isEnglish)
+        {
+            string name = string.Empty;
+            if (statusId == OrderStatus.Cancelled)
+            {
+                name = isEnglish ? Messages.Cancelled : MessagesAr.Cancelled;
+            }
+            else if (statusId == OrderStatus.Confirmed)
+            {
+                name = isEnglish ? Messages.Confirmed : MessagesAr.Confirmed;
+            }
+            else if (statusId == OrderStatus.Delivered)
+            {
+                name = isEnglish ? Messages.Delivered : MessagesAr.Delivered;
+            }
+            else if (statusId == OrderStatus.Pending)
+            {
+                name = isEnglish ? Messages.Pending : MessagesAr.Pending;
+            }
+            else if (statusId == OrderStatus.Discarded)
+            {
+                name = isEnglish ? Messages.Discarded : MessagesAr.Discarded;
+            }
+            else if (statusId == OrderStatus.Failed)
+            {
+                name = isEnglish ? Messages.Failed : MessagesAr.Failed;
+            }
+            else if (statusId == OrderStatus.Received)
+            {
+                name = isEnglish ? Messages.Received : MessagesAr.Received;
+            }
+            else if (statusId == OrderStatus.OnTheWay)
+            {
+                name = isEnglish ? Messages.OnTheWay : MessagesAr.OnTheWay;
+            }
+            else if (statusId == OrderStatus.Returned)
+            {
+                name = isEnglish ? Messages.Returned : MessagesAr.Returned;
+            }
+            else if (statusId == OrderStatus.CancelledByCustomer)
+            {
+                name = isEnglish ? Messages.CancelledByCustomer : MessagesAr.CancelledByCustomer;
+            }
+
+            return name;
+        }
         public Tuple<string, string> GetSubscriptionStatusNameAndColorCode(SubscriptionStatus statusId, bool isEnglish)
         {
             string name = string.Empty;
@@ -259,6 +292,37 @@ namespace API.Helpers
 
             var result = new Tuple<string, string>(name, colorCode);
             return result;
+        }
+        public string GetAddressTypeTitle(AddressType addressType, bool isEnglish)
+        {
+            string title = string.Empty;
+
+            if (addressType == AddressType.Home)
+            {
+                title = isEnglish ? Messages.House : MessagesAr.House;
+            }
+            else if (addressType == AddressType.Appartment)
+            {
+                title = isEnglish ? Messages.Appartment : MessagesAr.Appartment;
+            }
+            else if (addressType == AddressType.Office)
+            {
+                title = isEnglish ? Messages.Office : MessagesAr.Office;
+            }
+            else if (addressType == AddressType.School)
+            {
+                title = isEnglish ? Messages.School : MessagesAr.School;
+            }
+            else if (addressType == AddressType.Mosque)
+            {
+                title = isEnglish ? Messages.Mosque : MessagesAr.Mosque;
+            }
+            else if (addressType == AddressType.Government)
+            {
+                title = isEnglish ? Messages.Government : MessagesAr.Government;
+            }
+
+            return title;
         }
         public string GetTimeAgo(DateTime dateTime, bool isEnglish)
         {
@@ -1476,31 +1540,6 @@ namespace API.Helpers
                 await _notificationTemplateService.CreateSMSPush(message, orderModel.Customer.MobileNumber, isEnglish ? 0 : 1);
             }
         }
-        public async Task SendSubscriptionSMSNotification(SubscriptionModel subscriptionModel, bool isEnglish)
-        {
-            NotificationType notificationType;
-            if (subscriptionModel.PaymentStatusId == (int)PaymentStatus.Captured || subscriptionModel.PaymentStatusId == (int)PaymentStatus.PendingCash)
-            {
-                notificationType = NotificationType.OrderReceipt;
-            }
-            else
-            {
-                notificationType = NotificationType.OrderCancelled;
-            }
-
-            var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(notificationType);
-            if (notificationTemplate != null && notificationTemplate.SMSEnabled)
-            {
-                string url = _appSettings.WebsiteUrl + "SUB/" + subscriptionModel.SubscriptionNumber;
-                url = url.Replace(" ", "%20");
-
-                var messageEn = notificationTemplate.SMSMessageEn.Replace("{subscriptionnumber}", subscriptionModel.SubscriptionNumber).Replace("{link}", url);
-                var messageAr = notificationTemplate.SMSMessageAr.Replace("{subscriptionnumber}", subscriptionModel.SubscriptionNumber).Replace("{link}", url);
-
-                var message = isEnglish ? messageEn : messageAr;
-                await _notificationTemplateService.CreateSMSPush(message, subscriptionModel.Customer.MobileNumber, isEnglish ? 0 : 1);
-            }
-        }
         public async Task SendOrderEmailNotification(OrderModel orderModel, bool isEnglish)
         {
             NotificationType notificationType;
@@ -1614,121 +1653,6 @@ namespace API.Helpers
                 orderHtml = orderHtml.Replace("{Footer-Website}", websiteUrl);
 
                 await _emailHelper.SendEmail(notificationTypeId: notificationType, emailIds: orderModel.Customer.EmailAddress, subject: subject + " - " + orderModel.OrderNumber, emailBody: orderHtml, htmlContent: true);
-            }
-        }
-        public async Task SendSubscriptionEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish)
-        {
-            NotificationType notificationType;
-            if (subscriptionModel.PaymentStatusId == (int)PaymentStatus.Captured || subscriptionModel.PaymentStatusId == (int)PaymentStatus.PendingCash)
-            {
-                notificationType = NotificationType.OrderReceipt;
-            }
-            else
-            {
-                notificationType = NotificationType.OrderCancelled;
-            }
-
-            var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(notificationType);
-            if (notificationTemplate != null && notificationTemplate.EmailEnabled)
-            {
-                string subject = isEnglish ? notificationTemplate.EmailSubjectEn : notificationTemplate.EmailSubjectAr;
-                string orderHtml = isEnglish ? notificationTemplate.EmailMessageEn : notificationTemplate.EmailMessageAr;
-
-                orderHtml = orderHtml.Replace("{Base-Url}", _appSettings.APIBaseUrl);
-                orderHtml = orderHtml.Replace("{Logo-Image}", _appSettings.APIBaseUrl + "images/logo.png");
-                orderHtml = orderHtml.Replace("{Body-Style}", isEnglish ? "direction: ltr;" : "direction: rtl;");
-
-                if (notificationType == NotificationType.OrderReceipt)
-                {
-                    orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderConfirmationTitle : OrderPDFAr.OrderConfirmationTitle);
-                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderEmailDescription : OrderPDFAr.OrderEmailDescription);
-                }
-                else
-                {
-                    orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderCancellationTitle : OrderPDFAr.OrderCancellationTitle);
-                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderCancellationEmailDescription : OrderPDFAr.OrderCancellationEmailDescription);
-                }
-
-                orderHtml = orderHtml.Replace("{Customer-Name-Header}", subscriptionModel.Customer.Name);
-                orderHtml = orderHtml.Replace("{Order-Details}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
-                orderHtml = orderHtml.Replace("{Order-Number}", isEnglish ? OrderPDF.OrderNumber : OrderPDFAr.OrderNumber);
-                orderHtml = orderHtml.Replace("{Order-Number-Value}", subscriptionModel.SubscriptionNumber);
-                orderHtml = orderHtml.Replace("{Transaction-Date}", isEnglish ? OrderPDF.TransactionDate : OrderPDFAr.TransactionDate);
-                orderHtml = orderHtml.Replace("{Transaction-Date-Value}", subscriptionModel.FormattedDate + " " + subscriptionModel.FormattedTime);
-                orderHtml = orderHtml.Replace("{Quantity}", isEnglish ? OrderPDF.Quantity : OrderPDFAr.Quantity);
-                orderHtml = orderHtml.Replace("{Quantity-Value}", subscriptionModel.Quantity.ToString());
-                orderHtml = orderHtml.Replace("{Duration}", isEnglish ? OrderPDF.Duration : OrderPDFAr.Duration);
-                orderHtml = orderHtml.Replace("{Duration-Value}", subscriptionModel.Duration);
-                orderHtml = orderHtml.Replace("{Delivery-Day}", isEnglish ? OrderPDF.DeliveryDay : OrderPDFAr.DeliveryDay);
-                orderHtml = orderHtml.Replace("{Delivery-Day-Value}", subscriptionModel.DeliveryDate);
-
-                orderHtml = orderHtml.Replace("{Sub-Total}", isEnglish ? OrderPDF.SubTotal : OrderPDFAr.SubTotal);
-                orderHtml = orderHtml.Replace("{Sub-Total-Value}", subscriptionModel.FormattedSubTotal);
-
-                orderHtml = orderHtml.Replace("{Delivery-Charges-Style}", !string.IsNullOrEmpty(subscriptionModel.FormattedDeliveryFee) ? "" : "display:none;");
-                orderHtml = orderHtml.Replace("{Delivery-Charges}", isEnglish ? OrderPDF.DeliveryCharges : OrderPDFAr.DeliveryCharges);
-                orderHtml = orderHtml.Replace("{Delivery-Charges-Value}", subscriptionModel.FormattedDeliveryFee);
-
-                orderHtml = orderHtml.Replace("{Coupon-Amount-Style}", !string.IsNullOrEmpty(subscriptionModel.FormattedCouponDiscountAmount) ? "" : "display:none");
-                orderHtml = orderHtml.Replace("{Coupon-Amount}", isEnglish ? OrderPDF.DiscountAmount : OrderPDFAr.DiscountAmount);
-                orderHtml = orderHtml.Replace("{Coupon-Amount-Value}", subscriptionModel.FormattedCouponDiscountAmount);
-
-                orderHtml = orderHtml.Replace("{Cashback-Amount-Style}", !string.IsNullOrEmpty(subscriptionModel.FormattedCashbackAmount) ? "" : "display:none");
-                orderHtml = orderHtml.Replace("{Cashback-Amount}", isEnglish ? OrderPDF.Cashback : OrderPDFAr.Cashback);
-                orderHtml = orderHtml.Replace("{Cashback-Amount-Value}", subscriptionModel.FormattedCashbackAmount);
-
-                orderHtml = orderHtml.Replace("{Wallet-Amount-Style}", !string.IsNullOrEmpty(subscriptionModel.FormattedWalletUsedAmount) ? "" : "display:none");
-                orderHtml = orderHtml.Replace("{Wallet-Amount}", isEnglish ? OrderPDF.WalletAmount : OrderPDFAr.WalletAmount);
-                orderHtml = orderHtml.Replace("{Wallet-Amount-Value}", subscriptionModel.FormattedWalletUsedAmount);
-
-                orderHtml = orderHtml.Replace("{Grand-Total}", isEnglish ? OrderPDF.GrandTotal : OrderPDFAr.GrandTotal);
-                orderHtml = orderHtml.Replace("{Grand-Total-Value}", subscriptionModel.FormattedTotal);
-
-                orderHtml = orderHtml.Replace("{Status}", isEnglish ? OrderPDF.Status : OrderPDFAr.Status);
-                orderHtml = orderHtml.Replace("{Status-Value}", subscriptionModel.SubscriptionStatusName);
-                orderHtml = orderHtml.Replace("{Items-Details}", isEnglish ? OrderPDF.ItemsDetails : OrderPDFAr.ItemsDetails);
-                orderHtml = orderHtml.Replace("{Name}", isEnglish ? OrderPDF.Name : OrderPDFAr.Name);
-                orderHtml = orderHtml.Replace("{Price}", isEnglish ? OrderPDF.Price : OrderPDFAr.Price);
-                orderHtml = orderHtml.Replace("{Quantity}", isEnglish ? OrderPDF.Quantity : OrderPDFAr.Quantity);
-                orderHtml = orderHtml.Replace("{Total-Amount}", isEnglish ? OrderPDF.TotalAmount : OrderPDFAr.TotalAmount);
-
-                var items = string.Empty;
-                foreach (var item in subscriptionModel.SubscriptionPackTitles)
-                {
-                    items = items + @"<tr>      
-                                            <td>" + item.Title + @"</td>                                            
-                                          </tr>";
-                }
-                orderHtml = orderHtml.Replace("{Order-Items-Value}", items);
-
-                orderHtml = orderHtml.Replace("{Payment-Details}", isEnglish ? OrderPDF.PaymentDetails : OrderPDFAr.PaymentDetails);
-                orderHtml = orderHtml.Replace("{Payment-Method}", isEnglish ? OrderPDF.PaymentMethod : OrderPDFAr.PaymentMethod);
-                orderHtml = orderHtml.Replace("{Payment-Method-Value}", subscriptionModel.PaymentMethod.Name);
-                orderHtml = orderHtml.Replace("{Payment-Result}", isEnglish ? OrderPDF.PaymentResult : OrderPDFAr.PaymentResult);
-                orderHtml = orderHtml.Replace("{Payment-Result-Value}", subscriptionModel.PaymentResult);
-                orderHtml = orderHtml.Replace("{Payment-ID-Style}", !string.IsNullOrEmpty(subscriptionModel.PaymentId) ? "" : "display:none;");
-                orderHtml = orderHtml.Replace("{Payment-ID}", isEnglish ? OrderPDF.PaymentID : OrderPDFAr.PaymentID);
-                orderHtml = orderHtml.Replace("{Payment-ID-Value}", subscriptionModel.PaymentId);
-                orderHtml = orderHtml.Replace("{Payment-Reference-Style}", !string.IsNullOrEmpty(subscriptionModel.PaymentRefId) ? "" : "display:none;");
-                orderHtml = orderHtml.Replace("{Payment-Reference}", isEnglish ? OrderPDF.PaymentReference : OrderPDFAr.PaymentReference);
-                orderHtml = orderHtml.Replace("{Payment-Reference-Value}", subscriptionModel.PaymentRefId);
-                orderHtml = orderHtml.Replace("{Customer-Details}", isEnglish ? OrderPDF.CustomerDetails : OrderPDFAr.CustomerDetails);
-                orderHtml = orderHtml.Replace("{Customer-Name-Style}", !string.IsNullOrEmpty(subscriptionModel.Customer.Name) ? "" : "display:none;");
-                orderHtml = orderHtml.Replace("{Customer-Name}", isEnglish ? OrderPDF.CustomerName : OrderPDFAr.CustomerName);
-                orderHtml = orderHtml.Replace("{Customer-Name-Value}", subscriptionModel.Customer.Name);
-                orderHtml = orderHtml.Replace("{Customer-Email-Style}", !string.IsNullOrEmpty(subscriptionModel.Customer.EmailAddress) ? "" : "display:none;");
-                orderHtml = orderHtml.Replace("{Customer-Email}", isEnglish ? OrderPDF.CustomerEmail : OrderPDFAr.CustomerEmail);
-                orderHtml = orderHtml.Replace("{Customer-Email-Value}", subscriptionModel.Customer.EmailAddress);
-                orderHtml = orderHtml.Replace("{Customer-Mobile}", isEnglish ? OrderPDF.CustomerMobile : OrderPDFAr.CustomerMobile);
-                orderHtml = orderHtml.Replace("{Customer-Mobile-Value}", subscriptionModel.Customer.MobileNumber);
-                orderHtml = orderHtml.Replace("{Delivery-Details}", isEnglish ? OrderPDF.DeliveryDetails : OrderPDFAr.DeliveryDetails);
-                orderHtml = orderHtml.Replace("{Delivery-Address}", isEnglish ? OrderPDF.DeliveryAddress : OrderPDFAr.DeliveryAddress);
-                orderHtml = orderHtml.Replace("{Delivery-Address-Value}", subscriptionModel.Address.AddressText);
-                orderHtml = orderHtml.Replace("{Footer-Value}", isEnglish ? OrderPDF.FooterValue : OrderPDFAr.FooterValue);
-                string websiteUrl = _appSettings.WebsiteUrl.EndsWith("/") ? _appSettings.WebsiteUrl.Remove(_appSettings.WebsiteUrl.Length - 1, 1) : _appSettings.WebsiteUrl;
-                orderHtml = orderHtml.Replace("{Footer-Website}", websiteUrl);
-
-                await _emailHelper.SendEmail(notificationTypeId: notificationType, emailIds: subscriptionModel.Customer.EmailAddress, subject: subject + " - " + subscriptionModel.SubscriptionNumber, emailBody: orderHtml, htmlContent: true);
             }
         }
         public async Task SendOrderAdminEmailNotification(OrderModel orderModel, bool isEnglish, string emailIds, string ccEmailIds)
@@ -1846,16 +1770,41 @@ namespace API.Helpers
                 await _emailHelper.SendEmail(notificationTypeId: notificationType, emailIds: emailIds, ccEmailIds: ccEmailIds, subject: subject + " - " + orderModel.OrderNumber, emailBody: orderHtml, htmlContent: true);
             }
         }
-        public async Task SendSubscriptionAdminEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish, string emailIds, string ccEmailIds)
+        public async Task SendSubscriptionSMSNotification(SubscriptionModel subscriptionModel, bool isEnglish)
         {
             NotificationType notificationType;
             if (subscriptionModel.PaymentStatusId == (int)PaymentStatus.Captured || subscriptionModel.PaymentStatusId == (int)PaymentStatus.PendingCash)
             {
-                notificationType = NotificationType.OrderReceipt;
+                notificationType = NotificationType.SubscriptionReceipt;
             }
             else
             {
-                notificationType = NotificationType.OrderCancelled;
+                notificationType = NotificationType.SubscriptionCancelled;
+            }
+
+            var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(notificationType);
+            if (notificationTemplate != null && notificationTemplate.SMSEnabled)
+            {
+                string url = _appSettings.WebsiteUrl + "SUB/" + subscriptionModel.SubscriptionNumber;
+                url = url.Replace(" ", "%20");
+
+                var messageEn = notificationTemplate.SMSMessageEn.Replace("{subscriptionnumber}", subscriptionModel.SubscriptionNumber).Replace("{link}", url);
+                var messageAr = notificationTemplate.SMSMessageAr.Replace("{subscriptionnumber}", subscriptionModel.SubscriptionNumber).Replace("{link}", url);
+
+                var message = isEnglish ? messageEn : messageAr;
+                await _notificationTemplateService.CreateSMSPush(message, subscriptionModel.Customer.MobileNumber, isEnglish ? 0 : 1);
+            }
+        }       
+        public async Task SendSubscriptionEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish)
+        {
+            NotificationType notificationType;
+            if (subscriptionModel.PaymentStatusId == (int)PaymentStatus.Captured || subscriptionModel.PaymentStatusId == (int)PaymentStatus.PendingCash)
+            {
+                notificationType = NotificationType.SubscriptionReceipt;
+            }
+            else
+            {
+                notificationType = NotificationType.SubscriptionCancelled;
             }
 
             var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(notificationType);
@@ -1868,7 +1817,122 @@ namespace API.Helpers
                 orderHtml = orderHtml.Replace("{Logo-Image}", _appSettings.APIBaseUrl + "images/logo.png");
                 orderHtml = orderHtml.Replace("{Body-Style}", isEnglish ? "direction: ltr;" : "direction: rtl;");
 
-                if (notificationType == NotificationType.OrderReceipt)
+                if (notificationType == NotificationType.SubscriptionReceipt)
+                {
+                    orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderConfirmationTitle : OrderPDFAr.OrderConfirmationTitle);
+                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderEmailDescription : OrderPDFAr.OrderEmailDescription);
+                }
+                else
+                {
+                    orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderCancellationTitle : OrderPDFAr.OrderCancellationTitle);
+                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderCancellationEmailDescription : OrderPDFAr.OrderCancellationEmailDescription);
+                }
+
+                orderHtml = orderHtml.Replace("{Customer-Name-Header}", subscriptionModel.Customer.Name);
+                orderHtml = orderHtml.Replace("{Order-Details}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
+                orderHtml = orderHtml.Replace("{Order-Number}", isEnglish ? OrderPDF.OrderNumber : OrderPDFAr.OrderNumber);
+                orderHtml = orderHtml.Replace("{Order-Number-Value}", subscriptionModel.SubscriptionNumber);
+                orderHtml = orderHtml.Replace("{Transaction-Date}", isEnglish ? OrderPDF.TransactionDate : OrderPDFAr.TransactionDate);
+                orderHtml = orderHtml.Replace("{Transaction-Date-Value}", subscriptionModel.FormattedDate + " " + subscriptionModel.FormattedTime);
+                orderHtml = orderHtml.Replace("{Quantity}", isEnglish ? OrderPDF.Quantity : OrderPDFAr.Quantity);
+                orderHtml = orderHtml.Replace("{Quantity-Value}", subscriptionModel.Quantity.ToString());
+                orderHtml = orderHtml.Replace("{Duration}", isEnglish ? OrderPDF.Duration : OrderPDFAr.Duration);
+                orderHtml = orderHtml.Replace("{Duration-Value}", subscriptionModel.Duration);
+                orderHtml = orderHtml.Replace("{Delivery-Day}", isEnglish ? OrderPDF.DeliveryDay : OrderPDFAr.DeliveryDay);
+                orderHtml = orderHtml.Replace("{Delivery-Day-Value}", subscriptionModel.DeliveryDate);
+
+                orderHtml = orderHtml.Replace("{Sub-Total}", isEnglish ? OrderPDF.SubTotal : OrderPDFAr.SubTotal);
+                orderHtml = orderHtml.Replace("{Sub-Total-Value}", subscriptionModel.FormattedSubTotal);
+
+                orderHtml = orderHtml.Replace("{Delivery-Charges-Style}", !string.IsNullOrEmpty(subscriptionModel.FormattedDeliveryFee) ? "" : "display:none;");
+                orderHtml = orderHtml.Replace("{Delivery-Charges}", isEnglish ? OrderPDF.DeliveryCharges : OrderPDFAr.DeliveryCharges);
+                orderHtml = orderHtml.Replace("{Delivery-Charges-Value}", subscriptionModel.FormattedDeliveryFee);
+
+                orderHtml = orderHtml.Replace("{Coupon-Amount-Style}", !string.IsNullOrEmpty(subscriptionModel.FormattedCouponDiscountAmount) ? "" : "display:none");
+                orderHtml = orderHtml.Replace("{Coupon-Amount}", isEnglish ? OrderPDF.DiscountAmount : OrderPDFAr.DiscountAmount);
+                orderHtml = orderHtml.Replace("{Coupon-Amount-Value}", subscriptionModel.FormattedCouponDiscountAmount);
+
+                orderHtml = orderHtml.Replace("{Cashback-Amount-Style}", !string.IsNullOrEmpty(subscriptionModel.FormattedCashbackAmount) ? "" : "display:none");
+                orderHtml = orderHtml.Replace("{Cashback-Amount}", isEnglish ? OrderPDF.Cashback : OrderPDFAr.Cashback);
+                orderHtml = orderHtml.Replace("{Cashback-Amount-Value}", subscriptionModel.FormattedCashbackAmount);
+
+                orderHtml = orderHtml.Replace("{Wallet-Amount-Style}", !string.IsNullOrEmpty(subscriptionModel.FormattedWalletUsedAmount) ? "" : "display:none");
+                orderHtml = orderHtml.Replace("{Wallet-Amount}", isEnglish ? OrderPDF.WalletAmount : OrderPDFAr.WalletAmount);
+                orderHtml = orderHtml.Replace("{Wallet-Amount-Value}", subscriptionModel.FormattedWalletUsedAmount);
+
+                orderHtml = orderHtml.Replace("{Grand-Total}", isEnglish ? OrderPDF.GrandTotal : OrderPDFAr.GrandTotal);
+                orderHtml = orderHtml.Replace("{Grand-Total-Value}", subscriptionModel.FormattedTotal);
+
+                orderHtml = orderHtml.Replace("{Status}", isEnglish ? OrderPDF.Status : OrderPDFAr.Status);
+                orderHtml = orderHtml.Replace("{Status-Value}", subscriptionModel.SubscriptionStatusName);
+                orderHtml = orderHtml.Replace("{Items-Details}", isEnglish ? OrderPDF.ItemsDetails : OrderPDFAr.ItemsDetails);
+                orderHtml = orderHtml.Replace("{Name}", isEnglish ? OrderPDF.Name : OrderPDFAr.Name);
+                orderHtml = orderHtml.Replace("{Price}", isEnglish ? OrderPDF.Price : OrderPDFAr.Price);
+                orderHtml = orderHtml.Replace("{Quantity}", isEnglish ? OrderPDF.Quantity : OrderPDFAr.Quantity);
+                orderHtml = orderHtml.Replace("{Total-Amount}", isEnglish ? OrderPDF.TotalAmount : OrderPDFAr.TotalAmount);
+
+                var items = string.Empty;
+                foreach (var item in subscriptionModel.SubscriptionPackTitles)
+                {
+                    items = items + @"<tr>      
+                                            <td>" + item.Title + @"</td>                                            
+                                          </tr>";
+                }
+                orderHtml = orderHtml.Replace("{Order-Items-Value}", items);
+
+                orderHtml = orderHtml.Replace("{Payment-Details}", isEnglish ? OrderPDF.PaymentDetails : OrderPDFAr.PaymentDetails);
+                orderHtml = orderHtml.Replace("{Payment-Method}", isEnglish ? OrderPDF.PaymentMethod : OrderPDFAr.PaymentMethod);
+                orderHtml = orderHtml.Replace("{Payment-Method-Value}", subscriptionModel.PaymentMethod.Name);
+                orderHtml = orderHtml.Replace("{Payment-Result}", isEnglish ? OrderPDF.PaymentResult : OrderPDFAr.PaymentResult);
+                orderHtml = orderHtml.Replace("{Payment-Result-Value}", subscriptionModel.PaymentResult);
+                orderHtml = orderHtml.Replace("{Payment-ID-Style}", !string.IsNullOrEmpty(subscriptionModel.PaymentId) ? "" : "display:none;");
+                orderHtml = orderHtml.Replace("{Payment-ID}", isEnglish ? OrderPDF.PaymentID : OrderPDFAr.PaymentID);
+                orderHtml = orderHtml.Replace("{Payment-ID-Value}", subscriptionModel.PaymentId);
+                orderHtml = orderHtml.Replace("{Payment-Reference-Style}", !string.IsNullOrEmpty(subscriptionModel.PaymentRefId) ? "" : "display:none;");
+                orderHtml = orderHtml.Replace("{Payment-Reference}", isEnglish ? OrderPDF.PaymentReference : OrderPDFAr.PaymentReference);
+                orderHtml = orderHtml.Replace("{Payment-Reference-Value}", subscriptionModel.PaymentRefId);
+                orderHtml = orderHtml.Replace("{Customer-Details}", isEnglish ? OrderPDF.CustomerDetails : OrderPDFAr.CustomerDetails);
+                orderHtml = orderHtml.Replace("{Customer-Name-Style}", !string.IsNullOrEmpty(subscriptionModel.Customer.Name) ? "" : "display:none;");
+                orderHtml = orderHtml.Replace("{Customer-Name}", isEnglish ? OrderPDF.CustomerName : OrderPDFAr.CustomerName);
+                orderHtml = orderHtml.Replace("{Customer-Name-Value}", subscriptionModel.Customer.Name);
+                orderHtml = orderHtml.Replace("{Customer-Email-Style}", !string.IsNullOrEmpty(subscriptionModel.Customer.EmailAddress) ? "" : "display:none;");
+                orderHtml = orderHtml.Replace("{Customer-Email}", isEnglish ? OrderPDF.CustomerEmail : OrderPDFAr.CustomerEmail);
+                orderHtml = orderHtml.Replace("{Customer-Email-Value}", subscriptionModel.Customer.EmailAddress);
+                orderHtml = orderHtml.Replace("{Customer-Mobile}", isEnglish ? OrderPDF.CustomerMobile : OrderPDFAr.CustomerMobile);
+                orderHtml = orderHtml.Replace("{Customer-Mobile-Value}", subscriptionModel.Customer.MobileNumber);
+                orderHtml = orderHtml.Replace("{Delivery-Details}", isEnglish ? OrderPDF.DeliveryDetails : OrderPDFAr.DeliveryDetails);
+                orderHtml = orderHtml.Replace("{Delivery-Address}", isEnglish ? OrderPDF.DeliveryAddress : OrderPDFAr.DeliveryAddress);
+                orderHtml = orderHtml.Replace("{Delivery-Address-Value}", subscriptionModel.Address.AddressText);
+                orderHtml = orderHtml.Replace("{Footer-Value}", isEnglish ? OrderPDF.FooterValue : OrderPDFAr.FooterValue);
+                string websiteUrl = _appSettings.WebsiteUrl.EndsWith("/") ? _appSettings.WebsiteUrl.Remove(_appSettings.WebsiteUrl.Length - 1, 1) : _appSettings.WebsiteUrl;
+                orderHtml = orderHtml.Replace("{Footer-Website}", websiteUrl);
+
+                await _emailHelper.SendEmail(notificationTypeId: notificationType, emailIds: subscriptionModel.Customer.EmailAddress, subject: subject + " - " + subscriptionModel.SubscriptionNumber, emailBody: orderHtml, htmlContent: true);
+            }
+        }       
+        public async Task SendSubscriptionAdminEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish, string emailIds, string ccEmailIds)
+        {
+            NotificationType notificationType;
+            if (subscriptionModel.PaymentStatusId == (int)PaymentStatus.Captured || subscriptionModel.PaymentStatusId == (int)PaymentStatus.PendingCash)
+            {
+                notificationType = NotificationType.SubscriptionReceipt;
+            }
+            else
+            {
+                notificationType = NotificationType.SubscriptionCancelled;
+            }
+
+            var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(notificationType);
+            if (notificationTemplate != null && notificationTemplate.EmailEnabled)
+            {
+                string subject = isEnglish ? notificationTemplate.EmailSubjectEn : notificationTemplate.EmailSubjectAr;
+                string orderHtml = isEnglish ? notificationTemplate.EmailMessageEn : notificationTemplate.EmailMessageAr;
+
+                orderHtml = orderHtml.Replace("{Base-Url}", _appSettings.APIBaseUrl);
+                orderHtml = orderHtml.Replace("{Logo-Image}", _appSettings.APIBaseUrl + "images/logo.png");
+                orderHtml = orderHtml.Replace("{Body-Style}", isEnglish ? "direction: ltr;" : "direction: rtl;");
+
+                if (notificationType == NotificationType.SubscriptionReceipt)
                 {
                     orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderConfirmationTitle : OrderPDFAr.OrderConfirmationTitle);
                     orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderEmailDescription : OrderPDFAr.OrderEmailDescription);

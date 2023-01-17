@@ -1,7 +1,4 @@
-﻿using Data.CustomerManagement;
-using Data.Locations;
-using Microsoft.EntityFrameworkCore;
-using Services.Base;
+﻿using Data.Locations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

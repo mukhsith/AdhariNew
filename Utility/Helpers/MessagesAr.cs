@@ -388,12 +388,18 @@
         public static string QuickpayIsUsed = "الدفع السريع مستخدم بالفعل";
         public static string SubscriptionQuantityValidation = "لا يمكنك الاشتراك بكمية تزيد عن {0}";
         public static string Online = "عبر الانترنت";
-        public static string Offline = "Offline";
+        public static string Offline = "دون اتصال";
         public static string And = "و";
-        public static string SubTotal = "Sub Total";
-        public static string Subscription = "Subscription";
-        public static string Normal = "Normal";
-        public static string UnitPrice = "Unit Price";
+        public static string SubTotal = "المجموع الفرعي";
+        public static string Subscription = "الاشتراكات";
+        public static string Normal = "طبيعي";
+        public static string UnitPrice = "سعر الوحدة";
+        public static string SubscriptionNumber = "رقم الاشتراك";
+        public static string Appartment = "شقة";
+        public static string Office = "مكتب";
+        public static string School = "مدرسة";
+        public static string Mosque = "مسجد";
+        public static string Government = "حكومة";
     }
 
     #region ORDER PRINT PDF For Arabic
