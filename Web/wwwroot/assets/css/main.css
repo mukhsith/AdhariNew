@@ -13175,7 +13175,7 @@ textarea.form-control-lg {
 }
 
 /*!
- * Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2022 Fonticons, Inc.
  */
@@ -14381,6 +14381,10 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-haykal::before {
+  content: "";
+}
+
 .fa-baht-sign::before {
   content: "";
 }
@@ -14681,6 +14685,14 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-book-tanakh::before {
+  content: "";
+}
+
+.fa-tanakh::before {
+  content: "";
+}
+
 .fa-bookmark::before {
   content: "";
 }
@@ -14955,6 +14967,14 @@ readers do not read off random characters that represent icons */
 
 .fa-c::before {
   content: "C";
+}
+
+.fa-cable-car::before {
+  content: "";
+}
+
+.fa-tram::before {
+  content: "";
 }
 
 .fa-cake-candles::before {
@@ -16654,7 +16674,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-file-circle-check::before {
-  content: "";
+  content: "";
 }
 
 .fa-file-circle-exclamation::before {
@@ -16666,7 +16686,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-file-circle-plus::before {
-  content: "";
+  content: "";
 }
 
 .fa-file-circle-question::before {
@@ -16674,7 +16694,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-file-circle-xmark::before {
-  content: "";
+  content: "";
 }
 
 .fa-file-code::before {
@@ -17581,16 +17601,8 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-hourglass-2::before {
-  content: "";
-}
-
-.fa-hourglass-half::before {
-  content: "";
-}
-
 .fa-hourglass-empty::before {
-  content: "";
+  content: "";
 }
 
 .fa-hourglass-end::before {
@@ -17599,6 +17611,14 @@ readers do not read off random characters that represent icons */
 
 .fa-hourglass-3::before {
   content: "";
+}
+
+.fa-hourglass-half::before {
+  content: "";
+}
+
+.fa-hourglass-2::before {
+  content: "";
 }
 
 .fa-hourglass-start::before {
@@ -18577,6 +18597,10 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-notdef::before {
+  content: "";
+}
+
 .fa-note-sticky::before {
   content: "";
 }
@@ -18741,11 +18765,11 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-people-arrows-left-right::before {
+.fa-people-arrows::before {
   content: "";
 }
 
-.fa-people-arrows::before {
+.fa-people-arrows-left-right::before {
   content: "";
 }
 
@@ -18998,7 +19022,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-person-through-window::before {
-  content: "";
+  content: "";
 }
 
 .fa-person-walking::before {
@@ -19126,7 +19150,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-plant-wilt::before {
-  content: "";
+  content: "";
 }
 
 .fa-plate-wheat::before {
@@ -20185,7 +20209,7 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-staff-aesculapius::before {
+.fa-staff-snake::before {
   content: "";
 }
 
@@ -20197,7 +20221,7 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-staff-snake::before {
+.fa-staff-aesculapius::before {
   content: "";
 }
 
@@ -20207,6 +20231,10 @@ readers do not read off random characters that represent icons */
 
 .fa-stamp::before {
   content: "";
+}
+
+.fa-stapler::before {
+  content: "";
 }
 
 .fa-star::before {
@@ -20730,11 +20758,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-train-tram::before {
-  content: "";
-}
-
-.fa-tram::before {
-  content: "";
+  content: "";
 }
 
 .fa-transgender::before {
@@ -21556,7 +21580,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2022 Fonticons, Inc.
  */
@@ -21578,7 +21602,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2022 Fonticons, Inc.
  */
@@ -21733,10 +21757,6 @@ readers do not read off random characters that represent icons */
 
 .fa-behance:before {
   content: "";
-}
-
-.fa-behance-square:before {
-  content: "";
 }
 
 .fa-bilibili:before {
@@ -22071,10 +22091,6 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-dribbble-square:before {
-  content: "";
-}
-
 .fa-dropbox:before {
   content: "";
 }
@@ -22153,10 +22169,6 @@ readers do not read off random characters that represent icons */
 
 .fa-facebook-messenger:before {
   content: "";
-}
-
-.fa-facebook-square:before {
-  content: "";
 }
 
 .fa-fantasy-flight-games:before {
@@ -22283,20 +22295,12 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-git-square:before {
-  content: "";
-}
-
 .fa-github:before {
   content: "";
 }
 
 .fa-github-alt:before {
   content: "";
-}
-
-.fa-github-square:before {
-  content: "";
 }
 
 .fa-gitkraken:before {
@@ -22359,10 +22363,6 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-google-plus-square:before {
-  content: "";
-}
-
 .fa-google-wallet:before {
   content: "";
 }
@@ -22393,10 +22393,6 @@ readers do not read off random characters that represent icons */
 
 .fa-hacker-news:before {
   content: "";
-}
-
-.fa-hacker-news-square:before {
-  content: "";
 }
 
 .fa-hackerrank:before {
@@ -22453,10 +22449,6 @@ readers do not read off random characters that represent icons */
 
 .fa-instagram:before {
   content: "";
-}
-
-.fa-instagram-square:before {
-  content: "";
 }
 
 .fa-instalod:before {
@@ -22519,10 +22511,6 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-js-square:before {
-  content: "";
-}
-
 .fa-jsfiddle:before {
   content: "";
 }
@@ -22557,10 +22545,6 @@ readers do not read off random characters that represent icons */
 
 .fa-lastfm:before {
   content: "";
-}
-
-.fa-lastfm-square:before {
-  content: "";
 }
 
 .fa-leanpub:before {
@@ -22651,6 +22635,10 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-meta:before {
+  content: "";
+}
+
 .fa-microblog:before {
   content: "";
 }
@@ -22729,10 +22717,6 @@ readers do not read off random characters that represent icons */
 
 .fa-odnoklassniki:before {
   content: "";
-}
-
-.fa-odnoklassniki-square:before {
-  content: "";
 }
 
 .fa-old-republic:before {
@@ -22827,20 +22811,12 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-pied-piper-square:before {
-  content: "";
-}
-
 .fa-pinterest:before {
   content: "";
 }
 
 .fa-pinterest-p:before {
   content: "";
-}
-
-.fa-pinterest-square:before {
-  content: "";
 }
 
 .fa-pix:before {
@@ -22913,10 +22889,6 @@ readers do not read off random characters that represent icons */
 
 .fa-reddit-alien:before {
   content: "";
-}
-
-.fa-reddit-square:before {
-  content: "";
 }
 
 .fa-redhat:before {
@@ -23055,16 +23027,16 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-snapchat-square:before {
-  content: "";
-}
-
 .fa-soundcloud:before {
   content: "";
 }
 
 .fa-sourcetree:before {
   content: "";
+}
+
+.fa-space-awesome:before {
+  content: "";
 }
 
 .fa-speakap:before {
@@ -23079,8 +23051,32 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-square-behance:before {
+  content: "";
+}
+
+.fa-behance-square:before {
+  content: "";
+}
+
+.fa-square-dribbble:before {
+  content: "";
+}
+
+.fa-dribbble-square:before {
+  content: "";
+}
+
+.fa-square-facebook:before {
+  content: "";
+}
+
+.fa-facebook-square:before {
+  content: "";
+}
+
 .fa-square-font-awesome:before {
-  content: "";
+  content: "";
 }
 
 .fa-square-font-awesome-stroke:before {
@@ -23089,6 +23085,174 @@ readers do not read off random characters that represent icons */
 
 .fa-font-awesome-alt:before {
   content: "";
+}
+
+.fa-square-git:before {
+  content: "";
+}
+
+.fa-git-square:before {
+  content: "";
+}
+
+.fa-square-github:before {
+  content: "";
+}
+
+.fa-github-square:before {
+  content: "";
+}
+
+.fa-square-gitlab:before {
+  content: "";
+}
+
+.fa-gitlab-square:before {
+  content: "";
+}
+
+.fa-square-google-plus:before {
+  content: "";
+}
+
+.fa-google-plus-square:before {
+  content: "";
+}
+
+.fa-square-hacker-news:before {
+  content: "";
+}
+
+.fa-hacker-news-square:before {
+  content: "";
+}
+
+.fa-square-instagram:before {
+  content: "";
+}
+
+.fa-instagram-square:before {
+  content: "";
+}
+
+.fa-square-js:before {
+  content: "";
+}
+
+.fa-js-square:before {
+  content: "";
+}
+
+.fa-square-lastfm:before {
+  content: "";
+}
+
+.fa-lastfm-square:before {
+  content: "";
+}
+
+.fa-square-odnoklassniki:before {
+  content: "";
+}
+
+.fa-odnoklassniki-square:before {
+  content: "";
+}
+
+.fa-square-pied-piper:before {
+  content: "";
+}
+
+.fa-pied-piper-square:before {
+  content: "";
+}
+
+.fa-square-pinterest:before {
+  content: "";
+}
+
+.fa-pinterest-square:before {
+  content: "";
+}
+
+.fa-square-reddit:before {
+  content: "";
+}
+
+.fa-reddit-square:before {
+  content: "";
+}
+
+.fa-square-snapchat:before {
+  content: "";
+}
+
+.fa-snapchat-square:before {
+  content: "";
+}
+
+.fa-square-steam:before {
+  content: "";
+}
+
+.fa-steam-square:before {
+  content: "";
+}
+
+.fa-square-tumblr:before {
+  content: "";
+}
+
+.fa-tumblr-square:before {
+  content: "";
+}
+
+.fa-square-twitter:before {
+  content: "";
+}
+
+.fa-twitter-square:before {
+  content: "";
+}
+
+.fa-square-viadeo:before {
+  content: "";
+}
+
+.fa-viadeo-square:before {
+  content: "";
+}
+
+.fa-square-vimeo:before {
+  content: "";
+}
+
+.fa-vimeo-square:before {
+  content: "";
+}
+
+.fa-square-whatsapp:before {
+  content: "";
+}
+
+.fa-whatsapp-square:before {
+  content: "";
+}
+
+.fa-square-xing:before {
+  content: "";
+}
+
+.fa-xing-square:before {
+  content: "";
+}
+
+.fa-square-youtube:before {
+  content: "";
+}
+
+.fa-youtube-square:before {
+  content: "";
 }
 
 .fa-squarespace:before {
@@ -23113,10 +23277,6 @@ readers do not read off random characters that represent icons */
 
 .fa-steam:before {
   content: "";
-}
-
-.fa-steam-square:before {
-  content: "";
 }
 
 .fa-steam-symbol:before {
@@ -23219,20 +23379,12 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-tumblr-square:before {
-  content: "";
-}
-
 .fa-twitch:before {
   content: "";
 }
 
 .fa-twitter:before {
   content: "";
-}
-
-.fa-twitter-square:before {
-  content: "";
 }
 
 .fa-typo3:before {
@@ -23303,20 +23455,12 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-viadeo-square:before {
-  content: "";
-}
-
 .fa-viber:before {
   content: "";
 }
 
 .fa-vimeo:before {
   content: "";
-}
-
-.fa-vimeo-square:before {
-  content: "";
 }
 
 .fa-vimeo-v:before {
@@ -23361,10 +23505,6 @@ readers do not read off random characters that represent icons */
 
 .fa-whatsapp:before {
   content: "";
-}
-
-.fa-whatsapp-square:before {
-  content: "";
 }
 
 .fa-whmcs:before {
@@ -23427,16 +23567,16 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-rendact:before {
+  content: "";
+}
+
 .fa-xbox:before {
   content: "";
 }
 
 .fa-xing:before {
   content: "";
-}
-
-.fa-xing-square:before {
-  content: "";
 }
 
 .fa-y-combinator:before {
@@ -23475,16 +23615,12 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-youtube-square:before {
-  content: "";
-}
-
 .fa-zhihu:before {
   content: "";
 }
 
 /*!
- * Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2022 Fonticons, Inc.
  */
@@ -23663,6 +23799,52 @@ body {
   src: url(https://fonts.gstatic.com/s/amiri/v24/J7acnpd8CGxBHp2VkaY_zp4.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+@font-face {
+  font-family: "Poppins";
+  src: url("../../fonts/Poppins/Poppins-Bold.eot");
+  src: url("../../fonts/Poppins/Poppins-Bold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Poppins/Poppins-Bold.woff2") format("woff2"), url("../../fonts/Poppins/Poppins-Bold.woff") format("woff"), url("../../fonts/Poppins/Poppins-Bold.ttf") format("truetype"), url("../../fonts/Poppins/Poppins-Bold.svg#Poppins-Bold") format("svg");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("../../fonts/Poppins/Poppins-Regular.eot");
+  src: url("../../fonts/Poppins/Poppins-Regular.eot?#iefix") format("embedded-opentype"), url("../../fonts/Poppins/Poppins-Regular.woff2") format("woff2"), url("../../fonts/Poppins/Poppins-Regular.woff") format("woff"), url("../../fonts/Poppins/Poppins-Regular.ttf") format("truetype"), url("../../fonts/Poppins/Poppins-Regular.svg#Poppins-Regular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-Regular.eot");
+  src: url("../../fonts/Almarai/Almarai-Regular.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Regular.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Regular.woff") format("woff"), url("../../fonts/Almarai/Almarai-Regular.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Regular.svg#Almarai-Regular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-Bold.eot");
+  src: url("../../fonts/Almarai/Almarai-Bold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Bold.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Bold.woff") format("woff"), url("../../fonts/Almarai/Almarai-Bold.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Bold.svg#Almarai-Bold") format("svg");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-Light.eot");
+  src: url("../../fonts/Almarai/Almarai-Light.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Light.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Light.woff") format("woff"), url("../../fonts/Almarai/Almarai-Light.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Light.svg#Almarai-Light") format("svg");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-ExtraBold.eot");
+  src: url("../../fonts/Almarai/Almarai-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-ExtraBold.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-ExtraBold.woff") format("woff"), url("../../fonts/Almarai/Almarai-ExtraBold.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-ExtraBold.svg#Almarai-ExtraBold") format("svg");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
 /**
  * Basic typography style for copy text
  A solution for this problem is percentage. Usually default font-size of the browser is 16px.
@@ -23672,7 +23854,7 @@ body {
  */
 body {
   font-weight: 300;
-  font-family: "Amiri";
+  font-family: "Poppins", "Almarai";
   line-height: 1.5rem;
   color: #30302e;
   direction: ltr;

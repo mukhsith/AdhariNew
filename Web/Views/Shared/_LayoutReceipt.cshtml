@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="@SharedHtmlLocalizer["HTMLLang"]" dir="@SharedHtmlLocalizer["HTMLDir"]">
+@{
+    var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}";
+    var token = Convert.ToString(Context.Request.Cookies["AuthenticationToken"]);
+    bool loggedIn = !string.IsNullOrEmpty(token);
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/assets/img/fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/assets/img/fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/img/fav/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>@SharedHtmlLocalizer["ProjectTitle"]</title>
+    <link rel="stylesheet" href="~/assets/vendor/css/animate.css">
+    <link rel="stylesheet" href="~/assets/vendor/css/ace-responsive-menu/ace-responsive-menu.css">
+    @if (requestCultureFeature != "ar")
+    {
+        <link rel="stylesheet" href="~/assets/css/main.css">
+        <link rel="stylesheet" href="~/css/developer.css">
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/assets/css/main.rtl.css">
+        <link rel="stylesheet" href="~/css/developer.rtl.css">
+    }
+    <script src="~/assets/vendor/js/jquery.js"></script>
+</head>
+<body class="d-flex flex-column min-vh-100 home-page">
+    <div id="cover-spin"></div>
+    <div class="position-fixed vw-100 vh-100 top-0 start-0 body-bg-secondary flex-column justify-content-center align-items-center loader-container" style="z-index: 999999; --bs-bg-opacity: 0.5;">
+        <div class="spinner d-flex justify-content-center align-items-center">
+            <img src="~/assets/img/Adhari-Logo.svg" class="rotate" alt="Loading">
+        </div>
+    </div>
+    <div class="desktop-header d-none d-lg-block bg-body-primary shadow">
+        <div class="bottom-bar ">
+            <div class="container">
+                <header class="col-12 text-center py-2">
+                    <a href="@Url.RouteUrl("home")" class="">
+                        <img src="~/assets/img/Adhari-Logo.svg" alt="@SharedHtmlLocalizer["Adhari"]" class="logo">
+                    </a>
+                    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    </ul>
+                    <div class="dt-icons col-md-3 text-end">
+                    </div>
+                </header>
+            </div>
+        </div>
+    </div>
+    <!-- main navigation-->
+    <div class="mobile-header d-block d-lg-none">
+        <nav class="navbar navbar-light bg-light px-0 py-0" aria-label="Main navigation">
+            <div class="col-12 text-center mt-3">
+                <a class="navbar-brand" href="@Url.RouteUrl("home")">
+                    <img src="~/assets/img/Adhari-Logo.svg" alt="@SharedHtmlLocalizer["AdhariLogo"]" class="logo" height="50">
+                </a>
+            </div>
+        </nav>
+    </div>
+    <main role="main" class="mobile-bottom">
+        @RenderBody()
+    </main>    
+    <script src="~/assets/vendor/js/bootstrap.bundle.js"></script>
+    <script src="~/assets/js/util/autoPadding.js"></script>
+    <script src="~/assets/js/util/crossPlatform.js"></script>
+    <script src="~/assets/vendor/js/lax.js"></script>
+    <script src="~/assets/vendor/js/bootstrap-input-spinner.js"></script>
+    <script src="~/assets/vendor/js/ace-responsive-menu/ace-responsive-menu-min.js"></script>
+    <!-- build:js -->
+    <script src="~/assets/js/main.js"></script>
+    <!-- endbuild -->
+    <script src="~/js/developer.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+</body>
+</html>

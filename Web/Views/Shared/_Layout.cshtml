@@ -2,7 +2,6 @@
 <html lang="@SharedHtmlLocalizer["HTMLLang"]" dir="@SharedHtmlLocalizer["HTMLDir"]">
 @{
     var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
-    // int.TryParse(Context.Request.Cookies["CountryId"], out int countryId);
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}";
     var token = Convert.ToString(Context.Request.Cookies["AuthenticationToken"]);
     bool loggedIn = !string.IsNullOrEmpty(token);
@@ -21,7 +20,6 @@
     <link rel="stylesheet" href="~/assets/vendor/css/ace-responsive-menu/ace-responsive-menu.css">
     @if (requestCultureFeature != "ar")
     {
-        <!-- build:css -->
         <link rel="stylesheet" href="~/assets/css/main.css">
         <link rel="stylesheet" href="~/css/developer.css">
     }
@@ -30,17 +28,14 @@
         <link rel="stylesheet" href="~/assets/css/main.rtl.css">
         <link rel="stylesheet" href="~/css/developer.rtl.css">
     }
-    <!-- endbuild -->
     <script src="~/assets/vendor/js/jquery.js"></script>
 </head>
-
 <body class="d-flex flex-column min-vh-100 home-page">
     <div id="cover-spin"></div>
     <div class="position-fixed vw-100 vh-100 top-0 start-0 body-bg-secondary flex-column justify-content-center align-items-center loader-container" style="z-index: 999999; --bs-bg-opacity: 0.5;">
         <div class="spinner d-flex justify-content-center align-items-center">
             <img src="~/assets/img/Adhari-Logo.svg" class="rotate" alt="Loading">
         </div>
-        <h3 class="text-primary mt-3">@SharedHtmlLocalizer["Loading"]</h3>
     </div>
     @await Html.PartialAsync("_Header")
     <main role="main" class="mobile-bottom">

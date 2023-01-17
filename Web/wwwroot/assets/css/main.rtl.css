@@ -472,7 +472,7 @@ template {
   --bs-gray: #6c757d;
   --bs-gray-dark: #343a40;
   --bs-gray-100: #f7f7f7;
-  --bs-gray-200: #e4e4e4;
+  --bs-gray-200: #f0f0f0;
   --bs-gray-300: #dee2e6;
   --bs-gray-400: #ced4da;
   --bs-gray-500: #adb5bd;
@@ -2952,7 +2952,7 @@ progress {
   opacity: 1;
 }
 .form-control:disabled, .form-control[readonly] {
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
   opacity: 1;
 }
 .form-control::-webkit-file-upload-button {
@@ -2961,7 +2961,7 @@ progress {
   -webkit-margin-end: 0.75rem;
           margin-inline-end: 0.75rem;
   color: #30302e;
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
   pointer-events: none;
   border-color: inherit;
   border-style: solid;
@@ -2979,7 +2979,7 @@ progress {
   -webkit-margin-end: 0.75rem;
           margin-inline-end: 0.75rem;
   color: #30302e;
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
   pointer-events: none;
   border-color: inherit;
   border-style: solid;
@@ -3002,10 +3002,10 @@ progress {
   }
 }
 .form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
-  background-color: #d9d9d9;
+  background-color: #e4e4e4;
 }
 .form-control:hover:not(:disabled):not([readonly])::file-selector-button {
-  background-color: #d9d9d9;
+  background-color: #e4e4e4;
 }
 .form-control::-webkit-file-upload-button {
   padding: 0.375rem 0.75rem;
@@ -3013,7 +3013,7 @@ progress {
   -webkit-margin-end: 0.75rem;
           margin-inline-end: 0.75rem;
   color: #30302e;
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
   pointer-events: none;
   border-color: inherit;
   border-style: solid;
@@ -3032,7 +3032,7 @@ progress {
   }
 }
 .form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
-  background-color: #d9d9d9;
+  background-color: #e4e4e4;
 }
 
 .form-control-plaintext {
@@ -3169,7 +3169,7 @@ textarea.form-control-lg {
   background-image: none;
 }
 .form-select:disabled {
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
 }
 .form-select:-moz-focusring {
   color: transparent;
@@ -3531,7 +3531,7 @@ textarea.form-control-lg {
   color: #30302e;
   text-align: center;
   white-space: nowrap;
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
   border: 1px solid #ced4da;
   border-radius: 0;
 }
@@ -4585,7 +4585,7 @@ textarea.form-control-lg {
 }
 .dropdown-item:hover, .dropdown-item:focus {
   color: #2b2b29;
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
 }
 .dropdown-item.active, .dropdown-item:active {
   color: #FFF;
@@ -4803,7 +4803,7 @@ textarea.form-control-lg {
   border-top-left-radius: 0;
 }
 .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-  border-color: #e4e4e4 #e4e4e4 #dee2e6;
+  border-color: #f0f0f0 #f0f0f0 #dee2e6;
   isolation: isolate;
 }
 .nav-tabs .nav-link.disabled {
@@ -5824,13 +5824,13 @@ textarea.form-control-lg {
 .page-link:hover {
   z-index: 2;
   color: #6a0948;
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
   border-color: #dee2e6;
 }
 .page-link:focus {
   z-index: 3;
   color: #6a0948;
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
   outline: 0;
   -webkit-box-shadow: 0 0 0 0.25rem rgba(133, 11, 90, 0.25);
           box-shadow: 0 0 0 0.25rem rgba(133, 11, 90, 0.25);
@@ -6029,7 +6029,7 @@ textarea.form-control-lg {
   height: 1rem;
   overflow: hidden;
   font-size: 0.75rem;
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
   border-radius: 0;
 }
 
@@ -6110,7 +6110,7 @@ textarea.form-control-lg {
 }
 .list-group-item-action:active {
   color: #30302e;
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
 }
 
 .list-group-item {
@@ -23773,6 +23773,52 @@ body {
   src: url(https://fonts.gstatic.com/s/amiri/v24/J7acnpd8CGxBHp2VkaY_zp4.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+@font-face {
+  font-family: "Poppins";
+  src: url("../../fonts/Poppins/Poppins-Bold.eot");
+  src: url("../../fonts/Poppins/Poppins-Bold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Poppins/Poppins-Bold.woff2") format("woff2"), url("../../fonts/Poppins/Poppins-Bold.woff") format("woff"), url("../../fonts/Poppins/Poppins-Bold.ttf") format("truetype"), url("../../fonts/Poppins/Poppins-Bold.svg#Poppins-Bold") format("svg");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("../../fonts/Poppins/Poppins-Regular.eot");
+  src: url("../../fonts/Poppins/Poppins-Regular.eot?#iefix") format("embedded-opentype"), url("../../fonts/Poppins/Poppins-Regular.woff2") format("woff2"), url("../../fonts/Poppins/Poppins-Regular.woff") format("woff"), url("../../fonts/Poppins/Poppins-Regular.ttf") format("truetype"), url("../../fonts/Poppins/Poppins-Regular.svg#Poppins-Regular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-Regular.eot");
+  src: url("../../fonts/Almarai/Almarai-Regular.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Regular.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Regular.woff") format("woff"), url("../../fonts/Almarai/Almarai-Regular.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Regular.svg#Almarai-Regular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-Bold.eot");
+  src: url("../../fonts/Almarai/Almarai-Bold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Bold.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Bold.woff") format("woff"), url("../../fonts/Almarai/Almarai-Bold.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Bold.svg#Almarai-Bold") format("svg");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-Light.eot");
+  src: url("../../fonts/Almarai/Almarai-Light.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Light.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Light.woff") format("woff"), url("../../fonts/Almarai/Almarai-Light.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Light.svg#Almarai-Light") format("svg");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-ExtraBold.eot");
+  src: url("../../fonts/Almarai/Almarai-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-ExtraBold.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-ExtraBold.woff") format("woff"), url("../../fonts/Almarai/Almarai-ExtraBold.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-ExtraBold.svg#Almarai-ExtraBold") format("svg");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
 /**
  * Basic typography style for copy text
  A solution for this problem is percentage. Usually default font-size of the browser is 16px.
@@ -23782,7 +23828,7 @@ body {
  */
 body {
   font-weight: 300;
-  font-family: "Amiri";
+  font-family: "Poppins", "Almarai";
   line-height: 1.5rem;
   color: #30302e;
   direction: rtl;
@@ -24599,7 +24645,7 @@ input[type=number] {
 }
 
 .input-group.disabled .input-group-text {
-  background-color: #e4e4e4;
+  background-color: #f0f0f0;
 }
 
 .loader-container {
@@ -24653,6 +24699,7 @@ input[type=number] {
 
 .inputGroup.active {
   background-color: #f3edf0 !important;
+  border-color: #850B5A !important;
 }
 
 .p-info {
@@ -24725,7 +24772,7 @@ input[type=number] {
 .floating-btn:hover {
   background: #850B5A;
   color: white;
-  width: 350px;
+  width: auto;
   text-decoration: none;
 }
 
@@ -24743,7 +24790,7 @@ input[type=number] {
     z-index: 99;
     bottom: 0.75rem;
     right: 1rem;
-    width: 92%;
+    width: calc(100vw - 2rem);
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -24816,4 +24863,8 @@ input[type=number] {
 .package-card.active {
   border-color: #850B5A !important;
   background-color: #f3edf0;
+}
+
+.btn-outline-danger:hover, .btn-danger:hover {
+  color: #FFF;
 }

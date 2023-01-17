@@ -184,6 +184,12 @@ namespace Web.Infrastructure
 
             //order result
             endpointRouteBuilder.MapControllerRoute(
+                   name: "orderresultsms",
+                   pattern: "ORDER/{orderNumber?}",
+                   defaults: new { controller = "Order", action = "OrderResultSMS" });
+
+            //order result
+            endpointRouteBuilder.MapControllerRoute(
                    name: "reorder",
                    pattern: "reorder",
                    defaults: new { controller = "Order", action = "ReOrder" });
