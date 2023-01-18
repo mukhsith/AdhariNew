@@ -1,4 +1,7 @@
-﻿@model CheckOutModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model CheckOutModel
+@inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
+@using Utility.Enum
 @{
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Checkout"].Value });
@@ -68,16 +71,31 @@
                                                class="form-control rounded-5 border-secondary body-bg-secondary"
                                                placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]">
                                     </div>
-                                    <div class="col-12 col-md-7 col-lg-8 col-xl-6 mx-auto text-start">
-                                        <div class="form-check">
+                                    <div class="col-12 mt-3">
+                                        <div class="form-check d-flex justify-content-center mx-auto text-start mb-3">
                                             <input class="form-check-input mt-0 me-2" type="checkbox" id="gridCheck">
                                             <label class="form-check-label d-block" for="gridCheck">
-                                                @SharedHtmlLocalizer["IAgreeToThe"] <a href="#" class="text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#PrivacyPolicyModal">@SharedHtmlLocalizer["PrivacyPolicy"]</a> & <a href="#" class="text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#TermsConditionsModal">@SharedHtmlLocalizer["TermsAndConditions"]</a>
+                                                @SharedHtmlLocalizer["IAgreeToThe"]
+                                                <a id="a-privacy-policy" class="text-primary fw-bold" href="#">
+                                                    @SharedHtmlLocalizer["PrivacyPolicy"]
+                                                </a> & <a id="a-terms" class="text-primary fw-bold" href="#">
+                                                    @SharedHtmlLocalizer["TermsAndConditions"]
+                                                </a>
                                             </label>
                                         </div>
-                                        <div id="dvErrorhdnTerms">
+                                        <div id="dvErrorhdnTerms" class="text-center mb-3">
                                         </div>
                                     </div>
+                                    @*<div class="col-12 col-md-7 col-lg-8 col-xl-6 mx-auto text-start">
+                                            <div class="form-check">
+                                                <input class="form-check-input mt-0 me-2" type="checkbox" id="gridCheck">
+                                                <label class="form-check-label d-block" for="gridCheck">
+                                                    @SharedHtmlLocalizer["IAgreeToThe"] <a href="#" class="text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#PrivacyPolicyModal">@SharedHtmlLocalizer["PrivacyPolicy"]</a> & <a href="#" class="text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#TermsConditionsModal">@SharedHtmlLocalizer["TermsAndConditions"]</a>
+                                                </label>
+                                            </div>
+                                            <div id="dvErrorhdnTerms">
+                                            </div>
+                                        </div>*@
                                 </div>
                             </form>
                         </div>
@@ -319,6 +337,26 @@
                 else {
                     if (result.message != "")
                         ToastAlert('error', '', result.message);
+                }
+            });
+        });
+
+        $("#a-privacy-policy").click(function () {
+            $.get("@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.PrivacyPolicy })", function (result) {
+                if (result.content != "") {
+                    $("#common-model-popup-title").html("@SharedHtmlLocalizer["PrivacyPolicy"]");
+                    $("#common-model-popup-description").html(result.content);
+                    $('#common-model-popup').modal('show');
+                }
+            });
+        });
+
+        $("#a-terms").click(function () {
+            $.get("@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.TermsCondition })", function (result) {
+                if (result.content != "") {
+                    $("#common-model-popup-title").html("@SharedHtmlLocalizer["TermsAndConditions"]");
+                    $("#common-model-popup-description").html(result.content);
+                    $('#common-model-popup').modal('show');
                 }
             });
         });

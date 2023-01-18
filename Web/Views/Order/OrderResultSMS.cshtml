@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-12 offset-lg-2 col-lg-8">
                 <div class="order-summary mb-4">
-                    <h4 class="text-primary text-center text-md-center fw-bold mb-3">@SharedHtmlLocalizer["OrderSummary"]</h4>
+                    <h4 class="text-primary text-center text-md-center fw-bold mb-3">@SharedHtmlLocalizer["OrderDetails"]</h4>
                     <div class="bg-grey row rounded-4 p-3 mx-0">
                         <ul class="list-group list-group-flush">
                             @foreach (var item in Model.AmountSplitUps)
@@ -26,13 +26,38 @@
                                     <span class="crossed-out-price text-decoration-line-through text-muted me-2"></span><span class="to-pay-price">@Model.FormattedTotal</span>
                                 </p>
                             </li>
+                            @foreach (var item in Model.OrderItems)
+                            {
+                                <li class="list-group-item border-0 px-0 py-2">
+                                    <div class="d-flex flex-row bg-grey rounded-4 p-2">
+                                        <img src="@item.Product.ImageUrl" class="me-3 rounded-3" alt="product-image" height="75">
+                                        <div class="d-flex flex-column me-auto w-100 text-end">
+                                            <a href="@item.Product.DetailsUrl" class="mb-0 fw-bold">@item.Product.Title</a>
+                                            <div class="row">
+                                                <div class="col-12 text-end">
+                                                    <div class="w-auto py-1 me-2">
+                                                        <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]</label>
+                                                        <p class="text-primary fw-bold fs-51 mb-0">@item.Quantity</p>
+                                                    </div>
+                                                </div>
+                                                @*<div class="col-7">
+                                <div class="w-auto py-1 me-2">
+                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
+                                    <p class="text-primary fw-bold fs-51 mb-0">@item.FormattedTotal</p>
+                                </div>
+                            </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-12 offset-lg-2 col-lg-8">
                 <div class="payment-summary mb-4">
-                    <h4 class="text-primary text-center text-md-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentSummary"]</h4>
+                    <h4 class="text-primary text-center text-md-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentDetails"]</h4>
                     <div class="bg-grey row rounded-4 p-3 mx-0">
                         <ul class="list-group list-group-flush list-card rounded-top rounded-bottom">
                             @foreach (var item in Model.PaymentSummary)
@@ -46,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 offset-lg-2 col-lg-8">
+            @*<div class="col-12 offset-lg-2 col-lg-8">
                 <div class="your-order mb-4">
                     <h4 class="text-primary text-center text-lg-center fw-bold mb-3">@SharedHtmlLocalizer["YourItems"]</h4>
                     <ul class="list-group list-group-flush">
@@ -77,7 +102,7 @@
                         }
                     </ul>
                 </div>
-            </div>
+            </div>*@
             @await Html.PartialAsync("_DeliveryDetails", Model.Address)
             <div class="col-12 col-md-6">
                 <div class=" mb-4">
