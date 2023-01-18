@@ -150,6 +150,9 @@
   <data name="AlreadyHaveAnAccount" xml:space="preserve">
     <value>Already have an account?</value>
   </data>
+  <data name="And" xml:space="preserve">
+    <value>and</value>
+  </data>
   <data name="AnyQuestionsOrSuggestions?ContactUs!" xml:space="preserve">
     <value>If you have any questions or suggestions? Please contact us.</value>
   </data>
@@ -600,8 +603,11 @@
   <data name="RefundPolicy" xml:space="preserve">
     <value>Refund Policy</value>
   </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
   <data name="RemoveFromFavorites" xml:space="preserve">
-    <value>RemoveFromFavorites</value>
+    <value>Remove from Favorites</value>
   </data>
   <data name="Reorder" xml:space="preserve">
     <value>Reorder</value>

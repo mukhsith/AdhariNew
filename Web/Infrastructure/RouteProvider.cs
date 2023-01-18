@@ -182,7 +182,7 @@ namespace Web.Infrastructure
                    pattern: "ORD/{orderNumber?}",
                    defaults: new { controller = "Order", action = "OrderResult" });
 
-            //order result
+            //order result sms
             endpointRouteBuilder.MapControllerRoute(
                    name: "orderresultsms",
                    pattern: "ORDER/{orderNumber?}",
@@ -230,6 +230,11 @@ namespace Web.Infrastructure
                    name: "subscriptionresult",
                    pattern: "SUB/{subscriptionNumber?}",
                    defaults: new { controller = "Subscription", action = "SubscriptionResult" });
+
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "subscriptionresultsms",
+                   pattern: "SUBSCRIPTION/{subscriptionNumber?}",
+                   defaults: new { controller = "Subscription", action = "SubscriptionResultSMS" });
 
             endpointRouteBuilder.MapControllerRoute(
                    name: "subscriptiondetails",

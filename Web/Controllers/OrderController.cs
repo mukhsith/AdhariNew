@@ -103,7 +103,7 @@ namespace Web.Controllers
                     orderModel = responseModel.Data[0];
 
                     var currentLanguage = string.Empty;
-                    var customerLanguage = orderModel.LanguageId == 1 ? "en" : "ar";
+                    var customerLanguage = orderModel.CustomerLanguageId == 1 ? "en" : "ar";
                     if (!string.IsNullOrEmpty(CultureInfo.CurrentCulture.Name))
                     {
                         currentLanguage = CultureInfo.CurrentCulture.Name.ToLower();

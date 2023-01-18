@@ -946,7 +946,7 @@ namespace API.Areas.Frontend.Helpers
 
             var walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customerId, walletTypeId: WalletType.Wallet);
             cartSummaryModel.WalletBalanceAmount = walletBalance;
-            cartSummaryModel.FormattedWalletBalanceAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletBalanceAmount, isEnglish);
+            cartSummaryModel.FormattedWalletBalanceAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletBalanceAmount, isEnglish: isEnglish);
 
             if (cartAttribute.CouponId.HasValue)
             {
@@ -1034,11 +1034,11 @@ namespace API.Areas.Frontend.Helpers
                 });
 
                 cartSummaryModel.WalletUsedAmount = walletUsedAmount;
-                cartSummaryModel.FormattedWalletUsedAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletUsedAmount, isEnglish);
+                cartSummaryModel.FormattedWalletUsedAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletUsedAmount, isEnglish: isEnglish);
             }
 
             cartSummaryModel.Total = subTotal + deliveryFee - discountAmount - cashbackAmount - walletUsedAmount;
-            cartSummaryModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(cartSummaryModel.Total, isEnglish, includeZero: true);
+            cartSummaryModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(cartSummaryModel.Total, isEnglish: isEnglish, includeZero: true);
 
             cartSummaryModel.AmountSplitUps = AmountSplitUps.OrderBy(a => a.DisplayOrder).ToList();
             cartSummaryModel.Notes = cartAttribute.Notes;
@@ -1079,6 +1079,8 @@ namespace API.Areas.Frontend.Helpers
                     var address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
                     if (address != null)
                     {
+                        checkOutModel.AddressName = address.Name;
+
                         string addressText = await _commonHelper.PrepareAddressText(address: address, isEnglish: isEnglish);
                         checkOutModel.AddressText = addressText;
                     }
@@ -1295,13 +1297,175 @@ namespace API.Areas.Frontend.Helpers
                     });
                 }
 
+                if (!string.IsNullOrEmpty(orderModel.PaymentTransId))
+                {
+                    patmentSummary.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentTransactionId : MessagesAr.PaymentTransactionId,
+                        Value = orderModel.PaymentTransId,
+                        DisplayOrder = 9
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentAuth))
+                {
+                    patmentSummary.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentAuthorizationCode : MessagesAr.PaymentAuthorizationCode,
+                        Value = orderModel.PaymentAuth,
+                        DisplayOrder = 10
+                    });
+                }
+
                 orderModel.PaymentSummary = patmentSummary.OrderBy(a => a.DisplayOrder).ToList();
+
+                //order details for web
+                List<KeyValuPairModel> orderDetails = new();
+                orderDetails.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.OrderNumber : MessagesAr.OrderNumber,
+                    Value = orderModel.OrderNumber,
+                    DisplayOrder = 0
+                });
+
+                orderDetails.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.OrderDate : MessagesAr.OrderDate,
+                    Value = orderModel.FormattedDate,
+                    DisplayOrder = 1
+                });
+
+                orderDetails.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.OrderTime : MessagesAr.OrderTime,
+                    Value = orderModel.FormattedTime,
+                    DisplayOrder = 2
+                });
+
+                orderDetails.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
+                    Value = orderModel.FormattedSubTotal,
+                    DisplayOrder = 3
+                });
+
+                if (!string.IsNullOrEmpty(orderModel.FormattedDeliveryFee))
+                {
+                    orderDetails.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                        Value = orderModel.FormattedDeliveryFee,
+                        DisplayOrder = 4
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.FormattedCouponDiscountAmount))
+                {
+                    orderDetails.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
+                        Value = orderModel.FormattedCouponDiscountAmount,
+                        DisplayOrder = 5
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.FormattedCashbackAmount))
+                {
+                    orderDetails.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
+                        Value = orderModel.FormattedCashbackAmount,
+                        DisplayOrder = 6
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.FormattedWalletUsedAmount))
+                {
+                    orderDetails.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
+                        Value = orderModel.FormattedWalletUsedAmount,
+                        DisplayOrder = 7
+                    });
+                }
+
+                orderModel.OrderDetails = orderDetails.OrderBy(a => a.DisplayOrder).ToList();
+
+                //payment details for web
+                List<KeyValuPairModel> patmentDetails = new();
+                patmentDetails.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.PaymentMethod : MessagesAr.PaymentMethod,
+                    Value = orderModel.PaymentMethod.Name,
+                    DisplayOrder = 0
+                });
+
+                patmentDetails.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.PaymentResult : MessagesAr.PaymentResult,
+                    Value = _commonHelper.GetPaymentResultTitle(order.PaymentStatusId, isEnglish),
+                    DisplayOrder = 1
+                });
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentId))
+                {
+                    patmentDetails.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentId : MessagesAr.PaymentId,
+                        Value = orderModel.PaymentId,
+                        DisplayOrder = 2
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentRefId))
+                {
+                    patmentDetails.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentReference : MessagesAr.PaymentReference,
+                        Value = orderModel.PaymentRefId,
+                        DisplayOrder = 3
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentTrackId))
+                {
+                    patmentDetails.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.TrackId : MessagesAr.TrackId,
+                        Value = orderModel.PaymentTrackId,
+                        DisplayOrder = 4
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentTransId))
+                {
+                    patmentDetails.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentTransactionId : MessagesAr.PaymentTransactionId,
+                        Value = orderModel.PaymentTransId,
+                        DisplayOrder = 5
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentAuth))
+                {
+                    patmentDetails.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentAuthorizationCode : MessagesAr.PaymentAuthorizationCode,
+                        Value = orderModel.PaymentAuth,
+                        DisplayOrder = 6
+                    });
+                }
+
+                orderModel.PaymentDetails = patmentDetails.OrderBy(a => a.DisplayOrder).ToList();
 
                 var deliveryDays = (order.DeliveryDate.Date - DateTime.Now.Date).TotalDays;
                 if (deliveryDays >= 0)
                 {
-                    orderModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
-                    orderModel.EstimatedDeliveryWithoutHeading = (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
+                    //orderModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
+                    //orderModel.EstimatedDeliveryWithoutHeading = (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
+                    orderModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + order.DeliveryDate.Date.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
+                    orderModel.EstimatedDeliveryWithoutHeading = order.DeliveryDate.Date.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
                 }
                 else
                 {
@@ -1582,6 +1746,8 @@ namespace API.Areas.Frontend.Helpers
                 var address = await _customerService.GetAddressById(subscriptionAttribute.AddressId.Value);
                 if (address != null)
                 {
+                    subscriptionCheckOutModel.AddressName = address.Name;
+
                     string addressText = await _commonHelper.PrepareAddressText(address: address, isEnglish: isEnglish);
                     subscriptionCheckOutModel.AddressText = addressText;
                 }
@@ -1713,12 +1879,15 @@ namespace API.Areas.Frontend.Helpers
                     DisplayOrder = 3
                 });
 
-                patmentSummary.Add(new KeyValuPairModel
+                if (subscriptionModel.PaymentMethod != null)
                 {
-                    Title = isEnglish ? Messages.PaymentMethod : MessagesAr.PaymentMethod,
-                    Value = subscriptionModel.PaymentMethod.Name,
-                    DisplayOrder = 4
-                });
+                    patmentSummary.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentMethod : MessagesAr.PaymentMethod,
+                        Value = subscriptionModel.PaymentMethod.Name,
+                        DisplayOrder = 4
+                    });
+                }
 
                 patmentSummary.Add(new KeyValuPairModel
                 {

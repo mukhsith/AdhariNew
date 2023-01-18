@@ -1530,7 +1530,7 @@ namespace API.Helpers
             var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(notificationType);
             if (notificationTemplate != null && notificationTemplate.SMSEnabled)
             {
-                string url = _appSettings.WebsiteUrl + "ORD/" + orderModel.OrderNumber;
+                string url = _appSettings.WebsiteUrl + "ORDER/" + orderModel.OrderNumber;
                 url = url.Replace(" ", "%20");
 
                 var messageEn = notificationTemplate.SMSMessageEn.Replace("{ordernumber}", orderModel.OrderNumber).Replace("{link}", url);
@@ -1785,7 +1785,7 @@ namespace API.Helpers
             var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(notificationType);
             if (notificationTemplate != null && notificationTemplate.SMSEnabled)
             {
-                string url = _appSettings.WebsiteUrl + "SUB/" + subscriptionModel.SubscriptionNumber;
+                string url = _appSettings.WebsiteUrl + "SUBSCRIPTION/" + subscriptionModel.SubscriptionNumber;
                 url = url.Replace(" ", "%20");
 
                 var messageEn = notificationTemplate.SMSMessageEn.Replace("{subscriptionnumber}", subscriptionModel.SubscriptionNumber).Replace("{link}", url);

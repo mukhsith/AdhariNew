@@ -31,6 +31,7 @@ namespace Utility.Models.Frontend.Sales
         public int PaymentStatusId { get; set; }
         public string SubscriptionStatusName { get; set; }
         public string SubscriptionStatusColor { get; set; }
+        public int CustomerLanguageId { get; set; }
         public AddressModel Address { get; set; }
         public Content.PaymentMethodModel PaymentMethod { get; set; }
         public CustomerModel Customer { get; set; }

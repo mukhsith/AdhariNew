@@ -32,7 +32,7 @@
                                                 @item.AddressText<br>
                                             </p>
                                         </label>
-                                        <input id="address-@item.Id" data-addressId="@item.Id" name="address" type="radio" @Html.Raw(item.Selected ? "checked" : "")>
+                                        <input class="d-none" id="address-@item.Id" data-addressId="@item.Id" name="address" type="radio" @Html.Raw(item.Selected ? "checked" : "")>
                                     </div>
                                 </div>
                             }

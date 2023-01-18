@@ -118,7 +118,7 @@
             }
         }
 
-        function addToCart(productId, quantity) {
+        function addToCart(productId, quantity, productUrl, imgUrl, title, price) {
             if (quantity == "" || parseInt(quantity) == 0) {
                 showToastErrorMessage('@SharedHtmlLocalizer["Quantity should be greater than zero"]');
                 return;
@@ -126,10 +126,11 @@
 
             $.post("@Url.RouteUrl("addcartitem")", { productId: productId, Quantity: quantity }, function (result) {
                 if (result.success) {
+                    debugger;
                     if (result.data) {
                         updateCartCount();
                         $("#a-cart").css("cursor", "pointer");
-                        //$("#a-cart").trigger("click")
+                        ProductToastAlert('success', '', result.message, '', imgUrl, title, price, productUrl);
                     }
                     else {
                         if (result.message != "")

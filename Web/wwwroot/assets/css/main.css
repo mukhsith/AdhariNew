@@ -23854,7 +23854,7 @@ body {
  */
 body {
   font-weight: 300;
-  font-family: "Poppins", "Almarai";
+  font-family: "Almarai";
   line-height: 1.5rem;
   color: #30302e;
   direction: ltr;
@@ -24683,14 +24683,12 @@ input[type=number] {
 .rotate {
   position: relative;
   width: 150px;
-  -webkit-animation: rotation 2s infinite cubic-bezier(0.65, 0.05, 0.36, 1);
-          animation: rotation 2s infinite cubic-bezier(0.65, 0.05, 0.36, 1);
+  -webkit-animation: rotation 2s infinite ease-in-out;
+  animation: rotation 2s infinite ease-in-out;
 }
 
 @-webkit-keyframes rotation {
   0% {
-    -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
     opacity: 1;
   }
   50% {
@@ -24698,15 +24696,11 @@ input[type=number] {
   }
   100% {
     opacity: 1;
-    -webkit-transform: rotateY(359deg);
-            transform: rotateY(359deg);
   }
 }
 
 @keyframes rotation {
   0% {
-    -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
     opacity: 1;
   }
   50% {
@@ -24714,8 +24708,6 @@ input[type=number] {
   }
   100% {
     opacity: 1;
-    -webkit-transform: rotateY(359deg);
-            transform: rotateY(359deg);
   }
 }
 .force-white {
@@ -24891,7 +24883,8 @@ input[type=number] {
   background-color: #f3edf0;
 }
 
-.btn-outline-danger:hover, .btn-danger:hover {
+.btn-outline-danger:hover,
+.btn-danger:hover {
   color: #FFF;
 }
 

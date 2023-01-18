@@ -569,8 +569,13 @@ namespace API.Areas.Frontend.Factories
             {
                 var orders = new List<Order>();
 
-                if (customerId > 0)
+                if (string.IsNullOrEmpty(orderNumber))
                 {
+                    if (customerId == 0)
+                    {
+                        return response;
+                    }
+
                     var customer = await _customerService.GetCustomerById(customerId);
                     if (customer == null || customer.Deleted)
                     {
@@ -583,7 +588,7 @@ namespace API.Areas.Frontend.Factories
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
-                }                
+                }
 
                 bool loadDetails = false;
                 if (id > 0)

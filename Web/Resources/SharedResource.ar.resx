@@ -150,6 +150,9 @@
   <data name="AlreadyHaveAnAccount" xml:space="preserve">
     <value>هل لديك حساب بالفعل؟</value>
   </data>
+  <data name="And" xml:space="preserve">
+    <value>و</value>
+  </data>
   <data name="AnyQuestionsOrSuggestions?ContactUs!" xml:space="preserve">
     <value>إذا كانت لديك أي أسئلة أو اقتراحات ، الرجاء التواصل معنا.</value>
   </data>
@@ -599,6 +602,9 @@
   </data>
   <data name="RefundPolicy" xml:space="preserve">
     <value>سياسة الاسترجاع</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>إزالة</value>
   </data>
   <data name="RemoveFromFavorites" xml:space="preserve">
     <value>إزالة من المفضلة</value>

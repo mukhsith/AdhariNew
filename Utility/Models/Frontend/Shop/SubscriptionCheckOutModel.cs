@@ -8,6 +8,7 @@ namespace Utility.Models.Frontend.Shop
     public class SubscriptionCheckOutModel
     {
         public string SubscriptionTitle { get; set; }
+        public string AddressName { get; set; }
         public string AddressText { get; set; }
         public string Duration { get; set; }
         public string DeliveryDate { get; set; }

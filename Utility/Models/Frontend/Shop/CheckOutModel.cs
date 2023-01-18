@@ -13,6 +13,7 @@ namespace Utility.Models.Frontend.Shop
         }
         public string EstimatedDelivery { get; set; }
         public string EstimatedDeliveryValue { get; set; }
+        public string AddressName { get; set; }
         public string AddressText { get; set; }
         public CustomerModel Customer { get; set; }
         public CartSummaryModel CartSummary { get; set; }

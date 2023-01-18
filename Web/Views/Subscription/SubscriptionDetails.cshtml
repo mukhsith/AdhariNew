@@ -54,6 +54,22 @@
                                     <span class="crossed-out-price text-decoration-line-through text-muted me-2"></span><span class="to-pay-price">@Model.FormattedTotal</span>
                                 </p>
                             </li>
+                            <li class="list-group-item border-0 px-0 py-2">
+                                <div class="d-flex flex-row bg-grey rounded-4 p-2">
+                                    <img src="@Model.Product.ImageUrl" class="me-3 rounded-3" alt="@Model.Product.Title" height="75">
+                                    <div class="d-flex flex-column me-auto w-100">
+                                        <a href="subscription-details.html" class="mb-0 fw-bold">@Model.Product.Title</a>
+                                        <ul class="ps-0 m-0 mb-2">
+                                            @foreach (var item in Model.SubscriptionPackTitles)
+                                            {
+                                                <li class="d-flex justify-content-between mb-1">
+                                                    <p class="col-10 col-lg-5 m-0">@item.Title</p>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -83,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            @await Html.PartialAsync("_DeliveryDetails", Model.Address);
+            @await Html.PartialAsync("_DeliveryDetails", Model.Address)
         </div>
     </div>
 </section>

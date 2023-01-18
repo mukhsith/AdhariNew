@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Utility.Models.Frontend.Sales.SubscriptionModel
+@inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
+@{
+    var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
+    Layout = "_LayoutReceipt";
+}
+<section class="main-content py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 offset-lg-2 col-lg-8">
+                <div class="payment-summary mb-4">
+                    <h4 class="text-primary text-start text-center fw-bold mb-3">@SharedHtmlLocalizer["SubscriptionDetails"]</h4>
+                    <div class="bg-grey row rounded-4 p-3 mx-0">
+                        <ul class="list-group list-group-flush list-card rounded-top rounded-bottom">
+                            @foreach (var item in Model.SubscriptionDetails)
+                            {
+                                <li class="list-group-item d-flex justify-content-between border-secondary px-0">
+                                    <p class="mb-0 text-muted">@item.Title</p>
+                                    <p class="mb-0 text-primary fw-bold text-end ">@item.Value</p>
+                                </li>
+                            }
+                            <li class="list-group-item border-secondary d-flex justify-content-between fs-5 px-0">
+                                <label class="text-muted">@SharedHtmlLocalizer["Total"]</label>
+                                <p class="text-primary mb-0 fw-bold">
+                                    <span class="crossed-out-price text-decoration-line-through text-muted me-2"></span><span class="to-pay-price">@Model.FormattedTotal</span>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 offset-lg-2 col-lg-8">
+                <div class="your-items mb-4">
+                    <h4 class="text-primary text-start text-center fw-bold mb-3">@SharedHtmlLocalizer["YourSubscription"]</h4>
+                    <div class="bg-grey row rounded-4 p-3 mx-0">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item border-0 px-0 py-2">
+                                <div class="d-flex flex-row bg-grey rounded-4 p-2">
+                                    <img src="@Model.Product.ImageUrl" class="me-3 rounded-3" alt="@Model.Product.Title" height="75">
+                                    <div class="d-flex flex-column me-auto w-100">
+                                        <a href="subscription-details.html" class="mb-0 fw-bold">@Model.Product.Title</a>
+                                        <ul class="ps-0 m-0 mb-2">
+                                            @foreach (var item in Model.SubscriptionPackTitles)
+                                            {
+                                                <li class="d-flex justify-content-between mb-1">
+                                                    <p class="col-10 col-lg-5 m-0">@item.Title</p>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 offset-lg-2 col-lg-8">
+                <div class="delivery-details mb-4">
+                    <h4 class="text-primary text-start text-center fw-bold mb-3">@SharedHtmlLocalizer["DeliveryDetails"]</h4>
+                    <div class="bg-grey row rounded-4 p-3 mx-0">
+                        <div class="inputGroup h-100 rounded-4 bg-grey d-flex flex-column justify-content-start align-items-start">
+                            <p class="address-name card-text mb-0 fw-bold">@Model.Address.Name</p>
+                            <p class="address-content card-text mb-0">
+                                @Model.Address.AddressText<br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

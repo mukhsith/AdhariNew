@@ -400,6 +400,8 @@
         public static string School = "مدرسة";
         public static string Mosque = "مسجد";
         public static string Government = "حكومة";
+        public static string PaymentAuthorizationCode = "رمز تفويض الدفع";
+        public static string PaymentTransactionId = "رقم العملية";
     }
 
     #region ORDER PRINT PDF For Arabic

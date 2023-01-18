@@ -400,6 +400,8 @@
         public static string School = "School";
         public static string Mosque = "Mosque";
         public static string Government = "Government";
+        public static string PaymentAuthorizationCode = "Payment Authorization Code";
+        public static string PaymentTransactionId = "Transaction ID";
     }
     #region ORDER PRINT PDF
     public static class OrderPDF

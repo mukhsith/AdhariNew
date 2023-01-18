@@ -67,7 +67,10 @@ namespace Data.EntityFramework
         #region Delivery Management
         public virtual DbSet<DeliveryBlockedDate> DeliveryBlockedDates { get; set; }
         public virtual DbSet<DeliveryTimeSlot> DeliveryTimeSlots { get; set; }
+        #endregion
 
+        #region Email Management
+        public virtual DbSet<QueuedEmail> QueuedEmails { get; set; }
         #endregion
 
         #region Coupon & Promotion Management
@@ -86,7 +89,6 @@ namespace Data.EntityFramework
         #region Admin + User Notification Templates
         public virtual DbSet<AdminNotificationTemplate> AdminNotificationTemplates { get; set; }
         public virtual DbSet<NotificationTemplate> NotificationTemplates { get; set; }
-        //public virtual DbSet<SMSTemplate>  SMSTemplates { get; set; }
         #endregion
 
         #region Push notifications
@@ -118,8 +120,7 @@ namespace Data.EntityFramework
         public virtual DbSet<Company_SenderID> Company_SenderIDs { get; set; }
         public virtual DbSet<OTPDetail> OTPDetails { get; set; }
         public virtual DbSet<SMS_Push> SMS_Pushes { get; set; }
-        public virtual DbSet<QueuedEmail> QueuedEmails { get; set; }
-
+        public virtual DbSet<SMSNotification> SMSNotifications { get; set; }
         #endregion
     }
 }

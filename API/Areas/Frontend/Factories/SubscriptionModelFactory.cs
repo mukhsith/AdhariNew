@@ -952,8 +952,13 @@ namespace API.Areas.Frontend.Factories
             {
                 var subscriptions = new List<Subscription>();
 
-                if (customerId > 0)
+                if (string.IsNullOrEmpty(subscriptionNumber))
                 {
+                    if (customerId == 0)
+                    {
+                        return response;
+                    }
+
                     var customer = await _customerService.GetCustomerById(customerId);
                     if (customer == null || customer.Deleted)
                     {

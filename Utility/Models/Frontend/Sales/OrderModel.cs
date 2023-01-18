@@ -26,16 +26,20 @@ namespace Utility.Models.Frontend.Sales
         public string PaymentId { get; set; }
         public string PaymentRefId { get; set; }
         public string PaymentTrackId { get; set; }
+        public string PaymentAuth { get; set; }
+        public string PaymentTransId { get; set; }
         public int PaymentStatusId { get; set; }
         public string FormattedItemCount { get; set; }
         public string OrderStatusName { get; set; }
         public string OrderStatusColor { get; set; }
-        public int LanguageId { get; set; }
+        public int CustomerLanguageId { get; set; }
         public AddressModel Address { get; set; }
         public Content.PaymentMethodModel PaymentMethod { get; set; }
         public CustomerModel Customer { get; set; }
         public List<KeyValuPairModel> AmountSplitUps { get; set; } = new();
         public List<KeyValuPairModel> PaymentSummary { get; set; } = new();
+        public List<KeyValuPairModel> PaymentDetails { get; set; } = new();
+        public List<KeyValuPairModel> OrderDetails { get; set; } = new();
         public List<OrderItemModel> OrderItems { get; set; } = new();
 
         #region admin

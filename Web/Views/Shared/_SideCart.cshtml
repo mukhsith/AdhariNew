@@ -28,11 +28,11 @@
                         <!-- <label class="mt-2 mb-0">Unit Price:</label> -->
                         @if (CartItem.Product.DiscountedPrice > 0)
                         {
-                            <h6 class="fw-bold mb-0 text-dark my-2">@SharedHtmlLocalizer["UnitPrice"]: <span class="text-primary">@CartItem.Product.DiscountedPrice</span></h6>
+                            <h6 class="fw-bold mb-0 text-dark my-2">@SharedHtmlLocalizer["UnitPrice"]: <span class="text-primary">@CartItem.Product.FormattedDiscountedPrice</span></h6>
                         }
                         else
                         {
-                            <h6 class="fw-bold mb-0 text-dark my-2">@SharedHtmlLocalizer["UnitPrice"]: <span class="text-primary">@CartItem.Product.Price</span></h6>
+                            <h6 class="fw-bold mb-0 text-dark my-2">@SharedHtmlLocalizer["UnitPrice"]: <span class="text-primary">@CartItem.Product.FormattedPrice</span></h6>
                         }
                     </div>
                     <div class="d-flex flex-column align-items-start">

@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Logging;
@@ -23,7 +27,7 @@ namespace Web.Controllers
             IRazorViewEngine razorViewEngine) : base(razorViewEngine)
         {
             _apiHelper = apiHelper;
-            _logger = logger.CreateLogger(typeof(OrderController).Name);
+            _logger = logger.CreateLogger(typeof(SubscriptionController).Name);
         }
 
         [HttpPost]
@@ -169,6 +173,54 @@ namespace Web.Controllers
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
                     subscriptionModel = responseModel.Data[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(subscriptionModel);
+        }
+        public async Task<IActionResult> SubscriptionResultSMS(string subscriptionNumber)
+        {
+            var subscriptionModel = new SubscriptionModel();
+            try
+            {
+                if (string.IsNullOrEmpty(subscriptionNumber))
+                {
+                    return View(subscriptionModel);
+                }
+
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<SubscriptionModel>>>("webapi/subscription/subscriptions?subscriptionNumber=" + subscriptionNumber);
+                if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
+                {
+                    subscriptionModel = responseModel.Data[0];
+
+                    var currentLanguage = string.Empty;
+                    var customerLanguage = subscriptionModel.CustomerLanguageId == 1 ? "en" : "ar";
+                    if (!string.IsNullOrEmpty(CultureInfo.CurrentCulture.Name))
+                    {
+                        currentLanguage = CultureInfo.CurrentCulture.Name.ToLower();
+                    }
+
+                    if (currentLanguage != customerLanguage)
+                    {
+                        var cultureInfo = new CultureInfo(customerLanguage);
+                        Thread.CurrentThread.CurrentUICulture = cultureInfo;
+                        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureInfo.Name);
+
+                        Response.Cookies.Append(
+                        CookieRequestCultureProvider.DefaultCookieName,
+                        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(customerLanguage == "en" ? "en-US" : "ar-KW")),
+                        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+
+                        return RedirectToRoute("subscriptionresultsms", new { subscriptionNumber = subscriptionModel.SubscriptionNumber });
+                    }
+                    else
+                    {
+                        return View(subscriptionModel);
+                    }
                 }
             }
             catch (Exception ex)
