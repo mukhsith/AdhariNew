@@ -202,6 +202,17 @@ namespace API.Extensions
                     },
                     Example = new OpenApiString("EN")
                 });
+                operation.Parameters.Add(new OpenApiParameter
+                {
+                    Name = "serviceAPIKey",
+                    In = ParameterLocation.Header,
+                    Required = false,
+                    Schema = new OpenApiSchema
+                    {
+                        Type = "String"
+                    },
+                    Example = new OpenApiString("01f65e35-1410-417e-a103-7e3300069d81")
+                });
             }
         }
     }

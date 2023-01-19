@@ -19,5 +19,7 @@ namespace Utility.Models.Admin.Sales
         public int? OrderTypeId { get; set; } = null;
         public int? AreaId { get; set; } = null;
         public int? DriverId { get; set; } = null;
+
+        public OrderStatus OrderStatusID { get; set; }
     }
 }

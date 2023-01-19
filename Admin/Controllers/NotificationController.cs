@@ -35,6 +35,29 @@ namespace Admin.Controllers
             return View();
         }
 
+
+        public IActionResult SMSNotificationList()
+        {
+            return View();
+        }
+
+        public IActionResult SMSNotificationAddEdit(int id)
+        {
+            return View(new BaseEntityId { Id = id });
+        }
+
+        public IActionResult PushNotificationList()
+        {
+            return View();
+        }
+
+        public IActionResult PushNotificationAddEdit(int id)
+        {
+            return View(new BaseEntityId { Id = id });
+        }
+
+
+
         public IActionResult AdminNotification()
         {
             return View();

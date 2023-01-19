@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutUs" xml:space="preserve">
-    <value>معلومات عنا</value>
+    <value>من نحن</value>
   </data>
   <data name="AddNewAddress" xml:space="preserve">
     <value>أضف عنوان جديد</value>
@@ -136,7 +136,7 @@
     <value>اسم العنوان مطلوب</value>
   </data>
   <data name="AddToCart" xml:space="preserve">
-    <value>أضف إلى السلة</value>
+    <value>أضف إلى العربة</value>
   </data>
   <data name="AddToFavorites" xml:space="preserve">
     <value>اضافة الى المفضلة</value>
@@ -223,7 +223,7 @@
     <value>فئة</value>
   </data>
   <data name="Checkout" xml:space="preserve">
-    <value>الدفع</value>
+    <value>إتمام الطلب</value>
   </data>
   <data name="City" xml:space="preserve">
     <value>مدينة</value>
@@ -241,7 +241,7 @@
     <value>إستمر كضيف</value>
   </data>
   <data name="ContinueShopping" xml:space="preserve">
-    <value>استمر فى التسوق</value>
+    <value>إستمر بالتسوق</value>
   </data>
   <data name="CopyLinkToClipboard" xml:space="preserve">
     <value>انسخ الرابط إلى الحافظة</value>
@@ -361,7 +361,13 @@
     <value>المحافظة مطلوب</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
-    <value>المجموع الإجمالي</value>
+    <value>إجمالي المبلغ</value>
+  </data>
+  <data name="Guest" xml:space="preserve">
+    <value>ضيف</value>
+  </data>
+  <data name="GuestUser" xml:space="preserve">
+    <value>حساب ضيف</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>الرئيسيه</value>
@@ -571,7 +577,7 @@
     <value>إدخل رمز التحقق OTP الذي تم إرساله إلى رقم هاتفك</value>
   </data>
   <data name="PleaseSelect" xml:space="preserve">
-    <value>الرجاء التحديد</value>
+    <value>الرجاء الاختيار</value>
   </data>
   <data name="PleaseVerifyYourEmailAddress" xml:space="preserve">
     <value>الرجاء التحقق من عنوان بريدك الإلكتروني</value>
@@ -583,7 +589,7 @@
     <value>سياسة الخصوصية</value>
   </data>
   <data name="ProceedToCheckout" xml:space="preserve">
-    <value>الذهاب الى بوابة الدفع</value>
+    <value>إتمام الطلب</value>
   </data>
   <data name="ProjectTitle" xml:space="preserve">
     <value>عذاري</value>
@@ -598,7 +604,7 @@
     <value>تم تطبيق الرمز الترويجي.</value>
   </data>
   <data name="Qty" xml:space="preserve">
-    <value>Qty</value>
+    <value>كمية</value>
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>الكمية</value>
@@ -667,7 +673,7 @@
     <value>خروج</value>
   </data>
   <data name="SignUp" xml:space="preserve">
-    <value>اشتراك</value>
+    <value>تسجيل</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>الحجم</value>
@@ -698,6 +704,9 @@
   </data>
   <data name="Subscribe" xml:space="preserve">
     <value>الإشتراك</value>
+  </data>
+  <data name="SubscribedProduct" xml:space="preserve">
+    <value>أصناف</value>
   </data>
   <data name="SubscriptionAmount" xml:space="preserve">
     <value>مبلغ الاشتراك</value>
@@ -736,7 +745,7 @@
     <value>مجموع</value>
   </data>
   <data name="TotalAmount" xml:space="preserve">
-    <value>Total Amount</value>
+    <value>المبلغ الإجمالي</value>
   </data>
   <data name="TrackID" xml:space="preserve">
     <value>رمز المرجع</value>
@@ -749,6 +758,9 @@
   </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>سعر الوحدة</value>
+  </data>
+  <data name="UpcomingDeliveries" xml:space="preserve">
+    <value>طلبات القادمة</value>
   </data>
   <data name="Verified" xml:space="preserve">
     <value>تم التحقق</value>

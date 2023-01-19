@@ -19,10 +19,16 @@ configureActions = () => {
             selectedTab = 0;
             selectedDataTableName = "#notdispatched-datatable-default-";
             searchForDataTable();
-        } else {
+        }
+        else if (action == "#dispatched") {
             selectedTab = 1;
             selectedDataTableName = "#dispatched-datatable-default-";
             searchFordispatchedDataTable();
+        }
+        else {
+            selectedTab = 2;
+            selectedDataTableName = "#returnedByDriver-datatable-default-";
+            searchForReturnedByDriverDataTable();
         }
         
         showLog(action);
@@ -186,6 +192,90 @@ searchFordispatchedDataTable = () => {
     });
 
 }
+
+
+
+
+searchForReturnedByDriverDataTable = () => {
+    if ($.fn.dataTable.isDataTable(selectedDataTableName)) {
+        $(selectedDataTableName).DataTable().destroy();
+    }
+
+    $(selectedDataTableName).DataTable({
+        responsive: true,
+        searching: true,
+        serverSide: true,
+        "ajax": {
+            url: getAPIUrl() + "Order/GetDeliveriesForDataTableReturned",
+            type: "POST",
+            headers: { "Authorization": 'Bearer ' + getToken() },
+            data: function (d) {
+                var search = $(":input[type=search]").val();
+                if (search.length <= 0) { showLoader(); }
+                d.selectedTab = selectedTab;
+                d.orderNumber = getTextValue("orderNumber");
+                d.deliveryDate = getDatePickerValue("deliveryDate");
+                d.orderModeID = getSelectedItemValue("orderTypeList");
+                d.orderTypeId = getSelectedItemValue("orderModeList");
+                d.areaId = getSelectedItemValue("areaList");
+                d.driverId = getSelectedItemValue("driverList");
+            },
+            "datatype": "json",
+            "dataSrc": function (json) {
+                showLog(json);
+                checkAPIResponse(json);
+                hideLoader();
+                return json.data;
+            },
+            error: function (error) {
+                showLog('error' + error);
+            },
+        },
+
+        "columns": [
+            { "data": "id" },
+            { "data": "orderNumber" },
+            { "data": "createdOn", render: function (data, type, row) { return getFormatedDate(row.createdOn); } },
+            { "data": "deliveryDate", render: function (data, type, row) { return getFormatedDate(row.deliveryDate); } },
+            /* { "data": "deliveryDate", render: row.deliveryDate.datetime('dd/MM/yyyy') },*/
+            /*         { "data": "deliveryDate" },*/
+            { "data": "orderModeName" },
+            { "data": "orderTypeName" },
+            { "data": "areaName" },
+            { "data": "customerName" },
+            { "data": "mobileNumber" },
+            { "data": "formattedDeliveryFee" },
+            { "data": "formattedTotal" },
+            { "data": "driverName" },
+            { "data": "orderStatus", "name": "orderStatusId", render: function (data, type, row) { return getOrderStatusHtml(row); }, },
+            { "data": null, render: function (data, type, row) { return getActionsHtml(row); }, },
+        ],
+        createdRow: function (row, data, dataIndex) {
+            if (data['orderTypeName'] == 'Normal') {
+                $(row).addClass('body-bg-warning odd');
+            }
+        }
+        //createdRow: function (row, data, index) { 
+        //    //change display order value, to avoid page refresh
+        //    $(row).attr('data-rowid', data.id);
+        //   // $(row).find('td:eq(1)').attr('data-displayorder', row.id);
+
+        //    //    Reinitialize ios-switch
+        //    //$(row).find('[data-plugin-ios-switch]').themePluginIOS7Switch();
+        //}, 
+        //columnDefs: [{ 'targets': 0, 'checkboxes': { 'selectRow': true } }],
+        //select: { 'style': 'multi' },
+        //order: [ [1, 'asc'] ],
+        //initComplete: function (settings, json) {
+        //    $(".table").find("input[type='checkbox']").addClass("form-check-input");
+
+        //}
+
+    });
+
+}
+
+
 getActionsHtml = (row) => {
 
     var html = ``;
@@ -204,7 +294,7 @@ getActionsHtml = (row) => {
         if (selectedTab == 0 && row.driverId == null) {
             html += `<span data-bs-toggle="modal" class="open-dispatch-delivery-modal" data-id="${row.id}" data-bs-target="#dispatch-delivery-modal"><a href="javascript: ; " class="mb-1 mt-1 me-1 btn btn-sm btn-warning dispatch-delivery-btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Dispatch Delivery" aria-label="Dispatch Delivery"><i class="fas fa-truck"></i></a></span>`;
 
-        } else if (selectedTab == 1 && row.driverId != null) {
+        } else if ((selectedTab == 1 || selectedTab == 2) && row.driverId != null && row.orderStatusId != 4) {
             html += `<span data-bs-toggle="modal" class="open-dispatch-delivery-modal" data-id="${row.id}" data-bs-target="#dispatch-delivery-modal"> <a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-danger dispatch-delivery-btn"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reassign Driver" data-bs-original-title="Reassign Driver" aria-label="Reassign Driver" ><i class="fas fa-exchange "></i></a> </span>`;
         }
         if (row.orderStatusId != 4) {

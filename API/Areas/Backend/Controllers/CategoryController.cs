@@ -238,7 +238,21 @@ namespace API.Areas.Backend.Controllers
                 if (!string.IsNullOrEmpty(fileName))
                     model.ImageMobileName = fileName;
             }
+            //Desktop image
+            if (model.ImageDesktopAr != null && model.ImageDesktopAr.Length > 0)
+            {
+                string fileName = MediaHelper.SaveImageToFile(model.ImageDesktopAr, "/" + AppSettings.ImageCategory, AppSettings.ImageCategoryResized);
+                if (!string.IsNullOrEmpty(fileName))
+                    model.ImageDesktopNameAr = fileName;
+            }
 
+            //Mobile image
+            if (model.ImageMobileAr != null && model.ImageMobileAr.Length > 0)
+            {
+                string fileName = MediaHelper.SaveImageToFile(model.ImageMobileAr, "/" + AppSettings.ImageCategory, AppSettings.ImageCategoryResized);
+                if (!string.IsNullOrEmpty(fileName))
+                    model.ImageMobileNameAr = fileName;
+            }
 
         }
 

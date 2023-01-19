@@ -13,7 +13,6 @@
     var price = string.Empty;
 }
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
-
 <section class="main-content py-5 mb-5 product-details">
     <div class="container">
         <div class="row">
@@ -36,7 +35,6 @@
                         }
                         <div class="row">
                             <div class="col-12">
-
                                 <!-- For Description -->
                                 <div class="body-bg-secondary w-auto border border-secondary rounded-3 px-3 py-2 mb-3">
                                     <!-- Product Description -->
@@ -46,20 +44,21 @@
                                         </p>
                                     </div>
                                 </div>
-
-                                @if ((Model.ProductType == ProductType.SubscriptionProduct || Model.ProductType == ProductType.BundledProduct) && Model.SubscriptionPackTitles.Count > 0)
+                                @if ((Model.ProductType == ProductType.SubscriptionProduct || Model.ProductType == ProductType.BundledProduct))
                                 {
-                                    <div class="body-bg-secondary border border-secondary rounded-3 px-3 py-2 mb-3">
-                                        <ul class="ps-0 m-0">
-                                            @foreach (var item in Model.SubscriptionPackTitles)
-                                            {
-                                                <li class="d-flex justify-content-between mb-1">
-                                                    <p class="m-0">@item.Title</p>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </div>
-
+                                    if (Model.SubscriptionPackTitles.Count > 0)
+                                    {
+                                        <div class="body-bg-secondary border border-secondary rounded-3 px-3 py-2 mb-3">
+                                            <ul class="ps-0 m-0">
+                                                @foreach (var item in Model.SubscriptionPackTitles)
+                                                {
+                                                    <li class="d-flex justify-content-between mb-1">
+                                                        <p class="m-0">@item.Title</p>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    }
                                     <!-- Unit Price -->
                                     <div class="d-flex mb-3">
                                         <div class="body-bg-secondary w-100 border border-secondary rounded-3 px-3 py-2 mb-md-0">
@@ -78,7 +77,6 @@
                                         </div>
                                     </div>
                                 }
-
                                 @if (Model.ProductType == ProductType.BaseProduct)
                                 {
                                     <!-- Attributes -->
@@ -92,7 +90,6 @@
                                             <p class="text-primary fw-bold mb-0">@Model.PiecesPerPacking</p>
                                         </div>
                                     </div>
-
                                     <!-- For Price -->
                                     <div class="body-bg-secondary w-auto border border-secondary rounded-3 px-3 py-2 mb-3 d-flex justify-content-between">
                                         <label for="">@SharedHtmlLocalizer["UnitPrice"]</label>
@@ -111,12 +108,8 @@
                                         </div>
                                     </div>
                                 }
-
-
                             </div>
-
                             <div class="col-12 col-xl-6 mb-3 mb-xl-0">
-
                                 @if (Model.ProductType == ProductType.SubscriptionProduct && Model.StockQuantity > 0)
                                 {
                                     <div class="row">
@@ -148,9 +141,7 @@
                                         </div>
                                     </div>
                                 }
-
                                 <div class="col-12 add-to-cart mb-3">
-
                                     @if (Model.StockQuantity <= 0)
                                     {
                                         <div class="d-flex w-100">
@@ -193,7 +184,6 @@
                                         </div>
                                     }
                                 </div>
-
                                 <div class="col-12 add-to-cart mb-3 mb-lg-0">
                                     <div class="d-flex">
                                         <a href="javascript:;" class="btn btn-outline-primary rounded-pill mb-3 wishlist-btn" style="z-index: 1;"
@@ -203,7 +193,6 @@
                                                 @(Model.Favorite? SharedHtmlLocalizer["RemoveFromFavorites"].Value: SharedHtmlLocalizer["AddToFavorites"].Value)
                                             </span>
                                         </a>
-
                                         <div class="dropdown">
                                             <button class="btn btn-outline-primary rounded-pill mb-3 ms-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -242,22 +231,18 @@
                                                         </span>@SharedHtmlLocalizer["CopyLinkToClipboard"]
                                                     </a>
                                                 </li>
-
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </section>
-
 <script>
     $(document).ready(function () {
         $(".btn-plus-side-cart").click(function () {

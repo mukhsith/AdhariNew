@@ -40,5 +40,7 @@ namespace Utility.Models.Frontend.Sales
         public List<KeyValuPairModel> SubscriptionDetails { get; set; } = new();
         public List<KeyValuPairModel> SubscriptionPackTitles { get; set; } = new();
         public List<KeyValuPairModel> PaymentSummary { get; set; } = new();
+        public List<SubscriptionPaymentModel> SubscriptionPayments { get; set; } = new();
+        public List<KeyValuPairModel> UpcomingDeliveries { get; set; } = new();
     }
 }

@@ -93,6 +93,61 @@
                                     <!-- ========== End Simple Image Upload Block ========== -->
                                 </div>
                             </div>
+
+
+
+                            <div class="col-12 col-lg-6 mb-3">
+                                <div class="row">
+                                    <!-- ========== Start Simple Image Upload Block ========== -->
+                                    <div class="row">
+                                        <div class="col-10 mb-3">
+                                            <label for="formFile" class="form-label">@SharedHtmlLocalizer["CategoryBannerDesktopAr"]<span class=" text-danger">*</span></label>
+                                            <input class="form-control form-control-lg border-secondary rounded-4" type="file" id="imageFileDesktopAr" name="imageFileDesktopAr">
+                                            <small class="form-text text-muted">@SharedHtmlLocalizer["ConsistencyPurpose2048X400"]</small>
+                                            <div class="invalid-feedback">
+                                                @SharedHtmlLocalizer["ConsistencyPurpose2048X400"]
+                                            </div>
+                                        </div>
+                                        <div class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                            <img src="assets/img/category-banner/1.1.jpg" class="img-fluid preview-image-1" id="imagePreviewDesktopAr" name="imagePreviewDesktopAr">
+                                            <p class="text-muted text-center mb-1 mt-2">@SharedHtmlLocalizer["Preview"]</p>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $("#imageFileDesktopAr").change(function (event) {
+                                            var image = document.getElementById('imagePreviewDesktopAr');
+                                            image.src = URL.createObjectURL(event.target.files[0]);
+                                        });
+                                    </script>
+                                    <!-- ========== End Simple Image Upload Block ========== -->
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3">
+                                <div class="row">
+                                    <!-- ========== Start Simple Image Upload Block ========== -->
+                                    <div class="row">
+                                        <div class="col-10 mb-3">
+                                            <label for="formFile" class="form-label">@SharedHtmlLocalizer["CategoryBannerMobileAr"]<span class=" text-danger">*</span></label>
+                                            <input class="form-control form-control-lg border-secondary rounded-4" type="file" id="imageFileMobileAr" name="imageFileMobileAr">
+                                            <small class="form-text text-muted">@SharedHtmlLocalizer["ConsistencyPurpose2048X600"]</small>
+                                            <div class="invalid-feedback">
+                                                @SharedHtmlLocalizer["ConsistencyPurpose2048X600"]
+                                            </div>
+                                        </div>
+                                        <div class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                            <img src="assets/img/category-banner/1.jpg" class="img-fluid preview-image-2" id="imagePreviewMobileAr" name="imagePreviewMobileAr">
+                                            <p class="text-muted text-center mb-1 mt-2">@SharedHtmlLocalizer["Preview"]</p>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $("#imageFileMobileAr").change(function (event) {
+                                            var image = document.getElementById('imagePreviewMobileAr');
+                                            image.src = URL.createObjectURL(event.target.files[0]);
+                                        });
+                                    </script>
+                                    <!-- ========== End Simple Image Upload Block ========== -->
+                                </div>
+                            </div>
                             <!-- for mobile app icon-->
                             <div class="col-12 col-lg-6 mb-3">
                                 <div class="row">

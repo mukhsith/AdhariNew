@@ -21,7 +21,7 @@ namespace Services.Backend.CustomerManagement
         Task<AdminCustomerModel> CreateCustomer(string name, string mobile, string email, bool b2b, int userid, int isEnglish);
         Task<Customer> CreateCustomer(Customer model);
         Task<DataTableResult<dynamic>> GetAllForDataTable(DataTableParam param,
-          string customerName = null, string customerMobile = null, string customerEmail = null, bool? customerType = null); 
+          string customerName = null, string customerMobile = null, string customerEmail = null, string? customerType = null); 
         Task<AdminCustomerModel> UpdateCustomerType(int userId, bool b2b);
 
         Task<bool> UpdateCustomer(Customer model);

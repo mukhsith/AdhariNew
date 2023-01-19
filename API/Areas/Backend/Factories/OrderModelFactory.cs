@@ -891,7 +891,7 @@ namespace API.Areas.Backend.Factories
                     var order = await _orderService.GetOrderById(orderId);
                     if (order is not null)
                     {
-                        return await _orderService.UpdateDriverdetails(order, (int)OrderStatus.Confirmed, (int)order.PaymentStatusId);
+                        return await _orderService.UpdateDriverdetails(order, (int)OrderStatus.ReturnedByDriver, (int)order.PaymentStatusId);
                     }
                 }
                 else if (orderType == 2)
@@ -910,10 +910,10 @@ namespace API.Areas.Backend.Factories
 
 
 
-        public async Task<bool> AddDriver(int orderId, int driverId)
-        {
-            return await _orderService.AddDriver(orderId, driverId);
-        }
+        //public async Task<bool> AddDriver(int orderId, int driverId,int OrderTypeID)
+        //{
+        //    return await _orderService.AddDriver(orderId, driverId, OrderTypeID);
+        //}
 
         public async Task<bool> RemoveDriver(int orderId)
         {
@@ -957,7 +957,7 @@ namespace API.Areas.Backend.Factories
 
 
 
-        public async Task<APIResponseModel<bool>> AddQPay(int CustomerId, int orderID, string OrderNumber,decimal Ordertotal)
+        public async Task<APIResponseModel<bool>> AddQPay(int CustomerId, int orderID, string OrderNumber,decimal Ordertotal,int OrderType)
         {
             var response = new APIResponseModel<bool>();
             try
@@ -986,7 +986,7 @@ namespace API.Areas.Backend.Factories
                     CustomerId = CustomerId,
                     PaymentNumber = qpayNumber,
                     MobileNumber = customer.MobileNumber,
-                    PaymentRequestTypeId = PaymentRequestType.Order
+                    PaymentRequestTypeId = (PaymentRequestType)OrderType
 
                 };
 

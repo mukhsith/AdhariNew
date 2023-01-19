@@ -1135,12 +1135,25 @@ namespace API.Areas.Frontend.Factories
                                 DeliveryTimeSlotId = dateAndSlot.Item2,
                                 BankServiceCharge = 0,
                                 Delivered = false,
-                                Confirmed = subscription.FullPayment
+                                Confirmed = subscription.FullPayment,
+                                PaymentStatusId = subscription.FullPayment ? PaymentStatus.Captured : null
                             };
 
                             subscriptionOrder = await _subscriptionService.CreateSubscriptionOrder(subscriptionOrder);
                             if (subscriptionOrder != null)
                             {
+                                var subscriptionOrderNumber = string.Empty;
+                                SubscriptionOrder subscriptionOrderByOrderNumber = null;
+                                do
+                                {
+                                    subscriptionOrderNumber = "11" + Common.GenerateRandomNo();
+                                    subscriptionOrderByOrderNumber = await _subscriptionService.GetSubscriptionOrderByOrderNumber(subscriptionOrderNumber);
+                                }
+                                while (subscriptionOrderByOrderNumber != null);
+
+                                subscriptionOrder.OrderNumber = subscriptionOrderNumber;
+                                await _subscriptionService.UpdateSubscriptionOrder(subscriptionOrder);
+
                                 DateTime nextExpectedDelivery = new(subscriptionOrder.DeliveryDate.AddMonths(1).Year,
                                                                        subscriptionOrder.DeliveryDate.AddMonths(1).Month, subscriptionDeliveryDate.FromDay);
                                 subscription.NextExpectedDelivery = nextExpectedDelivery;

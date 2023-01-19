@@ -187,7 +187,10 @@ namespace API.Areas.Backend.Controllers
             try
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
-               // var languageId = IsEnglish ? 0 : 64;
+                // var languageId = IsEnglish ? 0 : 64;
+
+                var itemnew = await _get.CreateSMSNotification(model.Message, model.MobileNumber, model.languageId);
+
                 var item = await  _get.CreateSMSPush(model.Message, model.MobileNumber, model.languageId);
                  response.GetById(item);
                 return Ok(response);
@@ -199,6 +202,10 @@ namespace API.Areas.Backend.Controllers
             }
             return Ok(response);
         }
+
+
+
+
 
     }
 }

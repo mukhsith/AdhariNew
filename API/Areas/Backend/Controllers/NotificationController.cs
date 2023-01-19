@@ -120,6 +120,47 @@ namespace API.Areas.Backend.Controllers
 
 
 
+        [HttpPost, Route("api/Notification/GetAllForPushDataTable")]
+        public async Task<IActionResult> GetAllForPushDataTable()
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                var items = await _get.GetAllForPushDataTable(base.GetDataTableParameters);
+                // response.GetAll(items);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
+
+
+        [HttpPost, Route("api/Notification/GetAllForSMSDataTable")]
+        public async Task<IActionResult> GetAllForSMSDataTable()
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                var items = await _get.GetAllForSMSDataTable(base.GetDataTableParameters);
+                // response.GetAll(items);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
+
 
     }
 }

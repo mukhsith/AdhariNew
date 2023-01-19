@@ -149,7 +149,7 @@ namespace API.Areas.Backend.Controllers
                 var customerEmail = HttpContext.Request.Form["customerEmail"].FirstOrDefault();
                 var customerType = HttpContext.Request.Form["customerType"].FirstOrDefault();
                 var _customerType = Utility.Helpers.Common.ConvertTextToBoolean(customerType);
-                var items = await _get.GetAllForDataTable(base.GetDataTableParameters, customerName,customerMobile,customerEmail, _customerType);
+                var items = await _get.GetAllForDataTable(base.GetDataTableParameters, customerName,customerMobile,customerEmail, customerType);
                
                 return Ok(items);
             }

@@ -194,6 +194,9 @@
                 <li class="nav-item">
                     <a class="nav-link" data-bs-target="#dispatched" href="#dispatched" data-bs-toggle="tab">Dispatched</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-target="#returnedByDriver" href="#returnedByDriver" data-bs-toggle="tab">Returned By Driver</a>
+                </li>
             </ul>
             <div class="tab-content bg-white">
                 <div id="notdispatched" class="tab-pane active">
@@ -292,6 +295,70 @@
 
                             <!-- ========== Start Table Block ========== -->
                             <table class="table border-secondary align-middle mobile-optimised dispatched-datatable-default-" id="dispatched-datatable-default-">
+                                <thead>
+                                    <tr>
+                                        <th data-priority="0" class=""></th>
+                                        <th data-priority="1" class="">Order ID</th>
+                                        <th data-priority="2" class="">Order Date</th>
+                                        <th data-priority="2" class="">Delivery Date</th>
+                                        <th data-priority="1" class="">Order Mode</th>
+                                        <th data-priority="1" class="">Order Type</th>
+                                        <th data-priority="3" class="">Area</th>
+                                        <th data-priority="4" class="">Name</th>
+                                        <th data-priority="4" class="">Mobile</th>
+                                        <th data-priority="4" class="">Delivery Fee</th>
+                                        <th data-priority="4" class="">Total Amount (KWD)</th>
+                                        <th data-priority="4" class="">Driver</th>
+                                        <th data-priority="5" class="">Order Status</th>
+                                        <th data-priority="6" class="text-center">Actions</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="border-secondary">
+                                </tbody>
+                            </table>
+
+                            <!-- ========== End Table Block ========== -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="returnedByDriver" class="tab-pane">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- ========== Start Card Block ========== -->
+                            <section class="card mb-3 border border-secondary bg-secondary" style="display:none">
+                                <div class="card-body bg-secondary">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h3 class="text-light m-0">Bulk Actions</h3>
+                                        <div class="input-group w-auto">
+                                            <!-- ========== Start Simple Select Field Block ========== -->
+
+                                            <select class="form-select form-select-lg rounded-4 border-secondary" name="" id="" aria-describedby="">
+                                                <option>Select an action..</option>
+                                                <option>Assign Driver to Selected</option>
+                                            </select>
+
+
+                                            <!-- ========== End Simple Select Field Block ========== -->
+                                            <button class="btn btn-primary fw-bold rounded-4" type="button">Perform Action</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- ========== End Card Block ========== -->
+
+                            <div class="d-flex mb-3">
+                                <div class="body-bg-primary py-1 px-3 rounded-pill me-2">
+                                    Subscription
+                                </div>
+                                <div class="body-bg-warning py-1 px-3 rounded-pill me-2">
+                                    Normal Order
+                                </div>
+                            </div>
+
+                            <!-- ========== Start Table Block ========== -->
+                            <table class="table border-secondary align-middle mobile-optimised returnedByDriver-datatable-default-" id="returnedByDriver-datatable-default-">
                                 <thead>
                                     <tr>
                                         <th data-priority="0" class=""></th>

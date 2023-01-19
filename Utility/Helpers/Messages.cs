@@ -402,6 +402,9 @@
         public static string Government = "Government";
         public static string PaymentAuthorizationCode = "Payment Authorization Code";
         public static string PaymentTransactionId = "Transaction ID";
+        public static string Date = "Date";
+        public static string Amount = "Amount";
+        public static string DeliveryStatus = "Delivery Status";
     }
     #region ORDER PRINT PDF
     public static class OrderPDF

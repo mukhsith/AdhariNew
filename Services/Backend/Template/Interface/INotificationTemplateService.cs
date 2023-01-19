@@ -35,6 +35,8 @@ namespace Services.Backend.Template.Interface
         #region SMS push
         Task<bool> CreateSMSPush(string message, string mobileNumber, int languageId = 0);
 
+        Task<bool> CreateSMSNotification(string message, string mobileNumber, int languageId = 0);
+
         Task CreateQpaySMSPush(string message, string mobileNumber, int languageId = 0);
         #endregion
     }

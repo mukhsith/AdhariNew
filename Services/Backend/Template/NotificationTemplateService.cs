@@ -225,6 +225,23 @@ namespace Services.Backend.Template.Interface
         }
 
 
+        public async Task<bool> CreateSMSNotification(string message, string mobileNumber, int languageId = 0)
+        {
+            SMSNotification smsNotification = new();
+            smsNotification.Message = message;
+            smsNotification.CustomerLanguageId = (byte)languageId;
+            smsNotification.CreatedOn = DateTime.Now;
+
+            smsNotification.ScheduleDate = DateTime.Now; 
+          
+
+            await _dbcontext.SMSNotifications.AddAsync(smsNotification);
+            //await _dbcontext.SaveChangesAsync();
+
+            return await _dbcontext.SaveChangesAsync() > 1;
+        }
+
+
         public async Task CreateQpaySMSPush(string message, string mobileNumber, int languageId = 0)
         {
             SMS_Push sms_Push = new();

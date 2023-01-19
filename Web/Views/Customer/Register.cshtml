@@ -14,7 +14,7 @@
                             <div asp-validation-summary="ModelOnly"></div>
                             <div class="col-12">
                                 <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger">*</span></label>
-                                <input type="text" asp-for="Name" class="form-control body-bg-secondary rounded-pill border-secondary" placeholder="Enter your name">
+                                <input type="text" asp-for="Name" class="form-control body-bg-secondary rounded-pill border-secondary">
                                 <div id="dvErrorName">
                                 </div>
                             </div>
@@ -30,8 +30,7 @@
                                     <input type="tel" asp-for="MobileNumber"
                                            class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
                                            aria-label="@SharedHtmlLocalizer["EnterYourMobileNumber"]"
-                                           maxlength="8" onkeypress="return validateMobileNumber(event);"
-                                           placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]" />
+                                           maxlength="8" onkeypress="return validateMobileNumber(event);" />
                                 </div>
                                 <div id="dvErrorMobileNumber">
                                 </div>
@@ -39,8 +38,7 @@
                             <div class="col-12">
                                 <label for="inputEmail4" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
                                 <input type="email" asp-for="EmailAddress"
-                                       class="form-control body-bg-secondary rounded-pill border-secondary"
-                                       placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]">
+                                       class="form-control body-bg-secondary rounded-pill border-secondary">
                                 <div id="dvErrorEmailAddress">
                                 </div>
                             </div>
@@ -111,7 +109,6 @@
         });
 
         $("#signup-btn").click(function (event) {
-            debugger;
             event.preventDefault();
 
             $('#register-form').validate();

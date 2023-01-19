@@ -1,11 +1,13 @@
 ﻿using Data.EntityFramework;
 using Data.NotifyTemplate;
 using Data.PushNotification;
+using Data.SMS;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Utility.API;
 using Utility.Models.Admin.Notifications;
 
 namespace Services.Backend.PushNotification
@@ -168,6 +170,113 @@ namespace Services.Backend.PushNotification
             model.Deleted = true;
             return await UpdateNotification(model);
         }
+
+
+        public async Task<DataTableResult<List<PushNotificationModel>>> GetAllForPushDataTable(DataTableParam param)
+        {
+            DataTableResult<List<PushNotificationModel>> result = new() { Draw = param.Draw };
+            try
+            {
+
+                var items = _dbcontext.Notifications
+                         .Select(x => new PushNotificationModel
+                         {
+                             Id = x.Id,
+                             TitleEn = x.TitleEn,
+                             TitleAr = x.TitleAr,
+                             MessageEn = x.MessageEn,
+                             MessageAr = x.MessageAr,
+                             CustomerMobile = x.Customer.MobileNumber,
+                             Sent = x.Sent,
+                             SendDate = x.CreatedOn,
+                         });
+
+
+
+                ////Sorting
+                //if (!string.IsNullOrEmpty(param.SortColumn) && !string.IsNullOrEmpty(param.SortColumnDirection))
+                //{
+                //    //using System.Linq.Dynamic.Core;
+                //    //NEEDS TO BE INSTALLED FROM NUGET PACKAGE MANAGER
+                //    items = items.OrderBy(param.SortColumn + " " + param.SortColumnDirection);
+                //}
+                //else
+                //{
+                //    items = items.OrderByDescending(x => x.CreatedOn);
+                //}
+                items = items.OrderByDescending(x => x.Id);
+                result.RecordsTotal = items.Count();
+                result.RecordsFiltered = items.Count();
+                result.Data = await items.Skip(param.Skip).Take(param.PageSize).AsNoTracking().ToListAsync();
+
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.Error = err;
+            }
+            return result;
+        }
+
+
+
+        public async Task<SMSNotification> CreateSMSNotification(SMSNotification model)
+        {
+            await _dbcontext.SMSNotifications.AddAsync(model);
+            await _dbcontext.SaveChangesAsync();
+            return model;
+        }
+
+        public async Task<bool> UpdateSMSNotification(SMSNotification model)
+        {
+            _dbcontext.Update(model);
+            return await _dbcontext.SaveChangesAsync() > 0;
+        }
+  
+
+        public async Task<DataTableResult<List<SMSNotificationModel>>> GetAllForSMSDataTable(DataTableParam param)
+        {
+            DataTableResult<List<SMSNotificationModel>> result = new() { Draw = param.Draw };
+            try
+            {
+
+                var items = _dbcontext.SMSNotifications
+                         .Select(x => new SMSNotificationModel
+                         {
+                             Id = x.Id,
+                             Message = x.Message,
+                             MobileNumber = x.Customer.MobileNumber,
+                             Sent = x.Sent,
+                             ScheduleDate = x.ScheduleDate,
+                         });
+
+
+
+                ////Sorting
+                //if (!string.IsNullOrEmpty(param.SortColumn) && !string.IsNullOrEmpty(param.SortColumnDirection))
+                //{
+                //    //using System.Linq.Dynamic.Core;
+                //    //NEEDS TO BE INSTALLED FROM NUGET PACKAGE MANAGER
+                //    items = items.OrderBy(param.SortColumn + " " + param.SortColumnDirection);
+                //}
+                //else
+                //{
+                //    items = items.OrderByDescending(x => x.CreatedOn);
+                //}
+                items = items.OrderByDescending(x => x.Id);
+                result.RecordsTotal = items.Count();
+                result.RecordsFiltered = items.Count();
+                result.Data = await items.Skip(param.Skip).Take(param.PageSize).AsNoTracking().ToListAsync();
+
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.Error = err;
+            }
+            return result;
+        }
+
         #endregion
 
         #region AdminNotification

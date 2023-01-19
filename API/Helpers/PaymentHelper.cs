@@ -602,6 +602,7 @@ namespace API.Helpers
                                             else
                                                 order.BankServiceCharge = paymentResponseModel.BankServiceCharge;
 
+                                            order.PaymentMethodId = quickPayment.PaymentMethodId.Value;
                                             order.PaymentId = paymentResponseModel.PaymentId;
                                             order.PaymentStatusId = PaymentStatus.Captured;
                                             order.PaymentResult = paymentResponseModel.Result;
@@ -628,6 +629,7 @@ namespace API.Helpers
                                             else
                                                 subscriptionOrder.BankServiceCharge = paymentResponseModel.BankServiceCharge;
 
+                                            subscriptionOrder.PaymentMethodId = quickPayment.PaymentMethodId.Value;
                                             subscriptionOrder.PaymentStatusId = PaymentStatus.Captured;
                                             subscriptionOrder.Confirmed = true;
                                             subscriptionOrder.PaymentId = paymentResponseModel.PaymentId;

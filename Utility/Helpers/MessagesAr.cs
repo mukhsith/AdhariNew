@@ -402,6 +402,9 @@
         public static string Government = "حكومة";
         public static string PaymentAuthorizationCode = "رمز تفويض الدفع";
         public static string PaymentTransactionId = "رقم العملية";
+        public static string Date = "تاريخ";
+        public static string Amount = "مبلغ";
+        public static string DeliveryStatus = "حالة التوصيل";
     }
 
     #region ORDER PRINT PDF For Arabic
@@ -409,10 +412,10 @@
     {
         public static string OrderConfirmationTitle = "تأكيد الطلب";
         public static string OrderEmailDescription = "تم تأكيد طلبك. التفاصيل كالتالي:";
-        public static string OrderAdminConfirmationTitle = "ORDER CONFIRMATION";
-        public static string OrderAdminEmailDescription = "An order has been confirmed. The details are as follows";
-        public static string OrderCancellationTitle = "ORDER CANCELLED";
-        public static string OrderCancellationEmailDescription = "Your order has been cancelled. The details are as follows";
+        public static string OrderAdminConfirmationTitle = "تأكيد الطلب";
+        public static string OrderAdminEmailDescription = "تم تأكيد الطلب. تفاصيل الطلب مذكورة أدناه";
+        public static string OrderCancellationTitle = "تم إلغاء الطلب";
+        public static string OrderCancellationEmailDescription = "تم إلغاء طلبك. تفاصيل الطلب مذكورة أدناه";
         public static string CompanyName = "عذاري";
         public static string CompanyWebsite = "www.Adhari.com";
         public static string CompanyEmail = "info@adhari.com";
@@ -465,12 +468,12 @@
         public static string Duration = "مدة";
         public static string DeliveryDay = "يوم التوصيل";
         public static string Online = "عبر الانترنت";
-        public static string LowStockTitle = "LOW STOCK REPORT";
-        public static string LowStockDescription = "The following products have low stock";
-        public static string ProductDetails = "Product Details";
-        public static string Dear = "Dear";
-        public static string Admin = "Admin";
-        public static string LowStockFooter = "Click here for more details";
+        public static string LowStockTitle = "تقرير المخزون المنخفض";
+        public static string LowStockDescription = "المنتجات التالية لديها مخزون منخفض";
+        public static string ProductDetails = "تفاصيل المنتج";
+        public static string Dear = "عزيزي";
+        public static string Admin = "مسؤل";
+        public static string LowStockFooter = "اضغط هنا لمزيد من التفاصيل";
     }
     #endregion
 }

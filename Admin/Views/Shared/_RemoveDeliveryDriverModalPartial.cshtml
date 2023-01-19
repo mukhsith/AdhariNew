@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
                 <div class="text-center">
-                    <p>@SharedHtmlLocalizer["AreYouSureTheOrderIsDelivered?"]</p>
+                    <p>@SharedHtmlLocalizer["AreYouSureYouWantToCancelDelivered?"]</p>
                 </div>
             </div>
 
@@ -28,13 +28,13 @@
 <script>
     $(document).ready(function () {
         confirmOrderDelivery = () => {
-            let orderId = $("#confirm-delivery-modal .modal-header #dialogOrderId").val();
-            let dialogOrderTypeId = $("#confirm-delivery-modal .modal-header #dialogOrderTypeId").val();
+            let orderId = $("#remove-delivery-driver-modal .modal-header #dialogOrderId").val();
+            let dialogOrderTypeId = $("#remove-delivery-driver-modal .modal-header #dialogOrderTypeId").val();
 
             let submitData = new FormData();
-            submitData.append("orderId", orderId);
-            submitData.append("orderTypeId", dialogOrderTypeId);
-            submitData.append("orderStatusId", @((Int16)OrderStatus.Delivered));
+            submitData.append("orderId", getTextValue("dialogOrderId"));
+            submitData.append("orderTypeId", getTextValue("dialogOrderTypeId"));
+            submitData.append("orderStatusId", @((Int16)OrderStatus.Confirmed));
             ajaxPost("driver/UpdateOrderStatus", submitData, cbconfirmOrderDeliverySuccess);
 
         }
@@ -43,7 +43,8 @@
 
     cbconfirmOrderDeliverySuccess = (data) => {
         if (data.success) {
-            ToastAlert('success', 'Confirm Delivery', 'Order status changed successfully');
+            ToastAlert('success', 'Confirm Delivery', 'Deliver status changed successfully');
+            $("#remove-delivery-driver-modal").modal('hide');
             reloadPage();
         } else {
             ToastAlert('error', 'Confirm Delivery', data.message);

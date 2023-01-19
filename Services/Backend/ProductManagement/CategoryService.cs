@@ -168,7 +168,14 @@ namespace Services.Backend.ProductManagement.Interface
                 if (!string.IsNullOrEmpty(model.ImageMobileName))
                 { update.ImageMobileName = model.ImageMobileName; }
 
-               
+
+                if (!string.IsNullOrEmpty(model.ImageDesktopNameAr))
+                { update.ImageDesktopNameAr = model.ImageDesktopNameAr; }
+
+                if (!string.IsNullOrEmpty(model.ImageMobileNameAr))
+                { update.ImageMobileNameAr = model.ImageMobileNameAr; }
+
+
                 update.ModifiedBy = model.ModifiedBy;
                 update.ModifiedOn = DateTime.Now;
 

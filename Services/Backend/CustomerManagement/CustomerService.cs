@@ -87,7 +87,7 @@ namespace Services.Backend.CustomerManagement
         }
 
         public async Task<DataTableResult<dynamic>> GetAllForDataTable(DataTableParam param,
-            string customerName = null, string customerMobile = null, string customerEmail = null, bool? customerType = null)
+            string customerName = null, string customerMobile = null, string customerEmail = null, string? customerType = null)
         {
             DataTableResult<dynamic> result = new() { Draw = param.Draw };
             try
@@ -118,10 +118,16 @@ namespace Services.Backend.CustomerManagement
                 {
                     items = items.Where(x => x.EmailAddress == customerEmail);
                 }
-                if (customerType.HasValue)
+                if (customerType=="1")
                 {
-                    items = items.Where(x => x.B2B == customerType.Value);
-                }
+
+                        items = items.Where(x => x.B2B == true);
+                    }
+                else if (customerType == "0")
+                {
+                        items = items.Where(x => x.B2B == false);
+                    }
+              
                 //Sorting
                 if (!string.IsNullOrEmpty(param.SortColumn) && !string.IsNullOrEmpty(param.SortColumnDirection))
                 {

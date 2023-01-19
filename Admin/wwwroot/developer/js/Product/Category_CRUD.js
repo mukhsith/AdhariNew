@@ -15,6 +15,8 @@ setup = () => {
             imageFileSelectedIcon: { required: true },
             imageFileDesktop: { required: true },
             imageFileMobile: { required: true },
+            imageFileDesktopAr: { required: true },
+            imageFileMobileAr: { required: true },
         },
         messages: {
             nameEn: { required: 'Required' },
@@ -23,7 +25,9 @@ setup = () => {
             imageFileNormalIcon: { required: 'Required', },
             imageFileSelectedIcon: { required: 'Required', },
             imageFileDesktop: { required: 'Required', },
-            imageFileMobile: { required: 'Required',},
+            imageFileMobile: { required: 'Required', },
+            imageFileDesktopAr: { required: 'Required', },
+            imageFileMobileAr: { required: 'Required', },
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -65,6 +69,16 @@ cbGetSuccess = (data) => {
         setImage("imagePreviewMobile", r.imageMobileUrl);
         $("#imageFileMobile").rules("remove", "required");
     }
+
+    if (r.imageDesktopUrlAr != null) {
+        setImage("imagePreviewDesktopAr", r.imageDesktopUrlAr);
+        $("#imageFileDesktopAr").rules("remove", "required");
+    }
+    if (r.imageMobileUrlAr != null) {
+        setImage("imagePreviewMobileAr", r.imageMobileUrlAr);
+        $("#imageFileMobileAr").rules("remove", "required");
+    }
+
     setSelectedItemByValueAndTriggerChangeEvent("productTypeList", r.productTypeId);
     setHiddenData(r);
    
@@ -98,6 +112,16 @@ saveData = () => {
     if (imageFileMobile.files[0] != undefined) {
         submitData.append("imageMobile", imageFileMobile.files[0]);
     }
+
+
+    if (imageFileDesktopAr.files[0] != undefined) {
+        submitData.append("imageDesktopAr", imageFileDesktopAr.files[0]);
+    }
+
+    if (imageFileMobileAr.files[0] != undefined) {
+        submitData.append("imageMobileAr", imageFileMobileAr.files[0]);
+    }
+
 
     submitData.append('productTypeId', getSelectedItemValue('productTypeList'));
 

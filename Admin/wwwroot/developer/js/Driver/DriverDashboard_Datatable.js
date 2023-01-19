@@ -76,7 +76,7 @@ getActionsHtml = (row) => {
                 html += `<span data-bs-toggle="modal" class="open-send-payment-link-modal" data-id="${row.id}" data-customerId="${row.mobileNumber}" data-bs-target="#send-payment-link-modal"> <a href='#' onclick='SendQpay(${row.id},${row.mobileNumber},${row.customerId},${row.total},${row.orderNumber});' class="mb-1 mt-1 me-1 btn btn-sm btn-info"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Send Payment Link" data-bs-original-title="Send Payment Link" aria-label="Send Payment Link" ><i class="fas fa-money-bill-wave"></i></a> </span>`;
             }
      
-            html += `<span data-bs-toggle="modal" class="open-reschedule-delivery-modal" data-id="${row.id}" data-bs-target="#reschedule-delivery-modal"> <a href='#' onclick='RemoveDriver(${row.id},${row.customerId},${row.orderNumber},${row.orderModeID});' class="mb-1 mt-1 me-1 btn btn-sm btn-dark"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reschedule Order" data-bs-original-title="Reschedule Order" aria-label="Remove Driver" ><i class="fas fa-undo"></i></a> </span>
+            html += `<span data-bs-toggle="modal" class="open-remove-delivery-driver-modal" data-id="${row.id}" data-bs-target="#remove-delivery-driver-modal"> <a href='#' onclick='RemoveDriver(${row.id},${row.customerId},${row.orderNumber},${row.orderModeID});' class="mb-1 mt-1 me-1 btn btn-sm btn-dark"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reschedule Order" data-bs-original-title="Reschedule Order" aria-label="Reschedule Order" ><i class="fas fa-undo"></i></a> </span>
                      `;
         }
 
@@ -198,6 +198,14 @@ sendPaymentLink = () => {
 
 }
 
+
+
+RemoveDriver = (OrderID, CustomerId, OrderNumber, OrderModeID) => {
+    setTextValue("dialogOrderId", OrderID);
+    setTextValue("dialogCustomerId", CustomerId);
+    setTextValue("dialogOrderTypeId", OrderModeID);
+    setTextValue("dialogOrderNumber", OrderNumber);
+}
 
 
 

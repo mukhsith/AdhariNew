@@ -14,20 +14,21 @@
             </div>
             <div class="modal-body">
                 <div class="text-center">
+                  
                     <p>@SharedHtmlLocalizer["AreYouSureTheOrderIsDelivered?"]</p>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
-                <button type="button" class="btn btn-success save-btn" onclick="confirmOrderDelivery()">@SharedHtmlLocalizer["Confirm"]</button>
+                <button type="button" class="btn btn-success save-btn" onclick="confirmdriverDelivery()">@SharedHtmlLocalizer["Confirm"]</button>
             </div>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
-        confirmOrderDelivery = () => {
+        confirmdriverDelivery = () => {
             let orderId = $("#confirm-delivery-modal .modal-header #dialogOrderId").val();
             let dialogOrderTypeId = $("#confirm-delivery-modal .modal-header #dialogOrderTypeId").val();
 

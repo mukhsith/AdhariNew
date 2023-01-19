@@ -27,9 +27,9 @@ namespace API.Areas.Backend.Factories
         Task<APIResponseModel<bool>> ReOrder(bool isEnglish, int customerId, int id);
         Task<bool> UpdateOrderStatus(int orderId, OrderStatus orderStatusId, bool refundDeliveryFee = false,string notes=null);
         Task<bool> UpdateDriverOrderStatus(int orderId, int orderType, OrderStatus orderStatusId, bool refundDeliveryFee = false, string notes = "");
-        Task<bool> AddDriver(int orderId, int driverId);
+        //Task<bool> AddDriver(int orderId, int driverId, int OrderType);
 
-        Task<APIResponseModel<bool>> AddQPay(int CustomerId, int orderID, string OrderNumber, decimal Ordertotal);
+        Task<APIResponseModel<bool>> AddQPay(int CustomerId, int orderID, string OrderNumber, decimal Ordertotal, int OrderType);
 
 
         Task<bool> RemoveDriver(int orderId);

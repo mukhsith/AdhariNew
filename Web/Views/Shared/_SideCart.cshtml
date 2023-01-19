@@ -1,6 +1,6 @@
 ﻿@model Utility.Models.Frontend.Shop.CartModel
 <div class="offcanvas-header border-bottom">
-    <h5 id="offcanvasCartLabel" class="mb-0">@SharedHtmlLocalizer["Cart"]</h5>
+    <h5 id="offcanvasCartLabel" class="mb-0">@SharedHtmlLocalizer["ShoppingCart"]</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="@SharedHtmlLocalizer["Close"]"></button>
 </div>
 <div class="offcanvas-body p-0">
@@ -9,18 +9,18 @@
         {
             <li class="list-group-item px-1 py-2 cart-item">
                 <div class="d-flex bg-grey rounded-4 flex-row p-2">
-                    <img src="@CartItem.Product.ImageUrl" class="me-3 rounded-3" alt="@CartItem.Product.Title" height="75">
+                    <img src="@CartItem.Product.ImageUrl" class="me-3 rounded-3 border border-1" alt="@CartItem.Product.Title" height="83">
                     <div class="d-flex flex-column me-auto">
                         <p class="mb-0 text-dark fw-bold">@CartItem.Product.Title</p>
                         <div class="btn-with-input-spinner w-50">
-                            <input type="number" value="1" min="0" max="50" step="1" class="input-spinner text-white bg-secondary fs-5 border-0" style="display: none;">
+                            <input type="number" value="1" min="0" max="50" step="1" class="input-spinner text-white bg-secondary fs-6 border-0" style="display: none;">
                             <div class="input-group rounded-5 side-cart-spinner" style="">
-                                <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold fs-5 rounded-5 rounded-end btn-minus-side-cart" type="button">
+                                <button style="min-width: 2.5rem;font-size:12px;" class="btn btn-decrement btn-secondary text-white fw-bold rounded-5 rounded-end btn-minus-side-cart" type="button">
                                     <strong>−</strong>
                                 </button>
-                                <input type="text" inputmode="decimal" style="text-align: center" class="form-control input-spinner text-white bg-secondary fs-5 border-0"
+                                <input type="text" inputmode="decimal" style="text-align: center; font-size: 12px;" class="form-control input-spinner text-white bg-secondary border-0"
                                        value="@CartItem.Quantity" data-cartid="@CartItem.Id" data-maxquantity="@CartItem.Product.StockQuantity" disabled>
-                                <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold fs-5 rounded-5 rounded-start btn-plus-side-cart" type="button">
+                                <button style="min-width: 2.5rem; font-size: 12px;" class="btn btn-increment btn-secondary text-white fw-bold rounded-5 rounded-start btn-plus-side-cart" type="button">
                                     <strong>+</strong>
                                 </button>
                             </div>
@@ -43,17 +43,41 @@
         }
     </ul>
 </div>
-<div class="offcanvas-footer border-top p-3 text-center">
+@*<div class="offcanvas-footer border-top p-3 text-center">
     <p class="text-uppercase text-primary mb-2 fw-bold">@SharedHtmlLocalizer["GrandTotal"]</p>
     <h5 class="text-uppercase fw-bold mb-3">@Model.FormattedSubTotal</h5>
     <div class="d-flex flex-row">
         <a href="@Url.RouteUrl("checkout")" class="btn btn-primary rounded-pill text-white fw-bold w-100">@SharedHtmlLocalizer["ProceedToCheckout"]</a>
-        @*<a href="#" onclick="return deletecartitems();" class="btn btn-outline-primary text-primary w-100 ms-1">@SharedHtmlLocalizer["ClearCart"]</a>*@
     </div>
     <div class="d-grid gap-2 mt-3">
         <a href="#" id="a-side-cart-continue" class="btn btn-outline-primary rounded-pill fw-bold w-100">@SharedHtmlLocalizer["ContinueShopping"]</a>
     </div>
+</div>*@
+
+
+
+<div class="offcanvas-footer border-top p-3 text-center">
+    <div class="row">
+        <div class="col-6">
+            <h5 class="text-uppercase text-primary fw-bold mb-2 text-start">@SharedHtmlLocalizer["GrandTotal"]</h5>
+        </div>
+        <div class="col-6">
+            <h5 class="text-uppercase fw-bold mb-2 text-end">@Model.FormattedSubTotal</h5>
+        </div>
+    </div>
+    <div class="justify-content-between">
+        <div class="row">
+            <div class="col-6">
+                <a href="@Url.RouteUrl("home")" class="btn btn-outline-primary rounded-pill fw-bold w-100 col-6">@SharedHtmlLocalizer["ContinueShopping"]</a>
+            </div>
+            <div class="col-6">
+                <a href="@Url.RouteUrl("checkout")" class="btn btn-primary rounded-pill text-white fw-bold w-100 col-6">@SharedHtmlLocalizer["Checkout"]</a>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 <script>
     $(document).ready(function () {
         $(".btn-plus-side-cart").click(function () {

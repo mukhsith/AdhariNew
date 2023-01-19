@@ -11,6 +11,7 @@
         Returned = 7,
         Discarded = 8,
         Failed = 9,
-        CancelledByCustomer = 10
+        CancelledByCustomer = 10,
+        ReturnedByDriver = 11
     }
 }

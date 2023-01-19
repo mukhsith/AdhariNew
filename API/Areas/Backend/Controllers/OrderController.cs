@@ -130,7 +130,44 @@ namespace API.Areas.Backend.Controllers
             }
             return Ok(response);
         }
-       
+
+
+        [HttpPost, Route("api/Order/GetDeliveriesForDataTableReturned")]
+        public async Task<IActionResult> GetDeliveriesReturnedDataTable()
+        {
+            DataTableResult<List<DeliveriesDashboard>> response = new();
+            try
+            {
+                AdminOrderDeliveriesParam param = new();
+
+                if (!await Allowed()) { return Ok(accessResponse); }
+                param.IsEnglish = IsEnglish;
+                param.DatatableParam = base.GetDataTableParameters;
+                param.SelectedTab = Utility.Helpers.Common.ConvertTextToInt(HttpContext.Request.Form["selectedTab"].FirstOrDefault());
+                param.OrderNumber = HttpContext.Request.Form["orderNumber"].FirstOrDefault();
+                var deliveryDate = HttpContext.Request.Form["deliveryDate"].FirstOrDefault();
+                var orderModeId = HttpContext.Request.Form["orderModeId"].FirstOrDefault();
+                var orderTypeId = HttpContext.Request.Form["orderTypeId"].FirstOrDefault();
+                var areaId = HttpContext.Request.Form["areaId"].FirstOrDefault();
+                var driverId = HttpContext.Request.Form["driverId"].FirstOrDefault();
+
+                param.DeliveryDate = Utility.Helpers.Common.ConvertYYYYMMDDTextToDate(deliveryDate);
+                param.OrderModeId = Utility.Helpers.Common.ConvertTextToIntOptional(orderModeId);
+                param.OrderTypeId = Utility.Helpers.Common.ConvertTextToIntOptional(orderTypeId);
+                param.AreaId = Utility.Helpers.Common.ConvertTextToIntOptional(areaId);
+                param.DriverId = Utility.Helpers.Common.ConvertTextToIntOptional(driverId);
+                param.OrderStatusID = OrderStatus.ReturnedByDriver;
+                response = await _orderModelFactory.GetDeliveriesForDataTable(param);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                //response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
 
         [HttpPost, Route("api/Order/GetSalesOrderForDataTable")]
         public async Task<IActionResult> GetSalesOrderForDataTable()
@@ -315,8 +352,8 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                var item = await _orderModelFactory.AddDriver(order.OrderId, order.DriverId);
-                response.Update(item);
+                //var item = await _orderModelFactory.AddDriver(order.OrderId, order.DriverId, order.OrderTypeId);
+                //response.Update(item);
             }
             catch (Exception ex)
             {
@@ -334,8 +371,8 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                var item = await _orderModelFactory.AddDriver(order.OrderId, order.DriverId);
-                response.Update(item);
+                //var item = await _orderModelFactory.AddDriver(order.OrderId, order.DriverId, order.OrderTypeId);
+                //response.Update(item);
             }
             catch (Exception ex)
             {
@@ -397,14 +434,14 @@ namespace API.Areas.Backend.Controllers
         /// </summary>
         [HttpPost, Route("api/order/SendQpay")]
         // public async Task<APIResponseModel<CreatePaymentModel>> CreateOrder([FromBody] CreatePaymentModel createPaymentModel)
-        public async Task<IActionResult> SendQpay(int CustomerID, int OrderID, string OrderNumber, string Ordertotal)
+        public async Task<IActionResult> SendQpay(int CustomerID, int OrderID, string OrderNumber, string Ordertotal, int OrderType)
         {
             ResponseMapper<bool> response = new();
             try
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                 var item = await _orderModelFactory.AddQPay(CustomerID,OrderID, OrderNumber,Convert.ToDecimal(Ordertotal));
+                 var item = await _orderModelFactory.AddQPay(CustomerID,OrderID, OrderNumber,Convert.ToDecimal(Ordertotal), OrderType);
                 
 
                 return Ok(item);

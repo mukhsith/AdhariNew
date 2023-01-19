@@ -6,7 +6,7 @@
 }
 <div class="col-6 col-md-4 col-lg-3 mb-3 mb-md-5" id="product-box-@Model.Id">
     <div class="product-card position-relative h-100 rounded-5 border border-1">
-        <a href="javascript:;" class="position-absolute wishlist-btn" style="z-index: 1;" onclick="return addToFavourite(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice',@isFav,true);">
+        <a href="javascript:;" class="position-absolute wishlist-btn" style="z-index: 1;display:none;" onclick="return addToFavourite(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice',@isFav,true);">
             <span class="fa-stack fs-5 fa-1x">
                 <i class="fa-solid fa-circle fa-stack-2x text-primary"></i>
                 <i id="i-add-to-favorite-@Model.Id" class="text-white @(Model.Favorite?"fa-solid":"fa-regular") fa-heart fa-stack-1x"></i>

@@ -3,6 +3,7 @@ using Data.NotifyTemplate;
 using Data.PushNotification;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Utility.API;
 using Utility.Models.Admin.Notifications;
 
 namespace Services.Backend.PushNotification
@@ -25,6 +26,12 @@ namespace Services.Backend.PushNotification
         Task<Notification> CreateNotification(Notification model);
         Task<bool> UpdateNotification(Notification model);
         Task<bool> DeleteNotification(Notification model);
+
+        Task<DataTableResult<List<PushNotificationModel>>> GetAllForPushDataTable(DataTableParam param);
+
+        Task<DataTableResult<List<SMSNotificationModel>>> GetAllForSMSDataTable(DataTableParam param);
+        
+
         #endregion
 
         #region AdminNotification

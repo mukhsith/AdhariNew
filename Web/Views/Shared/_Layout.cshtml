@@ -126,11 +126,10 @@
 
             $.post("@Url.RouteUrl("addcartitem")", { productId: productId, Quantity: quantity }, function (result) {
                 if (result.success) {
-                    debugger;
                     if (result.data) {
                         updateCartCount();
                         $("#a-cart").css("cursor", "pointer");
-                        ProductToastAlert('success', '', result.message, '', imgUrl, title, price, productUrl);
+                        //ProductToastAlert('success', '', result.message, '', imgUrl, title, price, productUrl);
                     }
                     else {
                         if (result.message != "")
@@ -250,6 +249,8 @@
                 }
 
                 if (count > 0) {
+                    $("#a-floating-btn").show();
+
                     $("#img-cart").attr("src", "/assets/img/icons/icon-cart.svg");
                     $("#a-cart").css("cursor", "pointer");
 
@@ -257,6 +258,8 @@
                     $("#a-mobile-cart").css("cursor", "pointer");
                 }
                 else {
+                    $("#a-floating-btn").hide();
+
                     $("#img-cart").attr("src", "/assets/img/icons/icon-cart-empty.svg");
                     $("#a-cart").css("cursor", "not-allowed");
 

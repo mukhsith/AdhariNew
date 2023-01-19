@@ -815,9 +815,16 @@ getOrderStatusHtml = (row) => {
         return `<span class='px-2 fw-bold text-mute'>Discarded</span>`;
     } else if (row.orderStatusId == 9) {
         return `<span class='px-2 fw-bold text-danger'>Failed</span>`;
-    } else {
+    }
+else if (row.orderStatusId == 10) {
+        return `<span class='px-2 fw-bold text-danger'>Cancelled By Customer</span>`;
+    } else if (row.orderStatusId == 11) {
+        return `<span class='px-2 fw-bold text-danger'>Returned By Driver</span>`;
+    }   else {
         return `<span class='px-2 rounded-pill fw-bold text-light bg-warning' title='Cancelled by customer'>Cancelled</span>`;
     }
+
+   
 }
 
 

@@ -17,7 +17,7 @@
                     <li class="nav-item col-12 col-md-4 px-1 px-lg-2 px-xl-3" role="presentation">
                         <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 "
                            id="continue-as-guest-tab">
-                            <span class="text-muted">@SharedHtmlLocalizer["ContinueAsGuest"]</span>
+                            <span class="text-muted">@SharedHtmlLocalizer["Guest"]</span>
                         </a>
                     </li>
                     <li class="nav-item col-12 col-md-4 px-1 px-lg-2 px-xl-3" role="presentation">
@@ -37,12 +37,12 @@
                     <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="pills-continue-as-guest-tab" tabindex="0">
                         <div class="customer-details mb-4">
                             <hr>
-                            <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["CustomerDetails"]</h4>
+                            <h4 id="h4-register-title" class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["CustomerDetails"]</h4>
                             <form id="register-form" class="needs-validation" novalidate>
                                 <div class="row">
                                     <div class="col-12 col-lg-3 col-xl-4 mb-3">
                                         <label for="inputName1" class="form-label">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger"></span></label>
-                                        <input type="text" id="Name" name="Name" class="form-control rounded-5 border-secondary body-bg-secondary" placeholder="@SharedHtmlLocalizer["EnterYourName"]">
+                                        <input type="text" id="Name" name="Name" class="form-control rounded-5 border-secondary body-bg-secondary">
                                     </div>
                                     <div class="col-12 col-lg-6 col-xl-4 mb-3">
                                         <label for="inputName2" class="form-label">
@@ -59,8 +59,7 @@
                                             </span>
                                             <input type="tel" id="MobileNumber" name="MobileNumber"
                                                    class="form-control border-start-0 rounded-5 border-secondary body-bg-secondary"
-                                                   maxlength="8" onkeypress="return validateMobileNumber(event);"
-                                                   placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]" />
+                                                   maxlength="8" onkeypress="return validateMobileNumber(event);" />
                                         </div>
                                         <div id="dvErrorMobileNumber">
                                         </div>
@@ -68,8 +67,7 @@
                                     <div class="col-12 col-lg-3 col-xl-4 mb-3">
                                         <label for="inputName2" class="form-label">@SharedHtmlLocalizer["Email"]</label>
                                         <input type="email" id="EmailAddress" name="EmailAddress"
-                                               class="form-control rounded-5 border-secondary body-bg-secondary"
-                                               placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]">
+                                               class="form-control rounded-5 border-secondary body-bg-secondary">
                                     </div>
                                     <div class="col-12 mt-3">
                                         <div class="form-check d-flex justify-content-center mx-auto text-start mb-3">
@@ -111,8 +109,7 @@
                                             </span>
                                             <input type="tel" id="LoginMobileNumber" name="LoginMobileNumber"
                                                    class="form-control border-start-0 rounded-5 border-secondary body-bg-secondary"
-                                                   maxlength="8" onkeypress="return validateMobileNumber(event);"
-                                                   placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]" />
+                                                   maxlength="8" onkeypress="return validateMobileNumber(event);"/>
                                         </div>
                                         <div id="dvErrorLoginMobileNumber">
                                         </div>
@@ -139,6 +136,7 @@
             $("#register").addClass("active show");
             $("#sign-in").removeClass("active show");
             $("#btn-continue").show();
+            $("#h4-register-title").html("@SharedHtmlLocalizer["GuestUser"]");
             return false;
         });
 
@@ -155,6 +153,7 @@
             $("#register").addClass("active show");
             $("#sign-in").removeClass("active show");
             $("#btn-continue").show();
+            $("#h4-register-title").html("@SharedHtmlLocalizer["SignUp"]");
             return false;
         });
 

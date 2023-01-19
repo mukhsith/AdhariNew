@@ -14,7 +14,7 @@
                             <div class="col-12">
                                 <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]</label>
                                 <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
-                                       id="Name" name="Name" placeholder="@SharedHtmlLocalizer["EnterYourName"]" value="@Model.Name" disabled>
+                                       id="Name" name="Name" value="@Model.Name" disabled>
                                 <div id="dvErrorName">
                                 </div>
                             </div>
@@ -33,8 +33,7 @@
                                     </span>
                                     <input type="tel" id="MobileNumber" name="MobileNumber"
                                            class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary mobile-field profile-field"
-                                           maxlength="8" onkeypress="return validateMobileNumber(event);" value="@Model.MobileNumber"
-                                           placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]" disabled />
+                                           maxlength="8" onkeypress="return validateMobileNumber(event);" value="@Model.MobileNumber" disabled />
                                 </div>
                                 <div id="dvErrorMobileNumber">
                                 </div>
@@ -42,7 +41,7 @@
                             <div class="col-12">
                                 <label for="EmailAddress" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
                                 <input type="email" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
-                                       id="EmailAddress" name="EmailAddress" placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]" value="@Model.EmailAddress" disabled>
+                                       id="EmailAddress" name="EmailAddress" value="@Model.EmailAddress" disabled>
                                 <div id="dvErrorEmailAddress">
                                 </div>
                             </div>
