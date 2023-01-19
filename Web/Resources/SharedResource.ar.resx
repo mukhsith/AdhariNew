@@ -597,6 +597,9 @@
   <data name="ProvideAnySpecialRequestsHere" xml:space="preserve">
     <value>تم تطبيق الرمز الترويجي.</value>
   </data>
+  <data name="Qty" xml:space="preserve">
+    <value>Qty</value>
+  </data>
   <data name="Quantity" xml:space="preserve">
     <value>الكمية</value>
   </data>
@@ -731,6 +734,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>مجموع</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Total Amount</value>
   </data>
   <data name="TrackID" xml:space="preserve">
     <value>رمز المرجع</value>

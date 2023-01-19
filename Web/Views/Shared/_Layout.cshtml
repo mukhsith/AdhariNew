@@ -154,12 +154,12 @@
                         if (isList) {
                             var elementId = '#i-add-to-favorite-' + productId;
                             var imgClassName = $(elementId).attr('class');
-                            if (imgClassName == "fa-regular fa-heart fa-stack-1x") {
-                                $(elementId).attr('class', 'fa-solid fa-heart fa-stack-1x');
+                            if (imgClassName == "text-white fa-regular fa-heart fa-stack-1x") {
+                                $(elementId).attr('class', 'text-white fa-solid fa-heart fa-stack-1x');
                                 ProductToastAlert('success', 'fa-solid fa-heart', result.message, '', imgUrl, title, price, productUrl);
                             }
                             else {
-                                $(elementId).attr('class', 'fa-regular fa-heart fa-stack-1x');
+                                $(elementId).attr('class', 'text-white fa-regular fa-heart fa-stack-1x');
                                 ProductToastAlert('danger', 'fa-regular fa-heart', result.message, '', imgUrl, title, price, productUrl);
                             }
                         }

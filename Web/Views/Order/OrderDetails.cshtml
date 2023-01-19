@@ -67,7 +67,7 @@
                     <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentDetails"]</h4>
                     <div class="bg-grey row rounded-4 p-3 mx-0">
                         <ul class="list-group list-group-flush list-card rounded-top rounded-bottom">
-                            @foreach (var item in Model.PaymentDetails)
+                            @foreach (var item in Model.PaymentSummary)
                             {
                                 <li class="list-group-item d-flex justify-content-between border-secondary px-0">
                                     <p class="mb-0 text-muted">@item.Title</p>

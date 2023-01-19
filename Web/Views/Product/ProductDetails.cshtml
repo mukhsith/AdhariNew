@@ -13,6 +13,7 @@
     var price = string.Empty;
 }
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
+
 <section class="main-content py-5 mb-5 product-details">
     <div class="container">
         <div class="row">
@@ -34,7 +35,18 @@
                             </div>
                         }
                         <div class="row">
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12">
+
+                                <!-- For Description -->
+                                <div class="body-bg-secondary w-auto border border-secondary rounded-3 px-3 py-2 mb-3">
+                                    <!-- Product Description -->
+                                    <div class="summernote-content">
+                                        <p>
+                                            @Html.Raw(Model.Description)
+                                        </p>
+                                    </div>
+                                </div>
+
                                 @if ((Model.ProductType == ProductType.SubscriptionProduct || Model.ProductType == ProductType.BundledProduct) && Model.SubscriptionPackTitles.Count > 0)
                                 {
                                     <div class="body-bg-secondary border border-secondary rounded-3 px-3 py-2 mb-3">
@@ -47,41 +59,65 @@
                                             }
                                         </ul>
                                     </div>
+
+                                    <!-- Unit Price -->
+                                    <div class="d-flex mb-3">
+                                        <div class="body-bg-secondary w-100 border border-secondary rounded-3 px-3 py-2 mb-md-0">
+                                            <label for="">@SharedHtmlLocalizer["UnitPrice"]</label>
+                                            @if (!string.IsNullOrEmpty(Model.FormattedDiscountedPrice))
+                                            {
+                                                <p class="text-muted fw-bold fs-5 mb-0 text-decoration-line-through">@Model.FormattedPrice</p>
+                                                <p class="text-primary fw-bold fs-3 mb-0 product-price">@Model.FormattedDiscountedPrice</p>
+                                                price = Model.FormattedDiscountedPrice;
+                                            }
+                                            else
+                                            {
+                                                <p class="text-primary fw-bold fs-3 mb-0 product-price">@Model.FormattedPrice</p>
+                                                price = Model.FormattedPrice;
+                                            }
+                                        </div>
+                                    </div>
                                 }
-                                <!-- For Price -->
-                                <div class="body-bg-secondary w-auto border border-secondary rounded-3 px-3 py-2 mb-3">
-                                    <label for="">@SharedHtmlLocalizer["UnitPrice"]</label>
-                                    @if (!string.IsNullOrEmpty(Model.FormattedDiscountedPrice))
-                                    {
-                                        <p class="text-muted fw-bold fs-5 mb-0 text-decoration-line-through">@Model.FormattedPrice</p>
-                                        <p class="text-primary fw-bold fs-3 mb-0 product-price">@Model.FormattedDiscountedPrice</p>
-                                        price = Model.FormattedDiscountedPrice;
-                                    }
-                                    else
-                                    {
-                                        <p class="text-primary fw-bold fs-3 mb-0 product-price">@Model.FormattedPrice</p>
-                                        price = Model.FormattedPrice;
-                                    }
-                                </div>
-                                <!-- Attributes -->
+
                                 @if (Model.ProductType == ProductType.BaseProduct)
                                 {
+                                    <!-- Attributes -->
                                     <div class="product-attributes d-flex my-3">
-                                        <div class="body-bg-secondary w-100 border border-secondary rounded-3 flex-fill px-2 py-1">
-                                            <label for="">@SharedHtmlLocalizer["Category"]</label>
-                                            <p class="text-primary fw-bold mb-0">@Model.CategoryName</p>
-                                        </div>
-                                        <div class="body-bg-secondary w-100 border border-secondary rounded-3 flex-fill px-2 py-1">
+                                        <div class="body-bg-secondary w-100 border border-secondary rounded-3 flex-fill px-2 py-1 d-flex flex-row justify-content-between me-3">
                                             <label for="">@SharedHtmlLocalizer["Size"]</label>
                                             <p class="text-primary fw-bold mb-0">@Model.ItemSize.Title</p>
                                         </div>
-                                        <div class="body-bg-secondary w-100 border border-secondary rounded-3 flex-fill px-2 py-1">
+                                        <div class="body-bg-secondary w-100 border border-secondary rounded-3 flex-fill px-2 py-1 d-flex flex-row justify-content-between ">
                                             <label for="">@SharedHtmlLocalizer["PackOf"]</label>
                                             <p class="text-primary fw-bold mb-0">@Model.PiecesPerPacking</p>
                                         </div>
                                     </div>
+
+                                    <!-- For Price -->
+                                    <div class="body-bg-secondary w-auto border border-secondary rounded-3 px-3 py-2 mb-3 d-flex justify-content-between">
+                                        <label for="">@SharedHtmlLocalizer["UnitPrice"]</label>
+                                        <div class="d-flex flex-row">
+                                            @if (!string.IsNullOrEmpty(Model.FormattedDiscountedPrice))
+                                            {
+                                                <p class="text-muted fw-bold fs-5 mb-0 text-decoration-line-through me-3">@Model.FormattedPrice</p>
+                                                <p class="text-primary fw-bold fs-3 mb-0 product-price">@Model.FormattedDiscountedPrice</p>
+                                                price = Model.FormattedDiscountedPrice;
+                                            }
+                                            else
+                                            {
+                                                <p class="text-primary fw-bold fs-3 mb-0 product-price">@Model.FormattedPrice</p>
+                                                price = Model.FormattedPrice;
+                                            }
+                                        </div>
+                                    </div>
                                 }
-                                @if (Model.ProductType == ProductType.SubscriptionProduct)
+
+
+                            </div>
+
+                            <div class="col-12 col-xl-6 mb-3 mb-xl-0">
+
+                                @if (Model.ProductType == ProductType.SubscriptionProduct && Model.StockQuantity > 0)
                                 {
                                     <div class="row">
                                         <!-- Duration -->
@@ -112,7 +148,9 @@
                                         </div>
                                     </div>
                                 }
-                                <div class="col-12 add-to-cart mb-3 mb-lg-0">
+
+                                <div class="col-12 add-to-cart mb-3">
+
                                     @if (Model.StockQuantity <= 0)
                                     {
                                         <div class="d-flex w-100">
@@ -155,70 +193,71 @@
                                         </div>
                                     }
                                 </div>
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <div class="d-flex">
-                                    <a href="javascript:;" class="btn btn-outline-primary rounded-pill mb-3 wishlist-btn" style="z-index: 1;"
-                                       onclick="return addToFavourite(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice',0,false);">
-                                        <i id="i-add-to-favorite-det" class="fa-heart @(Model.Favorite?"fa-solid":"fa-regular")"></i>
-                                        <span class="wishlist-btn-text" id="sp-add-fav">
-                                            @(Model.Favorite? SharedHtmlLocalizer["RemoveFromFavorites"].Value: SharedHtmlLocalizer["AddToFavorites"].Value)
-                                        </span>
-                                    </a>
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-primary rounded-pill mb-3 ms-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                            <span class="share-btn-text">@SharedHtmlLocalizer["Share"]</span>
-                                        </button>
-                                        <ul class="dropdown-menu border-primary rounded-3 p-2 shadow share-btns">
-                                            <li>
-                                                <a class="dropdown-item text-primary my-1 rounded-3 fs-6 facebook-btn" href="https://www.facebook.com/sharer/sharer.php?u=@Model.DetailsUrl" target="_blank">
-                                                    <span>
-                                                        <i class="fa-brands fa-facebook-f me-2"></i>
-                                                    </span>@SharedHtmlLocalizer["Facebook"]
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-primary my-1 rounded-3 fs-6 twitter-btn" href="https://twitter.com/share?text=@Model.DetailsUrl" target="_blank">
-                                                    <span>
-                                                        <i class="fa-brands fa-twitter me-2"></i>
-                                                    </span>@SharedHtmlLocalizer["Twitter"]
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-primary my-1 rounded-3 fs-6 whatsapp-btn" href="https://web.whatsapp.com/send?text=@Model.DetailsUrl" data-action="share/whatsapp/share" target="_blank">
-                                                    <span>
-                                                        <i class="fa-brands fa-whatsapp me-2"></i>
-                                                    </span>@SharedHtmlLocalizer["WhatsApp"]
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-primary my-1 rounded-3 fs-6 copy-link" href="#">
-                                                    <span>
-                                                        <i class="fa-solid fa-copy me-2"></i>
-                                                    </span>@SharedHtmlLocalizer["CopyLinkToClipboard"]
-                                                </a>
-                                            </li>
-                                        </ul>
+
+                                <div class="col-12 add-to-cart mb-3 mb-lg-0">
+                                    <div class="d-flex">
+                                        <a href="javascript:;" class="btn btn-outline-primary rounded-pill mb-3 wishlist-btn" style="z-index: 1;"
+                                           onclick="return addToFavourite(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice',0,false);">
+                                            <i id="i-add-to-favorite-det" class="fa-heart @(Model.Favorite?"fa-solid":"fa-regular")"></i>
+                                            <span class="wishlist-btn-text" id="sp-add-fav">
+                                                @(Model.Favorite? SharedHtmlLocalizer["RemoveFromFavorites"].Value: SharedHtmlLocalizer["AddToFavorites"].Value)
+                                            </span>
+                                        </a>
+
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-primary rounded-pill mb-3 ms-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                                <span class="share-btn-text">@SharedHtmlLocalizer["Share"]</span>
+                                            </button>
+                                            <ul class="dropdown-menu border-primary rounded-3 p-2 shadow share-btns">
+                                                <li>
+                                                    <a class="dropdown-item text-primary my-1 rounded-3 fs-6 facebook-btn" href="https://www.facebook.com/sharer/sharer.php?u=@Model.DetailsUrl" target="_blank">
+                                                        <span>
+                                                            <i class="fa-brands fa-facebook-f me-2"></i>
+                                                        </span>@SharedHtmlLocalizer["Facebook"]
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-primary my-1 rounded-3 fs-6 twitter-btn" href="https://twitter.com/share?text=@Model.DetailsUrl" target="_blank">
+                                                        <span>
+                                                            <i class="fa-brands fa-twitter me-2"></i>
+                                                        </span>@SharedHtmlLocalizer["Twitter"]
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-primary my-1 rounded-3 fs-6 whatsapp-btn" href="https://web.whatsapp.com/send?text=@Model.DetailsUrl" data-action="share/whatsapp/share" target="_blank">
+                                                        <span>
+                                                            <i class="fa-brands fa-whatsapp me-2"></i>
+                                                        </span>@SharedHtmlLocalizer["WhatsApp"]
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-primary my-1 rounded-3 fs-6 copy-link" href="#">
+                                                        <span>
+                                                            <i class="fa-solid fa-copy me-2"></i>
+                                                        </span>@SharedHtmlLocalizer["CopyLinkToClipboard"]
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Product Description -->
-                                <div class="summernote-content">
-                                    <p>
-                                        @Html.Raw(Model.Description)
-                                    </p>
-                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </section>
+
 <script>
     $(document).ready(function () {
         $(".btn-plus-side-cart").click(function () {

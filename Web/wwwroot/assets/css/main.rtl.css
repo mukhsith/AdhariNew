@@ -24180,8 +24180,6 @@ h6,
 
 .list-group-item.active,
 .list-group-item:hover {
-  font-weight: normal;
-  color: #850B5A;
   background-color: transparent !important;
   border-color: #f3edf0;
 }
