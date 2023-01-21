@@ -405,6 +405,7 @@
         public static string Date = "تاريخ";
         public static string Amount = "مبلغ";
         public static string DeliveryStatus = "حالة التوصيل";
+        public static string EstimatedDeliveryDetails = "خلال {0} ساعة";
     }
 
     #region ORDER PRINT PDF For Arabic

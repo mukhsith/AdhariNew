@@ -405,6 +405,7 @@
         public static string Date = "Date";
         public static string Amount = "Amount";
         public static string DeliveryStatus = "Delivery Status";
+        public static string EstimatedDeliveryDetails = "Within {0} hours";
     }
     #region ORDER PRINT PDF
     public static class OrderPDF

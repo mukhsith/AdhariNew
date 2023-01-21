@@ -13,5 +13,6 @@ namespace Data.Content
         [Column(TypeName = Constants.AmountDataType)]
         public decimal AndroidVersion { get; set; }
         public string PlayStoreLink { get; set; }
+        public int EstimatedDeliveryHours { get; set; }
     }
 }

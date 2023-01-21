@@ -48,6 +48,7 @@ namespace API.Areas.Frontend.Helpers
         private readonly ICustomerService _customerService;
         private readonly IPaymentMethodService _paymentMethodService;
         private readonly IOrderService _orderService;
+        private readonly ICompanySettingService _companySettingService;
         public ModelHelper(IMapper mapper,
            IOptions<AppSettingsModel> options,
            ICommonHelper commonHelper,
@@ -57,7 +58,8 @@ namespace API.Areas.Frontend.Helpers
            IAreaService areaService,
            ICustomerService customerService,
            IPaymentMethodService paymentMethodService,
-           IOrderService orderService)
+           IOrderService orderService,
+           ICompanySettingService companySettingService)
         {
             _mapper = mapper;
             _appSettings = options.Value;
@@ -69,6 +71,7 @@ namespace API.Areas.Frontend.Helpers
             _customerService = customerService;
             _paymentMethodService = paymentMethodService;
             _orderService = orderService;
+            _companySettingService = companySettingService;
         }
 
         #region Common
@@ -338,15 +341,17 @@ namespace API.Areas.Frontend.Helpers
             else
                 categoryModel.SelectedImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryResized + category.ImageSelectedIconName;
 
-            if (string.IsNullOrEmpty(category.ImageDesktopName))
+            var imageDesktopName = isEnglish ? category.ImageDesktopName : category.ImageDesktopNameAr;
+            if (string.IsNullOrEmpty(imageDesktopName))
                 categoryModel.ImageDesktopUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryDefault;
             else
-                categoryModel.ImageDesktopUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryResized + category.ImageDesktopName;
+                categoryModel.ImageDesktopUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryResized + imageDesktopName;
 
-            if (string.IsNullOrEmpty(category.ImageMobileName))
+            var imageMobileName = isEnglish ? category.ImageMobileName : category.ImageMobileNameAr;
+            if (string.IsNullOrEmpty(imageMobileName))
                 categoryModel.ImageMobileUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryDefault;
             else
-                categoryModel.ImageMobileUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryResized + category.ImageMobileName;
+                categoryModel.ImageMobileUrl = _appSettings.APIBaseUrl + _appSettings.ImageCategoryResized + imageMobileName;
 
             return categoryModel;
 
@@ -715,6 +720,17 @@ namespace API.Areas.Frontend.Helpers
                 }
             }
 
+            if (b2bCustomer)
+            {
+                productModel.MinCartQuantity = product.B2BMinCartQuantity;
+                productModel.MaxCartQuantity = product.B2BMaxCartQuantity;
+            }
+            else
+            {
+                productModel.MinCartQuantity = product.MinCartQuantity;
+                productModel.MaxCartQuantity = product.MaxCartQuantity;
+            }
+
             decimal price = product.Price;
             decimal discountedPrice = 0;
 
@@ -806,12 +822,20 @@ namespace API.Areas.Frontend.Helpers
                 if (loadSubscriptionAttributes)
                 {
                     var subscriptionDurations = await _productService.GetAllSubscriptionDuration();
+
+                    List<int> listSubscriptionDurationIds = new();
+                    var subscriptionDurationIds = product.SubscriptionDurationIds;
+                    if (!string.IsNullOrEmpty(subscriptionDurationIds))
+                    {
+                        listSubscriptionDurationIds = subscriptionDurationIds.Split(',').Select(int.Parse).ToList();
+                    }
+
+                    if (listSubscriptionDurationIds.Count > 0)
+                        subscriptionDurations = subscriptionDurations.Where(a => listSubscriptionDurationIds.Contains(a.Id)).ToList();
+
                     if (product.SpecialPackage)
                     {
-                        if (product.SubscriptionDurationId.HasValue)
-                        {
-                            subscriptionDurations = subscriptionDurations.Where(a => a.Id == product.SubscriptionDurationId.Value).ToList();
-                        }
+                        subscriptionDurations = subscriptionDurations.Take(1).ToList();
                     }
 
                     foreach (var subscriptionDuration in subscriptionDurations)
@@ -1096,10 +1120,21 @@ namespace API.Areas.Frontend.Helpers
                 }
             }
 
-            var dateAndSlot = await _commonHelper.GetAvailableDeliveryDateAndSlot();
-            var deliveryDays = (dateAndSlot.Item1.Date - DateTime.Now.Date).TotalDays;
-            checkOutModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
-            checkOutModel.EstimatedDeliveryValue = (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
+            //var dateAndSlot = await _commonHelper.GetAvailableDeliveryDateAndSlot();
+            //var deliveryDays = (dateAndSlot.Item1.Date - DateTime.Now.Date).TotalDays;
+            //checkOutModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
+            //checkOutModel.EstimatedDeliveryValue = (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
+
+            var estimatedDeliveryHours = 48;
+            var companySetting = await _companySettingService.GetDefault();
+            if (companySetting != null && companySetting.EstimatedDeliveryHours > 0)
+            {
+                estimatedDeliveryHours = companySetting.EstimatedDeliveryHours;
+            }
+
+            checkOutModel.EstimatedDeliveryValue = isEnglish ? string.Format(Messages.EstimatedDeliveryDetails, estimatedDeliveryHours) :
+                string.Format(MessagesAr.EstimatedDeliveryDetails, estimatedDeliveryHours);
+            checkOutModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + checkOutModel.EstimatedDeliveryValue;
 
             return checkOutModel;
         }
