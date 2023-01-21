@@ -135,6 +135,9 @@
             type = 1;
             $("#register").addClass("active show");
             $("#sign-in").removeClass("active show");
+            $("#continue-as-guest-tab").addClass("active");
+            $("#sign-in-tab").removeClass("active");
+            $("#sign-up-tab").removeClass("active");
             $("#btn-continue").show();
             $("#h4-register-title").html("@SharedHtmlLocalizer["GuestUser"]");
             return false;
@@ -144,6 +147,9 @@
             type = 2;
             $("#register").removeClass("active show");
             $("#sign-in").addClass("active show");
+            $("#continue-as-guest-tab").removeClass("active");
+            $("#sign-in-tab").addClass("active");
+            $("#sign-up-tab").removeClass("active");
             $("#btn-continue").show();
             return false;
         });
@@ -152,6 +158,9 @@
             type = 3;
             $("#register").addClass("active show");
             $("#sign-in").removeClass("active show");
+            $("#continue-as-guest-tab").removeClass("active");
+            $("#sign-in-tab").removeClass("active");
+            $("#sign-up-tab").addClass("active");
             $("#btn-continue").show();
             $("#h4-register-title").html("@SharedHtmlLocalizer["SignUp"]");
             return false;
@@ -307,13 +316,15 @@
         });
 
         $("#otp-button").on("click", function () {
+            $("#divIncorrectOtp").html("");
             var requestId = $("#requestId").val();
             if (requestId.length == 0)
                 return;
 
             var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
             if (otp == "") {
-                ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
+                //ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
+                $("#divIncorrectOtp").html("@SharedHtmlLocalizer["OTPIsRequired"]");
                 return;
             }
 

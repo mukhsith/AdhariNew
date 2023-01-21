@@ -25,7 +25,7 @@
                                     <input type="tel" asp-for="MobileNumber"
                                            class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
                                            maxlength="8" onkeypress="return validateMobileNumber(event);" aria-label="@SharedHtmlLocalizer["EnterYourMobileNumber"]"
-                                           placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]" />
+                                            />
                                     <div class="invalid-feedback" id="dvError">
                                     </div>
                                     <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
@@ -150,7 +150,8 @@
 
             var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
             if (otp == "") {
-                ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
+                //ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
+                $("#divIncorrectOtp").html("@SharedHtmlLocalizer["OTPIsRequired"]");
                 return;
             }
 
@@ -170,7 +171,8 @@
                 }
                 else {
                     if (result.message != "")
-                        ToastAlert('error', '', result.message);
+                        //ToastAlert('error', '', result.message);
+                        $("#divIncorrectOtp").html(result.message);
                 }
             });
         });

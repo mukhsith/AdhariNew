@@ -1,8 +1,8 @@
 ﻿@model Utility.Models.Frontend.Shop.SubscriptionSummaryModel
-<div class="cart-totals mb-4">
+@*<div class="cart-totals mb-4">
     <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentDetails"]</h4>
     <div class="bg-grey row rounded-4 p-3 mx-0">
-        <ul class="list-group list-group-flush pe-0">
+        <ul class="list-group list-group-flush pe-0">*@
             @foreach (var amountSplitUp in Model.AmountSplitUps)
             {
                 <li class="list-group-item border-secondary d-flex justify-content-between px-0 cart-summary">
@@ -11,11 +11,11 @@
                 </li>
             }
             <li class="list-group-item border-secondary d-flex justify-content-between fs-5 px-0">
-                <label class="text-muted">@SharedHtmlLocalizer["Total"]</label>
+                <label class="text-muted fw-bold">@SharedHtmlLocalizer["GrossTotal"]</label>
                 <p class="text-primary mb-0 fw-bold">
                     <span class="crossed-out-price text-decoration-line-through text-muted me-2"></span><span class="to-pay-price">@Model.FormattedTotal</span>
                 </p>
             </li>
-        </ul>
+        @*</ul>
     </div>
-</div>
+</div>*@

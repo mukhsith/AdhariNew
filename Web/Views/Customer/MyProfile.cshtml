@@ -60,6 +60,7 @@
 @await Html.PartialAsync("_OTPModel")
 <script>
     $(document).ready(function () {
+        //ToastAlert("", "Failed", "Please enter your name","");
         OTPInput();
         $("#resend").hide();
         $('#sec-otp-verification').hide();
@@ -184,7 +185,8 @@
 
             var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
             if (otp == "") {
-                ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
+                //ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
+                $("#divIncorrectOtp").html("@SharedHtmlLocalizer["OTPIsRequired"]");
                 return;
             }
 
@@ -210,7 +212,8 @@
                 }
                 else {
                     if (result.message != "")
-                        ToastAlert('error', '', result.message);
+                        //ToastAlert('error', '', result.message);
+                        $("#divIncorrectOtp").html(result.message);
                 }
             });
         });

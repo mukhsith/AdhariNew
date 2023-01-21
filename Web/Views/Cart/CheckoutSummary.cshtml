@@ -154,7 +154,7 @@
                                     <div class="order-notes">
                                         <div class="bg-grey rounded-4 mx-0">
                                             <label for="inputNotes" class="fw-bold">@SharedHtmlLocalizer["Notes"]</label>
-                                            <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" id="txt-notes" rows="3" placeholder="@SharedHtmlLocalizer["ProvideAnySpecialRequestsHere"]"></textarea>
+                                            <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" id="txt-notes" rows="3"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -275,6 +275,7 @@
         });
 
         $("#payment-method-wallet").change(function () {
+            debugger;
             var attributeTypeId = 0;
 
             if ($(this).is(':checked')) {

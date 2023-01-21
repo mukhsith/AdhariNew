@@ -169,14 +169,14 @@
                                     </div>
                                 }
                             </div>
-                            <div class="col-12 col-xl-6 mb-3 mb-xl-0">
+                            <div class="col-12 col-xl-8 mb-3">
                                 @if (Model.ProductType == ProductType.SubscriptionProduct && Model.StockQuantity > 0)
                                 {
                                     <div class="row">
                                         <!-- Duration -->
                                         <div class="col-6 mb-3">
                                             <label for="duration" class="form-label">@SharedHtmlLocalizer["Duration"]<span class="ms-1 text-danger">*</span></label>
-                                            <select class="form-select rounded-5 border-secondary body-bg-secondary" name="Duration" id="Duration">
+                                            <select class="form-select rounded-5 border-secondary body-bg-secondary no-search" name="Duration" id="Duration">
                                                 <option value="">@SharedHtmlLocalizer["PleaseSelect"]</option>
                                                 @foreach (var item in Model.SubscriptionDurations)
                                                 {
@@ -189,7 +189,7 @@
                                         <!-- Delivery Date -->
                                         <div class="col-6 mb-3">
                                             <label for="delivery-date" class="form-label">@SharedHtmlLocalizer["DeliveryDate"]<span class="ms-1 text-danger">*</span></label>
-                                            <select class="form-select rounded-5 border-secondary body-bg-secondary" name="DeliveryDate" id="DeliveryDate">
+                                            <select class="form-select rounded-5 border-secondary body-bg-secondary no-search" name="DeliveryDate" id="DeliveryDate">
                                                 <option value="">@SharedHtmlLocalizer["PleaseSelect"]</option>
                                                 @foreach (var item in Model.SubscriptionDeliveryDates)
                                                 {

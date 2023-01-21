@@ -60,6 +60,23 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade show" id="validation-model-popup" tabindex="-1" aria-labelledby="common-model-title" aria-modal="true" role="dialog" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-center">
+                <div class="mt-3">
+                    <h5 class="modal-title text-primary" id="validation-model-popup-title"></h5>
+                </div>
+                <div class="modal-body" id="validation-model-popup-description">
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-secondary text-light rounded-pill" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     @await Html.PartialAsync("_MyAccount")
     <script src="~/assets/vendor/js/bootstrap.bundle.js"></script>
     <script src="~/assets/js/util/autoPadding.js"></script>
@@ -67,6 +84,7 @@
     <script src="~/assets/vendor/js/lax.js"></script>
     <script src="~/assets/vendor/js/bootstrap-input-spinner.js"></script>
     <script src="~/assets/vendor/js/ace-responsive-menu/ace-responsive-menu-min.js"></script>
+    <script src="~/assets/vendor/js/select2.min.js"></script>
     <!-- build:js -->
     <script src="~/assets/js/main.js"></script>
     <!-- endbuild -->
