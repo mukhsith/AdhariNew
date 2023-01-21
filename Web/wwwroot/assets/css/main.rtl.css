@@ -14536,7 +14536,6 @@ span.select2-selection.select2-selection--single {
 }
 
 .select2-container {
-  width: 100% !important;
   z-index: 999;
 }
 

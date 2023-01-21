@@ -14,148 +14,68 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-12 offset-lg-2 col-lg-8">
-                <div class="your-order mb-4">
-                    <div class="d-flex justify-content-between flex-column align-items-start align-items-md-center mb-3">
-                        <h4 class="text-primary text-start text-lg-center fw-bold mb-0">@SharedHtmlLocalizer["OrderDetails"]</h4>
-                    </div>
-                    @*<h4 class="text-primary text-start text-lg-center fw-bold mb-3">@SharedHtmlLocalizer["Items"]</h4>*@
-                    <div class="bg-grey rounded-4 p-3">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item border-secondary px-0 py-2">
-                                <div class="d-flex flex-row bg-grey rounded-4 p-2">
-                                    <img src="@Model.Product.ImageUrl" class="me-3 rounded-3" alt="@Model.Product.Title" height="75">
-                                    <div class="d-flex flex-column me-auto w-100">
-                                        <a href="subscription-details.html" class="mb-0 fw-bold">@Model.Product.Title</a>
-                                        <ul class="ps-0 m-0 mb-2">
-                                            @foreach (var item in Model.SubscriptionPackTitles)
-                                            {
-                                                <li class="d-flex justify-content-between mb-1">
-                                                    <p class="col-10 col-lg-5 m-0">@item.Title</p>
-                                                </li>
-                                            }
-                                        </ul>
-                                        <div class="row g-0">
-                                            <div class="col-6 col-md-3">
-                                                <div class="w-auto py-1 me-2 mb-2">
-                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Duration"]</label>
-                                                    <p class="text-primary fw-bold fs-51 mb-0">@Model.Duration</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 col-md-3">
-                                                <div class="w-auto py-1 me-2 mb-2">
-                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["DeliveryDate"]</label>
-                                                    <p class="text-primary fw-bold fs-51 mb-0">@Model.DeliveryDate</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 col-md-3">
-                                                <div class="w-auto py-1 me-2 mb-2">
-                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]</label>
-                                                    <p class="text-primary fw-bold fs-51 mb-0">@Model.Quantity</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 col-md-3">
-                                                <div class="w-auto py-1 me-2 mb-2">
-                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
-                                                    <p class="text-primary fw-bold fs-51 mb-0">@Model.FormattedTotal</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            @await Html.PartialAsync("_SubscriptionSummary", Model.SubscriptionSummary)
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
             @*<div class="col-12 offset-lg-2 col-lg-8">
-                <div class="your-order mb-4">
-                    <h4 class="text-primary text-start text-lg-center fw-bold mb-3">@SharedHtmlLocalizer["OrderDetails"]</h4>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item border-0 px-0 py-2">
-                            <div class="d-flex flex-row bg-grey rounded-4 p-2">
-                                <img src="@Model.Product.ImageUrl" class="me-3 rounded-3" alt="@Model.Product.Title" height="75">
-                                <div class="d-flex flex-column me-auto w-100">
-                                    <a href="subscription-details.html" class="mb-0 fw-bold">@Model.Product.Title</a>
-                                    <ul class="ps-0 m-0 mb-2">
-                                        @foreach (var item in Model.SubscriptionPackTitles)
-                                        {
-                                            <li class="d-flex justify-content-between mb-1">
-                                                <p class="col-10 col-lg-5 m-0">@item.Title</p>
-                                            </li>
-                                        }
-                                    </ul>
-                                    <div class="row g-0">
-                                        <div class="col-6 col-md-3">
-                                            <div class="w-auto py-1 me-2 mb-2">
-                                                <label class="text-muted" for="">@SharedHtmlLocalizer["Duration"]</label>
-                                                <p class="text-primary fw-bold fs-51 mb-0">@Model.Duration</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-3">
-                                            <div class="w-auto py-1 me-2 mb-2">
-                                                <label class="text-muted" for="">@SharedHtmlLocalizer["DeliveryDate"]</label>
-                                                <p class="text-primary fw-bold fs-51 mb-0">@Model.DeliveryDate</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-3">
-                                            <div class="w-auto py-1 me-2 mb-2">
-                                                <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]</label>
-                                                <p class="text-primary fw-bold fs-51 mb-0">@Model.Quantity</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-3">
-                                            <div class="w-auto py-1 me-2 mb-2">
-                                                <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
-                                                <p class="text-primary fw-bold fs-51 mb-0">@Model.FormattedTotal</p>
-                                            </div>
+            <div class="your-order mb-4">
+                <h4 class="text-primary text-start text-lg-center fw-bold mb-3">@SharedHtmlLocalizer["OrderDetails"]</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item border-0 px-0 py-2">
+                        <div class="d-flex flex-row bg-grey rounded-4 p-2">
+                            <img src="@Model.Product.ImageUrl" class="me-3 rounded-3" alt="@Model.Product.Title" height="75">
+                            <div class="d-flex flex-column me-auto w-100">
+                                <a href="subscription-details.html" class="mb-0 fw-bold">@Model.Product.Title</a>
+                                <ul class="ps-0 m-0 mb-2">
+                                    @foreach (var item in Model.SubscriptionPackTitles)
+                                    {
+                                        <li class="d-flex justify-content-between mb-1">
+                                            <p class="col-10 col-lg-5 m-0">@item.Title</p>
+                                        </li>
+                                    }
+                                </ul>
+                                <div class="row g-0">
+                                    <div class="col-6 col-md-3">
+                                        <div class="w-auto py-1 me-2 mb-2">
+                                            <label class="text-muted" for="">@SharedHtmlLocalizer["Duration"]</label>
+                                            <p class="text-primary fw-bold fs-51 mb-0">@Model.Duration</p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </li>
-                        @await Html.PartialAsync("_SubscriptionSummary", Model.SubscriptionSummary)
-                    </ul>
-                </div>
-            </div>*@
-            <div class="col-12">
-                <div class="row">
-                    <div class="col-12 offset-lg-2 col-lg-8">
-                        <div class="promotion-code mb-4">
-                            <div class="bg-grey rounded-4 p-3 text-center mx-0">
-                                <a href="javascript:;" class="promotion-code text-secondary text-center mb-0 fw-bold w-100 my-2" onclick="showPromotionCodeField()">@SharedHtmlLocalizer["PromotionCode"]</a>
-                                <div class="w-100 text-center">
-                                    <div class="input-group promotion-input-field" style="">
-                                        <button class="btn btn-outline-secondary rounded-end rounded-3 body-bg-secondary fw-bold fs-3 lh-1 CloseBtn" type="button" onclick="hidePromotionCodeField()">×</button>
-                                        <input type="text" id="txt-coupon-code" class="form-control border-secondary body-bg-secondary PromoCodeValue"
-                                               value="@Model.SubscriptionSummary.CouponCode" placeholder="@SharedHtmlLocalizer["EnterCode"]">
-                                        <button id="btn-apply-coupon-code" class="btn btn-outline-secondary rounded-start rounded-3 body-bg-secondary fw-bold promotion-code-button" type="button">
-                                            @(string.IsNullOrEmpty(Model.SubscriptionSummary.CouponCode)? @SharedHtmlLocalizer["Apply"] : @SharedHtmlLocalizer["Remove"])
-                                        </button>
-                                        <div class="valid-feedback">
-                                            @SharedHtmlLocalizer["PromotionCodeApplied"]
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            @SharedHtmlLocalizer["PleaseEnterAValidPromotionCode"]
+                                    <div class="col-6 col-md-3">
+                                        <div class="w-auto py-1 me-2 mb-2">
+                                            <label class="text-muted" for="">@SharedHtmlLocalizer["DeliveryDate"]</label>
+                                            <p class="text-primary fw-bold fs-51 mb-0">@Model.DeliveryDate</p>
                                         </div>
                                     </div>
-
+                                    <div class="col-6 col-md-3">
+                                        <div class="w-auto py-1 me-2 mb-2">
+                                            <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]</label>
+                                            <p class="text-primary fw-bold fs-51 mb-0">@Model.Quantity</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="w-auto py-1 me-2 mb-2">
+                                            <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
+                                            <p class="text-primary fw-bold fs-51 mb-0">@Model.FormattedTotal</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </li>
+                    @await Html.PartialAsync("_SubscriptionSummary", Model.SubscriptionSummary)
+                </ul>
+            </div>
+        </div>*@
+            <div class="col-12">
+                <div class="row">
                     <div class="col-12 offset-lg-2 col-lg-8">
                         <div class="customer-details mb-4">
                             <div class="d-flex justify-content-between flex-column align-items-start align-items-md-center mb-3">
                                 <h4 class="text-primary text-start text-lg-center fw-bold mb-0">@SharedHtmlLocalizer["CustomerDetails"]</h4>
                                 @*@if (!string.IsNullOrEmpty(Model.Customer.Name))
-                            {
-                                <span class="text-muted text-start text-lg-center ">
-                                    @SharedHtmlLocalizer["Not"] <b>@Model.Customer.Name</b> <a class="text-nowrap" href="@Url.RouteUrl("logout")">@SharedHtmlLocalizer["SignOut"]</a>
-                                </span>
-                            }*@
+                    {
+                        <span class="text-muted text-start text-lg-center ">
+                            @SharedHtmlLocalizer["Not"] <b>@Model.Customer.Name</b> <a class="text-nowrap" href="@Url.RouteUrl("logout")">@SharedHtmlLocalizer["SignOut"]</a>
+                        </span>
+                    }*@
                             </div>
                             <div class="bg-grey row rounded-4 p-3 mx-0">
                                 <div class="col-12 col-md-4">
@@ -191,6 +111,30 @@
                                             <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" id="txt-notes" rows="3"></textarea>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="promotion-code mb-4">
+                            <div class="bg-grey rounded-4 p-3 text-center mx-0">
+                                <a href="javascript:;" class="promotion-code text-secondary text-center mb-0 fw-bold w-100 my-2" onclick="showPromotionCodeField()">@SharedHtmlLocalizer["PromotionCode"]</a>
+                                <div class="w-100 text-center">
+                                    <div class="input-group promotion-input-field" style="">
+                                        <button class="btn btn-outline-secondary rounded-end rounded-3 body-bg-secondary fw-bold fs-3 lh-1 CloseBtn" type="button" onclick="hidePromotionCodeField()">×</button>
+                                        <input type="text" id="txt-coupon-code" class="form-control border-secondary body-bg-secondary PromoCodeValue"
+                                               value="@Model.SubscriptionSummary.CouponCode" placeholder="@SharedHtmlLocalizer["EnterCode"]">
+                                        <button id="btn-apply-coupon-code" class="btn btn-outline-secondary rounded-start rounded-3 body-bg-secondary fw-bold promotion-code-button" type="button">
+                                            @(string.IsNullOrEmpty(Model.SubscriptionSummary.CouponCode)? @SharedHtmlLocalizer["Apply"] : @SharedHtmlLocalizer["Remove"])
+                                        </button>
+                                        <div class="valid-feedback">
+                                            @SharedHtmlLocalizer["PromotionCodeApplied"]
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            @SharedHtmlLocalizer["PleaseEnterAValidPromotionCode"]
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -254,6 +198,67 @@
                 </div>*@
                 </div>
             </div>
+
+
+            <div class="col-12 offset-lg-2 col-lg-8">
+                <div class="your-order mb-4">
+                    <div class="d-flex justify-content-between flex-column align-items-start align-items-md-center mb-3">
+                        <h4 class="text-primary text-start text-lg-center fw-bold mb-0">@SharedHtmlLocalizer["OrderDetails"]</h4>
+                    </div>
+                    @*<h4 class="text-primary text-start text-lg-center fw-bold mb-3">@SharedHtmlLocalizer["Items"]</h4>*@
+                    <div class="bg-grey rounded-4 p-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item border-secondary px-0 py-2">
+                                <div class="d-flex flex-row bg-grey rounded-4 p-2">
+                                    <img src="@Model.Product.ImageUrl" class="me-3 rounded-3" alt="@Model.Product.Title" height="75">
+                                    <div class="d-flex flex-column me-auto w-100">
+                                        <a href="subscription-details.html" class="mb-0 fw-bold">@Model.Product.Title</a>
+                                        <ul class="ps-0 m-0 mb-2">
+                                            @foreach (var item in Model.SubscriptionPackTitles)
+                                            {
+                                                <li class="d-flex justify-content-between mb-1">
+                                                    <p class="col-10 col-lg-5 m-0">@item.Title</p>
+                                                </li>
+                                            }
+                                        </ul>
+                                        <div class="row g-0">
+                                            <div class="col-6 col-md-3">
+                                                <div class="w-auto py-1 me-2 mb-2">
+                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Duration"]</label>
+                                                    <p class="text-primary fw-bold fs-51 mb-0">@Model.Duration</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-md-3">
+                                                <div class="w-auto py-1 me-2 mb-2">
+                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["DeliveryDate"]</label>
+                                                    <p class="text-primary fw-bold fs-51 mb-0">@Model.DeliveryDate</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-md-3">
+                                                <div class="w-auto py-1 me-2 mb-2">
+                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]</label>
+                                                    <p class="text-primary fw-bold fs-51 mb-0">@Model.Quantity</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-md-3">
+                                                <div class="w-auto py-1 me-2 mb-2">
+                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
+                                                    <p class="text-primary fw-bold fs-51 mb-0">@Model.FormattedTotal</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <div class="payment-summary border-0">
+                                @await Html.PartialAsync("_SubscriptionSummary", Model.SubscriptionSummary)
+                            </div>
+                            @*@await Html.PartialAsync("_SubscriptionSummary", Model.SubscriptionSummary)*@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-12">
                 <div class="form-check d-flex justify-content-center mx-auto text-start mb-3">
                     <input class="form-check-input mt-0 me-2" type="checkbox" id="gridCheck">

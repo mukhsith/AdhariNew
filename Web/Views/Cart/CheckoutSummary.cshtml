@@ -16,108 +16,18 @@
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row">
-            <div class="col-12 offset-lg-2 col-lg-8">
-                <div class="your-order mb-4">
-                    <div class="d-flex justify-content-between flex-column align-items-start align-items-md-center mb-3">
-                        <h4 class="text-primary text-start text-lg-center fw-bold mb-0">@SharedHtmlLocalizer["OrderDetails"]</h4>
-                    </div>
-                    @*<h4 class="text-primary text-start text-lg-center fw-bold mb-3">@SharedHtmlLocalizer["Items"]</h4>*@
-                    <div class="bg-grey rounded-4 p-3">
-                        <ul class="list-group list-group-flush">
-                            @foreach (var CartItem in Model.CartItems)
-                            {
-                                <li class="list-group-item border-secondary pe-0">
-                                    <div class="row">
-                                        <div class="col-3 col-md-1 ps-0">
-                                            <img src="@CartItem.Product.ImageUrl" class="me-3 rounded-3 img-fluid"
-                                                 alt="product-image">
-                                        </div>
-
-                                        <div class="col-9 col-md-11 d-flex align-items-center pe-0">
-                                            <div class="row w-100">
-                                                <div class="col-12 col-md-6 d-flex align-items-center justify-content-end justify-content-md-start pe-0 pe-md-3">
-                                                    <p class="mb-0 text-primary fw-bold">@CartItem.Product.Title</p>
-                                                </div>
-                                                <div class="col-12 col-md-3 d-flex align-items-center justify-content-end justify-content-md-start pe-0 pe-md-3">
-                                                    <div class="d-flex flex-row justify-content-center align-items-center text-center">
-                                                        <label class="text-muted pe-2" for="">@SharedHtmlLocalizer["Quantity"]</label>
-                                                        <p class="text-primary fw-bold fs-51 mb-0">@CartItem.Quantity</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-3 d-flex align-items-center justify-content-end justify-content-md-end pe-0">
-                                                    <div class="d-flex justify-content-start align-items-start text-start justify-content-md-end align-items-md-end text-md-end">
-                                                        <label class="text-muted pe-2" for="">@SharedHtmlLocalizer["Total"]</label>
-                                                        <p class="text-primary fw-bold fs-51 mb-0">@CartItem.FormattedTotal</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                @*<li class="list-group-item border-0 px-0 py-2">
-                <div class="d-flex flex-row bg-grey rounded-4 p-3">
-                    <img src="@CartItem.Product.ImageUrl" class="me-3 rounded-3" alt="product-image" height="75">
-                    <div class="d-flex flex-column me-auto w-100">
-                        <a href="@CartItem.Product.ImageUrl" class="mb-0 fw-bold">@CartItem.Product.Title</a>
-                        <div class="row">
-                            <div class="col-5">
-                                <div class="w-auto py-1 me-2">
-                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]</label>
-                                    <p class="text-primary fw-bold fs-51 mb-0">@CartItem.Quantity</p>
-                                </div>
-                            </div>
-                            <div class="col-7">
-                                <div class="w-auto py-1 me-2">
-                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
-                                    <p class="text-primary fw-bold fs-51 mb-0">@CartItem.FormattedTotal</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>*@
-                            }
-                            @await Html.PartialAsync("_CartSummary", Model.CartSummary)
-                        </ul>
-                    </div>
-                </div>
-                </div>
             <div class="col-12">
                 <div class="row">
-                    <div class="col-12 offset-lg-2 col-lg-8">
-                        <div class="promotion-code mb-4">
-                            <div class="bg-grey rounded-4 p-3 text-center mx-0">
-                                <a href="javascript:;" class="promotion-code text-secondary text-center mb-0 fw-bold w-100 my-2" onclick="showPromotionCodeField()">@SharedHtmlLocalizer["PromotionCode"]</a>
-                                <div class="w-100 text-center">
-                                    <div class="input-group promotion-input-field" style="">
-                                        <button class="btn btn-outline-secondary rounded-end rounded-3 body-bg-secondary fw-bold fs-3 lh-1 CloseBtn" type="button" onclick="hidePromotionCodeField()">×</button>
-                                        <input type="text" id="txt-coupon-code" class="form-control border-secondary body-bg-secondary PromoCodeValue"
-                                               value="@Model.CartSummary.CouponCode" placeholder="@SharedHtmlLocalizer["EnterCode"]">
-                                        <button id="btn-apply-coupon-code" class="btn btn-outline-secondary rounded-start rounded-3 body-bg-secondary fw-bold promotion-code-button" type="button">
-                                            @(string.IsNullOrEmpty(Model.CartSummary.CouponCode)? @SharedHtmlLocalizer["Apply"] : @SharedHtmlLocalizer["Remove"])
-                                        </button>
-                                        <div class="valid-feedback">
-                                            @SharedHtmlLocalizer["PromotionCodeApplied"]
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            @SharedHtmlLocalizer["PleaseEnterAValidPromotionCode"]
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-12 offset-lg-2 col-lg-8">
                         <div class="customer-details mb-4">
                             <div class="d-flex justify-content-between flex-column align-items-start align-items-md-center mb-3">
                                 <h4 class="text-primary text-start text-lg-center fw-bold mb-0">@SharedHtmlLocalizer["CustomerDetails"]</h4>
                                 @*@if (!string.IsNullOrEmpty(Model.Customer.Name))
-                                    {
-                                        <span class="text-muted text-start text-lg-center ">
-                                            @SharedHtmlLocalizer["Not"] <b>@Model.Customer.Name</b> <a class="text-nowrap" href="@Url.RouteUrl("logout")">@SharedHtmlLocalizer["SignOut"]</a>
-                                        </span>
-                                    }*@
+                    {
+                        <span class="text-muted text-start text-lg-center ">
+                            @SharedHtmlLocalizer["Not"] <b>@Model.Customer.Name</b> <a class="text-nowrap" href="@Url.RouteUrl("logout")">@SharedHtmlLocalizer["SignOut"]</a>
+                        </span>
+                    }*@
                             </div>
                             <div class="bg-grey row rounded-4 p-3 mx-0">
                                 <div class="col-12 col-md-4">
@@ -161,14 +71,37 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="col-12 offset-lg-2 col-lg-8">
-                            <div class="order-notes mb-4">
-                                <div class="bg-grey rounded-4 p-3 mx-0">
-                                    <label for="inputNotes" class="form-label">@SharedHtmlLocalizer["Notes"]</label>
-                                    <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" id="txt-notes" rows="3" placeholder="@SharedHtmlLocalizer["ProvideAnySpecialRequestsHere"]"></textarea>
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="promotion-code mb-4">
+                            <div class="bg-grey rounded-4 p-3 text-center mx-0">
+                                <a href="javascript:;" class="promotion-code text-secondary text-center mb-0 fw-bold w-100 my-2" onclick="showPromotionCodeField()">@SharedHtmlLocalizer["PromotionCode"]</a>
+                                <div class="w-100 text-center">
+                                    <div class="input-group promotion-input-field" style="">
+                                        <button class="btn btn-outline-secondary rounded-end rounded-3 body-bg-secondary fw-bold fs-3 lh-1 CloseBtn" type="button" onclick="hidePromotionCodeField()">×</button>
+                                        <input type="text" id="txt-coupon-code" class="form-control border-secondary body-bg-secondary PromoCodeValue"
+                                               value="@Model.CartSummary.CouponCode" placeholder="@SharedHtmlLocalizer["EnterCode"]">
+                                        <button id="btn-apply-coupon-code" class="btn btn-outline-secondary rounded-start rounded-3 body-bg-secondary fw-bold promotion-code-button" type="button">
+                                            @(string.IsNullOrEmpty(Model.CartSummary.CouponCode)? @SharedHtmlLocalizer["Apply"] : @SharedHtmlLocalizer["Remove"])
+                                        </button>
+                                        <div class="valid-feedback">
+                                            @SharedHtmlLocalizer["PromotionCodeApplied"]
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            @SharedHtmlLocalizer["PleaseEnterAValidPromotionCode"]
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
+                    </div>
+                    @*<div class="col-12 offset-lg-2 col-lg-8">
+            <div class="order-notes mb-4">
+                <div class="bg-grey rounded-4 p-3 mx-0">
+                    <label for="inputNotes" class="form-label">@SharedHtmlLocalizer["Notes"]</label>
+                    <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" id="txt-notes" rows="3" placeholder="@SharedHtmlLocalizer["ProvideAnySpecialRequestsHere"]"></textarea>
+                </div>
+            </div>
+        </div>*@
                     <div class="col-12 offset-lg-2 col-lg-8">
                         <div class="payment-method mb-4">
                             <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentMethod"]</h4>
@@ -221,8 +154,78 @@
                         </div>
                     </div>
                     @*<div class="col-12 offset-lg-2 col-lg-8 cart-summary">
-                        @await Html.PartialAsync("_CartSummary", Model.CartSummary)
-                    </div>*@
+            @await Html.PartialAsync("_CartSummary", Model.CartSummary)
+        </div>*@
+
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="your-order mb-4">
+                            <div class="d-flex justify-content-between flex-column align-items-start align-items-md-center mb-3">
+                                <h4 class="text-primary text-start text-lg-center fw-bold mb-0">@SharedHtmlLocalizer["OrderDetails"]</h4>
+                            </div>
+                            @*<h4 class="text-primary text-start text-lg-center fw-bold mb-3">@SharedHtmlLocalizer["Items"]</h4>*@
+                            <div class="bg-grey rounded-4 p-3">
+                                <ul class="list-group list-group-flush">
+                                    @foreach (var CartItem in Model.CartItems)
+                                    {
+                                        <li class="list-group-item border-secondary pe-0">
+                                            <div class="row">
+                                                <div class="col-3 col-md-1 ps-0">
+                                                    <img src="@CartItem.Product.ImageUrl" class="me-3 rounded-3 img-fluid"
+                                                         alt="product-image">
+                                                </div>
+
+                                                <div class="col-9 col-md-11 d-flex align-items-center pe-0">
+                                                    <div class="row w-100">
+                                                        <div class="col-12 col-md-6 d-flex align-items-center justify-content-end justify-content-md-start pe-0 pe-md-3">
+                                                            <p class="mb-0 text-primary fw-bold">@CartItem.Product.Title</p>
+                                                        </div>
+                                                        <div class="col-12 col-md-3 d-flex align-items-center justify-content-end justify-content-md-start pe-0 pe-md-3">
+                                                            <div class="d-flex flex-row justify-content-center align-items-center text-center">
+                                                                <label class="text-muted pe-2" for="">@SharedHtmlLocalizer["Quantity"]</label>
+                                                                <p class="text-primary fw-bold fs-51 mb-0">@CartItem.Quantity</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3 d-flex align-items-center justify-content-end justify-content-md-end pe-0">
+                                                            <div class="d-flex justify-content-start align-items-start text-start justify-content-md-end align-items-md-end text-md-end">
+                                                                <label class="text-muted pe-2" for="">@SharedHtmlLocalizer["Total"]</label>
+                                                                <p class="text-primary fw-bold fs-51 mb-0">@CartItem.FormattedTotal</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        @*<li class="list-group-item border-0 px-0 py-2">
+                                <div class="d-flex flex-row bg-grey rounded-4 p-3">
+                                    <img src="@CartItem.Product.ImageUrl" class="me-3 rounded-3" alt="product-image" height="75">
+                                    <div class="d-flex flex-column me-auto w-100">
+                                        <a href="@CartItem.Product.ImageUrl" class="mb-0 fw-bold">@CartItem.Product.Title</a>
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <div class="w-auto py-1 me-2">
+                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]</label>
+                                                    <p class="text-primary fw-bold fs-51 mb-0">@CartItem.Quantity</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-7">
+                                                <div class="w-auto py-1 me-2">
+                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
+                                                    <p class="text-primary fw-bold fs-51 mb-0">@CartItem.FormattedTotal</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>*@
+                                    }
+                                    <div class="cart-summary">
+                                        @await Html.PartialAsync("_CartSummary", Model.CartSummary)
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-12">
