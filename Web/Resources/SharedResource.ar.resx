@@ -235,7 +235,7 @@
     <value>تواصل معنا</value>
   </data>
   <data name="Continue" xml:space="preserve">
-    <value>استمر</value>
+    <value>إستمر</value>
   </data>
   <data name="ContinueAsGuest" xml:space="preserve">
     <value>إستمر كضيف</value>
@@ -301,7 +301,7 @@
     <value>أدخل رقم هاتف بشكل صحيح</value>
   </data>
   <data name="EnterCode" xml:space="preserve">
-    <value>ادخل الرمز</value>
+    <value>ادخل الكود</value>
   </data>
   <data name="EnterSubject" xml:space="preserve">
     <value>أدخل الموضوع</value>
@@ -363,6 +363,9 @@
   <data name="GrandTotal" xml:space="preserve">
     <value>إجمالي المبلغ</value>
   </data>
+  <data name="GrossTotal" xml:space="preserve">
+    <value>إجمالي</value>
+  </data>
   <data name="Guest" xml:space="preserve">
     <value>ضيف</value>
   </data>
@@ -394,7 +397,10 @@
     <value>ar</value>
   </data>
   <data name="IAgreeToThe" xml:space="preserve">
-    <value>أنا أوافق على</value>
+    <value>أوافق على</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>أصناف</value>
   </data>
   <data name="LanguageText" xml:space="preserve">
     <value>English</value>
@@ -463,7 +469,7 @@
     <value>محفظتى</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>الاسم</value>
+    <value>الاسم بالكامل</value>
   </data>
   <data name="NameIsRequired" xml:space="preserve">
     <value>الاسم مطلوب</value>
@@ -547,7 +553,7 @@
     <value>رقم الدفع</value>
   </data>
   <data name="PaymentMethod" xml:space="preserve">
-    <value>طريقة الدفع او السداد</value>
+    <value>طريقة الدفع</value>
   </data>
   <data name="PaymentNotSuccessful" xml:space="preserve">
     <value>الدفع غير ناجح</value>
@@ -565,7 +571,7 @@
     <value>ملخص الدفع</value>
   </data>
   <data name="PleaseCheckIAgreeToTheTermsAndConditions" xml:space="preserve">
-    <value>يرجى تحديد 'أوافق على الشروط والأحكام'</value>
+    <value>الرجاء أوافق على الشروط والأحكام</value>
   </data>
   <data name="PleaseChoosePaymentMethod" xml:space="preserve">
     <value>الرجاء اختيار طريقة الدفع</value>
@@ -595,7 +601,7 @@
     <value>عذاري</value>
   </data>
   <data name="PromotionCode" xml:space="preserve">
-    <value>رمز الترويجية</value>
+    <value>كود الخصم</value>
   </data>
   <data name="PromotionCodeApplied" xml:space="preserve">
     <value>تم تطبيق رمز الترويجية.</value>
@@ -612,6 +618,9 @@
   <data name="RefundPolicy" xml:space="preserve">
     <value>سياسة الاسترجاع</value>
   </data>
+  <data name="RegisteredAddresses" xml:space="preserve">
+    <value>العناوين المتاحة</value>
+  </data>
   <data name="Remove" xml:space="preserve">
     <value>إزالة</value>
   </data>
@@ -622,7 +631,7 @@
     <value>إعادة الطلب</value>
   </data>
   <data name="ResendOTP" xml:space="preserve">
-    <value>إعادة إرسال OTP</value>
+    <value>إعادة إرسال رمز التحقق OTP</value>
   </data>
   <data name="Review" xml:space="preserve">
     <value>مراجعة</value>
@@ -769,10 +778,10 @@
     <value>تحقق من</value>
   </data>
   <data name="VerifyMobileNumber" xml:space="preserve">
-    <value>تحقق من رقم الهاتف المحمول</value>
+    <value>رمز التحقق OTP</value>
   </data>
   <data name="VerifyOTP" xml:space="preserve">
-    <value>تحقق من OTP</value>
+    <value>تأكد من رمز التحقق OTP</value>
   </data>
   <data name="ViewCart" xml:space="preserve">
     <value>عرض عربة التسوق</value>

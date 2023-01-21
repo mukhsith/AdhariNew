@@ -19,9 +19,69 @@
             <div class="col-12 col-lg-10 mx-auto">
                 <div class="row">
                     <div class="col-12 col-md-4">
-                        <div class="mb-3 mb-md-0">
+                        <div class="mb-3 mb-md-0 position-relative">
                             <img src="@Model.ImageUrl" class="img-fluid border border-grey rounded-5 product-image" alt="@Model.Title">
+
+                            <a href="javascript:;" class="position-absolute wishlist-btn" style="z-index: 1;"
+                               onclick="return addToFavourite(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice',0,false);">
+                                <span class="fa-stack fa-1x">
+                                    <i class="fa-solid fa-circle fa-stack-2x text-primary"></i>
+                                    <i id="i-add-to-favorite-det" class="fa-heart fa-stack-1x text-white @(Model.Favorite ? "fa-solid":"fa-regular")"></i>
+                                </span>
+                            </a>
+
+                            <div class="dropdown position-absolute share-btn">
+                                <a href="javascript:;" class="dropdown-toggle" style="z-index: 1;" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa-solid fa-circle fa-stack-2x text-primary"></i>
+                                        <i class="fa-solid fa-share-from-square fa-stack-1x text-white"></i>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu border-primary rounded-3 p-2 shadow share-btns">
+                                    <li>
+                                        <a class="dropdown-item text-primary my-1 rounded-3 fs-6 facebook-btn"
+                                           href="https://www.facebook.com/sharer/sharer.php?u=@Model.DetailsUrl" target="_blank">
+                                            <span>
+                                                <i class="fa-brands fa-facebook-f me-2"></i>
+                                            </span>@SharedHtmlLocalizer["Facebook"]
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-primary my-1 rounded-3 fs-6 twitter-btn"
+                                           href="https://twitter.com/share?text=@Model.DetailsUrl" target="_blank">
+                                            <span>
+                                                <i class="fa-brands fa-twitter me-2"></i>
+                                            </span>@SharedHtmlLocalizer["Twitter"]
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-primary my-1 rounded-3 fs-6 whatsapp-btn"
+                                           href="https://web.whatsapp.com/send?text=@Model.DetailsUrl"
+                                           data-action="share/whatsapp/share">
+                                            <span>
+                                                <i class="fa-brands fa-whatsapp me-2"></i>
+                                            </span>@SharedHtmlLocalizer["WhatsApp"]
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-primary my-1 rounded-3 fs-6 copy-link" href="#">
+                                            <span>
+                                                <i class="fa-solid fa-copy me-2"></i>
+                                            </span>@SharedHtmlLocalizer["CopyLinkToClipboard"]
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
                         </div>
+                        @*<div class="mb-3 mb-md-0">
+                            <img src="@Model.ImageUrl" class="img-fluid border border-grey rounded-5 product-image" alt="@Model.Title">
+                        </div>*@
                     </div>
                     <div class="col-12 col-md-8">
                         <h2 class="text-primary fw-bold mb-3 product-name">@Model.Title</h2>
@@ -184,7 +244,7 @@
                                         </div>
                                     }
                                 </div>
-                                <div class="col-12 add-to-cart mb-3 mb-lg-0">
+                                @*<div class="col-12 add-to-cart mb-3 mb-lg-0">
                                     <div class="d-flex">
                                         <a href="javascript:;" class="btn btn-outline-primary rounded-pill mb-3 wishlist-btn" style="z-index: 1;"
                                            onclick="return addToFavourite(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice',0,false);">
@@ -234,7 +294,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
                         </div>
                     </div>

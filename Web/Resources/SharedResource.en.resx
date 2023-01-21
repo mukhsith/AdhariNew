@@ -363,6 +363,9 @@
   <data name="GrandTotal" xml:space="preserve">
     <value>Grand Total</value>
   </data>
+  <data name="GrossTotal" xml:space="preserve">
+    <value>Total</value>
+  </data>
   <data name="Guest" xml:space="preserve">
     <value>Guest</value>
   </data>
@@ -395,6 +398,9 @@
   </data>
   <data name="IAgreeToThe" xml:space="preserve">
     <value>I agree to the</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Items</value>
   </data>
   <data name="LanguageText" xml:space="preserve">
     <value>عربي</value>
@@ -463,7 +469,7 @@
     <value>My Wallet</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Full Name</value>
   </data>
   <data name="NameIsRequired" xml:space="preserve">
     <value>Name is required</value>
@@ -611,6 +617,9 @@
   </data>
   <data name="RefundPolicy" xml:space="preserve">
     <value>Refund Policy</value>
+  </data>
+  <data name="RegisteredAddresses" xml:space="preserve">
+    <value>Registered Addresses</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>

@@ -7,7 +7,7 @@
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Checkout"].Value });
     breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("subscriptioncheckout"), Title = SharedHtmlLocalizer["SignIn"].Value });
     breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("subscriptioncheckoutaddress"), Title = SharedHtmlLocalizer["Address"].Value });
-    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Review"].Value });
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["OrderDetails"].Value });
 }
 @await Html.PartialAsync("_PageHeading2", breadCrumbItems)
 <section class="main-content py-5 mb-5">

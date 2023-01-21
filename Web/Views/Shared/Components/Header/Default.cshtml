@@ -34,7 +34,7 @@
                         <ul class="dropdown-menu border-secondary rounded-3 p-2 shadow" aria-labelledby="dropdownCategories">
                             @foreach (var menu in Model.Categories)
                             {
-                                <li><a class="dropdown-item text-primary my-1 rounded-3 fs-6" href="@Url.RouteUrl("products", new { seoName = menu.SeoName })">@menu.Title</a></li>
+                                <li><a class="dropdown-item my-1 rounded-3 fs-6" href="@Url.RouteUrl("products", new { seoName = menu.SeoName })">@menu.Title</a></li>
                                 if (counter < Model.Categories.Count())
                                 {
                                     <li> <hr class="dropdown-divider body-bg-secondary border-secondary my-0"> </li>
@@ -169,10 +169,10 @@
                             <h3 class="text-center text-uppercase fw-bold  text-primary my-3">@SharedHtmlLocalizer["DownloadOurApp"]</h3>
                             <div class="d-flex justify-content-center pb-3 pb-md-2">
                                 <a href="@Model.CompanySettings.AppStoreLink" class="me-3" target="_blank" rel="noopener noreferrer">
-                                    <img src="~/assets/img/app-store.svg" alt="@SharedHtmlLocalizer["AppStoreLink"]">
+                                    <img src="~/assets/img/play-store-badge.png" class="img-fluid" alt="@SharedHtmlLocalizer["AppStoreLink"]">
                                 </a>
                                 <a href="@Model.CompanySettings.PlayStoreLink" class="me-0 me-md-3" target="_blank" rel="noopener noreferrer">
-                                    <img src="~/assets/img/google-play.svg" alt="@SharedHtmlLocalizer["GooglePlayLink"]">
+                                    <img src="~/assets/img/app-store-badge.png" class="img-fluid" alt="@SharedHtmlLocalizer["GooglePlayLink"]">
                                 </a>
                             </div>
                             <ul class="navbar-nav mt-auto flex-row mb-2 mb-md-0 mx-auto">

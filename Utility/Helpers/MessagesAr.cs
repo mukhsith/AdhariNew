@@ -29,7 +29,7 @@
         public static string NoRecordsForFile = "لا يوجد سجلات لتنزيل الملف";
         public static string OldNewSamePassword = "لا يوجد كلمة المرور الجديدة هي نفسها كلمة المرور القديمة";
         public static string OTPExpired = "انتهت صلاحية رمز لتحقق OTP المدخل";
-        public static string OTPIncorrect = "إدخال رمز التحقق OTP غير صالحة";
+        public static string OTPIncorrect = "رمز التحقق OTP التي أدخلتها غير صحيح";
         public static string OTPFail = "فشل إنشاء رمز التحقق OTP";
         public static string OTPResend = "تمت إعادة إنشاء رمز التحقق OTP بنجاح";
         public static string OTPValidated = "تم التاكيد رمز التحقق OTP بنجاح";

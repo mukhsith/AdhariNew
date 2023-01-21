@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-12 col-xl-8 mx-auto">
                 <div class="delivery-address mb-4">
-                    <h4 class="text-primary text-center fw-bold mb-3">@SharedHtmlLocalizer["DeliveryAddress"]</h4>
+                    <h4 class="text-primary text-center fw-bold mb-3">@SharedHtmlLocalizer["RegisteredAddresses"]</h4>
                     @if (Model.Count > 0)
                     {
                         <div id="dv-addresses" class="row justify-content-center addresses">
@@ -158,13 +158,16 @@
                         $('#addNewAddressModal').modal('hide');
 
                         $("#dv-addresses").prepend("<div class='col-12 col-md-4 mb-3'>" +
-                            "<div class='inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3'>" +
+                            "<div class='inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3 active'>" +
                             "<label for='address-" + result.data.id + "' class='w-100'>" +
                             "<p class='address-name card-text mb-0 fw-bold'>" + result.data.name + "</p>" +
                             "<p class='address-content card-text mb-0'>" + result.data.addressText + "<br></p></label>" +
-                            "<input id='address-" + result.data.id + "' data-addressId='" + result.data.id + "' name='address' type='radio'>" +
+                            "<input class='d-none' id='address-" + result.data.id + "' data-addressId='" + result.data.id + "' name='address' type='radio' 'checked'>" +
                             "</div>" +
                             "</div>");
+
+                        $("#hdnAddressId").val(result.data.id);
+                        $('.continue-btn').removeClass('disabled');
                     }
                 }
                 else {

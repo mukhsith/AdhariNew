@@ -165,14 +165,14 @@
                         else {
                             var elementId = '#i-add-to-favorite-det';
                             var imgClassName = $(elementId).attr('class');
-                            if (imgClassName == "fa-heart fa-regular") {
-                                $(elementId).attr('class', 'fa-heart fa-solid');
-                                $("#sp-add-fav").html("@SharedHtmlLocalizer["Remove from Favorites"]");
+                            if (imgClassName == "fa-heart fa-stack-1x text-white fa-regular") {
+                                $(elementId).attr('class', 'fa-heart fa-stack-1x text-white fa-solid');
+                                //$("#sp-add-fav").html("@SharedHtmlLocalizer["Remove from Favorites"]");
                                 ProductToastAlert('success', 'fa-regular fa-heart', result.message, '', imgUrl, title, price, productUrl);
                             }
                             else {
-                                $(elementId).attr('class', 'fa-heart fa-regular');
-                                $("#sp-add-fav").html("@SharedHtmlLocalizer["Add to Favorites"]");
+                                $(elementId).attr('class', 'fa-heart fa-stack-1x text-white fa-regular');
+                                //$("#sp-add-fav").html("@SharedHtmlLocalizer["Add to Favorites"]");
                                 ProductToastAlert('danger', 'fa-regular fa-heart', result.message, '', imgUrl, title, price, productUrl);
                             }
                         }
