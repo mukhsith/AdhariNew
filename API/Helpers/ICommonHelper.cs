@@ -54,6 +54,7 @@ namespace API.Helpers
         #region Subscription
         string GetSubscriptionPdfUrl(SubscriptionModel order, string apiBaseUrl, bool isEnglish);
         Task<bool> UpdateSubscriptionOrderStatus(Subscription subscription, SubscriptionStatus subscriptionStatus, bool refundDeliveryFee = false, string notes = "");
+        Task<bool> RescheduleSubscriptionOrderDelivery(SubscriptionOrder subscriptionOrder, DateTime? newDeliveryDate = null);
         #endregion
 
         #region Cart

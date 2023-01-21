@@ -46,11 +46,18 @@ namespace Data.ProductManagement
         public ProductType ProductType { get; set; }
         public bool SpecialPackage { get; set; }
         public int? SubscriptionDurationId { get; set; }
+        public string SubscriptionDurationIds { get; set; }
+        public int MinCartQuantity { get; set; }
+        public int MaxCartQuantity { get; set; }
+        public int B2BMinCartQuantity { get; set; }
+        public int B2BMaxCartQuantity { get; set; }
         public ICollection<ProductDetail> ProductDetails { get; set; }
         public int? ItemSizeId { get; set; }
+
         [ForeignKey("ItemSizeId")]
         public virtual ItemSize ItemSize { get; set; }
         public int? CategoryId { get; set; }
+
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
         public virtual SubscriptionDuration SubscriptionDuration { get; set; }

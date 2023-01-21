@@ -25,6 +25,8 @@ namespace Utility.Models.Frontend.ProductManagement
         public string SeoName { get; set; }
         public string DetailsUrl { get; set; }
         public int CartQuantity { get; set; }
+        public int MinCartQuantity { get; set; }
+        public int MaxCartQuantity { get; set; }
         public ProductType ProductType { get; set; }
         public ItemSizeModel ItemSize { get; set; }
         public CategoryModel Category { get; set; }

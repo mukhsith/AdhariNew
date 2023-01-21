@@ -593,13 +593,32 @@ namespace API.Areas.Frontend.Factories
                     return response;
                 }
 
+                List<int> listSubscriptionDurationIds = new();
+                var subscriptionDurationIds = product.SubscriptionDurationIds;
+                if (!string.IsNullOrEmpty(subscriptionDurationIds))
+                {
+                    listSubscriptionDurationIds = subscriptionDurationIds.Split(',').Select(int.Parse).ToList();
+                }
+
+                var subscriptionDurations = await _productService.GetAllSubscriptionDuration();
+                if (listSubscriptionDurationIds.Count > 0)
+                    subscriptionDurations = subscriptionDurations.Where(a => listSubscriptionDurationIds.Contains(a.Id)).ToList();
+
                 if (product.SpecialPackage)
                 {
-                    if (subscriptionDuration.Id != product.SubscriptionDurationId)
-                    {
-                        response.Message = isEnglish ? Messages.SubscriptionDurationNotAvailable : MessagesAr.SubscriptionDurationNotAvailable;
-                        return response;
-                    }
+                    subscriptionDurations = subscriptionDurations.Take(1).ToList();
+                }
+
+                if (subscriptionDurations.Count <= 0)
+                {
+                    response.Message = isEnglish ? Messages.SubscriptionDurationNotAvailable : MessagesAr.SubscriptionDurationNotAvailable;
+                    return response;
+                }
+
+                if (subscriptionDuration.Id != subscriptionDurations[0].Id)
+                {
+                    response.Message = isEnglish ? Messages.SubscriptionDurationNotAvailable : MessagesAr.SubscriptionDurationNotAvailable;
+                    return response;
                 }
 
                 var subscriptionDeliveryDate = await _productService.GetSubscriptionDeliveryDateById(subscriptionAttribute.DeliveryDateId.Value);

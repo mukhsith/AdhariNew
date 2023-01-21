@@ -530,6 +530,21 @@ namespace API.Helpers
         {
             string addressText = string.Empty;
 
+            if (address.AreaId > 0)
+            {
+                var area = await _areaService.GetById(address.AreaId);
+                if (area != null)
+                {
+                    var governorate = await _governorateService.GetById(area.GovernorateId);
+                    if (governorate != null)
+                    {
+                        addressText = addressText + ", " + (isEnglish ? governorate.NameEn : governorate.NameAr);
+                    }
+
+                    addressText = addressText + ", " + (isEnglish ? area.NameEn : area.NameAr);
+                }
+            }
+
             if (!string.IsNullOrEmpty(address.Block))
                 addressText = addressText + ", " + (isEnglish ? Messages.Block : MessagesAr.Block) + " " + address.Block;
             if (!string.IsNullOrEmpty(address.Street))
@@ -565,21 +580,6 @@ namespace API.Helpers
             {
                 if (!string.IsNullOrEmpty(address.GovernmentEntity))
                     addressText = addressText + ", " + (isEnglish ? Messages.GovernmentEntity : MessagesAr.GovernmentEntity) + " " + address.GovernmentEntity;
-            }
-
-            if (address.AreaId > 0)
-            {
-                var area = await _areaService.GetById(address.AreaId);
-                if (area != null)
-                {
-                    addressText = addressText + ", " + (isEnglish ? area.NameEn : area.NameAr);
-
-                    var governorate = await _governorateService.GetById(area.GovernorateId);
-                    if (governorate != null)
-                    {
-                        addressText = addressText + ", " + (isEnglish ? governorate.NameEn : governorate.NameAr);
-                    }
-                }
             }
 
             if (addressText.StartsWith(','))
@@ -1478,6 +1478,31 @@ namespace API.Helpers
                 await _customerService.CreateWalletTransaction(walletTransaction);
             }
         }
+        public async Task<bool> RescheduleSubscriptionOrderDelivery(SubscriptionOrder subscriptionOrder, DateTime? newDeliveryDate = null)
+        {
+            if (newDeliveryDate.HasValue)
+            {
+                var dayId = Common.GetDayId(newDeliveryDate.Value);
+                var deliveryTimeSlot = await _deliveryTimeSlotService.GetByDayId(dayId: dayId);
+                if (deliveryTimeSlot == null)
+                {
+                    return false;
+                }
+
+                subscriptionOrder.DeliveryDate = newDeliveryDate.Value;
+                subscriptionOrder.DeliveryTimeSlotId = deliveryTimeSlot.Id;
+                await _subscriptionService.UpdateSubscriptionOrder(subscriptionOrder);
+            }
+            else
+            {
+                var dateAndSlot = await GetAvailableDeliveryDateAndSlot();
+                subscriptionOrder.DeliveryDate = dateAndSlot.Item1;
+                subscriptionOrder.DeliveryTimeSlotId = dateAndSlot.Item2;
+                await _subscriptionService.UpdateSubscriptionOrder(subscriptionOrder);
+            }
+
+            return true;
+        }
         #endregion
 
         #region Cart
@@ -1794,7 +1819,7 @@ namespace API.Helpers
                 var message = isEnglish ? messageEn : messageAr;
                 await _notificationTemplateService.CreateSMSPush(message, subscriptionModel.Customer.MobileNumber, isEnglish ? 0 : 1);
             }
-        }       
+        }
         public async Task SendSubscriptionEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish)
         {
             NotificationType notificationType;
@@ -1909,7 +1934,7 @@ namespace API.Helpers
 
                 await _emailHelper.SendEmail(notificationTypeId: notificationType, emailIds: subscriptionModel.Customer.EmailAddress, subject: subject + " - " + subscriptionModel.SubscriptionNumber, emailBody: orderHtml, htmlContent: true);
             }
-        }       
+        }
         public async Task SendSubscriptionAdminEmailNotification(SubscriptionModel subscriptionModel, bool isEnglish, string emailIds, string ccEmailIds)
         {
             NotificationType notificationType;
