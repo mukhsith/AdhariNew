@@ -271,10 +271,13 @@
     <value>لا تخطرني</value>
   </data>
   <data name="DontHaveAnAccount" xml:space="preserve">
-    <value>لا تملك حسابا حتى الآن؟</value>
+    <value>ليس لديك حساب؟</value>
   </data>
   <data name="DownloadOurApp" xml:space="preserve">
     <value>حمّل تطبيق عذاري</value>
+  </data>
+  <data name="DueDate" xml:space="preserve">
+    <value>Due Date</value>
   </data>
   <data name="Duration" xml:space="preserve">
     <value>مدة</value>
@@ -445,7 +448,7 @@
     <value>عناويني</value>
   </data>
   <data name="MyCashback" xml:space="preserve">
-    <value>استرداد النقود الخاصة بي</value>
+    <value>استرداد النقود</value>
   </data>
   <data name="MyChalet" xml:space="preserve">
     <value>شاليتي</value>
@@ -787,13 +790,16 @@
     <value>عرض عربة التسوق</value>
   </data>
   <data name="WalletAmount" xml:space="preserve">
-    <value>محفظةالمبلغ</value>
+    <value>مبلغ المحفظة</value>
   </data>
   <data name="WalletPrepaidCards" xml:space="preserve">
     <value>بطاقات المحفظة مسبقة الدفع</value>
   </data>
   <data name="WeHaveSentEmailTo" xml:space="preserve">
     <value>لقد أرسلنا رسالة بريد إلكتروني إلى</value>
+  </data>
+  <data name="WeWillSendAnOTPToThisMobileNumber" xml:space="preserve">
+    <value>سنرسل رمزالتحقق OTP إلى رقم هاتفك</value>
   </data>
   <data name="WhatsApp" xml:space="preserve">
     <value>واتساب</value>

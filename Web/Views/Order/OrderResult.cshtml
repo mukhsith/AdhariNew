@@ -5,8 +5,7 @@
 @{
     var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
     Layout = "_Layout";
-}
-@{
+
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Checkout"].Value });
 }

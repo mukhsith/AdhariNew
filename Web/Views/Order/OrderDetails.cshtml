@@ -1,12 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @model Utility.Models.Frontend.Sales.OrderModel
 @inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
-@using Utility.Enum
 @{
     var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
     Layout = "_Layout";
-}
-@{
+
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("myorders"), Title = SharedHtmlLocalizer["MyOrders"].Value });
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["OrderDetails"].Value });
@@ -47,12 +45,6 @@
                                                         <p class="text-primary fw-bold fs-51 mb-0">@item.Quantity</p>
                                                     </div>
                                                 </div>
-                                                @*<div class="col-7">
-                                                        <div class="w-auto py-1 me-2">
-                                                            <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
-                                                            <p class="text-primary fw-bold fs-51 mb-0">@item.FormattedTotal</p>
-                                                        </div>
-                                                    </div>*@
                                             </div>
                                         </div>
                                     </div>

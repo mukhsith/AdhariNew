@@ -38,10 +38,6 @@
                             <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["CustomerDetails"]</h4>
                             <form id="register-form" class="needs-validation" novalidate>
                                 <div class="row">
-                                    <div class="col-12 col-lg-3 col-xl-4 mb-3">
-                                        <label for="inputName1" class="form-label">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger"></span></label>
-                                        <input type="text" id="Name" name="Name" class="form-control rounded-5 border-secondary body-bg-secondary" >
-                                    </div>
                                     <div class="col-12 col-lg-6 col-xl-4 mb-3">
                                         <label for="inputName2" class="form-label">
                                             @SharedHtmlLocalizer["MobileNumber"]<span class="ms-1 text-danger">*</span><span class="verified-check ms-1 fw-bold text-success" style="display: none;">
@@ -63,9 +59,13 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-3 col-xl-4 mb-3">
+                                        <label for="inputName1" class="form-label">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger"></span></label>
+                                        <input type="text" id="Name" name="Name" class="form-control rounded-5 border-secondary body-bg-secondary">
+                                    </div>
+                                    <div class="col-12 col-lg-3 col-xl-4 mb-3">
                                         <label for="inputName2" class="form-label">@SharedHtmlLocalizer["Email"]</label>
                                         <input type="email" id="EmailAddress" name="EmailAddress"
-                                               class="form-control rounded-5 border-secondary body-bg-secondary" >
+                                               class="form-control rounded-5 border-secondary body-bg-secondary">
                                     </div>
                                     <div class="col-12 m-3">
                                         <div class="form-check d-flex justify-content-center mx-auto text-start mb-3">
@@ -81,7 +81,7 @@
                                         </div>
                                         <div id="dvErrorhdnTerms" class="text-center mb-3">
                                         </div>
-                                    </div>                                  
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -351,7 +351,6 @@
                 }
                 else {
                     if (result.message != "")
-                        //ToastAlert('error', '', result.message);
                         $("#divIncorrectOtp").html(result.message);
                 }
             });

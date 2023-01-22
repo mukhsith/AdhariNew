@@ -3,7 +3,6 @@
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "Signin", Title = SharedHtmlLocalizer["SignIn"].Value });
 }
-
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
 <section class="main-content py-5 mb-5">
     <div class="container">
@@ -42,13 +41,10 @@
                             <div class="col-12 text-center">
                                 <hr class="dropdown-divider body-bg-secondary border-secondary">
                             </div>
-
                             <div class="col-12 text-center">
                                 <h6 class="mb-2">@SharedHtmlLocalizer["DontHaveAnAccount"]</h6>
                                 <a href="@Url.RouteUrl("register")" class="btn btn-secondary text-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignUp"]</a>
                             </div>
-
-
                             <div class="col-12 text-center">
                                 <h6 class="mb-2">@SharedHtmlLocalizer["OR"]</h6>
                                 <a href="@Url.RouteUrl("home")" class="text-primary rounded-pill fw-bold px-5">@SharedHtmlLocalizer["ContinueAsGuest"]</a>
@@ -150,7 +146,6 @@
 
             var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
             if (otp == "") {
-                //ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
                 $("#divIncorrectOtp").html("@SharedHtmlLocalizer["OTPIsRequired"]");
                 return;
             }
@@ -171,7 +166,6 @@
                 }
                 else {
                     if (result.message != "")
-                        //ToastAlert('error', '', result.message);
                         $("#divIncorrectOtp").html(result.message);
                 }
             });

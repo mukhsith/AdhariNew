@@ -899,7 +899,7 @@ namespace API.Areas.Backend.Factories
                     var order = await _subscriptionService.GetSubscriptionOrderById(orderId);
                     if (order is not null)
                     {
-                        return await _subscriptionService.UpdateOrderPaymentStatus(order, false, (int) order.PaymentStatusId);
+                        return await _subscriptionService.UpdateDriverdetails(order);
                     }
                 }
             }
@@ -910,10 +910,10 @@ namespace API.Areas.Backend.Factories
 
 
 
-        //public async Task<bool> AddDriver(int orderId, int driverId,int OrderTypeID)
-        //{
-        //    return await _orderService.AddDriver(orderId, driverId, OrderTypeID);
-        //}
+        public async Task<bool> AddDriver(int orderId, int driverId, int OrderTypeID)
+        {
+            return await _orderService.AddDriver(orderId, driverId, OrderTypeID);
+        }
 
         public async Task<bool> RemoveDriver(int orderId)
         {
@@ -930,7 +930,29 @@ namespace API.Areas.Backend.Factories
             return false;
         }
 
-       
+
+        public async Task<bool> RescheduleAdminDelivery(int orderId, int OrderTypeId, DateTime? dateTime = null)
+        {
+            if (OrderTypeId == (int)OrderMode.Normal)
+            {
+                var order = await _orderService.GetOrderById(orderId);
+                if (order is not null)
+                {
+                    return await _commonHelper.RescheduleOrderDelivery(order, dateTime);
+                }
+            }
+            else
+            {
+                var order = await _subscriptionService.GetSubscriptionOrderById(orderId);
+                if (order is not null)
+                {
+                    return await _commonHelper.RescheduleSubscriptionOrderDelivery(order, dateTime);
+                }
+            }
+            return false;
+        }
+
+
 
         public async Task<DataTableResult<List<DeliveriesDashboard>>> GetDeliveriesForDataTable(AdminOrderDeliveriesParam param)
         {

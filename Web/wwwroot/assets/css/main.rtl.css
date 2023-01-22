@@ -25106,8 +25106,16 @@ body {
   direction: rtl;
 }
 
-[type=tel], [type=url], [type=email], [type=number] {
+[type=tel],
+[type=url],
+[type=email],
+[type=number] {
   direction: rtl !important;
+}
+
+input,
+select {
+  font-size: 100%;
 }
 
 /* arabic */
@@ -25937,7 +25945,7 @@ h6,
 
 .btn-with-input-spinner .spinner-border {
   position: absolute;
-  margin-top: -40px;
+  margin-top: -35px;
 }
 
 .btn-decrement {
@@ -26163,8 +26171,12 @@ input[type=number] {
 .floating-btn:hover {
   background: #850B5A;
   color: white;
-  width: auto;
   text-decoration: none;
+}
+@media (min-width: 1024px) {
+  .floating-btn:hover {
+    width: auto;
+  }
 }
 
 .floating-btn:hover small, .floating-btn:hover .small {
@@ -26226,16 +26238,11 @@ input[type=number] {
     box-shadow: none;
   }
 
-  .floating-btn i {
-    right: 220px;
-  }
-
   .floating-btn small,
 .floating-btn .small {
     height: 20px;
     top: 26px !important;
     line-height: 1.2;
-    right: 270px !important;
   }
 
   .floating-btn span {

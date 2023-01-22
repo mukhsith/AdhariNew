@@ -214,6 +214,11 @@
                                 </a>
                             }
                         </li>
+                        <li class="menu-item me-3">
+                            <a href="#" id="a-mobile-cart2">
+                                <img id="mobile-img-cart2" src="~/assets/img/icons/icon-cart-sm-filled.svg" alt="@SharedHtmlLocalizer["Cart"]">
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -280,6 +285,19 @@
         });
 
         $("#a-mobile-cart").click(function () {
+            if ($(this).css("cursor") != "not-allowed") {
+                $.get("@Url.RouteUrl("cartitems")", function (result) {
+                    if (result.cartContents != "") {
+                        updateCartCount();
+                        $("#offcanvasCart").empty();
+                        $("#offcanvasCart").append(result.cartContents);
+                        $('#offcanvasCart').offcanvas('show');
+                    }
+                });
+            }
+        });
+
+        $("#a-mobile-cart2").click(function () {
             if ($(this).css("cursor") != "not-allowed") {
                 $.get("@Url.RouteUrl("cartitems")", function (result) {
                     if (result.cartContents != "") {

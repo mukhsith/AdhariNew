@@ -21,7 +21,6 @@
                     <div class="col-12 col-md-4">
                         <div class="mb-3 mb-md-0 position-relative">
                             <img src="@Model.ImageUrl" class="img-fluid border border-grey rounded-5 product-image" alt="@Model.Title">
-
                             <a href="javascript:;" class="position-absolute wishlist-btn" style="z-index: 1;"
                                onclick="return addToFavourite(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice',0,false);">
                                 <span class="fa-stack fa-1x">
@@ -29,7 +28,6 @@
                                     <i id="i-add-to-favorite-det" class="fa-heart fa-stack-1x text-white @(Model.Favorite ? "fa-solid":"fa-regular")"></i>
                                 </span>
                             </a>
-
                             <div class="dropdown position-absolute share-btn">
                                 <a href="javascript:;" class="dropdown-toggle" style="z-index: 1;" data-bs-toggle="dropdown"
                                    aria-expanded="false">
@@ -64,7 +62,6 @@
                                             </span>@SharedHtmlLocalizer["WhatsApp"]
                                         </a>
                                     </li>
-
                                     <li>
                                         <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
                                     </li>
@@ -75,13 +72,9 @@
                                             </span>@SharedHtmlLocalizer["CopyLinkToClipboard"]
                                         </a>
                                     </li>
-
                                 </ul>
                             </div>
                         </div>
-                        @*<div class="mb-3 mb-md-0">
-                            <img src="@Model.ImageUrl" class="img-fluid border border-grey rounded-5 product-image" alt="@Model.Title">
-                        </div>*@
                     </div>
                     <div class="col-12 col-md-8">
                         <h2 class="text-primary fw-bold mb-3 product-name">@Model.Title</h2>
@@ -213,6 +206,27 @@
                                             </button>
                                         </div>
                                     }
+                                    else if (Model.MaxCartQuantity == 1)
+                                    {
+                                        <div class="d-flex w-100">
+                                            <input type="text" inputmode="decimal" style="text-align: center;display:none;"
+                                                   value="1" id="txt-quantity">
+                                            @if (Model.ProductType == ProductType.SubscriptionProduct)
+                                            {
+                                                <button type="button" class="add-to-cart btn btn-primary rounded-pill text-white fw-bold w-100"
+                                                        id="btn-subscribe">
+                                                    @SharedHtmlLocalizer["Subscribe"]
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="add-to-cart btn btn-primary rounded-pill text-white fw-bold w-100"
+                                                        id="btn-add-to-cart">
+                                                    @SharedHtmlLocalizer["AddToCart"]
+                                                </button>
+                                            }
+                                        </div>
+                                    }
                                     else
                                     {
                                         <div class="btn-with-input-spinner d-flex w-100">
@@ -244,57 +258,6 @@
                                         </div>
                                     }
                                 </div>
-                                @*<div class="col-12 add-to-cart mb-3 mb-lg-0">
-                                    <div class="d-flex">
-                                        <a href="javascript:;" class="btn btn-outline-primary rounded-pill mb-3 wishlist-btn" style="z-index: 1;"
-                                           onclick="return addToFavourite(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice',0,false);">
-                                            <i id="i-add-to-favorite-det" class="fa-heart @(Model.Favorite?"fa-solid":"fa-regular")"></i>
-                                            <span class="wishlist-btn-text" id="sp-add-fav">
-                                                @(Model.Favorite? SharedHtmlLocalizer["RemoveFromFavorites"].Value: SharedHtmlLocalizer["AddToFavorites"].Value)
-                                            </span>
-                                        </a>
-                                        <div class="dropdown">
-                                            <button class="btn btn-outline-primary rounded-pill mb-3 ms-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                                <span class="share-btn-text">@SharedHtmlLocalizer["Share"]</span>
-                                            </button>
-                                            <ul class="dropdown-menu border-primary rounded-3 p-2 shadow share-btns">
-                                                <li>
-                                                    <a class="dropdown-item text-primary my-1 rounded-3 fs-6 facebook-btn" href="https://www.facebook.com/sharer/sharer.php?u=@Model.DetailsUrl" target="_blank">
-                                                        <span>
-                                                            <i class="fa-brands fa-facebook-f me-2"></i>
-                                                        </span>@SharedHtmlLocalizer["Facebook"]
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item text-primary my-1 rounded-3 fs-6 twitter-btn" href="https://twitter.com/share?text=@Model.DetailsUrl" target="_blank">
-                                                        <span>
-                                                            <i class="fa-brands fa-twitter me-2"></i>
-                                                        </span>@SharedHtmlLocalizer["Twitter"]
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item text-primary my-1 rounded-3 fs-6 whatsapp-btn" href="https://web.whatsapp.com/send?text=@Model.DetailsUrl" data-action="share/whatsapp/share" target="_blank">
-                                                        <span>
-                                                            <i class="fa-brands fa-whatsapp me-2"></i>
-                                                        </span>@SharedHtmlLocalizer["WhatsApp"]
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item text-primary my-1 rounded-3 fs-6 copy-link" href="#">
-                                                        <span>
-                                                            <i class="fa-solid fa-copy me-2"></i>
-                                                        </span>@SharedHtmlLocalizer["CopyLinkToClipboard"]
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>*@
                             </div>
                         </div>
                     </div>
@@ -320,14 +283,14 @@
         $(".btn-minus-side-cart").click(function () {
             var quantity = $(this).closest(".side-cart-spinner").find("input").val();
             var finalQuantity = parseInt(quantity) - 1;
-            if (finalQuantity == 0)
+            if (finalQuantity <= 0)
                 return;
 
             $(this).closest(".side-cart-spinner").find("input").val(finalQuantity);
         });
 
         $("#btn-add-to-cart").click(function () {
-            addToCart(@Model.Id, $("#txt-quantity").val(),'@productUrl','@Model.ImageUrl','@Model.Title','@price');
+            addToCart(@Model.Id, $("#txt-quantity").val());
         });
 
         $("#btn-subscribe").click(function () {

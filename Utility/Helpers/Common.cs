@@ -190,6 +190,27 @@ namespace Utility.Helpers
                 return null;
             }
         }
+        public static DateTime? ConvertTextToDateYYMMDD(string text)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(text))
+                {
+                    return null;
+                }
+
+                var arrDate = text.Split("/");
+                int.TryParse(arrDate[0], out int year);
+                int.TryParse(arrDate[1], out int month);
+                int.TryParse(arrDate[2], out int day);
+                var newDate = new DateTime(year, month, day);
+                return newDate;
+            }
+            catch
+            {
+                return null;
+            }
+        }
         public static string GetRandomNumber()
         {
             Random ran = new Random();

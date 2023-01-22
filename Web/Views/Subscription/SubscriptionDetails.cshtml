@@ -25,10 +25,24 @@
                                     <p class="mb-0 text-primary fw-bold text-end ">@item.Value</p>
                                 </li>
                             }
+                            @{
+                                var formattedTotal = Model.FormattedTotal.Split("\r\n");
+                                var total = formattedTotal[0];
+                                var description = string.Empty;
+                                if (formattedTotal.Count() == 2)
+                                {
+                                    description = formattedTotal[1];
+                                }
+                            }
                             <li class="list-group-item border-secondary d-flex justify-content-between fs-5 px-0">
                                 <label class="text-primary fw-bold text-uppercase">@SharedHtmlLocalizer["Total"]</label>
                                 <p class="text-primary mb-0 fw-bold">
-                                    <span class="crossed-out-price text-decoration-line-through text-muted me-2"></span><span class="to-pay-price">@Model.FormattedTotal</span>
+                                    <span class="crossed-out-price text-decoration-line-through text-muted me-2"></span><span class="to-pay-price">@total</span>
+                                    @if (!string.IsNullOrEmpty(description))
+                                    {
+                                        <br />
+                                        @description
+                                    }
                                 </p>
                             </li>
                         </ul>
@@ -99,8 +113,8 @@
                                 @foreach (var UpcomingDelivery in Model.UpcomingDeliveries)
                                 {
                                     <li class="list-group-item d-flex justify-content-between border-secondary px-0">
-                                        <p class="mb-0 text-muted">@UpcomingDelivery.Title</p>
-                                        <p class="mb-0 text-primary fw-bold text-end ">@UpcomingDelivery.Value</p>
+                                        <p class="mb-0 text-muted">@SharedHtmlLocalizer["DueDate"]</p>
+                                        <p class="mb-0 text-primary fw-bold text-end ">@UpcomingDelivery.Title</p>
                                     </li>
                                 }
                             </ul>

@@ -4,8 +4,7 @@
 @using Utility.Enum
 @{
     var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
-}
-@{
+
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Checkout"].Value });
     breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("checkout"), Title = SharedHtmlLocalizer["SignIn"].Value });
@@ -22,12 +21,6 @@
                         <div class="customer-details mb-4">
                             <div class="d-flex justify-content-between flex-column align-items-start align-items-md-center mb-3">
                                 <h4 class="text-primary text-start text-lg-center fw-bold mb-0">@SharedHtmlLocalizer["CustomerDetails"]</h4>
-                                @*@if (!string.IsNullOrEmpty(Model.Customer.Name))
-                    {
-                        <span class="text-muted text-start text-lg-center ">
-                            @SharedHtmlLocalizer["Not"] <b>@Model.Customer.Name</b> <a class="text-nowrap" href="@Url.RouteUrl("logout")">@SharedHtmlLocalizer["SignOut"]</a>
-                        </span>
-                    }*@
                             </div>
                             <div class="bg-grey row rounded-4 p-3 mx-0">
                                 <div class="col-12 col-md-4">
@@ -94,14 +87,6 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="col-12 offset-lg-2 col-lg-8">
-            <div class="order-notes mb-4">
-                <div class="bg-grey rounded-4 p-3 mx-0">
-                    <label for="inputNotes" class="form-label">@SharedHtmlLocalizer["Notes"]</label>
-                    <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" id="txt-notes" rows="3" placeholder="@SharedHtmlLocalizer["ProvideAnySpecialRequestsHere"]"></textarea>
-                </div>
-            </div>
-        </div>*@
                     <div class="col-12 offset-lg-2 col-lg-8">
                         <div class="payment-method mb-4">
                             <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentMethod"]</h4>
@@ -153,16 +138,11 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="col-12 offset-lg-2 col-lg-8 cart-summary">
-            @await Html.PartialAsync("_CartSummary", Model.CartSummary)
-        </div>*@
-
                     <div class="col-12 offset-lg-2 col-lg-8">
                         <div class="your-order mb-4">
                             <div class="d-flex justify-content-between flex-column align-items-start align-items-md-center mb-3">
                                 <h4 class="text-primary text-start text-lg-center fw-bold mb-0">@SharedHtmlLocalizer["OrderDetails"]</h4>
                             </div>
-                            @*<h4 class="text-primary text-start text-lg-center fw-bold mb-3">@SharedHtmlLocalizer["Items"]</h4>*@
                             <div class="bg-grey rounded-4 p-3">
                                 <ul class="list-group list-group-flush">
                                     @foreach (var CartItem in Model.CartItems)
@@ -173,7 +153,6 @@
                                                     <img src="@CartItem.Product.ImageUrl" class="me-3 rounded-3 img-fluid"
                                                          alt="product-image">
                                                 </div>
-
                                                 <div class="col-9 col-md-11 d-flex align-items-center pe-0">
                                                     <div class="row w-100">
                                                         <div class="col-12 col-md-6 d-flex align-items-center justify-content-end justify-content-md-start pe-0 pe-md-3">
@@ -195,33 +174,10 @@
                                                 </div>
                                             </div>
                                         </li>
-
-                                        @*<li class="list-group-item border-0 px-0 py-2">
-                                <div class="d-flex flex-row bg-grey rounded-4 p-3">
-                                    <img src="@CartItem.Product.ImageUrl" class="me-3 rounded-3" alt="product-image" height="75">
-                                    <div class="d-flex flex-column me-auto w-100">
-                                        <a href="@CartItem.Product.ImageUrl" class="mb-0 fw-bold">@CartItem.Product.Title</a>
-                                        <div class="row">
-                                            <div class="col-5">
-                                                <div class="w-auto py-1 me-2">
-                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]</label>
-                                                    <p class="text-primary fw-bold fs-51 mb-0">@CartItem.Quantity</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-7">
-                                                <div class="w-auto py-1 me-2">
-                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
-                                                    <p class="text-primary fw-bold fs-51 mb-0">@CartItem.FormattedTotal</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>*@
                                     }
-                                    <div class="cart-summary">
-                                        @await Html.PartialAsync("_CartSummary", Model.CartSummary)
-                                    </div>
+                                </ul>
+                                <ul class="list-group list-group-flush cart-summary">
+                                    @await Html.PartialAsync("_CartSummary", Model.CartSummary)
                                 </ul>
                             </div>
                         </div>
@@ -253,6 +209,8 @@
 <input type="hidden" id="hdn-skip-payment-method-selection" />
 <script>
     jQuery(document).ready(function () {
+        $("#hdnCheckout").val("1");
+
         var appliedCouponCode = '@Model.CartSummary.CouponCode';
         if (appliedCouponCode == null || appliedCouponCode == "") {
             hidePromotionCodeField();
@@ -278,7 +236,6 @@
         });
 
         $("#payment-method-wallet").change(function () {
-            debugger;
             var attributeTypeId = 0;
 
             if ($(this).is(':checked')) {
@@ -296,7 +253,7 @@
                     else {
                         $("#dv-payment-methods").show();
                     }
-
+                    
                     $(".cart-summary").empty();
                     $(".cart-summary").append(result.formattedCartSummary);
                 }

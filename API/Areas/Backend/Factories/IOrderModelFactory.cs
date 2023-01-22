@@ -34,6 +34,10 @@ namespace API.Areas.Backend.Factories
 
         Task<bool> RemoveDriver(int orderId);
         Task<bool> RescheduleDelivery(int orderId, DateTime? dateTime = null);
+
+
+        Task<bool> RescheduleAdminDelivery(int orderId, int OrderTypeId, DateTime? dateTime = null);
+
         //Task<DataTableResult<List<DeliveriesDashboard>>> GetNotDispatchedDataTable(
         //    DataTableParam param, bool isEnglish, string orderNumber = null,  DateTime? startDate = null, 
         //    int? orderModeId = null, int? orderTypeId = null, int? areaId = null, int? driverId = null);

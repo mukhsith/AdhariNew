@@ -12,12 +12,6 @@
                     <div class="card-body">
                         <form method="post" autocomplete="off" class="row g-3 p-3" id="register-form">
                             <div asp-validation-summary="ModelOnly"></div>
-                            <div class="col-12">
-                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger">*</span></label>
-                                <input type="text" asp-for="Name" class="form-control body-bg-secondary rounded-pill border-secondary">
-                                <div id="dvErrorName">
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <label for="inputMobile" class="form-label mb-0">@SharedHtmlLocalizer["MobileNumber"]<span class="ms-1 text-danger">*</span></label>
                                 <div class="input-group">
@@ -36,7 +30,13 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label for="inputEmail4" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
+                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger">*</span></label>
+                                <input type="text" asp-for="Name" class="form-control body-bg-secondary rounded-pill border-secondary">
+                                <div id="dvErrorName">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="inputEmail4" class="form-label mb-0">@SharedHtmlLocalizer["Email"]<span class="ms-1 text-danger">*</span></label>
                                 <input type="email" asp-for="EmailAddress"
                                        class="form-control body-bg-secondary rounded-pill border-secondary">
                                 <div id="dvErrorEmailAddress">
@@ -56,6 +56,7 @@
                             </div>
                             <div class="col-12 text-center">
                                 <a href="javascript:;" id="signup-btn" class="btn btn-primary color-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignUp"]</a>
+                                <p class="text-muted mt-3 mb-0">@SharedHtmlLocalizer["WeWillSendAnOTPToThisMobileNumber"]</p>
                             </div>
                             <div class="col-12 text-center">
                                 <hr class="dropdown-divider body-bg-secondary border-secondary">
@@ -168,7 +169,6 @@
 
             var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
             if (otp == "") {
-                //ToastAlert("error", "", "@SharedHtmlLocalizer["OTPIsRequired"]");
                 $("#divIncorrectOtp").html("@SharedHtmlLocalizer["OTPIsRequired"]");
                 return;
             }
@@ -187,7 +187,6 @@
                 }
                 else {
                     if (result.message != "")
-                        //ToastAlert('error', '', result.message);
                         $("#divIncorrectOtp").html(result.message);
                 }
             });

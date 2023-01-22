@@ -54,7 +54,6 @@
         </div>
     </div>
 </div>
-
 <script>
     // For OTP Module
     function OTPInput() {
@@ -111,7 +110,6 @@
     })
 
     function startTimer() {
-
         var presentTime = document.getElementById('timer').innerHTML;
         var timeArray = presentTime.split(/[:]+/);
         var m = timeArray[0];
@@ -124,21 +122,17 @@
 
         }
 
-        document.getElementById('timer').innerHTML =
-            m + ":" + s;
-        // console.log(m)
+        document.getElementById('timer').innerHTML = m + ":" + s;
         if (m === '0' && s === '00') {
             $("#resend").attr("disabled", false)
         }
         setTimeout(startTimer, 1000);
-
     }
 
     function checkSecond(sec) {
-
         if (sec < 10 && sec >= 0) {
             sec = "0" + sec
-        }; // add zero in front of numbers < 10
+        };
         if (sec < 0) {
             sec = "59"
         };
@@ -151,82 +145,3 @@
         return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
     }
 </script>
-
-@*<script>
-    function OTPInput() {
-        var inputs = document.querySelectorAll('#otp  *[id]');
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].addEventListener('keydown', function (event) {
-                if (event.key === "Backspace") {
-                    inputs[i].value = '';
-                    if (i !== 0) {
-                        inputs[i - 1].focus();
-                        var txtOtp = inputs[i - 1].id;
-                        $("#" + txtOtp).removeAttr("readonly");
-                    }
-                } else {
-                    if (inputs[i].value !== '') {
-                        event.preventDefault();
-                    } else if ((event.keyCode > 47 && event.keyCode < 58) || (event.keyCode >= 96 && event.keyCode <= 105)) {
-                        if (inputs[i].value !== '') {
-
-
-                        } else {
-                            inputs[i].value = event.key;
-                            if (i !== inputs.length - 1) {
-                                inputs[i + 1].focus();
-                                var txtOtp = inputs[i + 1].id;
-                                $("#" + txtOtp).removeAttr("readonly");
-                            }
-                            event.preventDefault();
-                        }
-                    } else if (event.keyCode > 64 && event.keyCode < 91) {
-                        inputs[i].value = String.fromCharCode(event.keyCode);
-                        // if (i !== inputs.length - 1) inputs[i +
-                        //     1].focus();
-                        event.preventDefault();
-                    }
-                }
-            });
-        }
-    }
-
-    function startTimer() {
-        var presentTime = document.getElementById('timer').innerHTML;
-        var timeArray = presentTime.split(/[:]+/);
-
-        var m = timeArray[0];
-        var s = checkSecond((timeArray[1] - 1));
-        if (s == 59) {
-            m = m - 1
-        }
-        if (m < 0) {
-            return
-        }
-        document.getElementById('timer').innerHTML = m + ":" + s;
-        console.log(m);
-        if (m === '0' && s === '00') {
-            $("#resend").show();
-            $("#otp-button").hide();
-        }
-        else {
-            setTimeout(startTimer, 1000);
-        }
-    }
-
-    function checkSecond(sec) {
-        if (sec < 10 && sec >= 0) {
-            sec = "0" + sec
-        }; // add zero in front of numbers < 10
-        if (sec < 0) {
-            sec = "59"
-        };
-        return sec;
-    }
-
-    function millisToMinutesAndSeconds(millis) {
-        var minutes = Math.floor(millis / 60000);
-        var seconds = ((millis % 60000) / 1000).toFixed(0);
-        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-    }
-</script>*@

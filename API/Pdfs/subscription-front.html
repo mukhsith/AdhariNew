@@ -1,0 +1,145 @@
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="apple-touch-icon" sizes="180x180" href="{web-url}/assets/img/fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{web-url}/assets/img/fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{web-url}/assets/img/fav/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>Adhari</title>
+    <link rel="stylesheet" href="{web-url}/assets/vendor/css/animate.css">
+    <link rel="stylesheet" href="{web-url}/assets/vendor/css/ace-responsive-menu/ace-responsive-menu.css">
+    <link rel="stylesheet" href="{web-url}/assets/css/main.css">
+    <link rel="stylesheet" href="{web-url}/css/developer.css">
+    <script src="{web-url}/assets/vendor/js/jquery.js"></script>
+</head>
+<body class="d-flex flex-column min-vh-100 home-page windowsOS chrome" style="{Body-Style}">
+    <div id="cover-spin"></div>
+    <div class="position-fixed vw-100 vh-100 top-0 start-0 body-bg-secondary flex-column justify-content-center align-items-center loader-container" style="z-index: 999999; --bs-bg-opacity: 0.5; display: none;">
+        <div class="spinner d-flex justify-content-center align-items-center">
+            <img src="/assets/img/Adhari-Logo.svg" class="rotate" alt="Loading">
+        </div>
+    </div>
+    <div class="desktop-header d-none d-lg-block bg-body-primary shadow">
+        <div class="bottom-bar ">
+            <div class="container">
+                <header class="col-12 text-center py-2">
+                    <a href="/" class="">
+                        <img src="{web-url}/assets/img/Adhari-Logo.svg" alt="Adhari" class="logo">
+                    </a>
+                    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    </ul>
+                    <div class="dt-icons col-md-3 text-end">
+                    </div>
+                </header>
+            </div>
+        </div>
+    </div>
+    <!-- main navigation-->
+    <div class="mobile-header d-block d-lg-none">
+        <nav class="navbar navbar-light bg-light px-0 py-0" aria-label="Main navigation">
+            <div class="col-12 text-center mt-3">
+                <a class="navbar-brand" href="/">
+                    <img src="{web-url}/assets/img/Adhari-Logo.svg" alt="AdhariLogo" class="logo" height="50">
+                </a>
+            </div>
+        </nav>
+    </div>
+    <main role="main" class="mobile-bottom">
+        <section class="main-content py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="payment-summary mb-4">
+                            <h4 class="text-primary text-start text-center fw-bold mb-3">{SubscriptionDetails}</h4>
+                            <div class="bg-grey row rounded-4 p-3 mx-0">
+                                <ul class="list-group list-group-flush list-card rounded-top rounded-bottom">
+                                    {SubscriptionDetails-Value}
+                                    <li class="list-group-item border-secondary d-flex justify-content-between fs-5 px-0">
+                                        <label class="text-primary fw-bold text-uppercase">{Total}</label>
+                                        <p class="text-primary mb-0 fw-bold">
+                                            <span class="crossed-out-price text-decoration-line-through text-muted me-2"></span><span class="to-pay-price">{Total-Value}</span>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="your-items mb-4">
+                            <h4 class="text-primary text-start text-center fw-bold mb-3">{SubscribedProduct}</h4>
+                            <div class="bg-grey row rounded-4 p-3 mx-0">
+                                <div class="col-3 col-md-2 ps-0">
+                                    <img src="{Subscribed-Product-Image-Value}" class="me-3 rounded-3 img-fluid" alt="Subscription product1 " height="75">
+                                </div>
+                                <div class="col-9 col-md-10 pe-0">
+                                    <a href="#" class="mb-0 fw-bold">{Subscribed-Product-Value}</a>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            {Subscribed-Product-Details-Value}                                           
+                                        </div>
+                                        <div class="col-12 col-md-6 pt-3 pt-md-0 text-md-end">
+                                            <p class="mb-0 text-dark">{Qty}: <span class="fw-bold text-primary">{Qty-Value}</span></p>
+                                            <p class="mb-0 text-dark">
+                                                {TotalAmount}: <span class="fw-bold text-primary">{TotalAmount-Value}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="payment-summary mb-4">
+                            <h4 class="text-primary text-start text-center fw-bold mb-3">{DeliveryDetails}</h4>
+                            <h5 class="text-dark text-start fw-bold my-3">{DeliveryAddress}</h5>
+                            <div class="bg-grey row rounded-4 p-3 mx-0  mb-3">
+                                <div class="inputGroup h-100 rounded-4 bg-grey d-flex flex-column justify-content-start align-items-start">
+                                    <p class="address-name card-text mb-0 fw-bold">{DeliveryAddress-Name}</p>
+                                    <p class="address-content card-text mb-0">
+                                        {DeliveryAddress-Details}<br>
+                                    </p>
+                                </div>
+                            </div>
+                            {Delivery-Details-Value}                            
+                        </div>
+                    </div>
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                        <div class="your-items mb-4">
+                            <h4 class="text-primary text-start text-center fw-bold mb-3">{UpcomingDeliveries}</h4>
+                            <div class="bg-grey row rounded-4 p-3 mx-0">
+                                <ul class="list-group list-group-flush list-card rounded-top rounded-bottom">
+                                    {Upcoming-Deliveriey-Details}
+                                    <!--<li class="list-group-item d-flex justify-content-between border-secondary px-0">
+                                        <p class="mb-0 text-muted">{DueDate}</p>
+                                        <p class="mb-0 text-primary fw-bold text-end ">{DueDate-Value}</p>
+                                    </li>-->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="{web-url}/assets/vendor/js/bootstrap.bundle.js"></script>
+    <script src="{web-url}/assets/js/util/autoPadding.js"></script>
+    <script src="{web-url}/assets/js/util/crossPlatform.js"></script>
+    <script src="{web-url}/assets/vendor/js/lax.js"></script>
+    <script src="{web-url}/assets/vendor/js/bootstrap-input-spinner.js"></script>
+    <script src="{web-url}/assets/vendor/js/ace-responsive-menu/ace-responsive-menu-min.js"></script>
+    <!-- build:js -->
+    <script src="{web-url}/assets/js/main.js"></script>
+    <!-- endbuild -->
+    <script src="{web-url}/js/developer.js"></script>
+    <script src="{web-url}/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="{web-url}/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="{web-url}/js/site.js?v=fYgJcNEueT3HE-ZqK-OQvdepANisvh8Ypc_HxXuA-EM"></script>
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+</body>
+</html>

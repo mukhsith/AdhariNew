@@ -6,16 +6,13 @@
     breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("mywallet", new { walletType = (int)(WalletType.Wallet) }), Title = SharedHtmlLocalizer["MyWallet"].Value });
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["WalletPrepaidCards"].Value });
 }
-
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
-
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row">
             <div class="col-12 mb-4 packages-cards">
                 <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["SelectWalletPrepaidCard"]</h4>
                 <div class="row justify-content-center">
-
                     @foreach (var item in Model)
                     {
                         <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
@@ -28,7 +25,6 @@
                             </div>
                         </div>
                     }
-
                 </div>
             </div>
             <div class="col-12 col-lg-8 mx-auto payment-method mb-4" style="display: none;">
@@ -60,7 +56,6 @@
         </div>
     </div>
 </section>
-
 <script>
     $(document).ready(function () {
         getPaymentMethods();
@@ -96,72 +91,67 @@
         return html;
     };
 
+    $("#a-checkout").click(function () {
+        var walletPackageId = $('div.package-card.active').attr('data-id');
+        var paymentMethodId = $('input[name="payment-method-radio"]:checked').val();
+        if (paymentMethodId == "" || paymentMethodId == null || paymentMethodId == undefined) {
+            ToastAlert('error', '', "@SharedHtmlLocalizer["PleaseChoosePaymentMethod"]");
+            return false;
+        }
 
-        $("#a-checkout").click(function () {
-            var walletPackageId = $('div.package-card.active').attr('data-id');
-            var paymentMethodId = $('input[name="payment-method-radio"]:checked').val();
-            if (paymentMethodId == "" || paymentMethodId == null || paymentMethodId == undefined) {
-                ToastAlert('error', '', "@SharedHtmlLocalizer["PleaseChoosePaymentMethod"]");
-                return false;
-            }
-
-            showLoader();
-            $.post("@Url.RouteUrl("createwalletpackageorder")", {
-                WalletPackageId: walletPackageId,
-                PaymentMethodId: paymentMethodId
-            }, function (result) {
-                if (result.success && result.data != null) {
-                    if (result.data.redirectToPaymentPage) {
-                        window.location.href = result.data.paymentUrl;
-                    }
-                    else {
-                        window.location.href = "/ORD/" + result.data.entityNumber;
-                    }
+        showLoader();
+        $.post("@Url.RouteUrl("createwalletpackageorder")", {
+            WalletPackageId: walletPackageId,
+            PaymentMethodId: paymentMethodId
+        }, function (result) {
+            if (result.success && result.data != null) {
+                if (result.data.redirectToPaymentPage) {
+                    window.location.href = result.data.paymentUrl;
                 }
                 else {
-                    hideLoader();
-
-                    if (result.messageCode == 401) {
-                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
-                        window.location.href = "/login?returnUrl=" + returnUrl;
-                        return;
-                    }
-
-                    if (result.message != "")
-                        ToastAlert('error', '', result.message);
+                    window.location.href = "/ORD/" + result.data.entityNumber;
                 }
-            });
+            }
+            else {
+                hideLoader();
 
-            return false;
+                if (result.messageCode == 401) {
+                    var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                    window.location.href = "/login?returnUrl=" + returnUrl;
+                    return;
+                }
+
+                if (result.message != "")
+                    ToastAlert('error', '', result.message);
+            }
         });
+
+        return false;
+    });
 
     $(".package-card").click(function () {
         var amount = $(this).data('amount');
         setLabelValue("total-amount", amount);
     });
-</script>
 
-<script>
     $(".package-card").click(function () {
         $(".package-card").removeClass("active");
         $(this).addClass("active");
         $(".payment-method").show();
-        // For Mobile
+
         if ($(window).width() < 480) {
             $(".packages-cards").hide();
         }
         $("html, body").animate({ scrollTop: $(document).height() }, 1000);
     });
-    $(".package-card-back-btn").click(function () {
-        // $("html, body").animate({ scrollTop: 0 }, 500);
 
+    $(".package-card-back-btn").click(function () {
         $(".packages-cards").show();
         $(".payment-method").hide();
-
     });
+
     $('input[type=radio][name=payment-method-radio]').change(function () {
         $(this).closest('ul').find('.inputGroup').removeClass('active');
         $(this).closest('.inputGroup').addClass('active');
-        // $('.continue-btn').removeClass('disabled');
     });
 </script>

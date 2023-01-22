@@ -169,6 +169,11 @@ namespace Services.Backend.ProductManagement.Interface
                              ImageUrl = (x.ImageName != null ? baseImageUrl + x.ImageName : null),
                              x.CreatedOn,
                              x.Active,
+                             x.MinCartQuantity,
+                             x.MaxCartQuantity,
+                             x.B2BMinCartQuantity,
+                             x.B2BMaxCartQuantity,
+                             x.SubscriptionDurationIds,
                              x.Deleted,
                              ProductDetails = from pd in x.ProductDetails
                                               join p in _dbcontext.Products.Include(x => x.ItemSize).Where(t => t.Deleted == false && t.ProductType == ProductType.BaseProduct)
@@ -451,12 +456,20 @@ namespace Services.Backend.ProductManagement.Interface
                 update.DiscountFromDate = model.DiscountFromDate;
                 update.DiscountToDate = model.DiscountToDate;
 
+
+                update.MinCartQuantity = model.MinCartQuantity;
+                update.MaxCartQuantity = model.MaxCartQuantity;
+
+
                 update.B2BPriceEnabled = model.B2BPriceEnabled;
                 update.B2BPrice = model.B2BPrice;
                 update.B2BDiscountedPrice = model.B2BDiscountedPrice;
                 update.B2BDiscountFromDate = model.B2BDiscountFromDate;
                 update.B2BDiscountToDate = model.B2BDiscountToDate;
 
+                update.B2BMinCartQuantity = model.B2BMinCartQuantity;
+                update.B2BMaxCartQuantity = model.B2BMaxCartQuantity;
+                update.SubscriptionDurationIds = model.SubscriptionDurationIds;
                 if (!string.IsNullOrEmpty(model.ImageName))
                 { update.ImageName = model.ImageName; }
 
@@ -502,11 +515,19 @@ namespace Services.Backend.ProductManagement.Interface
                 update.DiscountFromDate = model.DiscountFromDate;
                 update.DiscountToDate = model.DiscountToDate;
 
+                update.MinCartQuantity = model.MinCartQuantity;
+                update.MaxCartQuantity = model.MaxCartQuantity;
+
+
                 update.B2BPriceEnabled = model.B2BPriceEnabled;
                 update.B2BPrice = model.B2BPrice;
                 update.B2BDiscountedPrice = model.B2BDiscountedPrice;
                 update.B2BDiscountFromDate = model.B2BDiscountFromDate;
                 update.B2BDiscountToDate = model.B2BDiscountToDate;
+
+                update.B2BMinCartQuantity = model.B2BMinCartQuantity;
+                update.B2BMaxCartQuantity = model.B2BMaxCartQuantity;
+                update.SubscriptionDurationIds = model.SubscriptionDurationIds;
 
                 if (!string.IsNullOrEmpty(model.ImageName))
                 { update.ImageName = model.ImageName; }

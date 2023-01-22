@@ -296,6 +296,19 @@ namespace API.Areas.Backend.Controllers
                 item.ImageMobileUrl = GetImageUrl(AppSettings.ImageCategory, item.ImageMobileName);
 
             }
+
+            if (!string.IsNullOrEmpty(item.ImageDesktopNameAr))
+            {
+                item.ImageDesktopUrlAr = GetImageUrl(AppSettings.ImageCategory, item.ImageDesktopNameAr);
+
+            }
+
+            if (!string.IsNullOrEmpty(item.ImageMobileNameAr))
+            {
+                item.ImageMobileUrlAr = GetImageUrl(AppSettings.ImageCategory, item.ImageMobileNameAr);
+
+            }
+
             return item;
         }
 

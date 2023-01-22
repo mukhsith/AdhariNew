@@ -158,6 +158,7 @@ namespace API.Areas.Frontend.Factories
             var response = new APIResponseModel<bool>();
             try
             {
+                bool b2bCustomer = false;
                 if (cartItemModel.CustomerId.HasValue && cartItemModel.CustomerId.Value > 0)
                 {
                     var customer = await _customerService.GetCustomerById(cartItemModel.CustomerId.Value);
@@ -171,6 +172,11 @@ namespace API.Areas.Frontend.Factories
                     {
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
+                    }
+
+                    if (customer.B2B)
+                    {
+                        b2bCustomer = true;
                     }
                 }
                 else
@@ -250,6 +256,29 @@ namespace API.Areas.Frontend.Factories
                 {
                     response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
                     return response;
+                }
+
+                if (b2bCustomer)
+                {
+                    if (product.B2BMaxCartQuantity > 0)
+                    {
+                        if (cartItem.Quantity > product.B2BMaxCartQuantity)
+                        {
+                            response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                            return response;
+                        }
+                    }
+                }
+                else
+                {
+                    if (product.MaxCartQuantity > 0)
+                    {
+                        if (cartItem.Quantity > product.MaxCartQuantity)
+                        {
+                            response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                            return response;
+                        }
+                    }
                 }
 
                 if (addCartItem)

@@ -352,8 +352,8 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                //var item = await _orderModelFactory.AddDriver(order.OrderId, order.DriverId, order.OrderTypeId);
-                //response.Update(item);
+                var item = await _get.AddDriver(order.OrderId, order.DriverId, order.OrderTypeId);
+                response.Update(item);
             }
             catch (Exception ex)
             {
@@ -371,8 +371,8 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                //var item = await _orderModelFactory.AddDriver(order.OrderId, order.DriverId, order.OrderTypeId);
-                //response.Update(item);
+                var item = await _get.AddDriver(order.OrderId, order.DriverId, order.OrderTypeId);
+                response.Update(item);
             }
             catch (Exception ex)
             {

@@ -20,6 +20,8 @@ namespace Services.Backend.Sales
         Task<SubscriptionOrder> GetSubscriptionOrderById(int id);
 
         Task<bool> UpdateOrderPaymentStatus(SubscriptionOrder order, bool isDelivered, int paymentStatusId);
+        Task<bool> UpdateDriverdetails(SubscriptionOrder order);
+
 
         Task<DailySubscriptionSummaryModel> GetSubscriptionTodaySales();
         Task<DataTableResult<List<AdminSubscriptionModel>>> GetSubscriptions(AdminSubscriptionOrderParam param);

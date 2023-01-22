@@ -52,7 +52,9 @@ namespace Services.Backend.Sales
         Task<List<Order>> GetAllOrder(int? customerId = null, PaymentStatus? paymentStatus = null, OrderStatus? orderStatus = null,
             string customerGuidValue = "", int? countryId = null);
         Task<Order> GetOrderById(int id);
-        //Task<bool> AddDriver(int id,int driverId,int OrderTypeID);
+
+        Task<bool> AddDriver(int id, int driverId, int OrderTypeID);
+
         Task<bool> RemoveDriver(int id);
         //Task<bool> RescheduleDelivery(int id, DateTime? dateTime = null);
         Task<Order> GetOrderByOrderNumber(string orderNumber);

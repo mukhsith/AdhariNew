@@ -121,6 +121,16 @@ namespace Services.Backend.Sales
             return await _dbcontext.SaveChangesAsync() > 0;
         }
 
+
+        public async Task<bool> UpdateDriverdetails(SubscriptionOrder order)
+        {
+              order.DriverId = null;
+            order.Delivered = false;
+            _dbcontext.SubscriptionOrders.Update(order);
+            return await _dbcontext.SaveChangesAsync() > 0;
+        }
+
+
         public async Task<Subscription> GetSubscriptionBySubscriptionNumber(string subscriptionNumber)
         {
             var data = await _dbcontext.Subscriptions

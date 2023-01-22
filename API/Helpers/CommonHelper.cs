@@ -121,52 +121,52 @@ namespace API.Helpers
             if (statusId == OrderStatus.Cancelled)
             {
                 name = isEnglish ? Messages.Cancelled : MessagesAr.Cancelled;
-                colorCode = "#ff4343";
+                colorCode = "#444444";
             }
             else if (statusId == OrderStatus.Confirmed)
             {
                 name = isEnglish ? Messages.Confirmed : MessagesAr.Confirmed;
-                colorCode = "#0d6efd";
+                colorCode = "#4bb543";
             }
             else if (statusId == OrderStatus.Delivered)
             {
                 name = isEnglish ? Messages.Delivered : MessagesAr.Delivered;
-                colorCode = "#019b06";
+                colorCode = "#4bb543";
             }
             else if (statusId == OrderStatus.Pending)
             {
                 name = isEnglish ? Messages.Pending : MessagesAr.Pending;
-                colorCode = "#eb9d00";
+                colorCode = "#444444";
             }
             else if (statusId == OrderStatus.Discarded)
             {
                 name = isEnglish ? Messages.Discarded : MessagesAr.Discarded;
-                colorCode = "#a7a5a1";
+                colorCode = "#444444";
             }
             else if (statusId == OrderStatus.Failed)
             {
                 name = isEnglish ? Messages.Failed : MessagesAr.Failed;
-                colorCode = "#d2322d";
+                colorCode = "#444444";
             }
             else if (statusId == OrderStatus.Received)
             {
                 name = isEnglish ? Messages.Received : MessagesAr.Received;
-                colorCode = "#019b06";
+                colorCode = "#4bb543";
             }
             else if (statusId == OrderStatus.OnTheWay)
             {
                 name = isEnglish ? Messages.OnTheWay : MessagesAr.OnTheWay;
-                colorCode = "#019b06";
+                colorCode = "#4bb543";
             }
             else if (statusId == OrderStatus.Returned)
             {
                 name = isEnglish ? Messages.Returned : MessagesAr.Returned;
-                colorCode = "#019b06";
+                colorCode = "#444444";
             }
             else if (statusId == OrderStatus.CancelledByCustomer)
             {
                 name = isEnglish ? Messages.CancelledByCustomer : MessagesAr.CancelledByCustomer;
-                colorCode = "#019b06";
+                colorCode = "#444444";
             }
 
             var result = new Tuple<string, string>(name, colorCode);
@@ -226,17 +226,17 @@ namespace API.Helpers
             if (statusId == SubscriptionStatus.Pending)
             {
                 name = isEnglish ? Messages.Pending : MessagesAr.Pending;
-                colorCode = "#eb9d00";
+                colorCode = "#444444";
             }
             else if (statusId == SubscriptionStatus.Confirmed)
             {
                 name = isEnglish ? Messages.Confirmed : MessagesAr.Confirmed;
-                colorCode = "#0d6efd";
+                colorCode = "#4bb543";
             }
             else if (statusId == SubscriptionStatus.Expired)
             {
                 name = isEnglish ? Messages.Expired : MessagesAr.Expired;
-                colorCode = "#a7a5a1";
+                colorCode = "#ff0000";
             }
 
             var result = new Tuple<string, string>(name, colorCode);
@@ -1193,6 +1193,100 @@ namespace API.Helpers
 
             return apiBaseUrl + path;
         }
+        //public string GetSubscriptionFrontPdfUrl(SubscriptionModel subscriptionModel, string apiBaseUrl, string webUrl, bool isEnglish)
+        //{
+        //    string[] emailTemplatePath = new string[3] { Directory.GetCurrentDirectory(), "Pdfs", "subscription-front.html" };
+        //    StreamReader reader = new StreamReader(Path.Combine(emailTemplatePath));
+        //    string orderHtml = reader.ReadToEnd();
+
+        //    orderHtml = orderHtml.Replace("{Body-Style}", isEnglish ? "direction: ltr;" : "direction: rtl;");
+        //    orderHtml = orderHtml.Replace("{Base-Url}", apiBaseUrl);
+        //    orderHtml = orderHtml.Replace("{web-url}", webUrl);
+
+        //    #region Company Info
+        //    orderHtml = orderHtml.Replace("{Logo-Text-Align}", isEnglish ? "text-align: left;" : "text-align: right;");
+        //    orderHtml = orderHtml.Replace("{Company-Details-Text-Align}", isEnglish ? "text-align: right;" : "text-align: left;");
+        //    orderHtml = orderHtml.Replace("{Company-Name}", OrderPDF.CompanyName);
+        //    orderHtml = orderHtml.Replace("{Company-Website}", OrderPDF.CompanyWebsite);
+        //    orderHtml = orderHtml.Replace("{Company-Email}", OrderPDF.CompanyEmail);
+        //    #endregion
+
+        //    orderHtml = orderHtml.Replace("{SubscriptionDetails}", isEnglish ? Messages.SubscriptionDetails : MessagesAr.SubscriptionDetails);
+
+        //    var subscriptionDetails = string.Empty;
+        //    foreach (var item in subscriptionModel.SubscriptionDetails)
+        //    {
+        //        subscriptionDetails += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>"
+        //                            + @"<p class='mb-0 text-muted'>" + item.Title + @"</p>"
+        //                            + @" < p class='mb-0 text-primary fw-bold text-end'>" + item.Value + @"</p></li>";
+        //    }
+        //    orderHtml = orderHtml.Replace("{SubscriptionDetails-Value}", subscriptionDetails);
+
+
+        //    orderHtml = orderHtml.Replace("{Total}", isEnglish ? Messages.Tota : MessagesAr.Total);
+        //    orderHtml = orderHtml.Replace("{Total-Value}", subscriptionModel.FormattedTotal);
+
+        //    orderHtml = orderHtml.Replace("{SubscribedProduct}", isEnglish ? OrderPDF.SubscribedProduct : OrderPDFAr.SubscribedProduct);
+        //    orderHtml = orderHtml.Replace("{Subscribed-Product-Image-Value}", subscriptionModel.imag);
+        //    orderHtml = orderHtml.Replace("{Subscribed-Product-Value}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
+        //    orderHtml = orderHtml.Replace("{Subscribed-Product-Details-Value}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
+
+        //    var items = "";
+        //    foreach (var item in subscriptionModel.SubscriptionPackTitles)
+        //    {
+        //        items += "< p class='m-0'>" + item.Title + @"</p>";
+        //    }
+        //    orderHtml = orderHtml.Replace("{Subscribed-Product-Details-Value}", items);
+
+        //    orderHtml = orderHtml.Replace("{Qty}", isEnglish ? OrderPDF.Qty : OrderPDFAr.Qty);
+        //    orderHtml = orderHtml.Replace("{Qty-Value}", subscriptionModel.Quantity.ToString());
+        //    orderHtml = orderHtml.Replace("{TotalAmount}", isEnglish ? OrderPDF.TotalAmount : OrderPDFAr.TotalAmount);
+        //    orderHtml = orderHtml.Replace("{TotalAmount-Value}", subscriptionModel.FormattedTotal);
+
+
+        //    orderHtml = orderHtml.Replace("{DeliveryDetails}", isEnglish ? OrderPDF.DeliveryDetails : OrderPDFAr.DeliveryDetails);
+        //    orderHtml = orderHtml.Replace("{DeliveryAddress}", isEnglish ? OrderPDF.DeliveryAddress : OrderPDFAr.DeliveryAddress);
+        //    orderHtml = orderHtml.Replace("{DeliveryAddress-Name}", subscriptionModel.Address.Name);
+        //    orderHtml = orderHtml.Replace("{DeliveryAddress-Details}", subscriptionModel.Address.AddressText);
+
+
+        //    var deliveryDetailsValue = "";
+        //    foreach (var item in subscriptionModel.SubscriptionPayments)
+        //    {
+        //        deliveryDetailsValue += "<h5 class='text-dark text-start fw-bold my-3'>" + item.Title + "</h5>" +
+        //                "<div class='bg-grey row rounded-4 p-3 mx-0'>" +
+        //                    "<ul class='list -group list-group-flush list-card rounded-top rounded-bottom'>";
+        //        foreach (var payment in item.SubscriptionPayment)
+        //        {
+        //            deliveryDetailsValue += "<li class='list-group-item d-flex justify-content-between border-secondary px-0'>" +
+        //                                "<p class='mb -0 text-muted'>" + payment.Title + "</p>" +
+        //                                "<p class='mb -0 text-primary fw-bold text-end'>" + payment.Value + "</p>" +
+        //                            "</li>";
+        //        }
+        //        deliveryDetailsValue += "</ul></div>";
+        //    }
+        //    orderHtml = orderHtml.Replace("{Delivery-Details-Value}", deliveryDetailsValue);
+
+        //    orderHtml = orderHtml.Replace("{UpcomingDeliveries}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
+        //    var items = "";
+        //    foreach (var item in order.SubscriptionPackTitles)
+        //    {
+        //        items += "<tr>" + "<td>" + item.Title + "</td><td>" + item.Value + "</td></tr>";
+        //    }
+        //    orderHtml = orderHtml.Replace("{Upcoming-Deliveriey-Details}", items);
+
+
+
+
+
+
+
+            
+
+        //    string path = MediaHelper.HtmlToPdf(orderHtml, "Pdfs/SubscriptionPdfs");
+
+        //    return apiBaseUrl + path;
+        //}
         public async Task<bool> UpdateSubscriptionOrderStatus(Subscription subscription, SubscriptionStatus subscriptionStatus, bool refundDeliveryFee = false, string notes = "")
         {
             bool updated = false;

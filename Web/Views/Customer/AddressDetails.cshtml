@@ -259,7 +259,6 @@
     }
 
     function loadAreasEdit(gid, aid) {
-        //$.get("getareas/" + gid, function (result) {
         var _url = "/Common/GetAreas?governorateId=" + gid;
         $.get(_url, function (result) {
             if (result.success && result.data != null) {

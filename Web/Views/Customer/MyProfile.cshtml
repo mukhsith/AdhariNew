@@ -12,13 +12,6 @@
                     <div class="bg-grey row rounded-4 p-3 mx-0">
                         <form class="row g-3 mt-0" id="form-myprofile">
                             <div class="col-12">
-                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]</label>
-                                <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
-                                       id="Name" name="Name" value="@Model.Name" disabled>
-                                <div id="dvErrorName">
-                                </div>
-                            </div>
-                            <div class="col-12">
                                 <label for="inputName2" class="form-label mb-0">
                                     @SharedHtmlLocalizer["MobileNumber"]<span class="verified-check ms-1 fw-bold text-success" style="display: none;">
                                         @SharedHtmlLocalizer["Verified"] <i class="fa-solid fa-circle-check"></i>
@@ -36,6 +29,13 @@
                                            maxlength="8" onkeypress="return validateMobileNumber(event);" value="@Model.MobileNumber" disabled />
                                 </div>
                                 <div id="dvErrorMobileNumber">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]</label>
+                                <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
+                                       id="Name" name="Name" value="@Model.Name" disabled>
+                                <div id="dvErrorName">
                                 </div>
                             </div>
                             <div class="col-12">
@@ -60,7 +60,6 @@
 @await Html.PartialAsync("_OTPModel")
 <script>
     $(document).ready(function () {
-        //ToastAlert("", "Failed", "Please enter your name","");
         OTPInput();
         $("#resend").hide();
         $('#sec-otp-verification').hide();
@@ -185,7 +184,6 @@
 
             var otp = $("#otp1").val() + $("#otp2").val() + $("#otp3").val() + $("#otp4").val();
             if (otp == "") {
-                //ToastAlert('error', '', "@SharedHtmlLocalizer["OTPIsRequired"]");
                 $("#divIncorrectOtp").html("@SharedHtmlLocalizer["OTPIsRequired"]");
                 return;
             }
@@ -212,7 +210,6 @@
                 }
                 else {
                     if (result.message != "")
-                        //ToastAlert('error', '', result.message);
                         $("#divIncorrectOtp").html(result.message);
                 }
             });

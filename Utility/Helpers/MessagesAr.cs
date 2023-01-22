@@ -136,7 +136,7 @@
         public static string GovernorateNotExists = "المحافظة غير موجودة";
         public static string GovernorateNotActive = "المحافظة غير نشطة";
         public static string OrderAmountValidation = "يجب أن يكون إجمالي الطلب أكثر من الصفر";
-        public static string Cancelled = "ملغى";
+        public static string Cancelled = "الملغاة";
         public static string Confirmed = "مؤكد";
         public static string Expired = "منتهي";
         public static string Refunded = "مسترجع - تمت الإضافة إلى المحفظة";
@@ -406,6 +406,9 @@
         public static string Amount = "مبلغ";
         public static string DeliveryStatus = "حالة التوصيل";
         public static string EstimatedDeliveryDetails = "خلال {0} ساعة";
+        public static string DeliveryDate = "تاريخ التسليم";
+        public static string ForNumberOfMonths = "لمدة {0} شهور";
+        public static string PerMonth = "Per Month";
     }
 
     #region ORDER PRINT PDF For Arabic

@@ -5,10 +5,8 @@
 @{
     var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
     Layout = "_Layout";
-}
-@{
-    var breadCrumbItems = new List<List<string>>();
 
+    var breadCrumbItems = new List<List<string>>();
     var breadCrumbItem1 = new List<string>();
     breadCrumbItem1.Add(SharedHtmlLocalizer["Order Details"].Value);
     breadCrumbItems.Add(breadCrumbItem1);
@@ -16,11 +14,5 @@
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
 <section class="main-content bg-white pt-3 pb-5">
     <div class="container">
-
-
-
-
-
-      
     </div>
 </section>

@@ -94,8 +94,8 @@
                                 @foreach (var UpcomingDelivery in Model.UpcomingDeliveries)
                                 {
                                     <li class="list-group-item d-flex justify-content-between border-secondary px-0">
-                                        <p class="mb-0 text-muted">@UpcomingDelivery.Title</p>
-                                        <p class="mb-0 text-primary fw-bold text-end ">@UpcomingDelivery.Value</p>
+                                        <p class="mb-0 text-muted">@SharedHtmlLocalizer["DueDate"]</p>
+                                        <p class="mb-0 text-primary fw-bold text-end ">@UpcomingDelivery.Title</p>
                                     </li>
                                 }
                             </ul>

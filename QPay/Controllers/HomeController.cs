@@ -11,6 +11,9 @@ using Utility.Models.Frontend.CustomizedModel;
 using Utility.Models.Frontend.Sales;
 using Utility.ResponseMapper;
 using QPay.Models;
+using System.Globalization;
+using System.Threading;
+using Microsoft.AspNetCore.Localization;
 
 namespace QPay.Controllers
 {
@@ -43,10 +46,36 @@ namespace QPay.Controllers
 
             try
             {
+                QuickPaymentModel quickPaymentModel = new();
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<QuickPaymentModel>>("webapi/common/quickpay?quickPayNumber=" + quickPayNumber);
                 if (responseModel.Success && responseModel.Data != null)
                 {
-                    return View(responseModel.Data);
+                    quickPaymentModel = responseModel.Data;
+
+                    var currentLanguage = string.Empty;
+                    var customerLanguage = quickPaymentModel.CustomerLanguageId == 1 ? "en" : "ar";
+                    if (!string.IsNullOrEmpty(CultureInfo.CurrentCulture.Name))
+                    {
+                        currentLanguage = CultureInfo.CurrentCulture.Name.ToLower();
+                    }
+
+                    if (currentLanguage != customerLanguage)
+                    {
+                        var cultureInfo = new CultureInfo(customerLanguage);
+                        Thread.CurrentThread.CurrentUICulture = cultureInfo;
+                        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureInfo.Name);
+
+                        Response.Cookies.Append(
+                        CookieRequestCultureProvider.DefaultCookieName,
+                        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(customerLanguage == "en" ? "en-US" : "ar-KW")),
+                        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+
+                        return RedirectToRoute("quickpay", new { quickPayNumber = quickPaymentModel.QuickPayNumber });
+                    }
+                    else
+                    {
+                        return View(quickPaymentModel);
+                    }
                 }
             }
             catch (Exception ex)

@@ -144,12 +144,12 @@ namespace API.Areas.Frontend.Factories
                         return response;
                     }
 
-                    if (subscriptionAttributeModel.Quantity.Value > _appSettings.MaximumSubscriptionQuantityToPurchase)
-                    {
-                        response.Message = isEnglish ? string.Format(Messages.SubscriptionQuantityValidation, _appSettings.MaximumSubscriptionQuantityToPurchase) :
-                           string.Format(MessagesAr.SubscriptionQuantityValidation, _appSettings.MaximumSubscriptionQuantityToPurchase);
-                        return response;
-                    }
+                    //if (subscriptionAttributeModel.Quantity.Value > _appSettings.MaximumSubscriptionQuantityToPurchase)
+                    //{
+                    //    response.Message = isEnglish ? string.Format(Messages.SubscriptionQuantityValidation, _appSettings.MaximumSubscriptionQuantityToPurchase) :
+                    //       string.Format(MessagesAr.SubscriptionQuantityValidation, _appSettings.MaximumSubscriptionQuantityToPurchase);
+                    //    return response;
+                    //}
                 }
 
                 if (subscriptionAttributeModel.AttributeTypeId == AttributeType.SelectAddress)
@@ -214,7 +214,7 @@ namespace API.Areas.Frontend.Factories
                     }
 
                     var productValidationResponse = await ValidateSubscriptionProduct(product: product, isEnglish: isEnglish, quantity: subscriptionAttributeModel.Quantity.Value,
-                        customerId: customer.Id);
+                        customerId: customer.Id, b2bCustomer: b2bCustomer);
                     if (!productValidationResponse.Success)
                     {
                         response.Message = productValidationResponse.Message;
@@ -255,7 +255,7 @@ namespace API.Areas.Frontend.Factories
                     if (subscriptionAttributeModel.AttributeTypeId == AttributeType.Subscribe)
                     {
                         var productValidationResponse = await ValidateSubscriptionProduct(product: product, isEnglish: isEnglish, quantity: subscriptionAttributeModel.Quantity.Value,
-                        customerId: customer.Id);
+                        customerId: customer.Id, b2bCustomer: b2bCustomer);
                         if (!productValidationResponse.Success)
                         {
                             response.Message = productValidationResponse.Message;
@@ -398,6 +398,8 @@ namespace API.Areas.Frontend.Factories
                     return response;
                 }
 
+                bool b2bCustomer = customer != null && customer.B2B;
+
                 var subscriptionAttribute = await _cartService.GetSubscriptionAttributeByCustomerId(customerId: customerId);
                 if (subscriptionAttribute == null)
                 {
@@ -494,6 +496,29 @@ namespace API.Areas.Frontend.Factories
                 {
                     response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
                     return response;
+                }
+
+                if (b2bCustomer)
+                {
+                    if (product.B2BMaxCartQuantity > 0)
+                    {
+                        if (subscriptionAttribute.Quantity.Value > product.B2BMaxCartQuantity)
+                        {
+                            response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                            return response;
+                        }
+                    }
+                }
+                else
+                {
+                    if (product.MaxCartQuantity > 0)
+                    {
+                        if (subscriptionAttribute.Quantity.Value > product.MaxCartQuantity)
+                        {
+                            response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                            return response;
+                        }
+                    }
                 }
 
                 Address address = await _customerService.GetAddressById(subscriptionAttribute.AddressId.Value);
@@ -645,7 +670,6 @@ namespace API.Areas.Frontend.Factories
                     }
                 }
 
-                bool b2bCustomer = customer != null && customer.B2B;
                 decimal price = product.GetPriceFrontend(b2bCustomer);
                 decimal discountedPrice = product.GetDiscountedPriceFrontend(b2bCustomer);
 
@@ -1195,7 +1219,7 @@ namespace API.Areas.Frontend.Factories
         }
 
         #region Utilities
-        public async Task<APIResponseModel<object>> ValidateSubscriptionProduct(Product product, bool isEnglish, int quantity, int customerId)
+        public async Task<APIResponseModel<object>> ValidateSubscriptionProduct(Product product, bool isEnglish, int quantity, int customerId, bool b2bCustomer)
         {
             var response = new APIResponseModel<object>();
 
@@ -1245,6 +1269,29 @@ namespace API.Areas.Frontend.Factories
             {
                 response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
                 return response;
+            }
+
+            if (b2bCustomer)
+            {
+                if (product.B2BMaxCartQuantity > 0)
+                {
+                    if (quantity > product.B2BMaxCartQuantity)
+                    {
+                        response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                        return response;
+                    }
+                }
+            }
+            else
+            {
+                if (product.MaxCartQuantity > 0)
+                {
+                    if (quantity > product.MaxCartQuantity)
+                    {
+                        response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                        return response;
+                    }
+                }
             }
 
             response.Message = isEnglish ? Messages.Success : MessagesAr.Success;

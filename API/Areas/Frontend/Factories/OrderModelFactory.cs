@@ -297,6 +297,29 @@ namespace API.Areas.Frontend.Factories
                     decimal price = product.GetPriceFrontend(b2bCustomer);
                     decimal discountedPrice = product.GetDiscountedPriceFrontend(b2bCustomer);
 
+                    if (b2bCustomer)
+                    {
+                        if (product.B2BMaxCartQuantity > 0)
+                        {
+                            if (cartItem.Quantity > product.B2BMaxCartQuantity)
+                            {
+                                response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                                return response;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (product.MaxCartQuantity > 0)
+                        {
+                            if (cartItem.Quantity > product.MaxCartQuantity)
+                            {
+                                response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                                return response;
+                            }
+                        }
+                    }
+
                     List<OrderItemDetail> orderItemDetails = new();
                     if (product.ProductType == ProductType.BundledProduct)
                     {

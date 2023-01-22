@@ -1,9 +1,4 @@
 ﻿@model IList<Utility.Models.Frontend.Content.BannerModel>
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
 <section class="body-bg-secondary mt-3 mt-lg-0 pt-4 pt-lg-0 mb-3 mb-md-3">
     <div class="container mt-3 mt-lg-0">
         <div class="row">
@@ -15,37 +10,35 @@
                             <img src="@item.ImageUrl" class="img-fluid rounded-5">
                         </a>
                     }
-                  
                 </div>
-
                 <script src="~/assets/vendor/js/slick.min.js"></script>
                 <script>
-                            $(document).ready(function () {
-                                $('.main_banner').slick({
-                                    rtl: false,
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1,
-                                    centerMode: true,
-                                    swipeToSlide: true,
-                                    // centerPadding: '40px',
-                                    //   variableWidth: false,
-                                    dots: true,
-                                    arrows: false,
-                                    autoplay: true,
-                                    autoplaySpeed: 2000,
-                                    responsive: [{
-                                        breakpoint: 480,
-                                        settings: {
-                                            centerMode: false
-                                        }
-                                    }]
-                                });
-
-                                if ($('html').attr('dir') == 'rtl') {
-                                    console.log("RTL enabled");
-                                    $('.main_banner').slick('slickSetOption', 'rtl', true, false);
+                    $(document).ready(function () {
+                        $('.main_banner').slick({
+                            rtl: false,
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            centerMode: true,
+                            swipeToSlide: true,
+                            // centerPadding: '40px',
+                            //   variableWidth: false,
+                            dots: true,
+                            arrows: false,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            responsive: [{
+                                breakpoint: 480,
+                                settings: {
+                                    centerMode: false
                                 }
-                            });
+                            }]
+                        });
+
+                        if ($('html').attr('dir') == 'rtl') {
+                            console.log("RTL enabled");
+                            $('.main_banner').slick('slickSetOption', 'rtl', true, false);
+                        }
+                    });
                 </script>
             </div>
         </div>

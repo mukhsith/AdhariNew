@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AmountPayable" xml:space="preserve">
-    <value>Amount Payable</value>
+    <value>المبلغ المستحق الدفع</value>
   </data>
   <data name="CustomerDetails" xml:space="preserve">
     <value>تفاصيل العميل</value>
@@ -148,9 +148,9 @@
     <value>تم الدفع بنجاح</value>
   </data>
   <data name="ProceedToPayment" xml:space="preserve">
-    <value>Proceed to Payment</value>
+    <value>انتقل إلى الدفع</value>
   </data>
   <data name="QuickPay" xml:space="preserve">
-    <value>Quick Pay</value>
+    <value>الدفع السريع</value>
   </data>
 </root>

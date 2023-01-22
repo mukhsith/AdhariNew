@@ -699,12 +699,11 @@ namespace Web.Controllers
         }
 
         /// <summary>
-        /// Logout clear authentication token+customerId+CustomerGuidValue and redirect to home 
+        /// Logout clear authentication token+CustomerGuidValue and redirect to home 
         /// </summary>
         public virtual IActionResult Logout()
         {
             Response.Cookies.Append("AuthenticationToken", "");
-            Response.Cookies.Append("CustomerId", "");
             Response.Cookies.Append("CustomerGuidValue", "");
 
             return RedirectToRoute("home");

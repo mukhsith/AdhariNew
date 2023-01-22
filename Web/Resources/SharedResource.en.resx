@@ -276,6 +276,9 @@
   <data name="DownloadOurApp" xml:space="preserve">
     <value>Download Adhari App</value>
   </data>
+  <data name="DueDate" xml:space="preserve">
+    <value>Due Date</value>
+  </data>
   <data name="Duration" xml:space="preserve">
     <value>Duration</value>
   </data>
@@ -794,6 +797,9 @@
   </data>
   <data name="WeHaveSentEmailTo" xml:space="preserve">
     <value>We Have Sent Email To</value>
+  </data>
+  <data name="WeWillSendAnOTPToThisMobileNumber" xml:space="preserve">
+    <value>We will send an OTP to this mobile number</value>
   </data>
   <data name="WhatsApp" xml:space="preserve">
     <value>WhatsApp</value>

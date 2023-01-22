@@ -904,30 +904,30 @@ namespace Services.Backend.Sales
             return data;
         }
 
-        //public async Task<bool> AddDriver(int id, int driverId, int OrderTypeID)
-        //{
-        //    if (OrderTypeID == (int)OrderMode.Normal)
-        //    {
-        //        var data = await _dbcontext.Orders.Where(x => x.Id == id).FirstOrDefaultAsync();
-        //        if (data is not null)
-        //        {
-        //            data.DriverId = driverId;
-        //            _dbcontext.Update(data);
-        //            return await _dbcontext.SaveChangesAsync() > 0;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        var data = await _dbcontext.SubscriptionOrders.Where(x => x.Id == id).FirstOrDefaultAsync();
-        //        if (data is not null)
-        //        {
-        //            data.DriverId = driverId;
-        //            _dbcontext.Update(data);
-        //            return await _dbcontext.SaveChangesAsync() > 0;
-        //        }
-        //    }
-        //    return false;
-        //}
+        public async Task<bool> AddDriver(int id, int driverId, int OrderTypeID)
+        {
+            if (OrderTypeID == (int)OrderMode.Normal)
+            {
+                var data = await _dbcontext.Orders.Where(x => x.Id == id).FirstOrDefaultAsync();
+                if (data is not null)
+                {
+                    data.DriverId = driverId;
+                    _dbcontext.Update(data);
+                    return await _dbcontext.SaveChangesAsync() > 0;
+                }
+            }
+            else
+            {
+                var data = await _dbcontext.SubscriptionOrders.Where(x => x.Id == id).FirstOrDefaultAsync();
+                if (data is not null)
+                {
+                    data.DriverId = driverId;
+                    _dbcontext.Update(data);
+                    return await _dbcontext.SaveChangesAsync() > 0;
+                }
+            }
+            return false;
+        }
         public async Task<bool> RemoveDriver(int id)
         {
             var data = await _dbcontext.Orders.Where(x => x.Id == id).FirstOrDefaultAsync();

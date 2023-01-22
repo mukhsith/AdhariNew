@@ -406,6 +406,9 @@
         public static string Amount = "Amount";
         public static string DeliveryStatus = "Delivery Status";
         public static string EstimatedDeliveryDetails = "Within {0} hours";
+        public static string DeliveryDate = "Delivery Date";
+        public static string ForNumberOfMonths = "for {0} months";
+        public static string PerMonth = "Per Month";
     }
     #region ORDER PRINT PDF
     public static class OrderPDF

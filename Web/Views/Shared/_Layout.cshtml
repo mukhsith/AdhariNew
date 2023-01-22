@@ -8,7 +8,7 @@
 }
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="apple-touch-icon" sizes="180x180" href="~/assets/img/fav/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="~/assets/img/fav/favicon-32x32.png">
@@ -60,7 +60,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade show" id="validation-model-popup" tabindex="-1" aria-labelledby="common-model-title" aria-modal="true" role="dialog" style="display: none;">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content text-center">
@@ -75,8 +74,7 @@
             </div>
         </div>
     </div>
-
-
+    <input type="hidden" id="hdnCheckout" value="0" />
     @await Html.PartialAsync("_MyAccount")
     <script src="~/assets/vendor/js/bootstrap.bundle.js"></script>
     <script src="~/assets/js/util/autoPadding.js"></script>
@@ -136,7 +134,7 @@
             }
         }
 
-        function addToCart(productId, quantity, productUrl, imgUrl, title, price) {
+        function addToCart(productId, quantity) {
             if (quantity == "" || parseInt(quantity) == 0) {
                 showToastErrorMessage('@SharedHtmlLocalizer["Quantity should be greater than zero"]');
                 return;
@@ -146,8 +144,9 @@
                 if (result.success) {
                     if (result.data) {
                         updateCartCount();
-                        $("#a-cart").css("cursor", "pointer");
-                        //ProductToastAlert('success', '', result.message, '', imgUrl, title, price, productUrl);
+                        $("#btn-add-to-cart-" + productId).hide();
+                        $("#dv-quantity-change-" + productId).css("display", "flex");
+                        $("#txt-quantity-" + productId).val("1");
                     }
                     else {
                         if (result.message != "")
@@ -185,12 +184,10 @@
                             var imgClassName = $(elementId).attr('class');
                             if (imgClassName == "fa-heart fa-stack-1x text-white fa-regular") {
                                 $(elementId).attr('class', 'fa-heart fa-stack-1x text-white fa-solid');
-                                //$("#sp-add-fav").html("@SharedHtmlLocalizer["Remove from Favorites"]");
                                 ProductToastAlert('success', 'fa-regular fa-heart', result.message, '', imgUrl, title, price, productUrl);
                             }
                             else {
                                 $(elementId).attr('class', 'fa-heart fa-stack-1x text-white fa-regular');
-                                //$("#sp-add-fav").html("@SharedHtmlLocalizer["Add to Favorites"]");
                                 ProductToastAlert('danger', 'fa-regular fa-heart', result.message, '', imgUrl, title, price, productUrl);
                             }
                         }
@@ -273,7 +270,10 @@
                     $("#a-cart").css("cursor", "pointer");
 
                     $("#mobile-img-cart").attr("src", "/assets/img/icons/icon-cart.svg");
+                    $("#mobile-img-cart2").attr("src", "/assets/img/icons/icon-cart-sm-filled.svg");
+
                     $("#a-mobile-cart").css("cursor", "pointer");
+                    $("#a-mobile-cart2").css("cursor", "pointer");
                 }
                 else {
                     $("#a-floating-btn").hide();
@@ -282,7 +282,17 @@
                     $("#a-cart").css("cursor", "not-allowed");
 
                     $("#mobile-img-cart").attr("src", "/assets/img/icons/icon-cart-empty.svg");
+                    $("#mobile-img-cart2").attr("src", "/assets/img/icons/icon-cart-sm.svg");
+
                     $("#a-mobile-cart").css("cursor", "not-allowed");
+                    $("#a-mobile-cart2").css("cursor", "not-allowed");
+                }
+
+                var hdnCheckout = $("#hdnCheckout").val();
+                if (hdnCheckout == "1") {
+                    $("#a-cart").css("cursor", "not-allowed");
+                    $("#a-mobile-cart").css("cursor", "not-allowed");
+                    $("#a-mobile-cart2").css("cursor", "not-allowed");
                 }
 
                 $("#s-cart-count").html(count);

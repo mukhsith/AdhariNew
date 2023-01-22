@@ -174,10 +174,14 @@ namespace API.Areas.Backend.Controllers
                 DateTime? rescheduleDate = null;
                 if (!string.IsNullOrEmpty(order.RescheduleDeliveryDate))
                 {
-                    rescheduleDate = Utility.Helpers.Common.ConvertTextToDate(order.RescheduleDeliveryDate);
+                    rescheduleDate = Utility.Helpers.Common.ConvertTextToDateYYMMDD(order.RescheduleDeliveryDate);
+                    
                 }
-                var item = await _orderModelFactory.RescheduleDelivery(order.OrderId, rescheduleDate);
-                response.Update(item);
+
+                var item = await _orderModelFactory.RescheduleAdminDelivery(order.OrderId, order.OrderTypeId, rescheduleDate);
+                    response.Update(item);
+            
+          
             }
             catch (Exception ex)
             {
