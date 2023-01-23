@@ -1,4 +1,5 @@
 ﻿using API.Areas.Frontend.Factories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
@@ -49,6 +50,17 @@ namespace API.Areas.Frontend.Controllers
         public async Task<APIResponseModel<bool>> ReOrder(int id = 0)
         {
             return await _orderModelFactory.ReOrder(isEnglish: isEnglish, customerId: LoggedInCustomerId, id: id);
+        }
+
+        /// <summary>
+        /// To get order in pdf
+        /// </summary>
+        /// <returns>Order pdf</returns>
+        [HttpGet, Route("/webapi/order/getorderpdf")]
+        [Authorize]
+        public async Task<APIResponseModel<object>> GetOrderPdf(int id)
+        {
+            return await _orderModelFactory.GetOrderPdf(isEnglish: isEnglish, customerId: LoggedInCustomerId, id: id);
         }
     }
 }

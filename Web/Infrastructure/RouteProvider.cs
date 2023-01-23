@@ -193,6 +193,12 @@ namespace Web.Infrastructure
                    name: "reorder",
                    pattern: "reorder",
                    defaults: new { controller = "Order", action = "ReOrder" });
+
+            //to print order
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "printorder",
+                   pattern: "printorder",
+                   defaults: new { controller = "Order", action = "PrintOrder" });
             #endregion My Orders
 
             #region My Subscriptions
@@ -240,6 +246,11 @@ namespace Web.Infrastructure
                    name: "subscriptiondetails",
                    pattern: "subscription/details/{subscriptionNumber?}",
                    defaults: new { controller = "Subscription", action = "SubscriptionDetails" });
+
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "printsubscription",
+                   pattern: "printsubscription",
+                   defaults: new { controller = "Subscription", action = "PrintSubscription" });
             #endregion My Subscriptions
 
             #region Misc
@@ -274,13 +285,6 @@ namespace Web.Infrastructure
                    name: "productdetails",
                    pattern: "product/{catName?}/{seoName?}",
                    defaults: new { controller = "Product", action = "ProductDetails" });
-
-
-            ////get product for pop up
-            //endpointRouteBuilder.MapControllerRoute(
-            //       name: "productdetailspopup",
-            //       pattern: "productdetailspopup",
-            //       defaults: new { controller = "Product", action = "ProductDetailsPopUp" });
             #endregion Products
 
             #region Cart

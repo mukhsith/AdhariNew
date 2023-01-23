@@ -90,6 +90,21 @@ namespace API.Areas.Frontend.Helpers
             else
                 bannerModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageBannerResized + imageName;
 
+            if (banner.LinkType == BannerLinkType.Product && banner.Product != null)
+            {
+                if (banner.Product.ProductType == ProductType.SubscriptionProduct)
+                {
+                    banner.LinkType = BannerLinkType.Subscription;
+                }
+                else
+                {
+                    banner.LinkType = BannerLinkType.Product;
+                }
+
+                bannerModel.CategorySeoName = banner.Product.Category.SeoName;
+                bannerModel.ProductSeoName = banner.Product.SeoName;
+            }
+
             return bannerModel;
 
         }
@@ -1835,23 +1850,9 @@ namespace API.Areas.Frontend.Helpers
         {
             var subscriptionModel = _mapper.Map<SubscriptionModel>(subscription);
 
+            subscriptionModel.FormattedUnitPrice = await _commonHelper.ConvertDecimalToString(subscription.UnitPrice - subscription.DiscountAmount, isEnglish, includeZero: true);
             subscriptionModel.FormattedSubTotal = await _commonHelper.ConvertDecimalToString(subscription.SubTotal, isEnglish, includeZero: true);
-            subscriptionModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(subscription.Total, isEnglish, includeZero: true);
-
-            //if (subscription.FullPayment)
-            //{
-            //    var description = isEnglish ? Messages.ForNumberOfMonths : MessagesAr.ForNumberOfMonths;
-            //    description = string.Format(description, subscription.NumberOfMonths);
-            //    subscriptionModel.FormattedTotal = subscriptionModel.FormattedTotal + Environment.NewLine +
-            //        "(" + description + ")";
-            //}
-            //else
-            //{
-            //    var description = isEnglish ? Messages.PerMonth : MessagesAr.PerMonth;
-            //    subscriptionModel.FormattedTotal = subscriptionModel.FormattedTotal + Environment.NewLine +
-            //        "(" + description + ")";
-            //}
-
+            subscriptionModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(subscription.CompleteSubscriptionPrice, isEnglish, includeZero: true);
             subscriptionModel.FormattedDate = subscription.CreatedOn.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
             subscriptionModel.FormattedTime = subscription.CreatedOn.ToString("hh:mm tt", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
 
@@ -1927,7 +1928,7 @@ namespace API.Areas.Frontend.Helpers
                 patmentSummary.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.OrderAmount : MessagesAr.OrderAmount,
-                    Value = subscriptionModel.FormattedTotal,
+                    Value = await _commonHelper.ConvertDecimalToString(subscription.Total, isEnglish, includeZero: true),
                     DisplayOrder = 3
                 });
 
@@ -2024,12 +2025,7 @@ namespace API.Areas.Frontend.Helpers
 
                 if (subscription.DeliveryFee > 0)
                 {
-                    var deliveryFee = subscription.DeliveryFee;
-                    //if (subscription.FullPayment)
-                    //{
-                    //    deliveryFee = subscription.DeliveryFee / subscription.NumberOfMonths;
-                    //}
-                    subscriptionModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish);
+                    subscriptionModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: subscription.DeliveryFee, isEnglish: isEnglish);
                     amountSplitUps.Add(new KeyValuPairModel
                     {
                         Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
@@ -2119,72 +2115,25 @@ namespace API.Areas.Frontend.Helpers
                     DisplayOrder = 5
                 });
 
-                string NextDelivery = string.Empty;
-                if (subscriptionDeliveryDate != null)
-                {
-                    DateTime nextFromDate = new DateTime(subscription.NextExpectedDelivery.Year, subscription.NextExpectedDelivery.Month, subscriptionDeliveryDate.FromDay);
-                    var totalDays = DateTime.DaysInMonth(subscription.NextExpectedDelivery.Year, subscription.NextExpectedDelivery.Month);
-                    int toDay = subscriptionDeliveryDate.ToDay;
-                    if (toDay > 25)
-                        toDay = totalDays;
-                    DateTime nextToDate = new DateTime(subscription.NextExpectedDelivery.Year, subscription.NextExpectedDelivery.Month, toDay);
-                    NextDelivery = nextFromDate.ToString("dd-MMM", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW")) + " " +
-                        (isEnglish ? Messages.To : MessagesAr.To) + " " + nextToDate.ToString("dd-MMM", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
+                //string NextDelivery = string.Empty;
+                //if (subscriptionDeliveryDate != null)
+                //{
+                //    DateTime nextFromDate = new DateTime(subscription.NextExpectedDelivery.Year, subscription.NextExpectedDelivery.Month, subscriptionDeliveryDate.FromDay);
+                //    var totalDays = DateTime.DaysInMonth(subscription.NextExpectedDelivery.Year, subscription.NextExpectedDelivery.Month);
+                //    int toDay = subscriptionDeliveryDate.ToDay;
+                //    if (toDay > 25)
+                //        toDay = totalDays;
+                //    DateTime nextToDate = new DateTime(subscription.NextExpectedDelivery.Year, subscription.NextExpectedDelivery.Month, toDay);
+                //    NextDelivery = nextFromDate.ToString("dd-MMM", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW")) + " " +
+                //        (isEnglish ? Messages.To : MessagesAr.To) + " " + nextToDate.ToString("dd-MMM", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
 
-                    subscriptionDetails.Add(new KeyValuPairModel
-                    {
-                        Title = isEnglish ? Messages.NextDelivery : MessagesAr.NextDelivery,
-                        Value = NextDelivery,
-                        DisplayOrder = 6
-                    });
-                }
-
-                subscriptionDetails.Add(new KeyValuPairModel
-                {
-                    Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
-                    Value = subscriptionModel.FormattedSubTotal,
-                    DisplayOrder = 7
-                });
-
-                if (subscription.DeliveryFee > 0)
-                {
-                    subscriptionDetails.Add(new KeyValuPairModel
-                    {
-                        Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                        Value = subscriptionModel.FormattedDeliveryFee,
-                        DisplayOrder = 8
-                    });
-                }
-
-                if (subscription.CouponDiscountAmount > 0)
-                {
-                    subscriptionDetails.Add(new KeyValuPairModel
-                    {
-                        Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
-                        Value = subscriptionModel.FormattedCouponDiscountAmount,
-                        DisplayOrder = 9
-                    });
-                }
-
-                if (subscription.CashbackAmount > 0)
-                {
-                    subscriptionDetails.Add(new KeyValuPairModel
-                    {
-                        Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
-                        Value = subscriptionModel.FormattedCashbackAmount,
-                        DisplayOrder = 10
-                    });
-                }
-
-                if (subscription.WalletUsedAmount > 0)
-                {
-                    subscriptionDetails.Add(new KeyValuPairModel
-                    {
-                        Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
-                        Value = subscriptionModel.FormattedWalletUsedAmount,
-                        DisplayOrder = 11
-                    });
-                }
+                //    subscriptionDetails.Add(new KeyValuPairModel
+                //    {
+                //        Title = isEnglish ? Messages.NextDelivery : MessagesAr.NextDelivery,
+                //        Value = NextDelivery,
+                //        DisplayOrder = 6
+                //    });
+                //}
 
                 subscriptionModel.SubscriptionDetails = subscriptionDetails.OrderBy(a => a.DisplayOrder).ToList();
                 #endregion
@@ -2246,6 +2195,96 @@ namespace API.Areas.Frontend.Helpers
                             Value = _commonHelper.GetPaymentResultTitle(paidDelivery.PaymentStatusId.Value, isEnglish: isEnglish),
                             DisplayOrder = 4
                         });
+                    }
+
+                    if (counter == 1)
+                    {
+                        subscriptionPayment.Add(new KeyValuPairModel
+                        {
+                            Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
+                            Value = subscriptionModel.FormattedSubTotal,
+                            DisplayOrder = 5
+                        });
+
+                        if (!string.IsNullOrEmpty(subscriptionModel.FormattedDeliveryFee))
+                        {
+                            subscriptionPayment.Add(new KeyValuPairModel
+                            {
+                                Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                                Value = subscriptionModel.FormattedDeliveryFee,
+                                DisplayOrder = 6
+                            });
+                        }
+
+                        if (!string.IsNullOrEmpty(subscriptionModel.FormattedCouponDiscountAmount))
+                        {
+                            subscriptionPayment.Add(new KeyValuPairModel
+                            {
+                                Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
+                                Value = subscriptionModel.FormattedCouponDiscountAmount,
+                                DisplayOrder = 7
+                            });
+                        }
+
+                        if (!string.IsNullOrEmpty(subscriptionModel.FormattedCashbackAmount))
+                        {
+                            subscriptionPayment.Add(new KeyValuPairModel
+                            {
+                                Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
+                                Value = subscriptionModel.FormattedCashbackAmount,
+                                DisplayOrder = 8
+                            });
+                        }
+
+                        if (!string.IsNullOrEmpty(subscriptionModel.FormattedWalletUsedAmount))
+                        {
+                            subscriptionPayment.Add(new KeyValuPairModel
+                            {
+                                Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
+                                Value = subscriptionModel.FormattedWalletUsedAmount,
+                                DisplayOrder = 9
+                            });
+                        }
+
+                        subscriptionPayment.Add(new KeyValuPairModel
+                        {
+                            Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                            Value = await _commonHelper.ConvertDecimalToString(subscription.Total, isEnglish, includeZero: true),
+                            DisplayOrder = 9
+                        });
+                    }
+                    else
+                    {
+                        if (!subscription.FullPayment)
+                        {
+                            var formattedOrderSubTotal = await _commonHelper.ConvertDecimalToString(paidDelivery.SubTotal, isEnglish, includeZero: true);
+                            var formattedOrderDeliveryFee = await _commonHelper.ConvertDecimalToString(paidDelivery.DeliveryFee, isEnglish);
+                            var formattedOrderTotal = await _commonHelper.ConvertDecimalToString(paidDelivery.Total, isEnglish, includeZero: true);
+
+                            subscriptionPayment.Add(new KeyValuPairModel
+                            {
+                                Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
+                                Value = formattedOrderSubTotal,
+                                DisplayOrder = 5
+                            });
+
+                            if (!string.IsNullOrEmpty(formattedOrderDeliveryFee))
+                            {
+                                subscriptionPayment.Add(new KeyValuPairModel
+                                {
+                                    Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                                    Value = formattedOrderDeliveryFee,
+                                    DisplayOrder = 6
+                                });
+                            }
+
+                            subscriptionPayment.Add(new KeyValuPairModel
+                            {
+                                Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                                Value = formattedOrderTotal,
+                                DisplayOrder = 7
+                            });
+                        }
                     }
 
                     subscriptionModel.SubscriptionPayments.Add(new SubscriptionPaymentModel

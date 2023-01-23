@@ -736,5 +736,54 @@ namespace API.Areas.Frontend.Factories
 
             return response;
         }
+        public async Task<APIResponseModel<object>> GetOrderPdf(bool isEnglish, int customerId, int id)
+        {
+            var response = new APIResponseModel<object>();
+
+            try
+            {
+                var customer = await _customerService.GetCustomerById(customerId);
+                if (customer == null || customer.Deleted)
+                {
+                    response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                    return response;
+                }
+
+                if (!customer.Active)
+                {
+                    response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                    return response;
+                }
+
+                var order = await _orderService.GetOrderById(id);
+                if (order != null && !order.Deleted)
+                {
+                    if (order.CustomerId != customer.Id)
+                    {
+                        response.Message = isEnglish ? Messages.InvalidCustomer : MessagesAr.InvalidCustomer;
+                        return response;
+                    }
+
+                    var orderModel = await _modelHelper.PrepareOrderModel(order, isEnglish, true);
+                    if (orderModel != null)
+                    {
+                        var url = await _commonHelper.GetOrderFrontPdfUrl(orderModel, isEnglish);
+                        if (!string.IsNullOrEmpty(url))
+                        {
+                            response.Data = url;
+                            response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                            response.Success = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
     }
 }

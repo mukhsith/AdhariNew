@@ -11,5 +11,7 @@ namespace Utility.Models.Frontend.Content
         public string LinkUrl { get; set; }
         public int? ProductId { get; set; }
         public int DisplayOrder { get; set; }
+        public string ProductSeoName { get; set; }
+        public string CategorySeoName { get; set; }
     }
 }

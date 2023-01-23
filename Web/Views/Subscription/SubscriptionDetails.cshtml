@@ -25,24 +25,10 @@
                                     <p class="mb-0 text-primary fw-bold text-end ">@item.Value</p>
                                 </li>
                             }
-                            @{
-                                var formattedTotal = Model.FormattedTotal.Split("\r\n");
-                                var total = formattedTotal[0];
-                                var description = string.Empty;
-                                if (formattedTotal.Count() == 2)
-                                {
-                                    description = formattedTotal[1];
-                                }
-                            }
                             <li class="list-group-item border-secondary d-flex justify-content-between fs-5 px-0">
                                 <label class="text-primary fw-bold text-uppercase">@SharedHtmlLocalizer["Total"]</label>
                                 <p class="text-primary mb-0 fw-bold">
-                                    <span class="crossed-out-price text-decoration-line-through text-muted me-2"></span><span class="to-pay-price">@total</span>
-                                    @if (!string.IsNullOrEmpty(description))
-                                    {
-                                        <br />
-                                        @description
-                                    }
+                                    <span class="crossed-out-price text-decoration-line-through text-muted me-2"></span><span class="to-pay-price">@Model.FormattedTotal</span>
                                 </p>
                             </li>
                         </ul>
@@ -67,7 +53,8 @@
                                 </div>
                                 <div class="col-12 col-md-6 pt-3 pt-md-0 text-md-end">
                                     <p class="mb-0 text-dark">@SharedHtmlLocalizer["Qty"]: <span class="fw-bold text-primary">@Model.Quantity</span></p>
-                                    <p class="mb-0 text-dark">@SharedHtmlLocalizer["TotalAmount"]: <span class="fw-bold text-primary">@Model.FormattedTotal</span>
+                                    <p class="mb-0 text-dark">@SharedHtmlLocalizer["UnitPrice"]: <span class="fw-bold text-primary">@Model.FormattedUnitPrice</span>
+                                    <p class="mb-0 text-dark">@SharedHtmlLocalizer["TotalAmount"]: <span class="fw-bold text-primary">@Model.FormattedSubTotal</span>
                                 </div>
                             </div>
                         </div>
@@ -123,5 +110,36 @@
                 </div>
             }
         </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="#" id="a-print" class="btn rounded-pill btn-primary text-light ms-1">@SharedHtmlLocalizer["Print"]</a>
+            </div>
+        </div>
     </div>
 </section>
+<script>
+    jQuery(document).ready(function () {
+        $("#a-print").click(function (event) {
+            event.preventDefault();
+            showCoverSpin();
+            $.get("@Url.RouteUrl("printsubscription", new { id = Model.Id })", function (result) {
+                hideCoverSpin();
+                if (result.success && result.data) {
+                    window.location.href = result.data;
+                }
+                else {
+                    if (result.messageCode == 401) {
+                            var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                            window.location.href = "/login?returnUrl=" + returnUrl;
+                            return;
+                        }
+
+                        if (result.message != "")
+                            showToastErrorMessage(result.message);
+                }
+            });
+
+            return false;
+        });
+    });;
+</script>

@@ -409,6 +409,7 @@
         public static string DeliveryDate = "تاريخ التسليم";
         public static string ForNumberOfMonths = "لمدة {0} شهور";
         public static string PerMonth = "Per Month";
+        public static string Total = "مجموع";
     }
 
     #region ORDER PRINT PDF For Arabic
@@ -478,6 +479,13 @@
         public static string Dear = "عزيزي";
         public static string Admin = "مسؤل";
         public static string LowStockFooter = "اضغط هنا لمزيد من التفاصيل";
+        public static string Qty = "كمية";
+        public static string SubscribedProduct = "أصناف";
+        public static string Total = "مجموع";
+        public static string SubscriptionDetails = "تفاصيل الاشتراك";
+        public static string DueDate = "Due Date";
+        public static string UpcomingDeliveries = "طلبات القادمة";
+        public static string UnitPrice = "سعر الوحدة";
     }
     #endregion
 }

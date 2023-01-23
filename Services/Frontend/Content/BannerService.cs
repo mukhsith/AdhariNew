@@ -19,6 +19,7 @@ namespace Services.Frontend.Content
         {
             var items = await _dbcontext.Banners
                                         .Where(x => !x.Deleted && x.Active)
+                                        .Include(a => a.Product).ThenInclude(a => a.Category)
                                         .OrderBy(x => x.DisplayOrder).ThenByDescending(x => x.Id)
                                         .AsNoTracking()
                                         .ToListAsync();

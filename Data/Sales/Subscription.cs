@@ -37,6 +37,9 @@ namespace Data.Sales
         public decimal DiscountAmount { get; set; }
 
         [Column(TypeName = Constants.AmountDataType)]
+        public decimal CompleteSubscriptionPrice { get; set; }
+
+        [Column(TypeName = Constants.AmountDataType)]
         public decimal SubTotal { get; set; }
         public DiscountType CouponDiscountType { get; set; }
 

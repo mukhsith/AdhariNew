@@ -33,7 +33,14 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="number" class="fw-bold">@SharedHtmlLocalizer["MobileNumber"]</label>
-                                    <p class="text-primary mb-0">@Model.Customer.FormattedMobile</p>
+                                    @if (requestCultureFeature != "ar")
+                                    {
+                                        <p class="text-primary mb-0">@Model.Customer.FormattedMobile</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-primary mb-0 text-start" dir="ltr">@Model.Customer.FormattedMobile</p>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -253,7 +260,7 @@
                     else {
                         $("#dv-payment-methods").show();
                     }
-                    
+
                     $(".cart-summary").empty();
                     $(".cart-summary").append(result.formattedCartSummary);
                 }

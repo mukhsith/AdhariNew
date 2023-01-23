@@ -210,6 +210,52 @@ namespace Utility
 
             return url;
         }
+        public static string HtmlToPdfFront(string htmlContent, string filepath, string header)
+        {
+            var url = string.Empty;
+            try
+            {
+                // instantiate the html to pdf converter
+                HtmlToPdf converter = new HtmlToPdf();
 
+                //converter.Options.WebPageHeight = 1050;
+                converter.Options.WebPageWidth = 1200;
+                converter.Options.MarginTop = 10;
+                converter.Options.MarginBottom = 10;
+
+                if (!string.IsNullOrEmpty(header))
+                {
+                    // header settings
+                    converter.Options.DisplayHeader = true;
+                    converter.Header.DisplayOnFirstPage = true;
+                    converter.Header.DisplayOnOddPages = true;
+                    converter.Header.DisplayOnEvenPages = true;
+                    converter.Header.Height = 50;
+
+                    // add some html content to the header
+                    PdfHtmlSection headerHtml = new PdfHtmlSection(header, "");
+                    headerHtml.AutoFitHeight = HtmlToPdfPageFitMode.AutoFit;
+                    converter.Header.Add(headerHtml);
+                }
+
+                PdfDocument doc = converter.ConvertHtmlString(htmlContent);
+
+                // save pdf document
+                var pdfFileName = Guid.NewGuid() + ".pdf";
+                var pdfPath = Path.Combine(Directory.GetCurrentDirectory(), filepath);
+                pdfPath = pdfPath + "/" + pdfFileName;
+                doc.Save(pdfPath);
+
+                // close pdf document
+                doc.Close();
+
+                url = filepath + "/" + pdfFileName;
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return url;
+        }
     }
 }

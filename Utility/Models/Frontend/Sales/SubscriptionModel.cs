@@ -12,6 +12,7 @@ namespace Utility.Models.Frontend.Sales
         public string SubscriptionNumber { get; set; }
         public string SubscriptionTitle { get; set; }
         public decimal UnitPrice { get; set; }
+        public string FormattedUnitPrice { get; set; }
         public int Quantity { get; set; }
         public string Duration { get; set; }
         public string DeliveryDate { get; set; }

@@ -242,7 +242,49 @@ namespace Web.Controllers
 
             try
             {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    responseModel.MessageCode = 401;
+                    return Json(responseModel);
+                }              
+
                 responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/order/reorder?id=" + id);
+                if (responseModel.MessageCode == 401)
+                {
+                    responseModel.MessageCode = 401;
+                    return Json(responseModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message;
+            }
+
+            return Json(responseModel);
+        }
+
+        /// <summary>
+        /// print order
+        /// </summary>
+        public virtual async Task<JsonResult> PrintOrder(int id)
+        {
+            var responseModel = new APIResponseModel<object>();
+            try
+            {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    responseModel.MessageCode = 401;
+                    return Json(responseModel);
+                }
+
+                responseModel = await _apiHelper.GetAsync<APIResponseModel<object>>("webapi/order/getorderpdf?id=" + id);
+                if (responseModel.MessageCode == 401)
+                {
+                    responseModel.MessageCode = 401;
+                    return Json(responseModel);
+                }
             }
             catch (Exception ex)
             {

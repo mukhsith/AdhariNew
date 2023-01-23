@@ -93,5 +93,16 @@ namespace API.Areas.Frontend.Controllers
         {
             return await _subscriptionModelFactory.CreateSubscriptionOrders(isEnglish: isEnglish, apiKey: ServiceAPIKey);
         }
+
+        /// <summary>
+        /// To get subscription in pdf
+        /// </summary>
+        /// <returns>Order pdf</returns>
+        [HttpGet, Route("/webapi/subscription/getsubscriptionpdf")]
+        [Authorize]
+        public async Task<APIResponseModel<object>> GetSubscriptionPdf(int id)
+        {
+            return await _subscriptionModelFactory.GetSubscriptionPdf(isEnglish: isEnglish, customerId: LoggedInCustomerId, id: id);
+        }
     }
 }

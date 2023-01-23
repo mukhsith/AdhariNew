@@ -25135,16 +25135,8 @@ body {
   direction: ltr;
 }
 
-[type=tel],
-[type=url],
-[type=email],
-[type=number] {
+[type=tel], [type=url], [type=email], [type=number] {
   direction: ltr !important;
-}
-
-input,
-select {
-  font-size: 100%;
 }
 
 /* arabic */
@@ -26067,7 +26059,7 @@ input[type=number] {
   margin-top: 16px;
   margin-bottom: 8px;
   color: #850B5A;
-  text-align: center;
+  text-align: start;
 }
 .summernote-content p,
 .summernote-content ul {
@@ -26287,7 +26279,8 @@ input[type=number] {
   background-color: transparent !important;
 }
 
-.list-group-item.active, .list-group-item:hover {
+.list-group-item.active,
+.list-group-item:hover {
   color: #850B5A;
 }
 
@@ -26336,6 +26329,16 @@ input[type=number] {
 
 .product-details .summernote-content p {
   margin-bottom: 0;
+}
+
+.disable-dbl-tap-zoom {
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+}
+
+.btn-with-input-spinner button {
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
 }
 
 /*# sourceMappingURL=scss */

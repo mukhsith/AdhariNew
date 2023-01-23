@@ -7,13 +7,13 @@
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row">
-            <div class="col-12 col-lg-6 mx-auto">
-                <img src="@Html.Raw(Model.ImageUrl)" class="img-fluid" alt="@SharedHtmlLocalizer["AboutUs"]">
-            </div>
-            <div class="col-12">
+            <div class="col-12 col-md-6 order-2 order-md-1">
                 <div class="summernote-content">
                     @Html.Raw(Model.Content)
                 </div>
+            </div>
+            <div class="col-12 col-md-6 mx-auto order-1 order-md-2">
+                <img src="@Html.Raw(Model.ImageUrl)" class="img-fluid" alt="@SharedHtmlLocalizer["AboutUs"]">
             </div>
         </div>
     </div>

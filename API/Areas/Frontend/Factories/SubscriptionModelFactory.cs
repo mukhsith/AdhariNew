@@ -676,6 +676,12 @@ namespace API.Areas.Frontend.Factories
                 bool fullPayment = false;
                 decimal subscriptionPrice = (discountedPrice > 0 ? discountedPrice : price) * subscriptionAttribute.Quantity.Value;
 
+                decimal completeSubscriptionPrice = subscriptionPrice;
+                if (!product.SpecialPackage)
+                {
+                    completeSubscriptionPrice *= subscriptionDuration.NumberOfMonths;
+                }
+
                 if (subscriptionAttribute.PaymentMethodId.Value == (int)PaymentMethod.Tabby)
                 {
                     fullPayment = true;
@@ -756,7 +762,8 @@ namespace API.Areas.Frontend.Factories
                     FullPayment = fullPayment,
                     Address = address,
                     SubscriptionItemDetails = subscriptionItemDetails,
-                    Notes = notes
+                    Notes = notes,
+                    CompleteSubscriptionPrice = completeSubscriptionPrice
                 };
 
                 Coupon coupon = null;
@@ -834,9 +841,10 @@ namespace API.Areas.Frontend.Factories
                 }
                 else
                 {
-                    orderSubTotal = subscription.SubTotal - subscription.CouponDiscountAmount;
+                    orderSubTotal = subscription.SubTotal - subscription.CouponDiscountAmount - subscription.WalletUsedAmount
+                   - subscription.CashbackAmount;
                     orderDeliveryFee = subscription.DeliveryFee;
-                    orderTotal = subscription.SubTotal - subscription.CouponDiscountAmount + subscription.DeliveryFee;
+                    orderTotal = orderSubTotal + orderDeliveryFee;
                 }
 
                 var subscriptionOrder = new SubscriptionOrder
@@ -1165,7 +1173,7 @@ namespace API.Areas.Frontend.Factories
                             {
                                 orderSubTotal = subscription.SubTotal - subscription.CouponDiscountAmount;
                                 orderDeliveryFee = subscription.DeliveryFee;
-                                orderTotal = subscription.SubTotal - subscription.CouponDiscountAmount + subscription.DeliveryFee;
+                                orderTotal = orderSubTotal + orderDeliveryFee;
                             }
 
                             var subscriptionOrder = new SubscriptionOrder
@@ -1217,7 +1225,55 @@ namespace API.Areas.Frontend.Factories
 
             return response;
         }
+        public async Task<APIResponseModel<object>> GetSubscriptionPdf(bool isEnglish, int customerId, int id)
+        {
+            var response = new APIResponseModel<object>();
 
+            try
+            {
+                var customer = await _customerService.GetCustomerById(customerId);
+                if (customer == null || customer.Deleted)
+                {
+                    response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                    return response;
+                }
+
+                if (!customer.Active)
+                {
+                    response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                    return response;
+                }
+
+                var subscription = await _subscriptionService.GetSubscriptionById(id);
+                if (subscription != null && !subscription.Deleted)
+                {
+                    if (subscription.CustomerId != customer.Id)
+                    {
+                        response.Message = isEnglish ? Messages.InvalidCustomer : MessagesAr.InvalidCustomer;
+                        return response;
+                    }
+
+                    var subscriptionModel = await _modelHelper.PrepareSubscriptionModel(subscription, isEnglish, true);
+                    if (subscriptionModel != null)
+                    {
+                        var url = await _commonHelper.GetSubscriptionFrontPdfUrl(subscriptionModel, isEnglish);
+                        if (!string.IsNullOrEmpty(url))
+                        {
+                            response.Data = url;
+                            response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                            response.Success = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
         #region Utilities
         public async Task<APIResponseModel<object>> ValidateSubscriptionProduct(Product product, bool isEnglish, int quantity, int customerId, bool b2bCustomer)
         {

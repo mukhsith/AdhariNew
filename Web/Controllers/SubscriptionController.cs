@@ -282,5 +282,34 @@ namespace Web.Controllers
 
             return View(subscriptionModel);
         }
+        /// <summary>
+        /// print subscription
+        /// </summary>
+        public virtual async Task<JsonResult> PrintSubscription(int id)
+        {
+            var responseModel = new APIResponseModel<object>();
+            try
+            {
+                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
+                if (string.IsNullOrEmpty(authenticationToken))
+                {
+                    responseModel.MessageCode = 401;
+                    return Json(responseModel);
+                }
+
+                responseModel = await _apiHelper.GetAsync<APIResponseModel<object>>("webapi/subscription/getsubscriptionpdf?id=" + id);
+                if (responseModel.MessageCode == 401)
+                {
+                    responseModel.MessageCode = 401;
+                    return Json(responseModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message;
+            }
+
+            return Json(responseModel);
+        }
     }
 }

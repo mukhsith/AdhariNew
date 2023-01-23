@@ -3,6 +3,8 @@
 @inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
 @using Utility.Enum
 @{
+    var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
+
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Checkout"].Value });
     breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("subscriptioncheckout"), Title = SharedHtmlLocalizer["SignIn"].Value });
@@ -31,7 +33,14 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="number" class="fw-bold">@SharedHtmlLocalizer["MobileNumber"]</label>
-                                    <p class="text-primary mb-0">@Model.Customer.FormattedMobile</p>
+                                    @if (requestCultureFeature != "ar")
+                                    {
+                                        <p class="text-primary mb-0">@Model.Customer.FormattedMobile</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-primary mb-0 text-start" dir="ltr">@Model.Customer.FormattedMobile</p>
+                                    }
                                 </div>
                             </div>
                         </div>

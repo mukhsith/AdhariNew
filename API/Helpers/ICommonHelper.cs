@@ -47,12 +47,14 @@ namespace API.Helpers
 
         #region Order 
         string GetOrderPdfUrl(OrderModel order, string apiBaseUrl, bool isEnglish);
+        Task<string> GetOrderFrontPdfUrl(OrderModel orderModel, bool isEnglish);
         Task<bool> UpdateOrderStatus(Order order, OrderStatus orderStatusId, bool refundDeliveryFee = false, string notes = "");
         Task<bool> RescheduleOrderDelivery(Order order, DateTime? newDeliveryDate = null);
         #endregion
 
         #region Subscription
         string GetSubscriptionPdfUrl(SubscriptionModel order, string apiBaseUrl, bool isEnglish);
+        Task<string> GetSubscriptionFrontPdfUrl(SubscriptionModel subscriptionModel, bool isEnglish);
         Task<bool> UpdateSubscriptionOrderStatus(Subscription subscription, SubscriptionStatus subscriptionStatus, bool refundDeliveryFee = false, string notes = "");
         Task<bool> RescheduleSubscriptionOrderDelivery(SubscriptionOrder subscriptionOrder, DateTime? newDeliveryDate = null);
         #endregion

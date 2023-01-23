@@ -409,6 +409,7 @@
         public static string DeliveryDate = "Delivery Date";
         public static string ForNumberOfMonths = "for {0} months";
         public static string PerMonth = "Per Month";
+        public static string Total = "Total";
     }
     #region ORDER PRINT PDF
     public static class OrderPDF
@@ -477,6 +478,13 @@
         public static string Dear = "Dear";
         public static string Admin = "Admin";
         public static string LowStockFooter = "Click here for more details";
+        public static string Qty = "Qty";
+        public static string SubscribedProduct = "Subscribed Product";
+        public static string Total = "Total";
+        public static string SubscriptionDetails = "Subscription Details";
+        public static string DueDate = "Due Date";
+        public static string UpcomingDeliveries = "Upcoming Deliveries";
+        public static string UnitPrice = "Unit Price";
     }
     #endregion
 }

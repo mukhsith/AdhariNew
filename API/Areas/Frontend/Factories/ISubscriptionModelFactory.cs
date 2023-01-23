@@ -22,5 +22,6 @@ namespace API.Areas.Frontend.Factories
         Task<APIResponseModel<List<SubscriptionAdminModel>>> GetSubscriptionsAdmin(bool isEnglish, int id = 0, string subscriptionNumber = "",
            int limit = 0, int page = 0, SubscriptionStatus? subscriptionStatus = null);
         Task<APIResponseModel<object>> CreateSubscriptionOrders(bool isEnglish, string apiKey);
+        Task<APIResponseModel<object>> GetSubscriptionPdf(bool isEnglish, int customerId, int id);
     }
 }

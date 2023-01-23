@@ -107,7 +107,6 @@ namespace Web.Controllers
         /// </summary>
         public async Task<IActionResult> ProductDetails(string catName = "", string seoName = "")
         {
-            var productModel = new ProductModel();
             try
             {
                 ProductQueryParameters query = new();
@@ -116,7 +115,7 @@ namespace Web.Controllers
                 var responseModel = await _apiHelper.PostAsync<APIResponseModel<List<ProductModel>>>("webapi/product/products", query);
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
-                    productModel = responseModel.Data[0];
+                    return View(responseModel.Data[0]);
                 }
             }
             catch (Exception ex)
@@ -124,7 +123,7 @@ namespace Web.Controllers
                 _logger.LogInformation(ex.Message);
             }
 
-            return View(productModel);
+            return RedirectToRoute("home");
         }
 
         /// <summary>

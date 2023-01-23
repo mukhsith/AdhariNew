@@ -7,6 +7,7 @@ using Data.Sales;
 using Data.Shop;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Services.Frontend.Content;
 using Services.Frontend.CouponPromotion;
 using Services.Frontend.CustomerManagement;
 using Services.Frontend.DeliveryManagement;
@@ -50,6 +51,7 @@ namespace API.Helpers
         private readonly INotificationTemplateService _notificationTemplateService;
         private readonly ISubscriptionService _subscriptionService;
         private readonly IEmailHelper _emailHelper;
+        private readonly IContactDetailService _contactDetailService;
         public CommonHelper(IOptions<AppSettingsModel> options,
             ICouponService couponService,
             IProductService productService,
@@ -65,7 +67,8 @@ namespace API.Helpers
             ICartService cartService,
             INotificationTemplateService notificationTemplateService,
             ISubscriptionService subscriptionService,
-            IEmailHelper emailHelper)
+            IEmailHelper emailHelper,
+            IContactDetailService contactDetailService)
         {
             _appSettings = options.Value;
             _couponService = couponService;
@@ -83,6 +86,7 @@ namespace API.Helpers
             _notificationTemplateService = notificationTemplateService;
             _subscriptionService = subscriptionService;
             _emailHelper = emailHelper;
+            _contactDetailService = contactDetailService;
         }
 
         #region Utilities
@@ -912,6 +916,105 @@ namespace API.Helpers
 
             return apiBaseUrl + path;
         }
+        public async Task<string> GetOrderFrontPdfUrl(OrderModel orderModel, bool isEnglish)
+        {
+            string[] emailTemplatePath = new string[3] { Directory.GetCurrentDirectory(), "Pdfs", "order-front.html" };
+            StreamReader reader = new StreamReader(Path.Combine(emailTemplatePath));
+            string orderHtml = reader.ReadToEnd();
+
+            string apiUrl = _appSettings.APIBaseUrl;
+            string webUrl = _appSettings.WebsiteUrl;
+
+            orderHtml = orderHtml.Replace("{Body-Style}", isEnglish ? "direction: ltr;" : "direction: rtl;");
+            orderHtml = orderHtml.Replace("{Main-Css-Name}", isEnglish ? "main.css" : "main.rtl.css");
+            orderHtml = orderHtml.Replace("{Developer-Css-Name}", isEnglish ? "developer.css" : "developer.rtl.css");
+            orderHtml = orderHtml.Replace("{Base-Url}", apiUrl);
+            orderHtml = orderHtml.Replace("{web-url}", webUrl);
+
+            orderHtml = orderHtml.Replace("{OrderDetails}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
+
+            var orderDetails = string.Empty;
+            foreach (var item in orderModel.OrderDetails)
+            {
+                orderDetails += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
+                                    <p class='mb-0 text-muted'>" + item.Title + @"</p>
+                                    <p class='mb-0 text-primary fw-bold text-end'>" + item.Value + @"</p></li>";
+            }
+            orderHtml = orderHtml.Replace("{OrderDetails-Value}", orderDetails);
+
+            orderHtml = orderHtml.Replace("{Total}", isEnglish ? OrderPDF.Total : OrderPDFAr.Total);
+            orderHtml = orderHtml.Replace("{Total-Value}", orderModel.FormattedTotal);
+
+            var orderItems = "";
+            foreach (var orderItem in orderModel.OrderItems)
+            {
+                orderItems += @"<li class='list-group-item border-0 px-0 py-2'>
+                                        <div class='d-flex flex-row bg-grey rounded-4 p-2'>
+                                            <img src='" + orderItem.Product.ImageUrl + @"' class='me-3 rounded-3' height='75'>
+                                            <div class='d-flex flex-column me-auto w-100 text-end'>
+                                                <a href='#' class='mb-0 fw-bold'>" + orderItem.Product.Title + @"</a>
+                                                <div class='row'>
+                                                    <div class='col-12 text-end'>
+                                                        <div class='w-auto py-1 me-2'>
+                                                            <label class='text-muted' for=''>" + (isEnglish ? OrderPDF.Quantity : OrderPDFAr.Quantity) + @":</label>
+                                                            <span class='text-primary fw-bold fs-51 mb-0'>" + orderItem.Quantity + @"</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>";
+            }
+            orderHtml = orderHtml.Replace("{Order-Item-Details-Value}", orderItems);
+
+            orderHtml = orderHtml.Replace("{PaymentDetails}", isEnglish ? OrderPDF.PaymentDetails : OrderPDFAr.PaymentDetails);
+            var paymentSummaries = string.Empty;
+            foreach (var paymentSummary in orderModel.PaymentSummary)
+            {
+                paymentSummaries += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
+                                    <p class='mb-0 text-muted'>" + paymentSummary.Title + @"</p>
+                                    <p class='mb-0 text-primary fw-bold text-end'>" + paymentSummary.Value + @"</p></li>";
+            }
+            orderHtml = orderHtml.Replace("{PaymentDetails-Value}", paymentSummaries);
+
+            orderHtml = orderHtml.Replace("{DeliveryDetails}", isEnglish ? OrderPDF.DeliveryDetails : OrderPDFAr.DeliveryDetails);
+            orderHtml = orderHtml.Replace("{DeliveryAddress}", isEnglish ? OrderPDF.DeliveryAddress : OrderPDFAr.DeliveryAddress);
+            orderHtml = orderHtml.Replace("{DeliveryAddress-Name}", orderModel.Address.Name);
+            orderHtml = orderHtml.Replace("{DeliveryAddress-Details}", orderModel.Address.AddressText);
+
+            orderHtml = orderHtml.Replace("{DeliveryDate}", isEnglish ? OrderPDF.DeliveryDate : OrderPDFAr.DeliveryDate);
+            orderHtml = orderHtml.Replace("{DeliveryDate-Value}", orderModel.EstimatedDeliveryWithoutHeading);
+
+            string header = string.Empty;
+            var contactDetail = await _contactDetailService.GetDefault();
+            if (contactDetail != null)
+            {
+                string websiteUrl = webUrl.EndsWith("/") ? webUrl.Remove(webUrl.Length - 1, 1) : webUrl;
+
+                header = @"<link rel='stylesheet' href='" + webUrl + @"assets/css/main.css'>
+                           <div class='desktop-header d-none d-lg-block bg-body-primary'>
+                              <div class='bottom-bar'>
+                                  <div class='container'>
+                                      <div class='row'>
+                                          <div class='col-6 text-start py-2 ps-3'>
+                                              <a href='/'>
+                                                  <img src='" + webUrl + @"assets/img/Adhari-Logo.png' alt='Adhari' class='logo'>
+                                              </a>
+                                          </div>
+                                          <div class='col-6 text-end py-2 pe-3'>
+                                              <p class='mb-0 fw-bold'>" + contactDetail.EmailAddress + @"</p>
+                                              <p class='mb-0 fw-bold'>" + websiteUrl + @"</p>
+                                              <p class='mb-0 fw-bold'>" + contactDetail.MobileNumber + @"</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                           </div>";
+            }
+
+            string path = MediaHelper.HtmlToPdfFront(orderHtml, "Pdfs/OrderPdfs", header);
+            return apiUrl + path;
+        }
         public async Task<bool> UpdateOrderStatus(Order order, OrderStatus orderStatusId, bool refundDeliveryFee = false, string notes = "")
         {
             bool updated = false;
@@ -1193,100 +1296,118 @@ namespace API.Helpers
 
             return apiBaseUrl + path;
         }
-        //public string GetSubscriptionFrontPdfUrl(SubscriptionModel subscriptionModel, string apiBaseUrl, string webUrl, bool isEnglish)
-        //{
-        //    string[] emailTemplatePath = new string[3] { Directory.GetCurrentDirectory(), "Pdfs", "subscription-front.html" };
-        //    StreamReader reader = new StreamReader(Path.Combine(emailTemplatePath));
-        //    string orderHtml = reader.ReadToEnd();
+        public async Task<string> GetSubscriptionFrontPdfUrl(SubscriptionModel subscriptionModel, bool isEnglish)
+        {
+            string[] emailTemplatePath = new string[3] { Directory.GetCurrentDirectory(), "Pdfs", "subscription-front.html" };
+            StreamReader reader = new StreamReader(Path.Combine(emailTemplatePath));
+            string orderHtml = reader.ReadToEnd();
 
-        //    orderHtml = orderHtml.Replace("{Body-Style}", isEnglish ? "direction: ltr;" : "direction: rtl;");
-        //    orderHtml = orderHtml.Replace("{Base-Url}", apiBaseUrl);
-        //    orderHtml = orderHtml.Replace("{web-url}", webUrl);
+            string apiUrl = _appSettings.APIBaseUrl;
+            string webUrl = _appSettings.WebsiteUrl;
 
-        //    #region Company Info
-        //    orderHtml = orderHtml.Replace("{Logo-Text-Align}", isEnglish ? "text-align: left;" : "text-align: right;");
-        //    orderHtml = orderHtml.Replace("{Company-Details-Text-Align}", isEnglish ? "text-align: right;" : "text-align: left;");
-        //    orderHtml = orderHtml.Replace("{Company-Name}", OrderPDF.CompanyName);
-        //    orderHtml = orderHtml.Replace("{Company-Website}", OrderPDF.CompanyWebsite);
-        //    orderHtml = orderHtml.Replace("{Company-Email}", OrderPDF.CompanyEmail);
-        //    #endregion
+            orderHtml = orderHtml.Replace("{Body-Style}", isEnglish ? "direction: ltr;" : "direction: rtl;");
+            orderHtml = orderHtml.Replace("{Main-Css-Name}", isEnglish ? "main.css" : "main.rtl.css");
+            orderHtml = orderHtml.Replace("{Developer-Css-Name}", isEnglish ? "developer.css" : "developer.rtl.css");
+            orderHtml = orderHtml.Replace("{Base-Url}", apiUrl);
+            orderHtml = orderHtml.Replace("{web-url}", webUrl);
 
-        //    orderHtml = orderHtml.Replace("{SubscriptionDetails}", isEnglish ? Messages.SubscriptionDetails : MessagesAr.SubscriptionDetails);
+            orderHtml = orderHtml.Replace("{SubscriptionDetails}", isEnglish ? OrderPDF.SubscriptionDetails : OrderPDFAr.SubscriptionDetails);
 
-        //    var subscriptionDetails = string.Empty;
-        //    foreach (var item in subscriptionModel.SubscriptionDetails)
-        //    {
-        //        subscriptionDetails += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>"
-        //                            + @"<p class='mb-0 text-muted'>" + item.Title + @"</p>"
-        //                            + @" < p class='mb-0 text-primary fw-bold text-end'>" + item.Value + @"</p></li>";
-        //    }
-        //    orderHtml = orderHtml.Replace("{SubscriptionDetails-Value}", subscriptionDetails);
+            var subscriptionDetails = string.Empty;
+            foreach (var item in subscriptionModel.SubscriptionDetails)
+            {
+                subscriptionDetails += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
+                                    <p class='mb-0 text-muted'>" + item.Title + @"</p>
+                                    <p class='mb-0 text-primary fw-bold text-end'>" + item.Value + @"</p></li>";
+            }
+            orderHtml = orderHtml.Replace("{SubscriptionDetails-Value}", subscriptionDetails);
+
+            orderHtml = orderHtml.Replace("{Total}", isEnglish ? OrderPDF.Total : OrderPDFAr.Total);
+            orderHtml = orderHtml.Replace("{Total-Value}", subscriptionModel.FormattedTotal);
+
+            orderHtml = orderHtml.Replace("{SubscribedProduct}", isEnglish ? OrderPDF.SubscribedProduct : OrderPDFAr.SubscribedProduct);
+            orderHtml = orderHtml.Replace("{Subscribed-Product-Image-Value}", subscriptionModel.Product.ImageUrl);
+            orderHtml = orderHtml.Replace("{Subscribed-Product-Value}", subscriptionModel.Product.Title);
+
+            var subscriptionPackTitles = "";
+            foreach (var item in subscriptionModel.SubscriptionPackTitles)
+            {
+                subscriptionPackTitles += "<p class='m-0'>" + item.Title + @"</p>";
+            }
+            orderHtml = orderHtml.Replace("{Subscribed-Product-Details-Value}", subscriptionPackTitles);
+
+            orderHtml = orderHtml.Replace("{Qty}", isEnglish ? OrderPDF.Qty : OrderPDFAr.Qty);
+            orderHtml = orderHtml.Replace("{Qty-Value}", subscriptionModel.Quantity.ToString());
+            orderHtml = orderHtml.Replace("{UnitPrice}", isEnglish ? OrderPDF.UnitPrice : OrderPDFAr.UnitPrice);
+            orderHtml = orderHtml.Replace("{UnitPrice-Value}", subscriptionModel.FormattedUnitPrice);
+            orderHtml = orderHtml.Replace("{TotalAmount}", isEnglish ? OrderPDF.TotalAmount : OrderPDFAr.TotalAmount);
+            orderHtml = orderHtml.Replace("{TotalAmount-Value}", subscriptionModel.FormattedSubTotal);
+
+            orderHtml = orderHtml.Replace("{DeliveryDetails}", isEnglish ? OrderPDF.DeliveryDetails : OrderPDFAr.DeliveryDetails);
+            orderHtml = orderHtml.Replace("{DeliveryAddress}", isEnglish ? OrderPDF.DeliveryAddress : OrderPDFAr.DeliveryAddress);
+            orderHtml = orderHtml.Replace("{DeliveryAddress-Name}", subscriptionModel.Address.Name);
+            orderHtml = orderHtml.Replace("{DeliveryAddress-Details}", subscriptionModel.Address.AddressText);
+
+            var deliveryDetailsValue = "";
+            foreach (var item in subscriptionModel.SubscriptionPayments)
+            {
+                deliveryDetailsValue += @"<div style='page-break-inside: avoid;'><h5 class='text-dark text-start fw-bold my-3'>" + item.Title + @"</h5>
+                        <div class='bg-grey row rounded-4 p-3 mx-0'>
+                            <ul class='list-group list-group-flush list-card rounded-top rounded-bottom'>";
+                foreach (var payment in item.SubscriptionPayment)
+                {
+                    deliveryDetailsValue += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
+                                        <p class='mb-0 text-muted'>" + payment.Title + @"</p>
+                                        <p class='mb-0 text-primary fw-bold text-end'>" + payment.Value + @"</p></li>";
+                }
+                deliveryDetailsValue += "</ul></div></div>";
+            }
+            orderHtml = orderHtml.Replace("{Delivery-Details-Value}", deliveryDetailsValue);
+            orderHtml = orderHtml.Replace("{Delivery-Details-Style}", subscriptionModel.SubscriptionPayments.Count() > 0 ? "" : "display: none;");
+
+            orderHtml = orderHtml.Replace("{UpcomingDeliveries}", isEnglish ? OrderPDF.UpcomingDeliveries : OrderPDFAr.UpcomingDeliveries);
+            var upcomingDeliveries = "";
+            foreach (var upcomingDelivery in subscriptionModel.UpcomingDeliveries)
+            {
+                upcomingDeliveries += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
+                                        <p class='mb-0 text-muted'>" + (isEnglish ? OrderPDF.DueDate : OrderPDFAr.DueDate) + @"</p>
+                                        <p class='mb-0 text-primary fw-bold text-end'>" + upcomingDelivery.Title + @"</p>
+                                    </li>";
+            }
+            orderHtml = orderHtml.Replace("{Upcoming-Deliveriey-Details}", upcomingDeliveries);
+            orderHtml = orderHtml.Replace("{UpcomingDeliveries-Style}", subscriptionModel.UpcomingDeliveries.Count() > 0 ? "" : "display: none;");
+
+            string header = string.Empty;
+            var contactDetail = await _contactDetailService.GetDefault();
+            if (contactDetail != null)
+            {
+                string websiteUrl = webUrl.EndsWith("/") ? webUrl.Remove(webUrl.Length - 1, 1) : webUrl;
+
+                header = @"<link rel='stylesheet' href='" + webUrl + @"assets/css/main.css'>
+                           <div class='desktop-header d-none d-lg-block bg-body-primary'>
+                              <div class='bottom-bar'>
+                                  <div class='container'>
+                                      <div class='row'>
+                                          <div class='col-6 text-start py-2 ps-3'>
+                                              <a href='/'>
+                                                  <img src='" + webUrl + @"assets/img/Adhari-Logo.png' alt='Adhari' class='logo'>
+                                              </a>
+                                          </div>
+                                          <div class='col-6 text-end py-2 pe-3'>
+                                              <p class='mb-0 fw-bold'>" + contactDetail.EmailAddress + @"</p>
+                                              <p class='mb-0 fw-bold'>" + websiteUrl + @"</p>
+                                              <p class='mb-0 fw-bold'>" + contactDetail.MobileNumber + @"</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                           </div>";
+            }
 
 
-        //    orderHtml = orderHtml.Replace("{Total}", isEnglish ? Messages.Tota : MessagesAr.Total);
-        //    orderHtml = orderHtml.Replace("{Total-Value}", subscriptionModel.FormattedTotal);
-
-        //    orderHtml = orderHtml.Replace("{SubscribedProduct}", isEnglish ? OrderPDF.SubscribedProduct : OrderPDFAr.SubscribedProduct);
-        //    orderHtml = orderHtml.Replace("{Subscribed-Product-Image-Value}", subscriptionModel.imag);
-        //    orderHtml = orderHtml.Replace("{Subscribed-Product-Value}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
-        //    orderHtml = orderHtml.Replace("{Subscribed-Product-Details-Value}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
-
-        //    var items = "";
-        //    foreach (var item in subscriptionModel.SubscriptionPackTitles)
-        //    {
-        //        items += "< p class='m-0'>" + item.Title + @"</p>";
-        //    }
-        //    orderHtml = orderHtml.Replace("{Subscribed-Product-Details-Value}", items);
-
-        //    orderHtml = orderHtml.Replace("{Qty}", isEnglish ? OrderPDF.Qty : OrderPDFAr.Qty);
-        //    orderHtml = orderHtml.Replace("{Qty-Value}", subscriptionModel.Quantity.ToString());
-        //    orderHtml = orderHtml.Replace("{TotalAmount}", isEnglish ? OrderPDF.TotalAmount : OrderPDFAr.TotalAmount);
-        //    orderHtml = orderHtml.Replace("{TotalAmount-Value}", subscriptionModel.FormattedTotal);
-
-
-        //    orderHtml = orderHtml.Replace("{DeliveryDetails}", isEnglish ? OrderPDF.DeliveryDetails : OrderPDFAr.DeliveryDetails);
-        //    orderHtml = orderHtml.Replace("{DeliveryAddress}", isEnglish ? OrderPDF.DeliveryAddress : OrderPDFAr.DeliveryAddress);
-        //    orderHtml = orderHtml.Replace("{DeliveryAddress-Name}", subscriptionModel.Address.Name);
-        //    orderHtml = orderHtml.Replace("{DeliveryAddress-Details}", subscriptionModel.Address.AddressText);
-
-
-        //    var deliveryDetailsValue = "";
-        //    foreach (var item in subscriptionModel.SubscriptionPayments)
-        //    {
-        //        deliveryDetailsValue += "<h5 class='text-dark text-start fw-bold my-3'>" + item.Title + "</h5>" +
-        //                "<div class='bg-grey row rounded-4 p-3 mx-0'>" +
-        //                    "<ul class='list -group list-group-flush list-card rounded-top rounded-bottom'>";
-        //        foreach (var payment in item.SubscriptionPayment)
-        //        {
-        //            deliveryDetailsValue += "<li class='list-group-item d-flex justify-content-between border-secondary px-0'>" +
-        //                                "<p class='mb -0 text-muted'>" + payment.Title + "</p>" +
-        //                                "<p class='mb -0 text-primary fw-bold text-end'>" + payment.Value + "</p>" +
-        //                            "</li>";
-        //        }
-        //        deliveryDetailsValue += "</ul></div>";
-        //    }
-        //    orderHtml = orderHtml.Replace("{Delivery-Details-Value}", deliveryDetailsValue);
-
-        //    orderHtml = orderHtml.Replace("{UpcomingDeliveries}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
-        //    var items = "";
-        //    foreach (var item in order.SubscriptionPackTitles)
-        //    {
-        //        items += "<tr>" + "<td>" + item.Title + "</td><td>" + item.Value + "</td></tr>";
-        //    }
-        //    orderHtml = orderHtml.Replace("{Upcoming-Deliveriey-Details}", items);
-
-
-
-
-
-
-
-            
-
-        //    string path = MediaHelper.HtmlToPdf(orderHtml, "Pdfs/SubscriptionPdfs");
-
-        //    return apiBaseUrl + path;
-        //}
+            string path = MediaHelper.HtmlToPdfFront(orderHtml, "Pdfs/SubscriptionPdfs", header);
+            return apiUrl + path;
+        }
         public async Task<bool> UpdateSubscriptionOrderStatus(Subscription subscription, SubscriptionStatus subscriptionStatus, bool refundDeliveryFee = false, string notes = "")
         {
             bool updated = false;

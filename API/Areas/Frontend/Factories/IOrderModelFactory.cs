@@ -12,5 +12,6 @@ namespace API.Areas.Frontend.Factories
         Task<APIResponseModel<List<OrderModel>>> GetOrders(bool isEnglish, int customerId, int id = 0, string orderNumber = "",
             int limit = 0, int page = 0, OrderStatus? orderStatus = null);
         Task<APIResponseModel<bool>> ReOrder(bool isEnglish, int customerId, int id);
+        Task<APIResponseModel<object>> GetOrderPdf(bool isEnglish, int customerId, int id);
     }
 }

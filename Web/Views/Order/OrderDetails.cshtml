@@ -41,8 +41,8 @@
                                             <div class="row">
                                                 <div class="col-12 text-end">
                                                     <div class="w-auto py-1 me-2">
-                                                        <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]</label>
-                                                        <p class="text-primary fw-bold fs-51 mb-0">@item.Quantity</p>
+                                                        <label class="text-muted" for="">@SharedHtmlLocalizer["Quantity"]:</label>
+                                                        <span class="text-primary fw-bold fs-51 mb-0">@item.Quantity</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -101,6 +101,7 @@
         <div class="row">
             <div class="col-12 text-center">
                 <a href="#" id="a-reorder" class="btn rounded-pill btn-secondary text-light ms-1">@SharedHtmlLocalizer["Reorder"]</a>
+                <a href="#" id="a-print" class="btn rounded-pill btn-primary text-light ms-1">@SharedHtmlLocalizer["Print"]</a>
             </div>
         </div>
     </div>
@@ -115,9 +116,42 @@
                     $("#a-cart").css("cursor", "pointer");
                     $("#a-cart").trigger("click")
                 }
+                else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
+                    if (result.message != "")
+                        showToastErrorMessage(result.message);
+                }
             });
         });
-    });
+
+        $("#a-print").click(function (event) {
+            event.preventDefault();
+            showCoverSpin();
+            $.get("@Url.RouteUrl("printorder", new { id = Model.Id })", function (result) {
+                hideCoverSpin();
+                if (result.success && result.data) {
+                    window.location.href = result.data;
+                }
+                else {
+                    if (result.messageCode == 401) {
+                            var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                            window.location.href = "/login?returnUrl=" + returnUrl;
+                            return;
+                        }
+
+                        if (result.message != "")
+                            showToastErrorMessage(result.message);
+                }
+            });
+
+            return false;
+        });
+    });;
 </script>
 
 
