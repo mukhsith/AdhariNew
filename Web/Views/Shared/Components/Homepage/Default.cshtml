@@ -74,6 +74,10 @@
 </a>
 <script>
     $(document).ready(function () {
+        $("#a-floating-btn").click(function (e) {
+            e.preventDefault();
+        });
+
         $("#sp-view-cart").click(function (e) {
             e.preventDefault();
             var cartCount = $("#s-cart-count").html();

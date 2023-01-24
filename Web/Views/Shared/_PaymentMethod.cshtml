@@ -1,0 +1,27 @@
+﻿@model IList<Utility.Models.Frontend.Content.PaymentMethodModel>
+<ul class="list-group list-group-flush px-0 mb-0">
+    @foreach (var paymentMethod in Model)
+    {
+        var paymentMethodNames = paymentMethod.Name.Split("\r\n");
+        <div class="inputGroup border-secondary list-group-item d-flex justify-content-between align-items-center px-0">
+            <div class="d-flex align-items-center">
+                <input id="payment-method-@paymentMethod.Id" name="payment-method-radio" type="radio"
+                       value="@paymentMethod.Id" @(paymentMethod.Selected ? "checked" : "")>
+                <div class="ms-3">
+                    <label for="payment-method-@paymentMethod.Id">
+                        @paymentMethodNames[0]
+                        @if (paymentMethodNames.Count() == 2)
+                        {
+                            <br />
+                            @paymentMethodNames[1]
+                        }
+                    </label>
+                </div>
+
+            </div>
+            <label for="payment-method-@paymentMethod.Id" class="">
+                <img src="@paymentMethod.ImageUrl" class="" alt="product-image" height="25">
+            </label>
+        </div>
+    }
+</ul>

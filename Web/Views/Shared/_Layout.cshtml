@@ -136,11 +136,13 @@
 
         function addToCart(productId, quantity) {
             if (quantity == "" || parseInt(quantity) == 0) {
-                showToastErrorMessage('@SharedHtmlLocalizer["Quantity should be greater than zero"]');
+                ToastAlert('error', '', '@SharedHtmlLocalizer["Quantity should be greater than zero"]');
                 return;
             }
 
+            showCoverSpin();
             $.post("@Url.RouteUrl("addcartitem")", { productId: productId, Quantity: quantity }, function (result) {
+                hideCoverSpin();
                 if (result.success) {
                     if (result.data) {
                         updateCartCount();

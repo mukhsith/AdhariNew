@@ -169,6 +169,27 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
         }
 
+        [HttpGet, Route("api/Area/ForDropDownListByCity")]
+        public async Task<IActionResult> ForDropDownListByCity(int governorateId)
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                var items = await _get.GetAll();
+                response.GetAll(items.Where(x => x.GovernorateId== governorateId && x.Deleted==false).Select(x => new { x.Id, Name = IsEnglish ? x.NameEn : x.NameAr }).ToList());
+
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
+
+
         [HttpGet, Route("api/Area/GetAll")]
         public async Task<IActionResult> GetAll()
         {

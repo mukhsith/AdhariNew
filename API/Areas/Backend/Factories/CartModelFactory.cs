@@ -1,6 +1,8 @@
-﻿using API.Areas.Frontend.Helpers;
+﻿//using API.Areas.Frontend.Helpers;
+using API.Areas.Backend.Helpers;
 using API.Helpers;
 using AutoMapper;
+using Data.CouponPromotion;
 using Data.Shop;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -644,7 +646,7 @@ namespace API.Areas.Backend.Factories
                     var cartItemModel = await _modelHelper.PrepareCartItemModel(cartItem, isEnglish, customer: customer);
                     cartItemModels.Add(cartItemModel);
                 }
-
+                Coupon coupon = null;
                 decimal subTotal = cartItemModels.Sum(a => a.Total);
                 var cartAttribute = (await _cartService.GetAllCartAttribute(customerId: customerId)).FirstOrDefault();
                 if (cartAttribute == null)
@@ -656,6 +658,20 @@ namespace API.Areas.Backend.Factories
                             CustomerId = customerId,
                             AddressId = cartAttributeModel.AddressId
                         });
+                    }
+                    else if (cartAttributeModel.AttributeTypeId == AttributeType.ApplyCoupon)
+                    {
+                        coupon = await _couponService.GetByCode(cartAttributeModel.CouponCode);
+                        if (coupon != null)
+                        {
+                            cartAttribute = await _cartService.CreateCartAttribute(new CartAttribute
+                            {
+                                CustomerId = customerId,
+                                CouponId = coupon.Id,
+                                
+                                
+                            });
+                        }
                     }
                 }
                 else
@@ -677,7 +693,7 @@ namespace API.Areas.Backend.Factories
                     }
                     else if (cartAttributeModel.AttributeTypeId == AttributeType.ApplyCoupon)
                     {
-                        var coupon = await _couponService.GetByCode(cartAttributeModel.CouponCode);
+                         coupon = await _couponService.GetByCode(cartAttributeModel.CouponCode);
                         if (coupon == null)
                         {
                             response.Message = isEnglish ? Messages.CouponNotExists : MessagesAr.CouponNotExists;

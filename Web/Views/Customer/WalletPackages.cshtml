@@ -1,4 +1,4 @@
-﻿@model IList<Utility.Models.Frontend.CouponPromotion.WalletPackageModel>
+﻿@model WalletPackageWithPaymentMethodModel
 @inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
 @using Utility.Enum;
 @{
@@ -13,7 +13,7 @@
             <div class="col-12 mb-4 packages-cards">
                 <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["SelectWalletPrepaidCard"]</h4>
                 <div class="row justify-content-center">
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.WalletPackages)
                     {
                         <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
                             <div class="package-card py-4 px-3 d-flex flex-column body-bg-secondary border border-secondary rounded-4 align-items-center h-100" data-id="@item.Id" data-amount="@item.FormattedAmount">
@@ -30,8 +30,7 @@
             <div class="col-12 col-lg-8 mx-auto payment-method mb-4" style="display: none;">
                 <h4 class="text-primary text-start text-md-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentMethod"]</h4>
                 <div class="bg-grey rounded-4 p-3 mx-0">
-                    <ul class="list-group list-group-flush px-0 mb-0" id="ul-payment-methods">
-                    </ul>
+                    @await Html.PartialAsync("_PaymentMethod", Model.PaymentMethods)
                 </div>
             </div>
             <div class="col-12 col-lg-8 mx-auto mb-4 payment-method" style="display: none;">
@@ -58,100 +57,68 @@
 </section>
 <script>
     $(document).ready(function () {
-        getPaymentMethods();
-    });
-
-    function getPaymentMethods() {
-        var _url = '@Url.RouteUrl("paymentmethod", new { paymentRequestType = (int)PaymentRequestType.WalletPackageOrder })'
-        $.get(_url, function (result) {
-            if (result.success) {
-                let template = "";
-                $.each(result.data, function (index, item) {
-                    template += paymentMethodDiv(item);
-                });
-                $('#ul-payment-methods').html(template);
+        $("#a-checkout").click(function () {
+            var walletPackageId = $('div.package-card.active').attr('data-id');
+            var paymentMethodId = $('input[name="payment-method-radio"]:checked').val();
+            if (paymentMethodId == "" || paymentMethodId == null || paymentMethodId == undefined) {
+                ToastAlert('error', '', "@SharedHtmlLocalizer["PleaseChoosePaymentMethod"]");
+                return false;
             }
-            else {
-                if (result.message != "")
-                    ToastAlert('error', '', result.message);
-            }
-        });
-    };
 
-    function paymentMethodDiv(item) {
-        var html = `<div class="inputGroup border-secondary list-group-item d-flex justify-content-between align-items-center px-0">
-                        <label for="payment-method-radio${item.id}" class="">
-                            <img src="${item.imageUrl}" class="" alt="product-image" height="25">
-                        </label>
-                        <div class="d-flex align-items-center">
-                            <label for="payment-method-radio${item.id}" class="text-end">${item.name}</label>
-                            <input id="payment-method-radio${item.id}" name="payment-method-radio" class="ms-1 ms-md-3" type="radio" value="${item.id}">
-                        </div>
-                    </div>`;
-        return html;
-    };
-
-    $("#a-checkout").click(function () {
-        var walletPackageId = $('div.package-card.active').attr('data-id');
-        var paymentMethodId = $('input[name="payment-method-radio"]:checked').val();
-        if (paymentMethodId == "" || paymentMethodId == null || paymentMethodId == undefined) {
-            ToastAlert('error', '', "@SharedHtmlLocalizer["PleaseChoosePaymentMethod"]");
-            return false;
-        }
-
-        showLoader();
-        $.post("@Url.RouteUrl("createwalletpackageorder")", {
-            WalletPackageId: walletPackageId,
-            PaymentMethodId: paymentMethodId
-        }, function (result) {
-            if (result.success && result.data != null) {
-                if (result.data.redirectToPaymentPage) {
-                    window.location.href = result.data.paymentUrl;
+            showLoader();
+            $.post("@Url.RouteUrl("createwalletpackageorder")", {
+                WalletPackageId: walletPackageId,
+                PaymentMethodId: paymentMethodId
+            }, function (result) {
+                if (result.success && result.data != null) {
+                    if (result.data.redirectToPaymentPage) {
+                        window.location.href = result.data.paymentUrl;
+                    }
+                    else {
+                        window.location.href = "/ORD/" + result.data.entityNumber;
+                    }
                 }
                 else {
-                    window.location.href = "/ORD/" + result.data.entityNumber;
-                }
-            }
-            else {
-                hideLoader();
+                    hideLoader();
 
-                if (result.messageCode == 401) {
-                    var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
-                    window.location.href = "/login?returnUrl=" + returnUrl;
-                    return;
-                }
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
 
-                if (result.message != "")
-                    ToastAlert('error', '', result.message);
-            }
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+
+            return false;
         });
 
-        return false;
-    });
+        $(".package-card").click(function () {
+            var amount = $(this).data('amount');
+            setLabelValue("total-amount", amount);
+        });
 
-    $(".package-card").click(function () {
-        var amount = $(this).data('amount');
-        setLabelValue("total-amount", amount);
-    });
+        $(".package-card").click(function () {
+            $(".package-card").removeClass("active");
+            $(this).addClass("active");
+            $(".payment-method").show();
 
-    $(".package-card").click(function () {
-        $(".package-card").removeClass("active");
-        $(this).addClass("active");
-        $(".payment-method").show();
+            if ($(window).width() < 480) {
+                $(".packages-cards").hide();
+            }
+            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+        });
 
-        if ($(window).width() < 480) {
-            $(".packages-cards").hide();
-        }
-        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-    });
+        $(".package-card-back-btn").click(function () {
+            $(".packages-cards").show();
+            $(".payment-method").hide();
+        });
 
-    $(".package-card-back-btn").click(function () {
-        $(".packages-cards").show();
-        $(".payment-method").hide();
-    });
-
-    $('input[type=radio][name=payment-method-radio]').change(function () {
-        $(this).closest('ul').find('.inputGroup').removeClass('active');
-        $(this).closest('.inputGroup').addClass('active');
+        $('input[type=radio][name=payment-method-radio]').change(function () {
+            $(this).closest('ul').find('.inputGroup').removeClass('active');
+            $(this).closest('.inputGroup').addClass('active');
+        });
     });
 </script>

@@ -114,31 +114,7 @@
                                 </div>
                             }
                             <div class="bg-grey rounded-4 p-3 mx-0" id="dv-payment-methods" style="display:@(Model.SubscriptionSummary.SkipPaymentMethodSelection?"none;":"block")">
-                                <ul class="list-group list-group-flush px-0 mb-0">
-                                    @foreach (var paymentMethod in Model.PaymentMethods)
-                                    {
-                                        var paymentMethodNames = paymentMethod.Name.Split("\r\n");
-                                        <div class="inputGroup border-secondary list-group-item d-flex justify-content-between align-items-center px-0">
-                                            <div class="d-flex align-items-center">
-                                                <input id="payment-method-@paymentMethod.Id" name="payment-method-radio" type="radio"
-                                                       value="@paymentMethod.Id" @(paymentMethod.Selected ? "checked" : "")>
-                                                <div class="ms-3">
-                                                    <label for="payment-method-@paymentMethod.Id">
-                                                        @paymentMethodNames[0]
-                                                        @if (paymentMethodNames.Count() == 2)
-                                                        {
-                                                            <br />
-                                                            @paymentMethodNames[1]
-                                                        }
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <label for="payment-method-@paymentMethod.Id" class="">
-                                                <img src="@paymentMethod.ImageUrl" class="" alt="product-image" height="25">
-                                            </label>
-                                        </div>
-                                    }
-                                </ul>
+                                @await Html.PartialAsync("_PaymentMethod", Model.PaymentMethods)
                             </div>
                             <div id="dvErrorPaymentMethod">
                             </div>
@@ -282,7 +258,8 @@
             });
         });
 
-        $("#a-privacy-policy").click(function () {
+        $("#a-privacy-policy").click(function (e) {
+            e.preventDefault();
             $.get("@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.PrivacyPolicy })", function (result) {
                 if (result.content != "") {
                     $("#common-model-popup-title").html("@SharedHtmlLocalizer["PrivacyPolicy"]");
@@ -292,7 +269,8 @@
             });
         });
 
-        $("#a-terms").click(function () {
+        $("#a-terms").click(function (e) {
+            e.preventDefault();
             $.get("@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.TermsCondition })", function (result) {
                 if (result.content != "") {
                     $("#common-model-popup-title").html("@SharedHtmlLocalizer["TermsAndConditions"]");

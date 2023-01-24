@@ -9,8 +9,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Utility.API;
 using Utility.Enum;
+using Utility.Models.Frontend.Content;
 using Utility.Models.Frontend.CouponPromotion;
 using Utility.Models.Frontend.CustomerManagement;
+using Utility.Models.Frontend.CustomizedModel;
 using Utility.Models.Frontend.Sales;
 using Utility.ResponseMapper;
 
@@ -176,7 +178,7 @@ namespace Web.Controllers
                     response = await _apiHelper.PostAsync<APIResponseModel<CustomerModel>>("webapi/customer/verifyotp", customerModel);
                     if (response.Data != null && response.Success)
                     {
-                        Response.Cookies.Append("AuthenticationToken", response.Data.Token, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+                        Response.Cookies.Append("AuthenticationToken", response.Data.Token, new CookieOptions { Expires = Convert.ToDateTime(response.Data.Expiration) });
 
                         if (!string.IsNullOrEmpty(customerGuidValue))
                         {
@@ -613,7 +615,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> WalletPackages()
         {
-            List<WalletPackageModel> walletPackageModels = new();
+            WalletPackageWithPaymentMethodModel walletPackageWithPaymentMethodModel = new();
             try
             {
                 var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
@@ -630,7 +632,13 @@ namespace Web.Controllers
 
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
-                    walletPackageModels = responseModel.Data;
+                    walletPackageWithPaymentMethodModel.WalletPackages = responseModel.Data;
+
+                    var responsePaymentModel = await _apiHelper.GetAsync<APIResponseModel<List<PaymentMethodModel>>>("webapi/common/paymentmethods?typeId=" + PaymentRequestType.WalletPackageOrder);
+                    if (responsePaymentModel.Success && responsePaymentModel.Data != null && responsePaymentModel.Data.Count > 0)
+                    {
+                        walletPackageWithPaymentMethodModel.PaymentMethods = responsePaymentModel.Data;
+                    }
                 }
             }
             catch (Exception ex)
@@ -638,7 +646,7 @@ namespace Web.Controllers
                 _logger.LogInformation(ex.Message);
             }
 
-            return View(walletPackageModels);
+            return View(walletPackageWithPaymentMethodModel);
         }
 
         /// <summary>

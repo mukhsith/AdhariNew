@@ -271,7 +271,8 @@
     $(document).ready(function () {
         updateCartCount();
 
-        $("#a-cart").click(function () {
+        $("#a-cart").click(function (e) {
+            e.preventDefault();
             if ($(this).css("cursor") != "not-allowed") {
                 $.get("@Url.RouteUrl("cartitems")", function (result) {
                     if (result.cartContents != "") {
@@ -284,7 +285,8 @@
             }
         });
 
-        $("#a-mobile-cart").click(function () {
+        $("#a-mobile-cart").click(function (e) {
+            e.preventDefault();
             if ($(this).css("cursor") != "not-allowed") {
                 $.get("@Url.RouteUrl("cartitems")", function (result) {
                     if (result.cartContents != "") {
@@ -297,7 +299,8 @@
             }
         });
 
-        $("#a-mobile-cart2").click(function () {
+        $("#a-mobile-cart2").click(function (e) {
+            e.preventDefault();
             if ($(this).css("cursor") != "not-allowed") {
                 $.get("@Url.RouteUrl("cartitems")", function (result) {
                     if (result.cartContents != "") {

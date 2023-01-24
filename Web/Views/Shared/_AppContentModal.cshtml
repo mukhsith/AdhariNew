@@ -57,7 +57,8 @@
 </div>
 <script>
     $(document).ready(function () {
-        $('.privacy-policy').click(function () {
+        $('.privacy-policy').click(function (e) {
+            e.preventDefault();
             var _url = '@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.PrivacyPolicy })'
             $.get(_url, function (data) {
                 if (data.content != null) {

@@ -823,10 +823,10 @@ namespace API.Areas.Backend.Helpers
             decimal walletUsedAmount = 0;
 
             var cartAttribute = (await _cartService.GetAllCartAttribute(customerId: customerId)).FirstOrDefault();
-            if (cartAttribute == null)
-            {
-                return null;
-            }
+            //if (cartAttribute == null)
+            //{
+            //    return null;
+            //}
 
             List<KeyValuPairModel> AmountSplitUps = new();
             AmountSplitUps.Add(new KeyValuPairModel
@@ -840,28 +840,83 @@ namespace API.Areas.Backend.Helpers
             cartSummaryModel.WalletBalanceAmount = walletBalance;
             cartSummaryModel.FormattedWalletBalanceAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletBalanceAmount, isEnglish);
 
-            if (cartAttribute.CouponId.HasValue)
+            if (cartAttribute != null)
             {
-                var coupon = await _couponService.GetById(cartAttribute.CouponId.Value);
-                if (coupon != null)
+                if (cartAttribute.CouponId.HasValue)
                 {
-                    discountAmount = coupon.ApplyCouponDiscount2(subTotal);
-                    cartSummaryModel.CouponCode = coupon.CouponCode;
+                    var coupon = await _couponService.GetById(cartAttribute.CouponId.Value);
+                    if (coupon != null)
+                    {
+                        discountAmount = coupon.ApplyCouponDiscount2(subTotal);
+                        cartSummaryModel.CouponCode = coupon.CouponCode;
+
+                        AmountSplitUps.Add(new KeyValuPairModel
+                        {
+                            Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
+                            Value = "-" + await _commonHelper.ConvertDecimalToString(value: discountAmount, isEnglish: isEnglish),
+                            DisplayOrder = 2
+                        });
+                    }
+                    else
+                    {
+                        cartAttribute.CouponId = null;
+                        await _cartService.UpdateCartAttribute(cartAttribute);
+                    }
+                }
+
+                if (cartAttribute.AddressId.HasValue)
+                {
+                    var address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
+                    if (address != null)
+                    {
+                        var area = await _areaService.GetById(address.AreaId);
+                        if (area != null)
+                        {
+                            deliveryFee = await _commonHelper.GetDeliveryFeeByAreaId(areaId: area.Id);
+                            AmountSplitUps.Add(new KeyValuPairModel
+                            {
+                                Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                                Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish),
+                                DisplayOrder = 1
+                            });
+                        }
+                    }
+                }
+
+                if (cartAttribute.UseWalletAmount && walletBalance > 0)
+                {
+                    walletUsedAmount = walletBalance;
+
+                    decimal grossTotal = subTotal - discountAmount + deliveryFee - cashbackAmount;
+                    if (walletUsedAmount > grossTotal)
+                    {
+                        walletUsedAmount = grossTotal;
+
+                        cartAttribute.PaymentMethodId = (int)Utility.Enum.PaymentMethod.Wallet;
+                        await _cartService.UpdateCartAttribute(cartAttribute);
+
+                        cartSummaryModel.SkipPaymentMethodSelection = true;
+                    }
+                    else
+                    {
+                        if (cartAttribute.PaymentMethodId == (int)Utility.Enum.PaymentMethod.Wallet)
+                        {
+                            cartAttribute.PaymentMethodId = null;
+                            await _cartService.UpdateCartAttribute(cartAttribute);
+                        }
+                    }
 
                     AmountSplitUps.Add(new KeyValuPairModel
                     {
-                        Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
-                        Value = "-" + await _commonHelper.ConvertDecimalToString(value: discountAmount, isEnglish: isEnglish),
-                        DisplayOrder = 2
+                        Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
+                        Value = "-" + await _commonHelper.ConvertDecimalToString(value: walletUsedAmount, isEnglish: isEnglish),
+                        DisplayOrder = 4
                     });
-                }
-                else
-                {
-                    cartAttribute.CouponId = null;
-                    await _cartService.UpdateCartAttribute(cartAttribute);
+
+                    cartSummaryModel.WalletUsedAmount = walletUsedAmount;
+                    cartSummaryModel.FormattedWalletUsedAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletUsedAmount, isEnglish);
                 }
             }
-
             cashbackAmount = await _commonHelper.GetCashbackAmount(customerId: customerId, amount: subTotal - discountAmount);
             if (cashbackAmount > 0)
             {
@@ -873,58 +928,7 @@ namespace API.Areas.Backend.Helpers
                 });
             }
 
-            if (cartAttribute.AddressId.HasValue)
-            {
-                var address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
-                if (address != null)
-                {
-                    var area = await _areaService.GetById(address.AreaId);
-                    if (area != null)
-                    {
-                        deliveryFee = await _commonHelper.GetDeliveryFeeByAreaId(areaId: area.Id);
-                        AmountSplitUps.Add(new KeyValuPairModel
-                        {
-                            Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                            Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish),
-                            DisplayOrder = 1
-                        });
-                    }
-                }
-            }
-
-            if (cartAttribute.UseWalletAmount && walletBalance > 0)
-            {
-                walletUsedAmount = walletBalance;
-
-                decimal grossTotal = subTotal - discountAmount + deliveryFee - cashbackAmount;
-                if (walletUsedAmount > grossTotal)
-                {
-                    walletUsedAmount = grossTotal;
-
-                    cartAttribute.PaymentMethodId = (int)Utility.Enum.PaymentMethod.Wallet;
-                    await _cartService.UpdateCartAttribute(cartAttribute);
-
-                    cartSummaryModel.SkipPaymentMethodSelection = true;
-                }
-                else
-                {
-                    if (cartAttribute.PaymentMethodId == (int)Utility.Enum.PaymentMethod.Wallet)
-                    {
-                        cartAttribute.PaymentMethodId = null;
-                        await _cartService.UpdateCartAttribute(cartAttribute);
-                    }
-                }
-
-                AmountSplitUps.Add(new KeyValuPairModel
-                {
-                    Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
-                    Value = "-" + await _commonHelper.ConvertDecimalToString(value: walletUsedAmount, isEnglish: isEnglish),
-                    DisplayOrder = 4
-                });
-
-                cartSummaryModel.WalletUsedAmount = walletUsedAmount;
-                cartSummaryModel.FormattedWalletUsedAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletUsedAmount, isEnglish);
-            }
+       
 
             cartSummaryModel.Total = subTotal + deliveryFee - discountAmount - cashbackAmount - walletUsedAmount;
             cartSummaryModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(cartSummaryModel.Total, isEnglish, includeZero: true);

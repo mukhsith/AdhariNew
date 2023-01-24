@@ -1,4 +1,4 @@
-﻿using API.Areas.Frontend.Factories;
+﻿using API.Areas.Backend.Factories;
 using Data.CustomerManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

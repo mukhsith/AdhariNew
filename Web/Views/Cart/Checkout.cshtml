@@ -341,7 +341,8 @@
             });
         });
 
-        $("#a-privacy-policy").click(function () {
+        $("#a-privacy-policy").click(function (e) {
+            e.preventDefault();
             $.get("@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.PrivacyPolicy })", function (result) {
                 if (result.content != "") {
                     $("#common-model-popup-title").html("@SharedHtmlLocalizer["PrivacyPolicy"]");
@@ -351,7 +352,8 @@
             });
         });
 
-        $("#a-terms").click(function () {
+        $("#a-terms").click(function (e) {
+            e.preventDefault();
             $.get("@Url.RouteUrl("getsitecontents", new { appContentType = (int)AppContentType.TermsCondition })", function (result) {
                 if (result.content != "") {
                     $("#common-model-popup-title").html("@SharedHtmlLocalizer["TermsAndConditions"]");

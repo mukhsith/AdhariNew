@@ -213,6 +213,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CannotAddMoreProductsToCartThanStock" xml:space="preserve">
+    <value>Cannot add more products to cart than stock</value>
+  </data>
   <data name="Cart" xml:space="preserve">
     <value>Cart</value>
   </data>
@@ -593,6 +596,9 @@
   </data>
   <data name="PoweredBy" xml:space="preserve">
     <value>Powered By</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy Policy</value>

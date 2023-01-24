@@ -8,10 +8,18 @@
 <input type="hidden" id="hdnProductCount" value="0" />
 <section class="main-content py-5 mb-5">
     <div class="container">
-        <div class="row">
+        <div class="row" id="dv-product-list">
             <div class="col-12">
                 <div class="row justify-content-center" id="dv-products">
                 </div>
+            </div>
+        </div>
+        <div class="row" id="dv-no-products">
+            <div class="col-12 text-center">
+                <i class="display-1 fas fa-boxes text-center text-primary"></i>
+            </div>
+            <div class="col-12 text-center">
+                <h5 class="mt-3 text-primary">@SharedHtmlLocalizer["NoProductsAdded"]</h5>
             </div>
         </div>
     </div>
@@ -36,6 +44,16 @@
         var limit = 1000;
         showLoader();
         $.get("@Url.RouteUrl("productsbyajax")", { seoName: '@Model.SeoName', page: pageCount, limit: limit }, function (result) {
+            debugger;
+            if (result.productCount == 0) {
+                $("#dv-product-list").hide();
+                $("#dv-no-products").show();
+            }
+            else {
+                $("#dv-product-list").show();
+                $("#dv-no-products").hide();
+            }
+
             $("#hdnProductCount").val(parseInt($("#hdnProductCount").val()) + parseInt(result.productCount));
             if (result.success) {
                 if (result.html == "") {

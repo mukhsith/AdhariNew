@@ -97,12 +97,12 @@ namespace API.Areas.Backend.Controllers
                     response.Message = "Customer Mobile Number is missing";
                     return Ok(response);
                 }
-                if (string.IsNullOrEmpty(customer.EmailAddress))
-                {
-                    response.NoRecord(customer);
-                    response.Message = "Customer Email Address is missing";
-                    return Ok(response);
-                }
+                //if (string.IsNullOrEmpty(customer.EmailAddress))
+                //{
+                //    response.NoRecord(customer);
+                //    response.Message = "Customer Email Address is missing";
+                //    return Ok(response);
+                //}
                 var created = await _get.CreateCustomer(customer.Name, customer.MobileNumber, customer.EmailAddress, customer.B2B, this.UserId, customer.LanguageId);
                 response.Create(created);
             }

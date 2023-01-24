@@ -213,6 +213,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>إلغاء</value>
   </data>
+  <data name="CannotAddMoreProductsToCartThanStock" xml:space="preserve">
+    <value>لا يمكن إضافة منتجات إلى سلة التسوق أكثر من المخزون</value>
+  </data>
   <data name="Cart" xml:space="preserve">
     <value>العربة</value>
   </data>
@@ -277,7 +280,7 @@
     <value>حمّل تطبيق عذاري</value>
   </data>
   <data name="DueDate" xml:space="preserve">
-    <value>Due Date</value>
+    <value>التاريخ المحدد</value>
   </data>
   <data name="Duration" xml:space="preserve">
     <value>مدة</value>
@@ -463,7 +466,7 @@
     <value>طلباتي</value>
   </data>
   <data name="MyProfile" xml:space="preserve">
-    <value>صفحتي الشخصية</value>
+    <value>الملف الشخصي</value>
   </data>
   <data name="MySubscriptions" xml:space="preserve">
     <value>اشتراكاتي</value>
@@ -580,7 +583,7 @@
     <value>الرجاء اختيار طريقة الدفع</value>
   </data>
   <data name="PleaseEnterAValidPromotionCode" xml:space="preserve">
-    <value>الرجاء إدخال رمز ترويج صالح.</value>
+    <value>الرجاء إدخال كود الخصم صالح.</value>
   </data>
   <data name="PleaseEnterOTPcodeWhichHasBeenSentToMobileNumber" xml:space="preserve">
     <value>إدخل رمز التحقق OTP الذي تم إرساله إلى رقم هاتفك</value>
@@ -593,6 +596,9 @@
   </data>
   <data name="PoweredBy" xml:space="preserve">
     <value>مشغل بواسطة</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>اطبع</value>
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>سياسة الخصوصية</value>

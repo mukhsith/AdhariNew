@@ -352,7 +352,7 @@
         public static string OrderDate = "تاريخ الطلب";
         public static string OrderTime = "وقت الطلب";
         public static string OrderAmount = "مبلغ الطلب";
-        public static string PaymentMethod = "طريقة الدفع او السداد";
+        public static string PaymentMethod = "طريقة الدفع";
         public static string PaymentResult = "نتيجة الدفع";
         public static string PaymentId = "رقم الدفع";
         public static string PaymentReference = "رقم المرجع";
@@ -483,7 +483,7 @@
         public static string SubscribedProduct = "أصناف";
         public static string Total = "مجموع";
         public static string SubscriptionDetails = "تفاصيل الاشتراك";
-        public static string DueDate = "Due Date";
+        public static string DueDate = "التاريخ المحدد";
         public static string UpcomingDeliveries = "طلبات القادمة";
         public static string UnitPrice = "سعر الوحدة";
     }

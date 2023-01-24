@@ -231,13 +231,13 @@
                                     {
                                         <div class="btn-with-input-spinner d-flex w-100">
                                             <input type="number" value="1" min="1" max="@Model.StockQuantity" step="1" class="input-spinner text-white bg-secondary border-0 fs-4" style="display: none;">
-                                            <div class="input-group  rounded-5 side-cart-spinner">
-                                                <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold fs-4 btn-minus-side-cart" type="button">
+                                            <div class="input-group  rounded-5 product-details-spinner">
+                                                <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold fs-4 btn-minus-product-details" type="button">
                                                     <strong>−</strong>
                                                 </button>
                                                 <input type="text" inputmode="decimal" style="text-align: center" class="form-control input-spinner text-white bg-secondary border-0 fs-4" placeholder="" readonly=""
                                                        value="1" data-maxquantity="@Model.StockQuantity" id="txt-quantity" disabled>
-                                                <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold fs-4 btn-plus-side-cart" type="button">
+                                                <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold fs-4 btn-plus-product-details" type="button">
                                                     <strong>+</strong>
                                                 </button>
                                             </div>
@@ -268,25 +268,26 @@
 </section>
 <script>
     $(document).ready(function () {
-        $(".btn-plus-side-cart").click(function () {
-            var quantity = $(this).closest(".side-cart-spinner").find("input").val();
+        $(".btn-plus-product-details").click(function () {
+            var quantity = $(this).closest(".product-details-spinner").find("input").val();
             var finalQuantity = parseInt(quantity) + 1;
 
-            var maxQuantity = $(this).closest(".side-cart-spinner").find("input").attr("data-maxquantity");
+            var maxQuantity = $(this).closest(".product-details-spinner").find("input").attr("data-maxquantity");
             if (finalQuantity > maxQuantity) {
+                ToastAlert('error', '', '@SharedHtmlLocalizer["CannotAddMoreProductsToCartThanStock"]');
                 return;
             }
 
-            $(this).closest(".side-cart-spinner").find("input").val(finalQuantity);
+            $(this).closest(".product-details-spinner").find("input").val(finalQuantity);
         });
 
-        $(".btn-minus-side-cart").click(function () {
-            var quantity = $(this).closest(".side-cart-spinner").find("input").val();
+        $(".btn-minus-product-details").click(function () {
+            var quantity = $(this).closest(".product-details-spinner").find("input").val();
             var finalQuantity = parseInt(quantity) - 1;
             if (finalQuantity <= 0)
                 return;
 
-            $(this).closest(".side-cart-spinner").find("input").val(finalQuantity);
+            $(this).closest(".product-details-spinner").find("input").val(finalQuantity);
         });
 
         $("#btn-add-to-cart").click(function () {

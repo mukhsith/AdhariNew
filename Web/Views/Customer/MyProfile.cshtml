@@ -134,7 +134,7 @@
                         }
                         else {
                             if (result.message != "")
-                                showToastErrorMessage(result.message);
+                                ToastAlert('error', '', result.message);
                         }
                     }
                     else {
@@ -145,7 +145,7 @@
                         }
 
                         if (result.message != "")
-                            showToastErrorMessage(result.message);
+                            ToastAlert('error', '', result.message);
                     }
                 });
             }
