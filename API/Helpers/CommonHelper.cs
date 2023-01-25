@@ -1919,16 +1919,16 @@ namespace API.Helpers
 
                 if (notificationType == NotificationType.OrderReceipt)
                 {
-                    orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderConfirmationTitle : OrderPDFAr.OrderConfirmationTitle);
-                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderEmailDescription : OrderPDFAr.OrderEmailDescription);
+                    orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderAdminConfirmationTitle : OrderPDFAr.OrderAdminConfirmationTitle);
+                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderAdminEmailDescription : OrderPDFAr.OrderAdminEmailDescription);
                 }
                 else
                 {
                     orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderCancellationTitle : OrderPDFAr.OrderCancellationTitle);
-                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderCancellationEmailDescription : OrderPDFAr.OrderCancellationEmailDescription);
+                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderAdminCancellationEmailDescription : OrderPDFAr.OrderAdminCancellationEmailDescription);
                 }
 
-                orderHtml = orderHtml.Replace("{Customer-Name-Header}", orderModel.Customer.Name);
+                orderHtml = orderHtml.Replace("{Customer-Name-Header}", isEnglish ? OrderPDF.Admin : OrderPDFAr.Admin);
                 orderHtml = orderHtml.Replace("{Order-Details}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
                 orderHtml = orderHtml.Replace("{Order-Number}", isEnglish ? OrderPDF.OrderNumber : OrderPDFAr.OrderNumber);
                 orderHtml = orderHtml.Replace("{Order-Number-Value}", orderModel.OrderNumber);
@@ -2174,16 +2174,16 @@ namespace API.Helpers
 
                 if (notificationType == NotificationType.SubscriptionReceipt)
                 {
-                    orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderConfirmationTitle : OrderPDFAr.OrderConfirmationTitle);
-                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderEmailDescription : OrderPDFAr.OrderEmailDescription);
+                    orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderAdminConfirmationTitle : OrderPDFAr.OrderAdminConfirmationTitle);
+                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderAdminEmailDescription : OrderPDFAr.OrderAdminEmailDescription);
                 }
                 else
                 {
                     orderHtml = orderHtml.Replace("{Order-Confirmation}", isEnglish ? OrderPDF.OrderCancellationTitle : OrderPDFAr.OrderCancellationTitle);
-                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderCancellationEmailDescription : OrderPDFAr.OrderCancellationEmailDescription);
+                    orderHtml = orderHtml.Replace("{Description}", isEnglish ? OrderPDF.OrderAdminCancellationEmailDescription : OrderPDFAr.OrderAdminCancellationEmailDescription);
                 }
 
-                orderHtml = orderHtml.Replace("{Customer-Name-Header}", subscriptionModel.Customer.Name);
+                orderHtml = orderHtml.Replace("{Customer-Name-Header}", isEnglish ? OrderPDF.Admin : OrderPDFAr.Admin);
                 orderHtml = orderHtml.Replace("{Order-Details}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
                 orderHtml = orderHtml.Replace("{Order-Number}", isEnglish ? OrderPDF.OrderNumber : OrderPDFAr.OrderNumber);
                 orderHtml = orderHtml.Replace("{Order-Number-Value}", subscriptionModel.SubscriptionNumber);

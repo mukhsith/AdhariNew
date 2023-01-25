@@ -696,6 +696,9 @@
   <data name="Size" xml:space="preserve">
     <value>الحجم</value>
   </data>
+  <data name="SorryNoResultsFound" xml:space="preserve">
+    <value>عذرا ، لا توجد نتائج</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>حالة</value>
   </data>

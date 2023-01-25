@@ -95,7 +95,8 @@ namespace API.Helpers
                                         else
                                             order.BankServiceCharge = paymentResponseModel.BankServiceCharge;
 
-                                        order.PaymentStatusId = order.PaymentMethodId == (int)PaymentMethod.Cash ? PaymentStatus.PendingCash :
+                                        order.PaymentStatusId = (order.PaymentMethodId == (int)PaymentMethod.Cash ||
+                                            order.PaymentMethodId == (int)PaymentMethod.QPay) ? PaymentStatus.PendingCash :
                                             PaymentStatus.Captured;
                                         order.OrderStatusId = OrderStatus.Confirmed;
                                         order.PaymentResult = "captured";

@@ -813,6 +813,131 @@ namespace API.Areas.Backend.Helpers
 
             return cartModel;
         }
+        //public async Task<CartSummaryModel> PrepareCartSummaryModel(bool isEnglish, int customerId, List<CartItemModel> cartItemModels)
+        //{
+        //    var cartSummaryModel = new CartSummaryModel();
+        //    decimal subTotal = cartItemModels.Sum(a => a.Total);
+        //    decimal deliveryFee = 0;
+        //    decimal discountAmount = 0;
+        //    decimal cashbackAmount = 0;
+        //    decimal walletUsedAmount = 0;
+
+        //    var cartAttribute = (await _cartService.GetAllCartAttribute(customerId: customerId)).FirstOrDefault();
+        //    //if (cartAttribute == null)
+        //    //{
+        //    //    return null;
+        //    //}
+
+        //    List<KeyValuPairModel> AmountSplitUps = new();
+        //    AmountSplitUps.Add(new KeyValuPairModel
+        //    {
+        //        Title = isEnglish ? Messages.Items : MessagesAr.Items,
+        //        Value = await _commonHelper.ConvertDecimalToString(value: subTotal, isEnglish: isEnglish, includeZero: true),
+        //        DisplayOrder = 0
+        //    });
+
+        //    var walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customerId, walletTypeId: WalletType.Wallet);
+        //    cartSummaryModel.WalletBalanceAmount = walletBalance;
+        //    cartSummaryModel.FormattedWalletBalanceAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletBalanceAmount, isEnglish);
+
+        //    if (cartAttribute != null)
+        //    {
+        //        if (cartAttribute.CouponId.HasValue)
+        //        {
+        //            var coupon = await _couponService.GetById(cartAttribute.CouponId.Value);
+        //            if (coupon != null)
+        //            {
+        //                discountAmount = coupon.ApplyCouponDiscount2(subTotal);
+        //                cartSummaryModel.CouponCode = coupon.CouponCode;
+
+        //                AmountSplitUps.Add(new KeyValuPairModel
+        //                {
+        //                    Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
+        //                    Value = "-" + await _commonHelper.ConvertDecimalToString(value: discountAmount, isEnglish: isEnglish),
+        //                    DisplayOrder = 2
+        //                });
+        //            }
+        //            else
+        //            {
+        //                cartAttribute.CouponId = null;
+        //                await _cartService.UpdateCartAttribute(cartAttribute);
+        //            }
+        //        }
+
+        //        if (cartAttribute.AddressId.HasValue)
+        //        {
+        //            var address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
+        //            if (address != null)
+        //            {
+        //                var area = await _areaService.GetById(address.AreaId);
+        //                if (area != null)
+        //                {
+        //                    deliveryFee = await _commonHelper.GetDeliveryFeeByAreaId(areaId: area.Id);
+        //                    AmountSplitUps.Add(new KeyValuPairModel
+        //                    {
+        //                        Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+        //                        Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish),
+        //                        DisplayOrder = 1
+        //                    });
+        //                }
+        //            }
+        //        }
+
+        //        if (cartAttribute.UseWalletAmount && walletBalance > 0)
+        //        {
+        //            walletUsedAmount = walletBalance;
+
+        //            decimal grossTotal = subTotal - discountAmount + deliveryFee - cashbackAmount;
+        //            if (walletUsedAmount > grossTotal)
+        //            {
+        //                walletUsedAmount = grossTotal;
+
+        //                cartAttribute.PaymentMethodId = (int)Utility.Enum.PaymentMethod.Wallet;
+        //                await _cartService.UpdateCartAttribute(cartAttribute);
+
+        //                cartSummaryModel.SkipPaymentMethodSelection = true;
+        //            }
+        //            else
+        //            {
+        //                if (cartAttribute.PaymentMethodId == (int)Utility.Enum.PaymentMethod.Wallet)
+        //                {
+        //                    cartAttribute.PaymentMethodId = null;
+        //                    await _cartService.UpdateCartAttribute(cartAttribute);
+        //                }
+        //            }
+
+        //            AmountSplitUps.Add(new KeyValuPairModel
+        //            {
+        //                Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
+        //                Value = "-" + await _commonHelper.ConvertDecimalToString(value: walletUsedAmount, isEnglish: isEnglish),
+        //                DisplayOrder = 4
+        //            });
+
+        //            cartSummaryModel.WalletUsedAmount = walletUsedAmount;
+        //            cartSummaryModel.FormattedWalletUsedAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletUsedAmount, isEnglish);
+        //        }
+        //    }
+        //    cashbackAmount = await _commonHelper.GetCashbackAmount(customerId: customerId, amount: subTotal - discountAmount);
+        //    if (cashbackAmount > 0)
+        //    {
+        //        AmountSplitUps.Add(new KeyValuPairModel
+        //        {
+        //            Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
+        //            Value = "-" + await _commonHelper.ConvertDecimalToString(value: cashbackAmount, isEnglish: isEnglish),
+        //            DisplayOrder = 3
+        //        });
+        //    }
+
+
+
+        //    cartSummaryModel.Total = subTotal + deliveryFee - discountAmount - cashbackAmount - walletUsedAmount;
+        //    cartSummaryModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(cartSummaryModel.Total, isEnglish, includeZero: true);
+
+        //    cartSummaryModel.AmountSplitUps = AmountSplitUps.OrderBy(a => a.DisplayOrder).ToList();
+
+        //    return cartSummaryModel;
+        //}
+
         public async Task<CartSummaryModel> PrepareCartSummaryModel(bool isEnglish, int customerId, List<CartItemModel> cartItemModels)
         {
             var cartSummaryModel = new CartSummaryModel();
@@ -823,100 +948,45 @@ namespace API.Areas.Backend.Helpers
             decimal walletUsedAmount = 0;
 
             var cartAttribute = (await _cartService.GetAllCartAttribute(customerId: customerId)).FirstOrDefault();
-            //if (cartAttribute == null)
-            //{
-            //    return null;
-            //}
+            if (cartAttribute == null)
+            {
+                return null;
+            }
 
             List<KeyValuPairModel> AmountSplitUps = new();
             AmountSplitUps.Add(new KeyValuPairModel
             {
-                Title = isEnglish ? Messages.Items : MessagesAr.Items,
+                Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
                 Value = await _commonHelper.ConvertDecimalToString(value: subTotal, isEnglish: isEnglish, includeZero: true),
                 DisplayOrder = 0
             });
 
             var walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customerId, walletTypeId: WalletType.Wallet);
             cartSummaryModel.WalletBalanceAmount = walletBalance;
-            cartSummaryModel.FormattedWalletBalanceAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletBalanceAmount, isEnglish);
+            cartSummaryModel.FormattedWalletBalanceAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletBalanceAmount, isEnglish: isEnglish);
 
-            if (cartAttribute != null)
+            if (cartAttribute.CouponId.HasValue)
             {
-                if (cartAttribute.CouponId.HasValue)
+                var coupon = await _couponService.GetById(cartAttribute.CouponId.Value);
+                if (coupon != null)
                 {
-                    var coupon = await _couponService.GetById(cartAttribute.CouponId.Value);
-                    if (coupon != null)
-                    {
-                        discountAmount = coupon.ApplyCouponDiscount2(subTotal);
-                        cartSummaryModel.CouponCode = coupon.CouponCode;
-
-                        AmountSplitUps.Add(new KeyValuPairModel
-                        {
-                            Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
-                            Value = "-" + await _commonHelper.ConvertDecimalToString(value: discountAmount, isEnglish: isEnglish),
-                            DisplayOrder = 2
-                        });
-                    }
-                    else
-                    {
-                        cartAttribute.CouponId = null;
-                        await _cartService.UpdateCartAttribute(cartAttribute);
-                    }
-                }
-
-                if (cartAttribute.AddressId.HasValue)
-                {
-                    var address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
-                    if (address != null)
-                    {
-                        var area = await _areaService.GetById(address.AreaId);
-                        if (area != null)
-                        {
-                            deliveryFee = await _commonHelper.GetDeliveryFeeByAreaId(areaId: area.Id);
-                            AmountSplitUps.Add(new KeyValuPairModel
-                            {
-                                Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                                Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish),
-                                DisplayOrder = 1
-                            });
-                        }
-                    }
-                }
-
-                if (cartAttribute.UseWalletAmount && walletBalance > 0)
-                {
-                    walletUsedAmount = walletBalance;
-
-                    decimal grossTotal = subTotal - discountAmount + deliveryFee - cashbackAmount;
-                    if (walletUsedAmount > grossTotal)
-                    {
-                        walletUsedAmount = grossTotal;
-
-                        cartAttribute.PaymentMethodId = (int)Utility.Enum.PaymentMethod.Wallet;
-                        await _cartService.UpdateCartAttribute(cartAttribute);
-
-                        cartSummaryModel.SkipPaymentMethodSelection = true;
-                    }
-                    else
-                    {
-                        if (cartAttribute.PaymentMethodId == (int)Utility.Enum.PaymentMethod.Wallet)
-                        {
-                            cartAttribute.PaymentMethodId = null;
-                            await _cartService.UpdateCartAttribute(cartAttribute);
-                        }
-                    }
+                    discountAmount = coupon.ApplyCouponDiscount2(subTotal);
+                    cartSummaryModel.CouponCode = coupon.CouponCode;
 
                     AmountSplitUps.Add(new KeyValuPairModel
                     {
-                        Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
-                        Value = "-" + await _commonHelper.ConvertDecimalToString(value: walletUsedAmount, isEnglish: isEnglish),
-                        DisplayOrder = 4
+                        Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
+                        Value = "-" + await _commonHelper.ConvertDecimalToString(value: discountAmount, isEnglish: isEnglish),
+                        DisplayOrder = 2
                     });
-
-                    cartSummaryModel.WalletUsedAmount = walletUsedAmount;
-                    cartSummaryModel.FormattedWalletUsedAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletUsedAmount, isEnglish);
+                }
+                else
+                {
+                    cartAttribute.CouponId = null;
+                    await _cartService.UpdateCartAttribute(cartAttribute);
                 }
             }
+
             cashbackAmount = await _commonHelper.GetCashbackAmount(customerId: customerId, amount: subTotal - discountAmount);
             if (cashbackAmount > 0)
             {
@@ -928,15 +998,71 @@ namespace API.Areas.Backend.Helpers
                 });
             }
 
-       
+            if (cartAttribute.AddressId.HasValue)
+            {
+                var address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
+                if (address != null)
+                {
+                    var area = await _areaService.GetById(address.AreaId);
+                    if (area != null)
+                    {
+                        deliveryFee = await _commonHelper.GetDeliveryFeeByAreaId(areaId: area.Id);
+                        AmountSplitUps.Add(new KeyValuPairModel
+                        {
+                            Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                            Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish),
+                            DisplayOrder = 1
+                        });
+                    }
+                }
+            }
+
+            if (cartAttribute.UseWalletAmount && walletBalance > 0)
+            {
+                walletUsedAmount = walletBalance;
+
+                decimal grossTotal = subTotal - discountAmount + deliveryFee - cashbackAmount;
+                if (walletUsedAmount > grossTotal)
+                {
+                    walletUsedAmount = grossTotal;
+
+                    if (cartAttribute.PaymentMethodId != (int)Utility.Enum.PaymentMethod.Wallet)
+                        cartAttribute.OtherPaymentMethodId = cartAttribute.PaymentMethodId;
+                    cartAttribute.PaymentMethodId = (int)Utility.Enum.PaymentMethod.Wallet;
+                    await _cartService.UpdateCartAttribute(cartAttribute);
+
+                    cartSummaryModel.SkipPaymentMethodSelection = true;
+                }
+                else
+                {
+                    if (cartAttribute.PaymentMethodId == (int)Utility.Enum.PaymentMethod.Wallet)
+                    {
+                        cartAttribute.PaymentMethodId = cartAttribute.OtherPaymentMethodId;
+                        cartAttribute.OtherPaymentMethodId = null;
+                        await _cartService.UpdateCartAttribute(cartAttribute);
+                    }
+                }
+
+                AmountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
+                    Value = "-" + await _commonHelper.ConvertDecimalToString(value: walletUsedAmount, isEnglish: isEnglish),
+                    DisplayOrder = 4
+                });
+
+                cartSummaryModel.WalletUsedAmount = walletUsedAmount;
+                cartSummaryModel.FormattedWalletUsedAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletUsedAmount, isEnglish: isEnglish);
+            }
 
             cartSummaryModel.Total = subTotal + deliveryFee - discountAmount - cashbackAmount - walletUsedAmount;
-            cartSummaryModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(cartSummaryModel.Total, isEnglish, includeZero: true);
+            cartSummaryModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(cartSummaryModel.Total, isEnglish: isEnglish, includeZero: true);
 
             cartSummaryModel.AmountSplitUps = AmountSplitUps.OrderBy(a => a.DisplayOrder).ToList();
+            cartSummaryModel.Notes = cartAttribute.Notes;
 
             return cartSummaryModel;
         }
+
         public async Task<CheckOutModel> PrepareCheckOutModel(bool isEnglish, int customerId)
         {
             var checkOutModel = new CheckOutModel();

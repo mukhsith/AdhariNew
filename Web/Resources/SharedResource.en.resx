@@ -696,6 +696,9 @@
   <data name="Size" xml:space="preserve">
     <value>Size</value>
   </data>
+  <data name="SorryNoResultsFound" xml:space="preserve">
+    <value>Sorry, no results found</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>

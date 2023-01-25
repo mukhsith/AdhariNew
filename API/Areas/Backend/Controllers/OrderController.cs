@@ -422,7 +422,7 @@ namespace API.Areas.Backend.Controllers
         {
 
 
-            var offlineOrder= await _orderModelFactory.CreateOrder(isEnglish: true, customerId: _adminCreateOrderModel.CustomerId, deviceTypeId: DeviceType.Web, adminCreateOrderModel: _adminCreateOrderModel);
+            var offlineOrder= await _orderModelFactory.CreateOrder(isEnglish: true, customerId: _adminCreateOrderModel.CustomerId, deviceTypeId: DeviceType.Web, createPaymentModel: _adminCreateOrderModel);
 
 
             return offlineOrder;

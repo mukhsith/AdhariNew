@@ -17,7 +17,8 @@ namespace API.Areas.Backend.Factories
 
         Task<DailyOrderSummaryModel> GetTodaySales(bool isEnglish);
         Task<DailySubscriptionSummaryModel> GetTodaySubscriptionSales(bool isEnglish);
-        Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel adminCreateOrderModel);
+        //Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel adminCreateOrderModel);
+        Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel createPaymentModel);
         Task<APIResponseModel<OrderModel>> GetOrder(bool isEnglish, int id, int customerId);
         //Task<APIResponseModel<AdminOrderModel>> GetOrder(bool isEnglish, int id, int customerId);
         //Task<APIResponseModel<List<AdminOrderModel>>> GetOrders(bool isEnglish, int customerId, int id = 0, string orderNumber = "",

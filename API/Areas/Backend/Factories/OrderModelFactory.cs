@@ -135,20 +135,529 @@ namespace API.Areas.Backend.Factories
             return model;
         }
 
-        public async Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel adminCreateOrderModel)
+        //public async Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel adminCreateOrderModel)
+        //{
+        //    var response = new APIResponseModel<AdminCreateOrderModel>();
+
+        //    try
+        //    {
+        //        var customer = await _customerService.GetCustomerById(customerId);
+        //        if (customer == null)
+        //        {
+        //            response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+        //            return response;
+        //        }
+
+        //        if (customer.Deleted)
+        //        {
+        //            response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+        //            return response;
+        //        }
+
+        //        if (!customer.Active)
+        //        {
+        //            response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+        //            return response;
+        //        }
+
+        //        var cartItems = await _cartService.GetAllCartItem(customerId: customerId);
+        //        if (cartItems.Count == 0)
+        //        {
+        //            response.Message = isEnglish ? Messages.NoItemsInCart : MessagesAr.NoItemsInCart;
+        //            return response;
+        //        }
+
+        //        var cartAttribute = (await _cartService.GetAllCartAttribute(customerId: customerId)).FirstOrDefault();
+        //        if (cartAttribute == null)
+        //        {
+        //            response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+        //            return response;
+        //        }
+
+        //        decimal deliveryFee = 0;
+        //        Address address = null;
+        //        if (!cartAttribute.AddressId.HasValue)
+        //        {
+        //            response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+        //            return response;
+        //        }
+        //        else
+        //        {
+        //            address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
+        //            if (address == null)
+        //            {
+        //                response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
+        //                return response;
+        //            }
+
+        //            if (address.Deleted)
+        //            {
+        //                response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
+        //                return response;
+        //            }
+
+        //            var area = address.Area;
+        //            if (area == null)
+        //            {
+        //                response.Message = isEnglish ? Messages.AreaNotExists : MessagesAr.AreaNotExists;
+        //                return response;
+        //            }
+
+        //            if (area.Deleted)
+        //            {
+        //                response.Message = isEnglish ? Messages.AreaNotExists : MessagesAr.AreaNotExists;
+        //                return response;
+        //            }
+
+        //            if (!area.Active)
+        //            {
+        //                response.Message = isEnglish ? Messages.AreaNotActive : MessagesAr.AreaNotActive;
+        //                return response;
+        //            }
+
+        //            var governorate = area.Governorate;
+        //            if (governorate == null)
+        //            {
+        //                response.Message = isEnglish ? Messages.GovernorateNotExists : MessagesAr.GovernorateNotExists;
+        //                return response;
+        //            }
+
+        //            if (governorate.Deleted)
+        //            {
+        //                response.Message = isEnglish ? Messages.GovernorateNotExists : MessagesAr.GovernorateNotExists;
+        //                return response;
+        //            }
+
+        //            if (!governorate.Active)
+        //            {
+        //                response.Message = isEnglish ? Messages.GovernorateNotActive : MessagesAr.GovernorateNotActive;
+        //                return response;
+        //            }
+
+        //            deliveryFee = area.DeliveryFee;
+        //        }
+
+        //        if (adminCreateOrderModel.PaymentMethodId==0)
+        //        {
+        //            response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+        //            return response;
+        //        }
+        //        //else
+        //        //{
+        //        //    var paymentMethod = await _paymentMethodService.GetPaymentMethodById(adminCreateOrderModel.PaymentMethodId.Value);
+        //        //    if (paymentMethod == null)
+        //        //    {
+        //        //        response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
+        //        //        return response;
+        //        //    }
+
+        //        //    if (paymentMethod.Deleted)
+        //        //    {
+        //        //        response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
+        //        //        return response;
+        //        //    }
+
+        //        //    if (!paymentMethod.Active)
+        //        //    {
+        //        //        response.Message = isEnglish ? Messages.PaymentMethodNotActive : MessagesAr.PaymentMethodNotActive;
+        //        //        return response;
+        //        //    }
+
+
+        //        //    if (!paymentMethod.NormalCheckoutRegisteredCustomer)
+        //        //    {
+        //        //        response.Message = isEnglish ? Messages.PaymentMethodNotAvailable : MessagesAr.PaymentMethodNotAvailable;
+        //        //        return response;
+        //        //    }
+        //        //}
+
+        //        //if (cartAttribute.WalletUsedAmount > 0)
+        //        //{
+        //        //    var walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customerId, walletTypeId: WalletType.Wallet);
+        //        //    if (walletBalance <= 0)
+        //        //    {
+        //        //        response.Message = isEnglish ? Messages.WalletBalanceLessThanActualAmount : MessagesAr.WalletBalanceLessThanActualAmount;
+        //        //        return response;
+        //        //    }
+
+        //        //    if (cartAttribute.WalletUsedAmount > walletBalance)
+        //        //    {
+        //        //        response.Message = isEnglish ? Messages.WalletBalanceLessThanActualAmount : MessagesAr.WalletBalanceLessThanActualAmount;
+        //        //        return response;
+        //        //    }
+        //        //}
+
+        //        var orderItems = new List<OrderItem>();
+        //        foreach (var cartItem in cartItems)
+        //        {
+        //            var product = await _productService.GetById(cartItem.ProductId);
+        //            if (product == null)
+        //            {
+        //                response.Message = isEnglish ? Messages.ProductNotExists : MessagesAr.ProductNotExists;
+        //                return response;
+        //            }
+
+        //            var name = isEnglish ? product.NameEn : product.NameAr;
+
+        //            if (product.Deleted)
+        //            {
+        //                response.Message = isEnglish ? string.Format(Messages.ProductNotExistsWithName, name) : string.Format(MessagesAr.ProductNotExistsWithName, name);
+        //                return response;
+        //            }
+
+        //            if (!product.Active)
+        //            {
+        //                response.Message = isEnglish ? string.Format(Messages.ProductNotActiveWithName, name) : string.Format(MessagesAr.ProductNotActiveWithName, name);
+        //                return response;
+        //            }
+
+        //            if (product.ProductType == ProductType.SubscriptionProduct)
+        //            {
+        //                response.Message = isEnglish ? string.Format(Messages.ProductNotExistsWithName, name) : string.Format(MessagesAr.ProductNotExistsWithName, name);
+        //                return response;
+        //            }
+
+        //            Category category = product.Category;
+        //            if (category == null)
+        //            {
+        //                response.Message = isEnglish ? Messages.CategoryNotExists : MessagesAr.CategoryNotExists;
+        //                return response;
+        //            }
+
+        //            string categoryName = isEnglish ? category.NameEn : category.NameAr;
+
+        //            if (category.Deleted)
+        //            {
+        //                response.Message = isEnglish ? string.Format(Messages.CategoryNotExistsWithProduct, name, categoryName) : string.Format(MessagesAr.CategoryNotExistsWithProduct, name, categoryName);
+        //                return response;
+        //            }
+
+        //            if (!category.Active)
+        //            {
+        //                response.Message = isEnglish ? string.Format(Messages.CategoryNotExistsWithProduct, name, categoryName) : string.Format(MessagesAr.CategoryNotExistsWithProduct, name, categoryName);
+        //                return response;
+        //            }
+
+        //            if (cartItem.Quantity <= 0)
+        //            {
+        //                response.Message = isEnglish ? string.Format(Messages.CartZeroQuantityValidation, name) : string.Format(MessagesAr.CartZeroQuantityValidation, name);
+        //                return response;
+        //            }
+
+        //            var productStockQuantity = 0;
+        //            if (product.ProductType == ProductType.BaseProduct)
+        //            {
+        //                productStockQuantity = await _productService.GetAvailableStockQuantity(productId: product.Id, customerId: customer.Id);
+        //                if (productStockQuantity < 0)
+        //                    productStockQuantity = 0;
+        //            }
+        //            else if (product.ProductType == ProductType.BundledProduct)
+        //            {
+        //                int lowStockProduct = 0;
+        //                var productDetails = product.ProductDetails.ToList();
+        //                foreach (var productDetail in productDetails)
+        //                {
+        //                    var childProductStockQuantity = await _productService.GetAvailableStockQuantity(productId: productDetail.ChildProductId,
+        //                customerId: customer.Id);
+        //                    if (childProductStockQuantity <= (cartItem.Quantity * productDetail.Quantity))
+        //                        lowStockProduct++;
+        //                }
+
+        //                if (lowStockProduct > 0)
+        //                    productStockQuantity = 0;
+        //                else
+        //                    productStockQuantity = cartItem.Quantity;
+        //            }
+
+        //            if (cartItem.Quantity > productStockQuantity)
+        //            {
+        //                response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+        //                return response;
+        //            }
+
+        //            bool b2bCustomer = customer != null && customer.B2B;
+        //            decimal price = product.GetPriceFrontend(b2bCustomer);
+        //            decimal discountedPrice = product.GetDiscountedPriceFrontend(b2bCustomer);
+
+        //            List<OrderItemDetail> orderItemDetails = new();
+        //            if (product.ProductType == ProductType.BundledProduct)
+        //            {
+        //                var productDetails = product.ProductDetails.ToList();
+        //                foreach (var productDetail in productDetails)
+        //                {
+        //                    var orderItemDetail = new OrderItemDetail
+        //                    {
+        //                        ProductId = productDetail.ProductId,
+        //                        ChildProductId = productDetail.ChildProductId,
+        //                        Quantity = productDetail.Quantity
+        //                    };
+
+        //                    orderItemDetails.Add(orderItemDetail);
+        //                }
+        //            }
+
+        //            var orderItem = new OrderItem
+        //            {
+        //                ProductId = cartItem.ProductId,
+        //                Quantity = cartItem.Quantity,
+        //                UnitPrice = price,
+        //                B2BPrice = b2bCustomer,
+        //                DiscountType = discountedPrice > 0 ? DiscountType.Amount : DiscountType.NoDiscount,
+        //                DiscountValueApplied = price - discountedPrice,
+        //                DiscountAmount = price - discountedPrice,
+        //                OrderItemDetails = orderItemDetails
+        //            };
+
+        //            decimal itemTotal = (orderItem.UnitPrice - orderItem.DiscountAmount) * orderItem.Quantity;
+        //            orderItem.Total = itemTotal;
+        //            orderItems.Add(orderItem);
+        //        }
+
+        //        var dateAndSlot = await _commonHelper.GetAvailableDeliveryDateAndSlot();
+
+        //        var order = new Order
+        //        {
+        //            CustomerId = customer.Id,
+        //            OrderNumber = string.Empty,
+        //            OrderStatusId = OrderStatus.Discarded,
+        //            CustomerLanguageId = isEnglish ? 1 : 2,
+        //            CustomerIp = "1:0",
+        //            PaymentMethodId = adminCreateOrderModel.PaymentMethodId,
+        //            PaymentStatusId = PaymentStatus.Canceled,
+        //            CreatedOn = DateTime.Now,
+        //            DeviceTypeId = deviceTypeId,
+        //            DeliveryDate = dateAndSlot.Item1,
+        //            DeliveryTimeSlotId = dateAndSlot.Item2,
+        //            SubTotal = orderItems.Sum(a => a.Total),
+        //            DeliveryFee = deliveryFee,
+        //            OrderTypeId = OrderType.Offline,
+        //            Notes = ""
+        //        };
+
+
+        //        Coupon coupon = null;
+        //        if (cartAttribute.CouponId.HasValue)
+        //        {
+        //            coupon = await _couponService.GetById(cartAttribute.CouponId.Value);
+        //            if (coupon == null)
+        //            {
+        //                response.Message = isEnglish ? Messages.CouponNotValid : MessagesAr.CouponNotValid;
+        //                return response;
+        //            }
+
+        //            var couponValidation = _commonHelper.CouponValidation(coupon: coupon, isEnglish: isEnglish, total: order.SubTotal);
+        //            if (!string.IsNullOrEmpty(couponValidation))
+        //            {
+        //                response.Message = couponValidation;
+        //                return response;
+        //            }
+
+        //            order.CouponId = cartAttribute.CouponId;
+        //            order.CouponDiscountType = coupon.DiscountType;
+        //            order.CouponDiscountValueApplied = coupon.DiscountType == DiscountType.Percentage ? coupon.DiscountPercentage : coupon.DiscountAmount;
+        //            order.CouponDiscountAmount = coupon.ApplyCouponDiscount2(order.SubTotal);
+        //        }
+
+        //        var subTotalAfterCouponDiscount = order.SubTotal - order.CouponDiscountAmount;
+        //        order.CashbackAmount = await _commonHelper.GetCashbackAmount(customerId: customerId, amount: subTotalAfterCouponDiscount);
+
+        //        //if (cartAttribute.WalletUsedAmount > 0)
+        //        //{
+        //        //    decimal grossTotal = order.SubTotal - order.CouponDiscountAmount - order.CashbackAmount + order.DeliveryFee;
+
+        //        //    if (order.PaymentMethodId == (int)PaymentMethod.Wallet)
+        //        //    {
+        //        //        if (cartAttribute.WalletUsedAmount != grossTotal)
+        //        //        {
+        //        //            response.Message = isEnglish ? Messages.PaymentMethodNotAvailable : MessagesAr.PaymentMethodNotAvailable;
+        //        //            return response;
+        //        //        }
+        //        //    }
+
+        //        //    if (cartAttribute.WalletUsedAmount > grossTotal)
+        //        //    {
+        //        //        response.Message = isEnglish ? Messages.WalletAmountSholuldLessThanActualAmount : MessagesAr.WalletAmountSholuldLessThanActualAmount;
+        //        //        return response;
+        //        //    }
+        //        //}
+
+        //        address = new Address
+        //        {
+        //            AddressId = address.Id,
+        //            CustomerId = address.CustomerId,
+        //            TypeId = address.TypeId,
+        //            Name = address.Name,
+        //            MobileNumber = address.MobileNumber,
+        //            EmailAddress = address.EmailAddress,
+        //            AreaId = address.AreaId,
+        //            Block = address.Block,
+        //            Street = address.Street,
+        //            Avenue = address.Avenue,
+        //            HouseNumber = address.HouseNumber,
+        //            BuildingNumber = address.BuildingNumber,
+        //            FloorNumber = address.FloorNumber,
+        //            FlatNumber = address.FlatNumber,
+        //            SchoolName = address.SchoolName,
+        //            MosqueName = address.MosqueName,
+        //            GovernmentEntity = address.GovernmentEntity,
+        //            Notes = address.Notes
+        //        };
+        //        await _customerService.CreateAddress(address);
+        //        order.AddressId = address.Id;
+
+        //        order.OrderItems = orderItems;
+
+        //        order.Total = order.SubTotal + order.DeliveryFee - order.WalletUsedAmount - order.CashbackAmount - order.CouponDiscountAmount;
+        //        if (order.Total <= 0)
+        //        {
+        //            response.Message = isEnglish ? Messages.OrderAmountValidation : MessagesAr.OrderAmountValidation;
+        //            return response;
+        //        }
+
+        //        order = await _orderService.CreateOrder(order);
+        //        if (order != null)
+        //        {
+        //            var orderNumber = string.Empty;
+        //            Order orderByOrderNumber = null;
+        //            do
+        //            {
+        //                orderNumber = "10" + Common.GenerateRandomNo();
+        //                orderByOrderNumber = await _orderService.GetOrderByOrderNumber(orderNumber);
+        //            }
+        //            while (orderByOrderNumber != null);
+
+        //            order.OrderNumber = orderNumber;
+        //            await _orderService.UpdateOrder(order);
+
+        //            await _cartService.HoldAndReleaseCartItem(customerId: customer.Id, isHold: true);
+
+
+        //            if (order.PaymentMethodId == (int)PaymentMethod.Cash)
+        //            {
+        //                var paymentResponseModel = new PaymentResponseModel()
+        //                {
+        //                    Amount = order.Total.ToString("N3"),
+        //                    EntityId = order.Id.ToString(),
+        //                    RequestType = PaymentRequestType.Order.ToString(),
+        //                    Result = "captured"
+        //                };
+
+        //                var url = await _paymentHelper.UpdatePaymentEntity(paymentResponseModel);
+        //            }
+        //            else if (order.PaymentMethodId == (int)PaymentMethod.QPay)
+        //            {
+        //                var qpayNumber = string.Empty;
+        //                QuickPayment qpayByNumber = null;
+        //                do
+        //                {
+        //                    qpayNumber = "10" + Common.GenerateRandomNo();
+        //                    qpayByNumber = await _quickPaymentService.GetqpayByNumber(qpayNumber);
+        //                }
+        //                while (qpayByNumber != null);
+
+        //                var qpayModel = new QuickPayment()
+        //                {
+        //                    Amount = order.Total,
+        //                    EntityId = order.Id,
+        //                    CustomerId= customer.Id,
+        //                    PaymentNumber= qpayNumber,
+        //                    MobileNumber = customer.MobileNumber,
+        //                    PaymentRequestTypeId = PaymentRequestType.Order
+
+        //                };
+
+        //                var _QpayInfo = await _quickPaymentService.Create(qpayModel);
+        //                var Message = string.Empty;
+        //                var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(NotificationType.QPay);
+        //                if (notificationTemplate != null)
+        //                {
+        //                    var Qlink = _appSettings.QuickPayUrl + qpayNumber;
+        //                    if (customer.LanguageId == 1)
+        //                    {
+        //                        Message = notificationTemplate.SMSMessageEn.Replace("{link}", Qlink).Replace("{ordernumber}", orderNumber);
+        //                    }
+        //                    else
+        //                    {
+        //                        Message = notificationTemplate.SMSMessageAr.Replace("{link}", Qlink).Replace("{ordernumber}", orderNumber);
+
+        //                    }
+
+        //                   await _notificationTemplateService.CreateQpaySMSPush(Message, customer.MobileNumber, customer.LanguageId);
+
+        //                }
+
+
+        //               var paymentResponseModel = new PaymentResponseModel()
+        //                {
+        //                    Amount = order.Total.ToString("N3"),
+        //                    EntityId = order.Id.ToString(),
+        //                    RequestType = PaymentRequestType.Order.ToString(),
+        //                    Result = "captured"
+        //                };
+
+        //                var url = await _paymentHelper.UpdatePaymentEntity(paymentResponseModel);
+        //            }
+        //            //if (order.PaymentMethodId == (int)PaymentMethod.KNET)
+        //            //{
+        //            //    var paymentUrlRequestModel = new PaymentUrlRequestModel
+        //            //    {
+        //            //        LangId = order.CustomerLanguageId.ToString(),
+        //            //        Amount = order.Total.ToString("N3"),
+        //            //        TrackId = order.OrderNumber.ToString(),
+        //            //        EntityId = order.Id.ToString(),
+        //            //        CustomerId = order.CustomerId.ToString(),
+        //            //        RequestType = PaymentRequestType.Order.ToString()
+        //            //    };
+
+        //            //    var paymentUrl = await _apiHelper.PostAsync<string>("Home/GetPaymentUrl", paymentUrlRequestModel, baseUrl: _appSettings.PaymentAPIUrl);
+        //            //    if (!string.IsNullOrEmpty(paymentUrl))
+        //            //    {
+        //            //        createOrderModel.PaymentUrl = paymentUrl;
+
+        //            //        if (order.DeviceTypeId == DeviceType.Web)
+        //            //            createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "ORD/" + order.OrderNumber;
+        //            //        else
+        //            //            createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "paymentresult";
+
+        //            //        createOrderModel.OrderId = order.Id;
+        //            //    }
+        //            //}
+        //            //else if (order.PaymentMethodId == (int)PaymentMethod.VISAMASTER)
+        //            //{
+        //            //    var value = Cryptography.Encrypt(PaymentRequestType.Order.ToString() + "-" + order.Id);
+        //            //    createOrderModel.PaymentUrl = _appSettings.APIBaseUrl + "payment/requestgbmasterpayment?value=" + value;
+
+        //            //    if (order.DeviceTypeId == DeviceType.Web)
+        //            //        createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "ORD/" + order.OrderNumber;
+        //            //    else
+        //            //        createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "paymentresult";
+
+        //            //    createOrderModel.OrderId = order.Id;
+        //            //}
+        //        }
+
+        //        response.Data = adminCreateOrderModel;
+        //        response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+        //        response.Success = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex.Message);
+        //        response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+        //    }
+
+        //    return response;
+        //}
+
+
+        public async Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel createPaymentModel)
         {
             var response = new APIResponseModel<AdminCreateOrderModel>();
 
             try
             {
                 var customer = await _customerService.GetCustomerById(customerId);
-                if (customer == null)
-                {
-                    response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
-                    return response;
-                }
-
-                if (customer.Deleted)
+                if (customer == null || customer.Deleted)
                 {
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
@@ -174,118 +683,106 @@ namespace API.Areas.Backend.Factories
                     return response;
                 }
 
-                decimal deliveryFee = 0;
-                Address address = null;
-                if (!cartAttribute.AddressId.HasValue)
+                if (!cartAttribute.AddressId.HasValue || !cartAttribute.PaymentMethodId.HasValue)
                 {
                     response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
                     return response;
                 }
-                else
+
+                Address address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
+                if (address == null)
                 {
-                    address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
-                    if (address == null)
-                    {
-                        response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
-                        return response;
-                    }
-
-                    if (address.Deleted)
-                    {
-                        response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
-                        return response;
-                    }
-
-                    var area = address.Area;
-                    if (area == null)
-                    {
-                        response.Message = isEnglish ? Messages.AreaNotExists : MessagesAr.AreaNotExists;
-                        return response;
-                    }
-
-                    if (area.Deleted)
-                    {
-                        response.Message = isEnglish ? Messages.AreaNotExists : MessagesAr.AreaNotExists;
-                        return response;
-                    }
-
-                    if (!area.Active)
-                    {
-                        response.Message = isEnglish ? Messages.AreaNotActive : MessagesAr.AreaNotActive;
-                        return response;
-                    }
-
-                    var governorate = area.Governorate;
-                    if (governorate == null)
-                    {
-                        response.Message = isEnglish ? Messages.GovernorateNotExists : MessagesAr.GovernorateNotExists;
-                        return response;
-                    }
-
-                    if (governorate.Deleted)
-                    {
-                        response.Message = isEnglish ? Messages.GovernorateNotExists : MessagesAr.GovernorateNotExists;
-                        return response;
-                    }
-
-                    if (!governorate.Active)
-                    {
-                        response.Message = isEnglish ? Messages.GovernorateNotActive : MessagesAr.GovernorateNotActive;
-                        return response;
-                    }
-
-                    deliveryFee = area.DeliveryFee;
-                }
-
-                if (adminCreateOrderModel.PaymentMethodId==0)
-                {
-                    response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+                    response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
                     return response;
                 }
-                //else
+
+                if (address.Deleted)
+                {
+                    response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
+                    return response;
+                }
+
+                if (address.CustomerId != customer.Id)
+                {
+                    response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
+                    return response;
+                }
+
+                var area = address.Area;
+                if (area == null)
+                {
+                    response.Message = isEnglish ? Messages.AreaNotExists : MessagesAr.AreaNotExists;
+                    return response;
+                }
+
+                if (area.Deleted)
+                {
+                    response.Message = isEnglish ? Messages.AreaNotExists : MessagesAr.AreaNotExists;
+                    return response;
+                }
+
+                if (!area.Active)
+                {
+                    response.Message = isEnglish ? Messages.AreaNotActive : MessagesAr.AreaNotActive;
+                    return response;
+                }
+
+                var governorate = area.Governorate;
+                if (governorate == null)
+                {
+                    response.Message = isEnglish ? Messages.GovernorateNotExists : MessagesAr.GovernorateNotExists;
+                    return response;
+                }
+
+                if (governorate.Deleted)
+                {
+                    response.Message = isEnglish ? Messages.GovernorateNotExists : MessagesAr.GovernorateNotExists;
+                    return response;
+                }
+
+                if (!governorate.Active)
+                {
+                    response.Message = isEnglish ? Messages.GovernorateNotActive : MessagesAr.GovernorateNotActive;
+                    return response;
+                }
+
+                decimal deliveryFee = area.DeliveryFee;
+
+                //var paymentMethod = await _paymentMethodService.GetPaymentMethodById(cartAttribute.PaymentMethodId.Value);
+                //if (paymentMethod == null)
                 //{
-                //    var paymentMethod = await _paymentMethodService.GetPaymentMethodById(adminCreateOrderModel.PaymentMethodId.Value);
-                //    if (paymentMethod == null)
-                //    {
-                //        response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
-                //        return response;
-                //    }
-
-                //    if (paymentMethod.Deleted)
-                //    {
-                //        response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
-                //        return response;
-                //    }
-
-                //    if (!paymentMethod.Active)
-                //    {
-                //        response.Message = isEnglish ? Messages.PaymentMethodNotActive : MessagesAr.PaymentMethodNotActive;
-                //        return response;
-                //    }
-
-
-                //    if (!paymentMethod.NormalCheckoutRegisteredCustomer)
-                //    {
-                //        response.Message = isEnglish ? Messages.PaymentMethodNotAvailable : MessagesAr.PaymentMethodNotAvailable;
-                //        return response;
-                //    }
+                //    response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
+                //    return response;
                 //}
 
-                //if (cartAttribute.WalletUsedAmount > 0)
+                //if (paymentMethod.Deleted)
                 //{
-                //    var walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customerId, walletTypeId: WalletType.Wallet);
-                //    if (walletBalance <= 0)
-                //    {
-                //        response.Message = isEnglish ? Messages.WalletBalanceLessThanActualAmount : MessagesAr.WalletBalanceLessThanActualAmount;
-                //        return response;
-                //    }
-
-                //    if (cartAttribute.WalletUsedAmount > walletBalance)
-                //    {
-                //        response.Message = isEnglish ? Messages.WalletBalanceLessThanActualAmount : MessagesAr.WalletBalanceLessThanActualAmount;
-                //        return response;
-                //    }
+                //    response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
+                //    return response;
                 //}
+
+                //if (!paymentMethod.Active)
+                //{
+                //    response.Message = isEnglish ? Messages.PaymentMethodNotActive : MessagesAr.PaymentMethodNotActive;
+                //    return response;
+                //}
+
+                //if (!paymentMethod.NormalCheckoutRegisteredCustomer)
+                //{
+                //    response.Message = isEnglish ? Messages.PaymentMethodNotAvailable : MessagesAr.PaymentMethodNotAvailable;
+                //    return response;
+                //}
+
+                decimal walletBalance = 0;
+                if (cartAttribute.UseWalletAmount)
+                {
+                    walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customerId, walletTypeId: WalletType.Wallet);
+                    if (walletBalance <= 0)
+                    {
+                        response.Message = isEnglish ? Messages.WalletBalanceLessThanActualAmount : MessagesAr.WalletBalanceLessThanActualAmount;
+                        return response;
+                    }
+                }
 
                 var orderItems = new List<OrderItem>();
                 foreach (var cartItem in cartItems)
@@ -379,6 +876,29 @@ namespace API.Areas.Backend.Factories
                     decimal price = product.GetPriceFrontend(b2bCustomer);
                     decimal discountedPrice = product.GetDiscountedPriceFrontend(b2bCustomer);
 
+                    if (b2bCustomer)
+                    {
+                        if (product.B2BMaxCartQuantity > 0)
+                        {
+                            if (cartItem.Quantity > product.B2BMaxCartQuantity)
+                            {
+                                response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                                return response;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (product.MaxCartQuantity > 0)
+                        {
+                            if (cartItem.Quantity > product.MaxCartQuantity)
+                            {
+                                response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                                return response;
+                            }
+                        }
+                    }
+
                     List<OrderItemDetail> orderItemDetails = new();
                     if (product.ProductType == ProductType.BundledProduct)
                     {
@@ -396,15 +916,17 @@ namespace API.Areas.Backend.Factories
                         }
                     }
 
+                    decimal discountAmount = discountedPrice > 0 ? price - discountedPrice : 0;
                     var orderItem = new OrderItem
                     {
+                        Product = product,
                         ProductId = cartItem.ProductId,
                         Quantity = cartItem.Quantity,
                         UnitPrice = price,
                         B2BPrice = b2bCustomer,
-                        DiscountType = discountedPrice > 0 ? DiscountType.Amount : DiscountType.NoDiscount,
-                        DiscountValueApplied = price - discountedPrice,
-                        DiscountAmount = price - discountedPrice,
+                        DiscountType = discountAmount > 0 ? DiscountType.Amount : DiscountType.NoDiscount,
+                        DiscountValueApplied = discountAmount,
+                        DiscountAmount = discountAmount,
                         OrderItemDetails = orderItemDetails
                     };
 
@@ -415,6 +937,12 @@ namespace API.Areas.Backend.Factories
 
                 var dateAndSlot = await _commonHelper.GetAvailableDeliveryDateAndSlot();
 
+                string notes = string.Empty;
+                if (deviceTypeId == DeviceType.Web)
+                    notes = createPaymentModel.Notes;
+                else
+                    notes = cartAttribute.Notes;
+
                 var order = new Order
                 {
                     CustomerId = customer.Id,
@@ -422,7 +950,7 @@ namespace API.Areas.Backend.Factories
                     OrderStatusId = OrderStatus.Discarded,
                     CustomerLanguageId = isEnglish ? 1 : 2,
                     CustomerIp = "1:0",
-                    PaymentMethodId = adminCreateOrderModel.PaymentMethodId,
+                    PaymentMethodId = cartAttribute.PaymentMethodId.Value,
                     PaymentStatusId = PaymentStatus.Canceled,
                     CreatedOn = DateTime.Now,
                     DeviceTypeId = deviceTypeId,
@@ -431,9 +959,8 @@ namespace API.Areas.Backend.Factories
                     SubTotal = orderItems.Sum(a => a.Total),
                     DeliveryFee = deliveryFee,
                     OrderTypeId = OrderType.Offline,
-                    Notes = ""
+                    Notes = notes
                 };
-
 
                 Coupon coupon = null;
                 if (cartAttribute.CouponId.HasValue)
@@ -458,28 +985,32 @@ namespace API.Areas.Backend.Factories
                     order.CouponDiscountAmount = coupon.ApplyCouponDiscount2(order.SubTotal);
                 }
 
-                var subTotalAfterCouponDiscount = order.SubTotal - order.CouponDiscountAmount;
-                order.CashbackAmount = await _commonHelper.GetCashbackAmount(customerId: customerId, amount: subTotalAfterCouponDiscount);
+                order.CashbackAmount = await _commonHelper.GetCashbackAmount(customerId: customerId, amount: order.SubTotal - order.CouponDiscountAmount);
 
-                //if (cartAttribute.WalletUsedAmount > 0)
-                //{
-                //    decimal grossTotal = order.SubTotal - order.CouponDiscountAmount - order.CashbackAmount + order.DeliveryFee;
+                if (cartAttribute.UseWalletAmount)
+                {
+                    order.WalletUsedAmount = walletBalance;
+                    decimal grossTotal = order.SubTotal - order.CouponDiscountAmount + order.DeliveryFee - order.CashbackAmount;
 
-                //    if (order.PaymentMethodId == (int)PaymentMethod.Wallet)
-                //    {
-                //        if (cartAttribute.WalletUsedAmount != grossTotal)
-                //        {
-                //            response.Message = isEnglish ? Messages.PaymentMethodNotAvailable : MessagesAr.PaymentMethodNotAvailable;
-                //            return response;
-                //        }
-                //    }
+                    if (order.WalletUsedAmount > grossTotal)
+                    {
+                        order.WalletUsedAmount = grossTotal;
 
-                //    if (cartAttribute.WalletUsedAmount > grossTotal)
-                //    {
-                //        response.Message = isEnglish ? Messages.WalletAmountSholuldLessThanActualAmount : MessagesAr.WalletAmountSholuldLessThanActualAmount;
-                //        return response;
-                //    }
-                //}
+                        if (order.PaymentMethodId != (int)PaymentMethod.Wallet)
+                        {
+                            response.Message = isEnglish ? Messages.PaymentMethodNotAvailable : MessagesAr.PaymentMethodNotAvailable;
+                            return response;
+                        }
+                    }
+                    else
+                    {
+                        if (order.PaymentMethodId == (int)PaymentMethod.Wallet)
+                        {
+                            response.Message = isEnglish ? Messages.PaymentMethodNotAvailable : MessagesAr.PaymentMethodNotAvailable;
+                            return response;
+                        }
+                    }
+                }
 
                 address = new Address
                 {
@@ -502,16 +1033,19 @@ namespace API.Areas.Backend.Factories
                     GovernmentEntity = address.GovernmentEntity,
                     Notes = address.Notes
                 };
-                await _customerService.CreateAddress(address);
-                order.AddressId = address.Id;
+                order.Address = address;
 
                 order.OrderItems = orderItems;
 
-                order.Total = order.SubTotal + order.DeliveryFee - order.WalletUsedAmount - order.CashbackAmount - order.CouponDiscountAmount;
-                if (order.Total <= 0)
+                order.Total = order.SubTotal + order.DeliveryFee - order.CouponDiscountAmount - order.CashbackAmount - order.WalletUsedAmount;
+                if (order.PaymentMethodId == (int)PaymentMethod.KNET || order.PaymentMethodId == (int)PaymentMethod.VISAMASTER &&
+                    order.PaymentMethodId == (int)PaymentMethod.Tabby)
                 {
-                    response.Message = isEnglish ? Messages.OrderAmountValidation : MessagesAr.OrderAmountValidation;
-                    return response;
+                    if (order.Total <= 0)
+                    {
+                        response.Message = isEnglish ? Messages.OrderAmountValidation : MessagesAr.OrderAmountValidation;
+                        return response;
+                    }
                 }
 
                 order = await _orderService.CreateOrder(order);
@@ -531,8 +1065,19 @@ namespace API.Areas.Backend.Factories
 
                     await _cartService.HoldAndReleaseCartItem(customerId: customer.Id, isHold: true);
 
+                     if (order.PaymentMethodId == (int)PaymentMethod.Cash)
+                    {
+                        var paymentResponseModel = new PaymentResponseModel()
+                        {
+                            Amount = order.Total.ToString("N3"),
+                            EntityId = order.Id.ToString(),
+                            RequestType = PaymentRequestType.Order.ToString(),
+                            Result = "captured"
+                        };
 
-                    if (order.PaymentMethodId == (int)PaymentMethod.Cash)
+                        var url = await _paymentHelper.UpdatePaymentEntity(paymentResponseModel);
+                    }
+                    else if (order.PaymentMethodId == (int)PaymentMethod.Wallet)
                     {
                         var paymentResponseModel = new PaymentResponseModel()
                         {
@@ -559,8 +1104,8 @@ namespace API.Areas.Backend.Factories
                         {
                             Amount = order.Total,
                             EntityId = order.Id,
-                            CustomerId= customer.Id,
-                            PaymentNumber= qpayNumber,
+                            CustomerId = customer.Id,
+                            PaymentNumber = qpayNumber,
                             MobileNumber = customer.MobileNumber,
                             PaymentRequestTypeId = PaymentRequestType.Order
 
@@ -582,12 +1127,12 @@ namespace API.Areas.Backend.Factories
 
                             }
 
-                           await _notificationTemplateService.CreateQpaySMSPush(Message, customer.MobileNumber, customer.LanguageId);
+                            await _notificationTemplateService.CreateQpaySMSPush(Message, customer.MobileNumber, customer.LanguageId);
 
                         }
 
 
-                       var paymentResponseModel = new PaymentResponseModel()
+                        var paymentResponseModel = new PaymentResponseModel()
                         {
                             Amount = order.Total.ToString("N3"),
                             EntityId = order.Id.ToString(),
@@ -597,46 +1142,19 @@ namespace API.Areas.Backend.Factories
 
                         var url = await _paymentHelper.UpdatePaymentEntity(paymentResponseModel);
                     }
-                    //if (order.PaymentMethodId == (int)PaymentMethod.KNET)
-                    //{
-                    //    var paymentUrlRequestModel = new PaymentUrlRequestModel
-                    //    {
-                    //        LangId = order.CustomerLanguageId.ToString(),
-                    //        Amount = order.Total.ToString("N3"),
-                    //        TrackId = order.OrderNumber.ToString(),
-                    //        EntityId = order.Id.ToString(),
-                    //        CustomerId = order.CustomerId.ToString(),
-                    //        RequestType = PaymentRequestType.Order.ToString()
-                    //    };
 
-                    //    var paymentUrl = await _apiHelper.PostAsync<string>("Home/GetPaymentUrl", paymentUrlRequestModel, baseUrl: _appSettings.PaymentAPIUrl);
-                    //    if (!string.IsNullOrEmpty(paymentUrl))
-                    //    {
-                    //        createOrderModel.PaymentUrl = paymentUrl;
+                    if (order.DeviceTypeId == DeviceType.Web)
+                        createPaymentModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "ORD/" + order.OrderNumber;
+                    else
+                        createPaymentModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "paymentresult";
 
-                    //        if (order.DeviceTypeId == DeviceType.Web)
-                    //            createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "ORD/" + order.OrderNumber;
-                    //        else
-                    //            createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "paymentresult";
-
-                    //        createOrderModel.OrderId = order.Id;
-                    //    }
-                    //}
-                    //else if (order.PaymentMethodId == (int)PaymentMethod.VISAMASTER)
-                    //{
-                    //    var value = Cryptography.Encrypt(PaymentRequestType.Order.ToString() + "-" + order.Id);
-                    //    createOrderModel.PaymentUrl = _appSettings.APIBaseUrl + "payment/requestgbmasterpayment?value=" + value;
-
-                    //    if (order.DeviceTypeId == DeviceType.Web)
-                    //        createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "ORD/" + order.OrderNumber;
-                    //    else
-                    //        createOrderModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "paymentresult";
-
-                    //    createOrderModel.OrderId = order.Id;
-                    //}
+                    createPaymentModel.OrderId = order.Id;
+                    createPaymentModel.EntityId = order.Id;
+                    createPaymentModel.EntityNumber = order.OrderNumber;
+                    createPaymentModel.PaymentRequestTypeId = PaymentRequestType.Order;
                 }
-               
-                response.Data = adminCreateOrderModel;
+
+                response.Data = createPaymentModel;
                 response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
                 response.Success = true;
             }
@@ -648,7 +1166,7 @@ namespace API.Areas.Backend.Factories
 
             return response;
         }
-        
+
         public async Task<APIResponseModel<OrderModel>> GetOrder(bool isEnglish, int id, int customerId)
         {
             //var response = new APIResponseModel<AdminOrderModel>();

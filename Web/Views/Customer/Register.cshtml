@@ -30,13 +30,13 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger">*</span></label>
+                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]</label>
                                 <input type="text" asp-for="Name" class="form-control body-bg-secondary rounded-pill border-secondary">
                                 <div id="dvErrorName">
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label for="inputEmail4" class="form-label mb-0">@SharedHtmlLocalizer["Email"]<span class="ms-1 text-danger">*</span></label>
+                                <label for="inputEmail4" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
                                 <input type="email" asp-for="EmailAddress"
                                        class="form-control body-bg-secondary rounded-pill border-secondary">
                                 <div id="dvErrorEmailAddress">
@@ -79,22 +79,23 @@
         $("#resend").hide();
         $("#register-form").validate({
             rules: {
-                Name: {
-                    required: true
-                },
+                //Name: {
+                //    required: true
+                //},
                 EmailAddress: {
-                    required: true, email: true
+                    /*required: true,*/
+                    email: true
                 },
                 MobileNumber: {
                     required: true, rangelength: [8, 8], phoneStartCheck: true
                 }
             },
             messages: {
-                Name: {
+                @*Name: {
                     required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["NameIsRequired"]</span></div>",
-                },
+                },*@
                 EmailAddress: {
-                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EmailIsRequired"]</span></div>",
+                    //required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EmailIsRequired"]</span></div>",
                     email: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidEmail"]</span></div>",
                 },
                 MobileNumber: {

@@ -408,7 +408,6 @@
         public static string EstimatedDeliveryDetails = "Within {0} hours";
         public static string DeliveryDate = "Delivery Date";
         public static string ForNumberOfMonths = "for {0} months";
-        public static string PerMonth = "Per Month";
         public static string Total = "Total";
     }
     #region ORDER PRINT PDF
@@ -420,6 +419,7 @@
         public static string OrderAdminEmailDescription = "An order has been confirmed. The details are as follows";
         public static string OrderCancellationTitle = "ORDER CANCELLED";
         public static string OrderCancellationEmailDescription = "Your order has been cancelled. The details are as follows";
+        public static string OrderAdminCancellationEmailDescription = "An order has been cancelled. The details are as follows";
         public static string CompanyName = "Adhari";
         public static string CompanyWebsite = "www.adhari.com";
         public static string CompanyEmail = "info@adhari.com";

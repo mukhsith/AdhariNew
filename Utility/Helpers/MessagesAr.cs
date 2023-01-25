@@ -408,7 +408,6 @@
         public static string EstimatedDeliveryDetails = "خلال {0} ساعة";
         public static string DeliveryDate = "تاريخ التسليم";
         public static string ForNumberOfMonths = "لمدة {0} شهور";
-        public static string PerMonth = "Per Month";
         public static string Total = "مجموع";
     }
 
@@ -421,6 +420,7 @@
         public static string OrderAdminEmailDescription = "تم تأكيد الطلب. تفاصيل الطلب مذكورة أدناه";
         public static string OrderCancellationTitle = "تم إلغاء الطلب";
         public static string OrderCancellationEmailDescription = "تم إلغاء طلبك. تفاصيل الطلب مذكورة أدناه";
+        public static string OrderAdminCancellationEmailDescription = "تم إلغاء طلب. تفاصيل الطلب مذكورة أدناه";
         public static string CompanyName = "عذاري";
         public static string CompanyWebsite = "www.Adhari.com";
         public static string CompanyEmail = "info@adhari.com";

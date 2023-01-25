@@ -513,6 +513,53 @@ namespace API.Areas.Backend.Factories
 
             return response;
         }
+        //public async Task<APIResponseModel<CartSummaryModel>> PrepareCartSummaryModel(bool isEnglish, int customerId)
+        //{
+        //    var response = new APIResponseModel<CartSummaryModel>();
+        //    try
+        //    {
+        //        var customer = await _customerService.GetCustomerById(customerId);
+        //        if (customer == null || customer.Deleted)
+        //        {
+        //            response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+        //            return response;
+        //        }
+
+        //        if (!customer.Active)
+        //        {
+        //            response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+        //            return response;
+        //        }
+
+        //        var cartItems = await _cartService.GetAllCartItem(customerId: customerId);
+        //        if (cartItems.Count == 0)
+        //        {
+        //            response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+        //            return response;
+        //        }
+
+        //        List<CartItemModel> cartItemModels = new();
+        //        foreach (var item in cartItems)
+        //        {
+        //            var cartItemModel = await _modelHelper.PrepareCartItemModel(cartItem: item, isEnglish: isEnglish, customer: customer);
+        //            cartItemModels.Add(cartItemModel);
+        //        }
+
+        //        var checkOutModel = await _modelHelper.PrepareCartSummaryModel(isEnglish: isEnglish, customerId: customerId, cartItemModels: cartItemModels);
+
+        //        response.Data = checkOutModel;
+        //        response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+        //        response.Success = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex.Message);
+        //        response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+        //    }
+
+        //    return response;
+        //}
+
         public async Task<APIResponseModel<CartSummaryModel>> PrepareCartSummaryModel(bool isEnglish, int customerId)
         {
             var response = new APIResponseModel<CartSummaryModel>();
@@ -672,6 +719,14 @@ namespace API.Areas.Backend.Factories
                                 
                             });
                         }
+                    }
+                    else if (cartAttributeModel.AttributeTypeId == AttributeType.SelectPaymentMethod)
+                    {
+                        cartAttribute = await _cartService.CreateCartAttribute(new CartAttribute
+                        {
+                            CustomerId = customerId,
+                            PaymentMethodId = cartAttributeModel.PaymentMethodId
+                        });
                     }
                 }
                 else

@@ -61,11 +61,15 @@
                                     <div class="col-12 col-lg-3 col-xl-4 mb-3">
                                         <label for="inputName1" class="form-label">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger"></span></label>
                                         <input type="text" id="Name" name="Name" class="form-control rounded-5 border-secondary body-bg-secondary">
+                                        <div id="dvErrorName">
+                                        </div>
                                     </div>
                                     <div class="col-12 col-lg-3 col-xl-4 mb-3">
                                         <label for="inputName2" class="form-label">@SharedHtmlLocalizer["Email"]</label>
-                                        <input type="email" id="EmailAddress" name="EmailAddress"
+                                        <input type="text" id="EmailAddress" name="EmailAddress"
                                                class="form-control rounded-5 border-secondary body-bg-secondary">
+                                        <div id="dvErrorEmailAddress">
+                                        </div>
                                     </div>
                                     <div class="col-12 m-3">
                                         <div class="form-check d-flex justify-content-center mx-auto text-start mb-3">
@@ -185,6 +189,9 @@
             rules: {
                 MobileNumber: {
                     required: true, rangelength: [8, 8], phoneStartCheck: true
+                },
+                EmailAddress: {
+                    email: true
                 }
             },
             messages: {
@@ -192,6 +199,9 @@
                     required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["MobileNumberIsRequired"]</span></div>",
                     rangelength: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["MobileNumberShouldBe8Digits"]</span></div>",
                     phoneStartCheck: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidMobileNumber"]</span></div>"
+                },
+                EmailAddress: {
+                    email: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidEmail"]</span></div>",
                 }
             },
             errorPlacement: function ($error, $element) {
