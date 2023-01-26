@@ -12,6 +12,8 @@ namespace API.Areas.Frontend.Factories
     public interface ISubscriptionModelFactory
     {
         Task<APIResponseModel<SubscriptionSummaryModel>> PrepareSubscriptionSummaryModel(bool isEnglish, int customerId);
+        Task<APIResponseModel<bool>> ValidateSubscription(bool isEnglish, int customerId,
+            int productId, int quantity);
         Task<APIResponseModel<SubscriptionSummaryModel>> SaveSubscriptionAttribute(bool isEnglish, int customerId,
             SubscriptionAttributeModel subscriptionAttributeModel, bool app = true);
         Task<APIResponseModel<SubscriptionCheckOutModel>> PrepareSubscriptionCheckOutModel(bool isEnglish, int customerId, bool app = true);

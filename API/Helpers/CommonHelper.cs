@@ -772,6 +772,11 @@ namespace API.Helpers
             {
                 int noOfTimes = (int)(amount / promotion.CashbackRedeemMinOrderAmount);
                 cashbackAmount = noOfTimes * promotion.CashbackValueToDeduct;
+
+                if(cashbackAmount> cashbackBalance)
+                {
+                    cashbackAmount = cashbackBalance;
+                }
             }
 
             return cashbackAmount;

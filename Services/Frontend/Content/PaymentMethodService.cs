@@ -18,7 +18,7 @@ namespace Services.Frontend.Content
         {
             var data = _dbcontext
                            .PaymentMethods
-                           .Where(x => x.Deleted == false && x.Id != (int)PaymentMethod.Wallet);
+                           .Where(x => !x.Deleted && x.Id != (int)PaymentMethod.Wallet && x.Id != (int)PaymentMethod.QPay);
 
             if (paymentRequestType == PaymentRequestType.Order)
             {

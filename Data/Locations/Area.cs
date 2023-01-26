@@ -23,6 +23,9 @@ namespace Data.Locations
 
         [Column(TypeName = Constants.AmountDataType)]
         public decimal DeliveryFee { get; set; }
+
+        [Column(TypeName = Constants.AmountDataType)]
+        public decimal MinOrderAmount { get; set; }
         public int GovernorateId { get; set; }
         public virtual Governorate Governorate { get; set; }
         public int CountryId { get; set; }

@@ -1034,7 +1034,7 @@ namespace API.Areas.Frontend.Helpers
                         AmountSplitUps.Add(new KeyValuPairModel
                         {
                             Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                            Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish),
+                            Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish, includeZero: true),
                             DisplayOrder = 1
                         });
                     }
@@ -1210,16 +1210,13 @@ namespace API.Areas.Frontend.Helpers
                 DisplayOrder = 0
             });
 
-            if (order.DeliveryFee > 0)
+            orderModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: order.DeliveryFee, isEnglish: isEnglish, includeZero: true);
+            amountSplitUps.Add(new KeyValuPairModel
             {
-                orderModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: order.DeliveryFee, isEnglish: isEnglish);
-                amountSplitUps.Add(new KeyValuPairModel
-                {
-                    Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                    Value = orderModel.FormattedDeliveryFee,
-                    DisplayOrder = 1
-                });
-            }
+                Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                Value = orderModel.FormattedDeliveryFee,
+                DisplayOrder = 1
+            });
 
             if (order.CouponDiscountAmount > 0)
             {
@@ -1401,15 +1398,12 @@ namespace API.Areas.Frontend.Helpers
                     DisplayOrder = 3
                 });
 
-                if (!string.IsNullOrEmpty(orderModel.FormattedDeliveryFee))
+                orderDetails.Add(new KeyValuPairModel
                 {
-                    orderDetails.Add(new KeyValuPairModel
-                    {
-                        Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                        Value = orderModel.FormattedDeliveryFee,
-                        DisplayOrder = 4
-                    });
-                }
+                    Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                    Value = orderModel.FormattedDeliveryFee,
+                    DisplayOrder = 4
+                });
 
                 if (!string.IsNullOrEmpty(orderModel.FormattedCouponDiscountAmount))
                 {
@@ -1671,7 +1665,7 @@ namespace API.Areas.Frontend.Helpers
                         AmountSplitUps.Add(new KeyValuPairModel
                         {
                             Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                            Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish),
+                            Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish, includeZero: true),
                             DisplayOrder = 4
                         });
                     }
@@ -2023,16 +2017,13 @@ namespace API.Areas.Frontend.Helpers
                     DisplayOrder = 3
                 });
 
-                if (subscription.DeliveryFee > 0)
+                subscriptionModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: subscription.DeliveryFee, isEnglish: isEnglish, includeZero: true);
+                amountSplitUps.Add(new KeyValuPairModel
                 {
-                    subscriptionModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: subscription.DeliveryFee, isEnglish: isEnglish);
-                    amountSplitUps.Add(new KeyValuPairModel
-                    {
-                        Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                        Value = subscriptionModel.FormattedDeliveryFee,
-                        DisplayOrder = 4
-                    });
-                }
+                    Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                    Value = subscriptionModel.FormattedDeliveryFee,
+                    DisplayOrder = 4
+                });
 
                 if (subscription.CouponDiscountAmount > 0)
                 {
@@ -2206,15 +2197,12 @@ namespace API.Areas.Frontend.Helpers
                             DisplayOrder = 5
                         });
 
-                        if (!string.IsNullOrEmpty(subscriptionModel.FormattedDeliveryFee))
+                        subscriptionPayment.Add(new KeyValuPairModel
                         {
-                            subscriptionPayment.Add(new KeyValuPairModel
-                            {
-                                Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                                Value = subscriptionModel.FormattedDeliveryFee,
-                                DisplayOrder = 6
-                            });
-                        }
+                            Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                            Value = subscriptionModel.FormattedDeliveryFee,
+                            DisplayOrder = 6
+                        });
 
                         if (!string.IsNullOrEmpty(subscriptionModel.FormattedCouponDiscountAmount))
                         {
@@ -2258,7 +2246,7 @@ namespace API.Areas.Frontend.Helpers
                         if (!subscription.FullPayment)
                         {
                             var formattedOrderSubTotal = await _commonHelper.ConvertDecimalToString(paidDelivery.SubTotal, isEnglish, includeZero: true);
-                            var formattedOrderDeliveryFee = await _commonHelper.ConvertDecimalToString(paidDelivery.DeliveryFee, isEnglish);
+                            var formattedOrderDeliveryFee = await _commonHelper.ConvertDecimalToString(paidDelivery.DeliveryFee, isEnglish, includeZero: true);
                             var formattedOrderTotal = await _commonHelper.ConvertDecimalToString(paidDelivery.Total, isEnglish, includeZero: true);
 
                             subscriptionPayment.Add(new KeyValuPairModel
@@ -2268,15 +2256,12 @@ namespace API.Areas.Frontend.Helpers
                                 DisplayOrder = 5
                             });
 
-                            if (!string.IsNullOrEmpty(formattedOrderDeliveryFee))
+                            subscriptionPayment.Add(new KeyValuPairModel
                             {
-                                subscriptionPayment.Add(new KeyValuPairModel
-                                {
-                                    Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                                    Value = formattedOrderDeliveryFee,
-                                    DisplayOrder = 6
-                                });
-                            }
+                                Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                                Value = formattedOrderDeliveryFee,
+                                DisplayOrder = 6
+                            });
 
                             subscriptionPayment.Add(new KeyValuPairModel
                             {

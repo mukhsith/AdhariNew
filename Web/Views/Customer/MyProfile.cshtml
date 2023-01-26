@@ -13,7 +13,7 @@
                         <form class="row g-3 mt-0" id="form-myprofile">
                             <div class="col-12">
                                 <label for="inputName2" class="form-label mb-0">
-                                    @SharedHtmlLocalizer["MobileNumber"]<span class="verified-check ms-1 fw-bold text-success" style="display: none;">
+                                    @SharedHtmlLocalizer["MobileNumber"]<span class="ms-1 text-danger">*</span><span class="verified-check ms-1 fw-bold text-success" style="display: none;">
                                         @SharedHtmlLocalizer["Verified"] <i class="fa-solid fa-circle-check"></i>
                                     </span>
                                 </label>
@@ -40,7 +40,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="EmailAddress" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
-                                <input type="email" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
+                                <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary profile-field"
                                        id="EmailAddress" name="EmailAddress" value="@Model.EmailAddress" disabled>
                                 <div id="dvErrorEmailAddress">
                                 </div>
@@ -67,23 +67,24 @@
         $("#form-myprofile").validate({
             ignore: [],
             rules: {
-                Name: {
-                    required: true
-                },
+                //Name: {
+                //    required: true
+                //},
                 EmailAddress: {
-                    required: true, customEmail: true
+                    //required: true,
+                    email: true
                 },
                 MobileNumber: {
                     required: true, rangelength: [8, 8], phoneStartCheck: true
                 }
             },
             messages: {
-                Name: {
+                @*Name: {
                     required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["NameIsRequired"]</span></div>"
-                },
+                },*@
                 EmailAddress: {
-                    required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EmailIsRequired"]</span></div>",
-                    customEmail: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidEmail"]</span></div>"
+                    //required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EmailIsRequired"]</span></div>",
+                    email: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["EnterAValidEmail"]</span></div>"
                 },
                 MobileNumber: {
                     required: "<div class='invalid-feedback' style='display:block !important;'><span>@SharedHtmlLocalizer["MobileNumberIsRequired"]</span></div>",

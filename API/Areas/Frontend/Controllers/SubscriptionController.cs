@@ -33,6 +33,15 @@ namespace API.Areas.Frontend.Controllers
         }
 
         /// <summary>
+        /// Validate subscription
+        /// </summary>
+        [HttpGet, Route("/webapi/subscription/validatesubscription")]
+        public async Task<APIResponseModel<bool>> ValidateSubscription(int productId, int quantity)
+        {
+            return await _subscriptionModelFactory.ValidateSubscription(isEnglish: isEnglish, customerId: LoggedInCustomerId, productId: productId, quantity: quantity);
+        }
+
+        /// <summary>
         /// Save subscription attributes
         /// </summary>
         [HttpPost, Route("/webapi/subscription/savesubscriptionattributes")]

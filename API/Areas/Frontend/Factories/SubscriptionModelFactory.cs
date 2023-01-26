@@ -108,6 +108,40 @@ namespace API.Areas.Frontend.Factories
 
             return response;
         }
+        public async Task<APIResponseModel<bool>> ValidateSubscription(bool isEnglish, int customerId,
+            int productId,int quantity)
+        {
+            var response = new APIResponseModel<bool>();
+            try
+            {
+                var b2bCustomer = false; 
+                var product = await _productService.GetById(productId);
+                if (product == null)
+                {
+                    response.Message = isEnglish ? Messages.ProductNotExists : MessagesAr.ProductNotExists;
+                    return response;
+                }
+
+                var productValidationResponse = await ValidateSubscriptionProduct(product: product, isEnglish: isEnglish, quantity: quantity,
+                    customerId: 0, b2bCustomer: b2bCustomer);
+                if (!productValidationResponse.Success)
+                {
+                    response.Message = productValidationResponse.Message;
+                    return response;
+                }              
+
+                response.Data = true;
+                response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
         public async Task<APIResponseModel<SubscriptionSummaryModel>> SaveSubscriptionAttribute(bool isEnglish, int customerId,
             SubscriptionAttributeModel subscriptionAttributeModel, bool app = true)
         {
@@ -415,12 +449,12 @@ namespace API.Areas.Frontend.Factories
                     return response;
                 }
 
-                if (subscriptionAttribute.Quantity.Value > _appSettings.MaximumSubscriptionQuantityToPurchase)
-                {
-                    response.Message = isEnglish ? string.Format(Messages.SubscriptionQuantityValidation, _appSettings.MaximumSubscriptionQuantityToPurchase) :
-                       string.Format(MessagesAr.SubscriptionQuantityValidation, _appSettings.MaximumSubscriptionQuantityToPurchase);
-                    return response;
-                }
+                //if (subscriptionAttribute.Quantity.Value > _appSettings.MaximumSubscriptionQuantityToPurchase)
+                //{
+                //    response.Message = isEnglish ? string.Format(Messages.SubscriptionQuantityValidation, _appSettings.MaximumSubscriptionQuantityToPurchase) :
+                //       string.Format(MessagesAr.SubscriptionQuantityValidation, _appSettings.MaximumSubscriptionQuantityToPurchase);
+                //    return response;
+                //}
 
                 var product = await _productService.GetById(subscriptionAttribute.ProductId.Value);
                 if (product == null)
@@ -504,7 +538,16 @@ namespace API.Areas.Frontend.Factories
                     {
                         if (subscriptionAttribute.Quantity.Value > product.B2BMaxCartQuantity)
                         {
-                            response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                            response.Message = isEnglish ? string.Format(Messages.MaximumQuantityAllowed, product.B2BMaxCartQuantity) : string.Format(MessagesAr.MaximumQuantityAllowed, product.B2BMaxCartQuantity);
+                            return response;
+                        }
+                    }
+
+                    if (product.B2BMinCartQuantity > 0)
+                    {
+                        if (subscriptionAttribute.Quantity.Value < product.B2BMinCartQuantity)
+                        {
+                            response.Message = isEnglish ? string.Format(Messages.MinimumQuantityAllowed, product.B2BMinCartQuantity) : string.Format(MessagesAr.MinimumQuantityAllowed, product.B2BMinCartQuantity);
                             return response;
                         }
                     }
@@ -515,7 +558,16 @@ namespace API.Areas.Frontend.Factories
                     {
                         if (subscriptionAttribute.Quantity.Value > product.MaxCartQuantity)
                         {
-                            response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                            response.Message = isEnglish ? string.Format(Messages.MaximumQuantityAllowed, product.MaxCartQuantity) : string.Format(MessagesAr.MaximumQuantityAllowed, product.MaxCartQuantity);
+                            return response;
+                        }
+                    }
+
+                    if (product.MinCartQuantity > 0)
+                    {
+                        if (subscriptionAttribute.Quantity.Value > product.MinCartQuantity)
+                        {
+                            response.Message = isEnglish ? string.Format(Messages.MinimumQuantityAllowed, product.MinCartQuantity) : string.Format(MessagesAr.MinimumQuantityAllowed, product.MinCartQuantity);
                             return response;
                         }
                     }
@@ -1333,7 +1385,16 @@ namespace API.Areas.Frontend.Factories
                 {
                     if (quantity > product.B2BMaxCartQuantity)
                     {
-                        response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                        response.Message = isEnglish ? string.Format(Messages.MaximumQuantityAllowed, product.B2BMaxCartQuantity) : string.Format(MessagesAr.MaximumQuantityAllowed, product.B2BMaxCartQuantity);
+                        return response;
+                    }
+                }
+
+                if (product.B2BMinCartQuantity > 0)
+                {
+                    if (quantity < product.B2BMinCartQuantity)
+                    {
+                        response.Message = isEnglish ? string.Format(Messages.MinimumQuantityAllowed, product.B2BMinCartQuantity) : string.Format(MessagesAr.MinimumQuantityAllowed, product.B2BMinCartQuantity);
                         return response;
                     }
                 }
@@ -1344,7 +1405,16 @@ namespace API.Areas.Frontend.Factories
                 {
                     if (quantity > product.MaxCartQuantity)
                     {
-                        response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                        response.Message = isEnglish ? string.Format(Messages.MaximumQuantityAllowed, product.MaxCartQuantity) : string.Format(MessagesAr.MaximumQuantityAllowed, product.MaxCartQuantity);
+                        return response;
+                    }
+                }
+
+                if (product.MinCartQuantity > 0)
+                {
+                    if (quantity < product.MinCartQuantity)
+                    {
+                        response.Message = isEnglish ? string.Format(Messages.MinimumQuantityAllowed, product.MinCartQuantity) : string.Format(MessagesAr.MinimumQuantityAllowed, product.MinCartQuantity);
                         return response;
                     }
                 }

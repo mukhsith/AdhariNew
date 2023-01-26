@@ -74,7 +74,6 @@
                 return;
             }
 
-            $(this).closest(".side-cart-spinner").find("input").val(finalQuantity);
             var cartId = $(this).closest(".side-cart-spinner").find("input").attr("data-cartid");
             var productId = $(this).closest(".side-cart-spinner").find("input").attr("data-productid");
             editcartitem(cartId, finalQuantity, productId);
@@ -84,7 +83,6 @@
             var quantity = $(this).closest(".side-cart-spinner").find("input").val();
             var finalQuantity = parseInt(quantity) - 1;
 
-            $(this).closest(".side-cart-spinner").find("input").val(finalQuantity);
             var cartId = $(this).closest(".side-cart-spinner").find("input").attr("data-cartid");
             var productId = $(this).closest(".side-cart-spinner").find("input").attr("data-productid");
             editcartitem(cartId, finalQuantity, productId);
@@ -98,7 +96,7 @@
     function editcartitem(cartId, quantity, productId) {
         $(".side-cart-spinner").css("pointer-events", "none");
         $.post("@Url.RouteUrl("editcartitem")", { id: cartId, quantity: quantity }, function (result) {
-            if (result.cartContents != "") {
+            if (result.success && result.cartContents != "") {
                 updateCartCount();
                 $("#offcanvasCart").empty();
                 $("#offcanvasCart").append(result.cartContents);
@@ -116,6 +114,11 @@
                 else {
                     $("#txt-quantity-" + productId).val(quantity);
                 }
+            }
+            else {
+                $(".side-cart-spinner").css("pointer-events", "all");
+                if (result.message != "")
+                    ToastAlert("error", "", result.message);
             }
         });
 

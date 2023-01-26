@@ -92,52 +92,58 @@ namespace API.Areas.Frontend.Controllers
         {
             get
             {
-                var headers = Request.Headers;
-                if (headers.ContainsKey("Authorization"))
+                try
                 {
-                    StringValues tokens;
-                    headers.TryGetValue("Authorization", out tokens);
-
-                    var token = tokens.FirstOrDefault();
-                    if (!string.IsNullOrEmpty(token))
+                    var headers = Request.Headers;
+                    if (headers.ContainsKey("Authorization"))
                     {
-                        var arrToken = token.Split(' ');
-                        if (arrToken.Length == 2)
+                        StringValues tokens;
+                        headers.TryGetValue("Authorization", out tokens);
+
+                        var token = tokens.FirstOrDefault();
+                        if (!string.IsNullOrEmpty(token))
                         {
-                            var tokenValidationParameters = new TokenValidationParameters
+                            var arrToken = token.Split(' ');
+                            if (arrToken.Length == 2)
                             {
-                                ValidateAudience = false,
-                                ValidateIssuer = false,
-                                ValidateIssuerSigningKey = true,
-                                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.APIKey)),
-                                ValidateLifetime = false
-                            };
+                                var tokenValidationParameters = new TokenValidationParameters
+                                {
+                                    ValidateAudience = false,
+                                    ValidateIssuer = false,
+                                    ValidateIssuerSigningKey = true,
+                                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.APIKey)),
+                                    ValidateLifetime = false
+                                };
 
-                            var tokenHandler = new JwtSecurityTokenHandler();
-                            SecurityToken securityToken;
-                            var principal = tokenHandler.ValidateToken(arrToken[1], tokenValidationParameters, out securityToken);
-                            var jwtSecurityToken = securityToken as JwtSecurityToken;
-                            if (jwtSecurityToken is null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-                                throw new SecurityTokenException("Invalid token");
+                                var tokenHandler = new JwtSecurityTokenHandler();
+                                SecurityToken securityToken;
+                                var principal = tokenHandler.ValidateToken(arrToken[1], tokenValidationParameters, out securityToken);
+                                var jwtSecurityToken = securityToken as JwtSecurityToken;
+                                if (jwtSecurityToken is null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                                    throw new SecurityTokenException("Invalid token");
 
-                            var encryptedCustomerId = principal.Claims.FirstOrDefault(c => c.Type == Constants.ClaimTypeId)?.Value;
-                            if (string.IsNullOrWhiteSpace(encryptedCustomerId))
-                            {
-                                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                                return 0;
+                                var encryptedCustomerId = principal.Claims.FirstOrDefault(c => c.Type == Constants.ClaimTypeId)?.Value;
+                                if (string.IsNullOrWhiteSpace(encryptedCustomerId))
+                                {
+                                    Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                                    return 0;
+                                }
+
+                                string customerId = Cryptography.Decrypt(encryptedCustomerId);
+                                if (string.IsNullOrEmpty(customerId))
+                                {
+                                    Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                                    return 0;
+                                }
+
+                                int.TryParse(customerId, out int id);
+                                return id;
                             }
-
-                            string customerId = Cryptography.Decrypt(encryptedCustomerId);
-                            if (string.IsNullOrEmpty(customerId))
-                            {
-                                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                                return 0;
-                            }
-
-                            int.TryParse(customerId, out int id);
-                            return id;
                         }
                     }
+                }
+                catch (Exception ex)
+                {
                 }
 
                 return 0;

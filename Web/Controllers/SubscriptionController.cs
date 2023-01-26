@@ -30,6 +30,23 @@ namespace Web.Controllers
             _logger = logger.CreateLogger(typeof(SubscriptionController).Name);
         }
 
+        [HttpGet]
+        public virtual async Task<JsonResult> ValidateSubscription(int productId, int quantity)
+        {
+            var responseModel = new APIResponseModel<bool>();
+            try
+            {
+                responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/subscription/validatesubscription?productId=" + productId + "&quantity=" + quantity);
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message;
+                _logger.LogInformation(ex.Message);
+            }
+
+            return Json(responseModel);
+        }
+
         [HttpPost]
         public virtual async Task<JsonResult> SaveSubscriptionAttributes(SubscriptionAttributeModel subscriptionAttributeModel)
         {

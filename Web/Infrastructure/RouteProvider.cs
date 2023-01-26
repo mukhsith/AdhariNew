@@ -208,6 +208,11 @@ namespace Web.Infrastructure
                    defaults: new { controller = "Subscription", action = "Subscriptions" });
 
             endpointRouteBuilder.MapControllerRoute(
+             name: "validatesubscription",
+             pattern: "validatesubscription",
+             defaults: new { controller = "Subscription", action = "ValidateSubscription" });
+
+            endpointRouteBuilder.MapControllerRoute(
                    name: "savesubscriptionattributes",
                    pattern: "savesubscriptionattributes",
                    defaults: new { controller = "Subscription", action = "SaveSubscriptionAttributes" });

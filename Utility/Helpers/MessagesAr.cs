@@ -334,17 +334,17 @@
         public static string PaymentMethodNotExists = "طريقة الدفع غير متوفرة";
         public static string PaymentMethodNotActive = "طريقة الدفع غير نشطة";
         public static string PaymentMethodNotAvailable = "طريقة الدفع غير متوفرة";
-        public static string Items = "المنتجات";
+        public static string Items = "الأصناف";
         public static string DeliveryAmount = "رسوم التوصيل";
         public static string DiscountAmount = "المبلغ مخفضة";
-        public static string Cashback = "استرداد النقود";
+        public static string Cashback = "كاش باك";
         public static string WalletAmount = "محفظةالمبلغ";
         public static string Credit = "رصيد دائن";
         public static string Debit = "مدين";
-        public static string CashbackRedeemOnPurchase = "استرداد النقود عند الشراء";
+        public static string CashbackRedeemOnPurchase = "كاش باك عند الشراء";
         public static string WalletRedeemOnPurchase = "استرداد المحفظة عند الشراء";
         public static string PurchaseBonus = "مكافأة الشراء";
-        public static string CashbackBonus = "مكافأة استرداد النقود";
+        public static string CashbackBonus = "مكافأة كاش باك";
         public static string SignUpBonus = "مكافأة الاشتراك";
         public static string AddProductAvailabilityNotifyRequestSuccess = "سيتم إخطارك عند توفر المنتج التالي:";
         public static string RemoveProductAvailabilityNotifyRequestSuccess = "لن يتم إخطارك بعد الآن عند توفر المنتج التالي:";
@@ -390,7 +390,7 @@
         public static string Online = "عبر الانترنت";
         public static string Offline = "دون اتصال";
         public static string And = "و";
-        public static string SubTotal = "المجموع الفرعي";
+        public static string SubTotal = "إجمالي";
         public static string Subscription = "الاشتراكات";
         public static string Normal = "طبيعي";
         public static string UnitPrice = "سعر الوحدة";
@@ -408,7 +408,10 @@
         public static string EstimatedDeliveryDetails = "خلال {0} ساعة";
         public static string DeliveryDate = "تاريخ التسليم";
         public static string ForNumberOfMonths = "لمدة {0} شهور";
-        public static string Total = "مجموع";
+        public static string Total = "اجمالي المبلغ";
+        public static string MinimumOrderAmountShouldBeGreaterThan = "الحد الأدنى للطلب يجب أن يكون أكثر من {0}";
+        public static string MinimumQuantityAllowed = "الحد الأدنى للشراء : {0}";
+        public static string MaximumQuantityAllowed = "الحد الأقصى للشراء : {0}";
     }
 
     #region ORDER PRINT PDF For Arabic
@@ -451,7 +454,7 @@
         public static string ProductName = "اسم الصنف";
         public static string Price = "السعر";
         public static string Quantity = "كمية";
-        public static string TotalAmount = "مبلغ الإجمالي";
+        public static string TotalAmount = "اجمالي المبلغ";
         public static string DeliveryDetail = "تفاصيل التوصيل";
         public static string DeliveryCountry = "البلد";
         public static string DeliveryCity = "المدينة";
@@ -467,7 +470,7 @@
         public static string DeliveryDetails = "تفاصيل التوصيل";
         public static string FooterValue = "شكرا للتسوق مع";
         public static string Name = "اسم";
-        public static string Cashback = "استرداد النقود";
+        public static string Cashback = "كاش باك";
         public static string WalletAmount = "محفظةالمبلغ";
         public static string EstimatedDelivery = "التوصيل المتوقع";
         public static string Duration = "مدة";
@@ -483,8 +486,8 @@
         public static string SubscribedProduct = "أصناف";
         public static string Total = "مجموع";
         public static string SubscriptionDetails = "تفاصيل الاشتراك";
-        public static string DueDate = "التاريخ المحدد";
-        public static string UpcomingDeliveries = "طلبات القادمة";
+        public static string DueDate = "يوم التوصيل";
+        public static string UpcomingDeliveries = "التوصيل القادمة";
         public static string UnitPrice = "سعر الوحدة";
     }
     #endregion

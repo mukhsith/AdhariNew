@@ -127,7 +127,7 @@
     <value>العنوان</value>
   </data>
   <data name="AddressDetails" xml:space="preserve">
-    <value>تفاصيل العنوان</value>
+    <value>عنوان</value>
   </data>
   <data name="AddressName" xml:space="preserve">
     <value>اسم العنوان</value>
@@ -271,7 +271,7 @@
     <value>خصم</value>
   </data>
   <data name="DoNotNotifyMe" xml:space="preserve">
-    <value>لا تخطرني</value>
+    <value>الغاء التنبيه</value>
   </data>
   <data name="DoNotNotifyMeToolTip" xml:space="preserve">
     <value>لا أعلمني عندما يتوفر هذا المنتج</value>
@@ -283,7 +283,7 @@
     <value>حمّل تطبيق عذاري</value>
   </data>
   <data name="DueDate" xml:space="preserve">
-    <value>التاريخ المحدد</value>
+    <value>يوم التوصيل</value>
   </data>
   <data name="Duration" xml:space="preserve">
     <value>مدة</value>
@@ -409,7 +409,7 @@
     <value>أوافق على</value>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>أصناف</value>
+    <value>الأصناف</value>
   </data>
   <data name="LanguageText" xml:space="preserve">
     <value>English</value>
@@ -463,7 +463,7 @@
     <value>مفضلتي</value>
   </data>
   <data name="MyNotifications" xml:space="preserve">
-    <value>الإشعاراتي</value>
+    <value>إشعارات</value>
   </data>
   <data name="MyOrders" xml:space="preserve">
     <value>طلباتي</value>
@@ -511,7 +511,7 @@
     <value>تمت إزالة الإشعار</value>
   </data>
   <data name="NotifyMe" xml:space="preserve">
-    <value>اعلمني</value>
+    <value>ابلغني عندما يتوفر</value>
   </data>
   <data name="NotifyMeToolTip" xml:space="preserve">
     <value>أعلمني عندما يتوفر هذا المنتج</value>
@@ -582,8 +582,11 @@
   <data name="PaymentSummary" xml:space="preserve">
     <value>ملخص الدفع</value>
   </data>
+  <data name="PayNow" xml:space="preserve">
+    <value>ادفع</value>
+  </data>
   <data name="PleaseCheckIAgreeToTheTermsAndConditions" xml:space="preserve">
-    <value>الرجاء أوافق على الشروط والأحكام</value>
+    <value>الرجاء الموافقه على الشروط والأحكام</value>
   </data>
   <data name="PleaseChoosePaymentMethod" xml:space="preserve">
     <value>الرجاء اختيار طريقة الدفع</value>
@@ -730,7 +733,7 @@
     <value>إرسال</value>
   </data>
   <data name="Subscribe" xml:space="preserve">
-    <value>الإشتراك</value>
+    <value>اشترك</value>
   </data>
   <data name="SubscribedProduct" xml:space="preserve">
     <value>أصناف</value>
@@ -769,10 +772,10 @@
     <value>اشحن المحفظة</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>مجموع</value>
+    <value>اجمالي المبلغ</value>
   </data>
   <data name="TotalAmount" xml:space="preserve">
-    <value>المبلغ الإجمالي</value>
+    <value>اجمالي المبلغ</value>
   </data>
   <data name="TrackID" xml:space="preserve">
     <value>رمز المرجع</value>
@@ -787,7 +790,7 @@
     <value>سعر الوحدة</value>
   </data>
   <data name="UpcomingDeliveries" xml:space="preserve">
-    <value>طلبات القادمة</value>
+    <value>التوصيل القادمة</value>
   </data>
   <data name="Verified" xml:space="preserve">
     <value>تم التحقق</value>

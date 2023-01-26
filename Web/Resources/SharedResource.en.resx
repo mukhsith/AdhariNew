@@ -582,6 +582,9 @@
   <data name="PaymentSummary" xml:space="preserve">
     <value>Payment Summary</value>
   </data>
+  <data name="PayNow" xml:space="preserve">
+    <value>Pay Now</value>
+  </data>
   <data name="PleaseCheckIAgreeToTheTermsAndConditions" xml:space="preserve">
     <value>Please check 'I agree to the Terms &amp; Conditions'</value>
   </data>

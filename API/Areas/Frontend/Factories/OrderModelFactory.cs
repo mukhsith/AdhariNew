@@ -303,7 +303,16 @@ namespace API.Areas.Frontend.Factories
                         {
                             if (cartItem.Quantity > product.B2BMaxCartQuantity)
                             {
-                                response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                                response.Message = isEnglish ? string.Format(Messages.MaximumQuantityAllowed, product.B2BMaxCartQuantity) : string.Format(MessagesAr.MaximumQuantityAllowed, product.B2BMaxCartQuantity);
+                                return response;
+                            }
+                        }
+
+                        if (product.B2BMinCartQuantity > 0)
+                        {
+                            if (cartItem.Quantity < product.B2BMinCartQuantity)
+                            {
+                                response.Message = isEnglish ? string.Format(Messages.MinimumQuantityAllowed, product.B2BMinCartQuantity) : string.Format(MessagesAr.MinimumQuantityAllowed, product.B2BMinCartQuantity);
                                 return response;
                             }
                         }
@@ -314,7 +323,16 @@ namespace API.Areas.Frontend.Factories
                         {
                             if (cartItem.Quantity > product.MaxCartQuantity)
                             {
-                                response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                                response.Message = isEnglish ? string.Format(Messages.MaximumQuantityAllowed, product.MaxCartQuantity) : string.Format(MessagesAr.MaximumQuantityAllowed, product.MaxCartQuantity);
+                                return response;
+                            }
+                        }
+
+                        if (product.MinCartQuantity > 0)
+                        {
+                            if (cartItem.Quantity < product.MinCartQuantity)
+                            {
+                                response.Message = isEnglish ? string.Format(Messages.MinimumQuantityAllowed, product.MinCartQuantity) : string.Format(MessagesAr.MinimumQuantityAllowed, product.MinCartQuantity);
                                 return response;
                             }
                         }
@@ -382,6 +400,17 @@ namespace API.Areas.Frontend.Factories
                     OrderTypeId = OrderType.Online,
                     Notes = notes
                 };
+
+                if (area.MinOrderAmount > 0)
+                {
+                    if (order.SubTotal < area.MinOrderAmount)
+                    {
+                        var formattedSubTotal = await _commonHelper.ConvertDecimalToString(value: area.MinOrderAmount, isEnglish: isEnglish, includeZero: true);
+                        response.Message = isEnglish ? string.Format(Messages.MinimumOrderAmountShouldBeGreaterThan, formattedSubTotal) :
+                          string.Format(MessagesAr.MinimumOrderAmountShouldBeGreaterThan, formattedSubTotal);
+                        return response;
+                    }
+                }
 
                 Coupon coupon = null;
                 if (cartAttribute.CouponId.HasValue)

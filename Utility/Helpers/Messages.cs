@@ -409,6 +409,9 @@
         public static string DeliveryDate = "Delivery Date";
         public static string ForNumberOfMonths = "for {0} months";
         public static string Total = "Total";
+        public static string MinimumOrderAmountShouldBeGreaterThan = "Minimum order amount should be greater than {0}";
+        public static string MinimumQuantityAllowed = "Minimum Quantity allowed : {0}";
+        public static string MaximumQuantityAllowed = "Maximum Quantity allowed : {0}";
     }
     #region ORDER PRINT PDF
     public static class OrderPDF

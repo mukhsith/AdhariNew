@@ -327,11 +327,22 @@
 
             var authenticationToken = getCookie("AuthenticationToken");
             if (authenticationToken == null || authenticationToken == "") {
-                addStorage("SubscriptionProductId", productId);
-                addStorage("SubscriptionQuantity", quantity);
-                addStorage("SubscriptionDurationId", durationId);
-                addStorage("SubscriptionDeliveryDateId", deliveryDateId);
-                window.location = "@Url.RouteUrl("subscriptioncheckout")";
+                $.get("@Url.RouteUrl("validatesubscription")", {
+                    ProductId: productId,
+                    Quantity: quantity
+                }, function (result) {
+                    if (result.success && result.data) {
+                        addStorage("SubscriptionProductId", productId);
+                        addStorage("SubscriptionQuantity", quantity);
+                        addStorage("SubscriptionDurationId", durationId);
+                        addStorage("SubscriptionDeliveryDateId", deliveryDateId);
+                        window.location = "@Url.RouteUrl("subscriptioncheckout")";
+                    }
+                    else {
+                        if (result.message != "")
+                            ToastAlert('error', '', result.message);
+                    }
+                });
             }
             else {
                 $.post("@Url.RouteUrl("savesubscriptionattributes")", {

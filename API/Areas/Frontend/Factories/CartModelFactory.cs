@@ -1,6 +1,7 @@
 ﻿using API.Areas.Frontend.Helpers;
 using API.Helpers;
 using AutoMapper;
+using Data.Locations;
 using Data.Shop;
 using Microsoft.Extensions.Logging;
 using Services.Frontend.Content;
@@ -264,7 +265,7 @@ namespace API.Areas.Frontend.Factories
                     {
                         if (cartItem.Quantity > product.B2BMaxCartQuantity)
                         {
-                            response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                            response.Message = isEnglish ? string.Format(Messages.MaximumQuantityAllowed, product.B2BMaxCartQuantity) : string.Format(MessagesAr.MaximumQuantityAllowed, product.B2BMaxCartQuantity);
                             return response;
                         }
                     }
@@ -275,7 +276,7 @@ namespace API.Areas.Frontend.Factories
                     {
                         if (cartItem.Quantity > product.MaxCartQuantity)
                         {
-                            response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
+                            response.Message = isEnglish ? string.Format(Messages.MaximumQuantityAllowed, product.MaxCartQuantity) : string.Format(MessagesAr.MaximumQuantityAllowed, product.MaxCartQuantity);
                             return response;
                         }
                     }
@@ -370,6 +371,28 @@ namespace API.Areas.Frontend.Factories
                     return response;
                 }
 
+                bool b2bCustomer = false;
+                if (cartItem.CustomerId.HasValue && cartItem.CustomerId.Value > 0)
+                {
+                    var customer = await _customerService.GetCustomerById(cartItem.CustomerId.Value);
+                    if (customer == null || customer.Deleted)
+                    {
+                        response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                        return response;
+                    }
+
+                    if (!customer.Active)
+                    {
+                        response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                        return response;
+                    }
+
+                    if (customer.B2B)
+                    {
+                        b2bCustomer = true;
+                    }
+                }
+
                 var productStockQuantity = 0;
                 if (product.ProductType == ProductType.BaseProduct)
                 {
@@ -400,6 +423,29 @@ namespace API.Areas.Frontend.Factories
                 {
                     response.Message = isEnglish ? string.Format(Messages.ProductIsOutOfStock, productStockQuantity) : string.Format(MessagesAr.ProductIsOutOfStock, productStockQuantity);
                     return response;
+                }
+
+                if (b2bCustomer)
+                {
+                    if (product.B2BMaxCartQuantity > 0)
+                    {
+                        if (cartItemModel.Quantity > product.B2BMaxCartQuantity)
+                        {
+                            response.Message = isEnglish ? string.Format(Messages.MaximumQuantityAllowed, product.B2BMaxCartQuantity) : string.Format(MessagesAr.MaximumQuantityAllowed, product.B2BMaxCartQuantity);
+                            return response;
+                        }
+                    }
+                }
+                else
+                {
+                    if (product.MaxCartQuantity > 0)
+                    {
+                        if (cartItemModel.Quantity > product.MaxCartQuantity)
+                        {
+                            response.Message = isEnglish ? string.Format(Messages.MaximumQuantityAllowed, product.MaxCartQuantity) : string.Format(MessagesAr.MaximumQuantityAllowed, product.MaxCartQuantity);
+                            return response;
+                        }
+                    }
                 }
 
                 if (cartItemModel.Quantity > 0)
@@ -583,6 +629,7 @@ namespace API.Areas.Frontend.Factories
                     return response;
                 }
 
+                Area area = null;
                 if (cartAttributeModel.AttributeTypeId == AttributeType.SelectAddress)
                 {
                     if (!cartAttributeModel.AddressId.HasValue)
@@ -593,6 +640,13 @@ namespace API.Areas.Frontend.Factories
 
                     var address = await _customerService.GetAddressById(cartAttributeModel.AddressId.Value);
                     if (address == null)
+                    {
+                        response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
+                        return response;
+                    }
+
+                    area = address.Area;
+                    if (area == null)
                     {
                         response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
                         return response;
@@ -651,6 +705,17 @@ namespace API.Areas.Frontend.Factories
                 var cartAttribute = (await _cartService.GetAllCartAttribute(customerId: customerId)).FirstOrDefault();
                 if (cartAttribute == null)
                 {
+                    if (area.MinOrderAmount > 0)
+                    {
+                        if (subTotal < area.MinOrderAmount)
+                        {
+                            var formattedSubTotal = await _commonHelper.ConvertDecimalToString(value: area.MinOrderAmount, isEnglish: isEnglish, includeZero: true);
+                            response.Message = isEnglish ? string.Format(Messages.MinimumOrderAmountShouldBeGreaterThan, formattedSubTotal) :
+                              string.Format(MessagesAr.MinimumOrderAmountShouldBeGreaterThan, formattedSubTotal);
+                            return response;
+                        }
+                    }
+
                     if (cartAttributeModel.AttributeTypeId == AttributeType.SelectAddress)
                     {
                         cartAttribute = await _cartService.CreateCartAttribute(new CartAttribute
@@ -664,6 +729,17 @@ namespace API.Areas.Frontend.Factories
                 {
                     if (cartAttributeModel.AttributeTypeId == AttributeType.SelectAddress)
                     {
+                        if (area.MinOrderAmount > 0)
+                        {
+                            if (subTotal < area.MinOrderAmount)
+                            {
+                                var formattedSubTotal = await _commonHelper.ConvertDecimalToString(value: area.MinOrderAmount, isEnglish: isEnglish, includeZero: true);
+                                response.Message = isEnglish ? string.Format(Messages.MinimumOrderAmountShouldBeGreaterThan, formattedSubTotal) :
+                                  string.Format(MessagesAr.MinimumOrderAmountShouldBeGreaterThan, formattedSubTotal);
+                                return response;
+                            }
+                        }
+
                         cartAttribute.AddressId = cartAttributeModel.AddressId;
                         await _cartService.UpdateCartAttribute(cartAttribute);
                     }
