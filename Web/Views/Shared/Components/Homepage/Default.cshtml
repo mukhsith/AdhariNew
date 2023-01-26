@@ -45,10 +45,10 @@
                     <h3 class="text-center text-uppercase fw-bold  text-primary mb-3">@SharedHtmlLocalizer["DownloadOurApp"]</h3>
                     <div class="d-flex justify-content-center  col-11 col-md-6 col-lg-4 col-xl-3 mx-auto pb-3 pb-md-2">
                         <a href="@Model.CompanySetting.AppStoreLink" class="me-3" target="_blank" id="appSoreLink" rel="noopener noreferrer">
-                            <img src="~/assets/img/play-store-badge.png" class="img-fluid" alt="@SharedHtmlLocalizer["AppStoreLink"]">
+                            <img src="~/assets/img/app-store-badge.png" class="img-fluid" alt="@SharedHtmlLocalizer["AppStoreLink"]">
                         </a>
-                        <a href="@Model.CompanySetting.PlayStoreLink" class="me-0 me-md-3" target="_blank" id="playStoreLink" rel="noopener noreferrer">
-                            <img src="~/assets/img/app-store-badge.png" class="img-fluid" alt="@SharedHtmlLocalizer["GooglePlayLink"]">
+                        <a href="@Model.CompanySetting.PlayStoreLink" class="me-0" target="_blank" id="playStoreLink" rel="noopener noreferrer">
+                            <img src="~/assets/img/play-store-badge.png" class="img-fluid" alt="@SharedHtmlLocalizer["GooglePlayLink"]">
                         </a>
                     </div>
                     <ul class="navbar-nav mt-auto flex-row mb-2 mb-md-0 mx-auto d-md-none">
@@ -76,14 +76,18 @@
     $(document).ready(function () {
         $("#a-floating-btn").click(function (e) {
             e.preventDefault();
-        });
-
-        $("#sp-view-cart").click(function (e) {
-            e.preventDefault();
             var cartCount = $("#s-cart-count").html();
             if (cartCount != "0") {
                 $("#a-cart").trigger("click");
             }
         });
+
+        //$("#sp-view-cart").click(function (e) {
+        //    e.preventDefault();
+        //    var cartCount = $("#s-cart-count").html();
+        //    if (cartCount != "0") {
+        //        $("#a-cart").trigger("click");
+        //    }
+        //});
     });
 </script>

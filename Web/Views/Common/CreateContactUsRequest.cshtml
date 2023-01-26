@@ -37,7 +37,7 @@
                                                         <i class="fa-solid fa-phone fa-stack-1x fa-inverse"></i>
                                                     </span>
                                                     <div class="content">
-                                                        <h6 class="mb-2"><bdi><a href="tel:+@Model.MobileNumber">+@Model.MobileNumber</a></bdi></h6>
+                                                        <h6 class="mb-2"><bdi><a href="tel:+@Model.MobileNumber">@Model.MobileNumber</a></bdi></h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -62,19 +62,19 @@
                                         <form id="contact-form" class="row">
 
                                             <div class="col-12 col-md-6 mb-3">
-                                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]</label>
+                                                <label for="inputName" class="form-label mb-0">@SharedHtmlLocalizer["Name"]<span class="ms-1 text-danger">*</span></label>
                                                 <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary"
-                                                       id="Name" name="Name" placeholder="@SharedHtmlLocalizer["EnterYourName"]">
+                                                       id="Name" name="Name">
                                                 <div id="dvErrorName"></div>
                                             </div>
                                             <div class="col-12 col-md-6 mb-3">
-                                                <label for="inputEmail" class="form-label mb-0">@SharedHtmlLocalizer["Email"]</label>
+                                                <label for="inputEmail" class="form-label mb-0">@SharedHtmlLocalizer["Email"]<span class="ms-1 text-danger">*</span></label>
                                                 <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary"
-                                                       id="EmailAddress" name="EmailAddress" placeholder="@SharedHtmlLocalizer["EnterYourEmailAddress"]">
+                                                       id="EmailAddress" name="EmailAddress">
                                                 <div id="dvErrorEmailAddress"></div>
                                             </div>
                                             <div class="col-12 col-md-6 mb-3">
-                                                <label for="inputMobile" class="form-label mb-0">@SharedHtmlLocalizer["MobileNumber"]</label>
+                                                <label for="inputMobile" class="form-label mb-0">@SharedHtmlLocalizer["MobileNumber"]<span class="ms-1 text-danger">*</span></label>
                                                 <div class="input-group">
                                                     <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0">
                                                         <img src="assets/img/Kuwait_flag.svg" width="25">
@@ -85,19 +85,18 @@
                                                     <input type="text" class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
                                                            id="MobileNumber" name="MobileNumber"
                                                            onkeypress="return validateMobileNumber(event);"
-                                                           maxlength="8"
-                                                           placeholder="@SharedHtmlLocalizer["EnterYourMobileNumber"]">
+                                                           maxlength="8">
                                                 </div>
                                                 <div id="dvErrorMobileNumber"></div>
                                             </div>
                                             <div class="col-12 col-md-6 mb-3">
-                                                <label for="inputSubject" class="form-label mb-0">@SharedHtmlLocalizer["Subject"]</label>
+                                                <label for="inputSubject" class="form-label mb-0">@SharedHtmlLocalizer["Subject"]<span class="ms-1 text-danger">*</span></label>
                                                 <input type="text" class="form-control body-bg-secondary rounded-pill border-secondary"
-                                                       id="Subject" name="Subject" placeholder="@SharedHtmlLocalizer["EnterSubject"]">
+                                                       id="Subject" name="Subject">
                                                 <div id="dvErrorSubject"></div>
                                             </div>
                                             <div class="col-12 mb-3">
-                                                <label for="inputMessage" class="form-label mb-0">@SharedHtmlLocalizer["Message"]</label>
+                                                <label for="inputMessage" class="form-label mb-0">@SharedHtmlLocalizer["Message"]<span class="ms-1 text-danger">*</span></label>
                                                 <textarea class="form-control body-bg-secondary rounded-4 border-secondary"
                                                           id="Message" name="Message" rows="3"></textarea>
                                                 <div id="dvErrorMessage"></div>

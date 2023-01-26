@@ -133,7 +133,7 @@
     <value>Address Name</value>
   </data>
   <data name="AddressNameIsRequired" xml:space="preserve">
-    <value>Address name is required</value>
+    <value>Please enter an address name</value>
   </data>
   <data name="AddToCart" xml:space="preserve">
     <value>Add to Cart</value>
@@ -169,7 +169,7 @@
     <value>Area</value>
   </data>
   <data name="AreaIsRequired" xml:space="preserve">
-    <value>Area is required</value>
+    <value>Please select an area</value>
   </data>
   <data name="Avenue" xml:space="preserve">
     <value>Avenue</value>
@@ -187,7 +187,7 @@
     <value>Block</value>
   </data>
   <data name="BlockIsRequired" xml:space="preserve">
-    <value>Block is required</value>
+    <value>Please enter block number</value>
   </data>
   <data name="BlockNo" xml:space="preserve">
     <value>Block No.</value>
@@ -202,7 +202,7 @@
     <value>Building No.</value>
   </data>
   <data name="BuildingNoIsRequired" xml:space="preserve">
-    <value>Building No is required</value>
+    <value>Please enter building number</value>
   </data>
   <data name="BuildingNumber" xml:space="preserve">
     <value>Building Number</value>
@@ -273,6 +273,9 @@
   <data name="DoNotNotifyMe" xml:space="preserve">
     <value>Do not notify me</value>
   </data>
+  <data name="DoNotNotifyMeToolTip" xml:space="preserve">
+    <value>Do not notify me when this product will be available</value>
+  </data>
   <data name="DontHaveAnAccount" xml:space="preserve">
     <value>Don’t have an account?</value>
   </data>
@@ -331,7 +334,7 @@
     <value>Flat No.</value>
   </data>
   <data name="FlatNoIsRequired" xml:space="preserve">
-    <value>Flat No is required</value>
+    <value>Please enter flat number</value>
   </data>
   <data name="FlatNumber" xml:space="preserve">
     <value>Flat Number</value>
@@ -343,7 +346,7 @@
     <value>Floor No.</value>
   </data>
   <data name="FloorNoIsRequired" xml:space="preserve">
-    <value>Floor No is required</value>
+    <value>Please enter floor number</value>
   </data>
   <data name="FloorNumber" xml:space="preserve">
     <value>Floor Number</value>
@@ -358,13 +361,13 @@
     <value>Government Entity</value>
   </data>
   <data name="GovernmentEntityIsRequired" xml:space="preserve">
-    <value>Government entity is required</value>
+    <value>Please enter name of the government entity</value>
   </data>
   <data name="Governorate" xml:space="preserve">
     <value>Governorate</value>
   </data>
   <data name="GovernorateIsRequired" xml:space="preserve">
-    <value>Governorate is required</value>
+    <value>Please select a governorate</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
     <value>Grand Total</value>
@@ -391,7 +394,7 @@
     <value>House No.</value>
   </data>
   <data name="HouseNoIsRequired" xml:space="preserve">
-    <value>House No is required</value>
+    <value>Please enter house number</value>
   </data>
   <data name="HouseNumber" xml:space="preserve">
     <value>House Number</value>
@@ -442,7 +445,7 @@
     <value>Mosque Name</value>
   </data>
   <data name="MosqueNameIsRequired" xml:space="preserve">
-    <value>Mosque name is required</value>
+    <value>Please enter mosque name</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
     <value>My Account</value>
@@ -509,6 +512,9 @@
   </data>
   <data name="NotifyMe" xml:space="preserve">
     <value>Notify Me</value>
+  </data>
+  <data name="NotifyMeToolTip" xml:space="preserve">
+    <value>Notify me when this product will be available</value>
   </data>
   <data name="NoTransactions" xml:space="preserve">
     <value>No Transactions</value>
@@ -658,7 +664,7 @@
     <value>School Name</value>
   </data>
   <data name="SchoolNameIsRequired" xml:space="preserve">
-    <value>School name is required</value>
+    <value>Please enter school name</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -706,7 +712,7 @@
     <value>Street</value>
   </data>
   <data name="StreetIsRequired" xml:space="preserve">
-    <value>Street is required</value>
+    <value>Please enter street number</value>
   </data>
   <data name="StreetNameOrNumber" xml:space="preserve">
     <value>Street Name or Number</value>

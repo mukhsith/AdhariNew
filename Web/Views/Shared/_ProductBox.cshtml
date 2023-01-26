@@ -43,7 +43,7 @@
                 <div class="p-action d-flex justify-content-center mt-auto">
                     @if (Model.StockQuantity <= 0)
                     {
-                        <button type="button" onclick="notifyProduct(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice');" data-bs-toggle="tooltip" data-bs-title="Notify me when this product will be available"
+                        <button type="button" onclick="notifyProduct(@Model.Id,'@productUrl','@Model.ImageUrl','@Model.Title','@Model.FormattedPrice');" @*data-bs-toggle="tooltip" data-bs-title="@SharedHtmlLocalizer["NotifyMeToolTip"]"*@
                                 class="btn btn-secondary rounded-pill text-white fw-bold w-100 notify-me-btn">
                             <span id="notify-product-@Model.Id">
                                 @(Model.Notified ? SharedHtmlLocalizer["DoNotNotifyMe"].Value: SharedHtmlLocalizer["NotifyMe"].Value)

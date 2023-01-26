@@ -137,7 +137,7 @@
 </form>
 <input type="hidden" id="hdnAddressTypeId" />
 <script>
-    $(document).ready(function () { 
+    $(document).ready(function () {
         $(".address-div").hide();
         loadGovernorates();
         loadHome();
@@ -173,6 +173,9 @@
             $(this).addClass("active");
             loadSchool();
             $("#hdnAddressTypeId").val(@((int)AddressType.School));
+            $('#dvErrorBlock').empty();
+            $('#dvErrorStreet').empty();
+
         });
 
         $("#Mosque-tab").click(function () {
@@ -180,6 +183,8 @@
             $(this).addClass("active");
             loadMosque();
             $("#hdnAddressTypeId").val(@((int)AddressType.Mosque));
+            $('#dvErrorBlock').empty();
+            $('#dvErrorStreet').empty();
         });
 
         $("#Government-tab").click(function () {
@@ -187,6 +192,8 @@
             $(this).addClass("active");
             loadGovernmentEntity();
             $("#hdnAddressTypeId").val(@((int)AddressType.Government));
+            $('#dvErrorBlock').empty();
+            $('#dvErrorStreet').empty();
         });
 
         $("#frm-address").validate({

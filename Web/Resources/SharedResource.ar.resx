@@ -133,7 +133,7 @@
     <value>اسم العنوان</value>
   </data>
   <data name="AddressNameIsRequired" xml:space="preserve">
-    <value>اسم العنوان مطلوب</value>
+    <value>يرجى ادخال اسم العنوان</value>
   </data>
   <data name="AddToCart" xml:space="preserve">
     <value>أضف إلى العربة</value>
@@ -169,7 +169,7 @@
     <value>منطقة</value>
   </data>
   <data name="AreaIsRequired" xml:space="preserve">
-    <value>المنطقة مطلوبة</value>
+    <value>يرجى اختار المنطقة</value>
   </data>
   <data name="Avenue" xml:space="preserve">
     <value>الجادة</value>
@@ -187,7 +187,7 @@
     <value>القطعة</value>
   </data>
   <data name="BlockIsRequired" xml:space="preserve">
-    <value>القطعة مطلوب</value>
+    <value>يرجى ادخال القطعة</value>
   </data>
   <data name="BlockNo" xml:space="preserve">
     <value>رقم القطعة</value>
@@ -202,7 +202,7 @@
     <value>رقم المبنى</value>
   </data>
   <data name="BuildingNoIsRequired" xml:space="preserve">
-    <value>رقم المبنى مطلوب</value>
+    <value>يرجى ادخال رقم المبنى</value>
   </data>
   <data name="BuildingNumber" xml:space="preserve">
     <value>رقم المبنى</value>
@@ -273,6 +273,9 @@
   <data name="DoNotNotifyMe" xml:space="preserve">
     <value>لا تخطرني</value>
   </data>
+  <data name="DoNotNotifyMeToolTip" xml:space="preserve">
+    <value>لا أعلمني عندما يتوفر هذا المنتج</value>
+  </data>
   <data name="DontHaveAnAccount" xml:space="preserve">
     <value>ليس لديك حساب؟</value>
   </data>
@@ -295,16 +298,16 @@
     <value>البريد الإلكتروني</value>
   </data>
   <data name="EmailIsRequired" xml:space="preserve">
-    <value>البريد الالكتروني مطلوب</value>
+    <value>يرجى ادخال بريدك الإلكتروني</value>
   </data>
   <data name="EmailVerification" xml:space="preserve">
     <value>التحقق من البريد الإلكتروني</value>
   </data>
   <data name="EnterAValidEmail" xml:space="preserve">
-    <value>أدخل عنوان بريد إلكتروني بشكل صحيح</value>
+    <value>يرجى ادخال بريد الإلكتروني بشكل صحيح</value>
   </data>
   <data name="EnterAValidMobileNumber" xml:space="preserve">
-    <value>أدخل رقم هاتف بشكل صحيح</value>
+    <value>يرجى ادخال رقم هاتف بشكل صحيح</value>
   </data>
   <data name="EnterCode" xml:space="preserve">
     <value>ادخل الكود</value>
@@ -313,13 +316,13 @@
     <value>أدخل الموضوع</value>
   </data>
   <data name="EnterYourEmailAddress" xml:space="preserve">
-    <value>أدخل عنوان بريدك الإلكتروني</value>
+    <value>يرجى ادخال بريدك الإلكتروني</value>
   </data>
   <data name="EnterYourMobileNumber" xml:space="preserve">
-    <value>أدخل رقم الهاتف</value>
+    <value>يرجى ادخال رقم الهاتف</value>
   </data>
   <data name="EnterYourName" xml:space="preserve">
-    <value>أدخل أسمك</value>
+    <value>يرجى ادخال اسمك بالكامل</value>
   </data>
   <data name="Facebook" xml:space="preserve">
     <value>فيسبوك</value>
@@ -331,7 +334,7 @@
     <value>رقم الشقة</value>
   </data>
   <data name="FlatNoIsRequired" xml:space="preserve">
-    <value>رقم الشقة مطلوب</value>
+    <value>يرجى ادخال رقم الشقة</value>
   </data>
   <data name="FlatNumber" xml:space="preserve">
     <value>رقم الشقة</value>
@@ -343,7 +346,7 @@
     <value>رقم الدور</value>
   </data>
   <data name="FloorNoIsRequired" xml:space="preserve">
-    <value>رقم الدور مطلوب</value>
+    <value>يرجى ادخال رقم الدور</value>
   </data>
   <data name="FloorNumber" xml:space="preserve">
     <value>رقم الدور</value>
@@ -358,13 +361,13 @@
     <value>اسم الجهه</value>
   </data>
   <data name="GovernmentEntityIsRequired" xml:space="preserve">
-    <value>اسم الجهه مطلوب</value>
+    <value>يرجى ادخال اسم الجهه</value>
   </data>
   <data name="Governorate" xml:space="preserve">
     <value>محافظة</value>
   </data>
   <data name="GovernorateIsRequired" xml:space="preserve">
-    <value>المحافظة مطلوب</value>
+    <value>يرجى اختار المحافظة</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
     <value>إجمالي المبلغ</value>
@@ -391,7 +394,7 @@
     <value>رقم المنزل</value>
   </data>
   <data name="HouseNoIsRequired" xml:space="preserve">
-    <value>رقم المنزل مطلوب</value>
+    <value>يرجى ادخال رقم المنزل</value>
   </data>
   <data name="HouseNumber" xml:space="preserve">
     <value>رقم المنزل</value>
@@ -424,13 +427,13 @@
     <value>رسالة</value>
   </data>
   <data name="MessageIsRequired" xml:space="preserve">
-    <value>الرسالة مطلوبة</value>
+    <value>يرجى ادخال الرسالة</value>
   </data>
   <data name="MobileNumber" xml:space="preserve">
     <value>رقم الهاتف</value>
   </data>
   <data name="MobileNumberIsRequired" xml:space="preserve">
-    <value>أدخل رقم الهاتف</value>
+    <value>يرجى ادخال رقم الهاتف</value>
   </data>
   <data name="MobileNumberShouldBe8Digits" xml:space="preserve">
     <value>يجب أن يتكون رقم الهاتف من 8 أرقام</value>
@@ -442,7 +445,7 @@
     <value>اسم المسجد</value>
   </data>
   <data name="MosqueNameIsRequired" xml:space="preserve">
-    <value>اسم المسجد مطلوب</value>
+    <value>يرجى ادخال اسم المسجد</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
     <value>حسابي</value>
@@ -478,7 +481,7 @@
     <value>الاسم بالكامل</value>
   </data>
   <data name="NameIsRequired" xml:space="preserve">
-    <value>الاسم مطلوب</value>
+    <value>يرجى ادخال اسمك بالكامل</value>
   </data>
   <data name="NoNotifications" xml:space="preserve">
     <value>لا توجد إشعارات</value>
@@ -509,6 +512,9 @@
   </data>
   <data name="NotifyMe" xml:space="preserve">
     <value>اعلمني</value>
+  </data>
+  <data name="NotifyMeToolTip" xml:space="preserve">
+    <value>أعلمني عندما يتوفر هذا المنتج</value>
   </data>
   <data name="NoTransactions" xml:space="preserve">
     <value>لا توجد معاملات</value>
@@ -658,7 +664,7 @@
     <value>اسم المدرسة</value>
   </data>
   <data name="SchoolNameIsRequired" xml:space="preserve">
-    <value>اسم المدرسة مطلوب</value>
+    <value>يرجى ادخال اسم المدرسة</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>بحث</value>
@@ -706,7 +712,7 @@
     <value>الشارع</value>
   </data>
   <data name="StreetIsRequired" xml:space="preserve">
-    <value>رقم الشارع مطلوب</value>
+    <value>يرجى ادخال رقم الشارع</value>
   </data>
   <data name="StreetNameOrNumber" xml:space="preserve">
     <value>اسم الشارع أو الرقم</value>
@@ -718,7 +724,7 @@
     <value>موضوع</value>
   </data>
   <data name="SubjectIsRequired" xml:space="preserve">
-    <value>الموضوع مطلوب</value>
+    <value>يرجى ادخال الموضوع</value>
   </data>
   <data name="Submit" xml:space="preserve">
     <value>إرسال</value>
@@ -808,7 +814,7 @@
     <value>لقد أرسلنا رسالة بريد إلكتروني إلى</value>
   </data>
   <data name="WeWillSendAnOTPToThisMobileNumber" xml:space="preserve">
-    <value>سنرسل رمزالتحقق OTP إلى رقم هاتفك</value>
+    <value>سنرسل رمز التحقق OTP إلى رقم هاتفك</value>
   </data>
   <data name="WhatsApp" xml:space="preserve">
     <value>واتساب</value>

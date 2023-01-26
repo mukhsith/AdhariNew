@@ -13,7 +13,7 @@
                         <form asp-route="login" method="post" autocomplete="off" class="row g-3 p-3" id="login-form">
                             <div asp-validation-summary="ModelOnly"></div>
                             <div class="col-md-12">
-                                <label for="inputMobile" class="form-label mb-0">@SharedHtmlLocalizer["MobileNumber"]</label>
+                                <label for="inputMobile" class="form-label mb-0">@SharedHtmlLocalizer["MobileNumber"]<span class="ms-1 text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0">
                                         <img src="~/assets/img/Kuwait_flag.svg" width="25">

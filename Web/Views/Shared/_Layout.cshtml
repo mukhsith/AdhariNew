@@ -224,8 +224,8 @@
                         var elementId = '#notify-product-' + productId;
                         var currentText = $(elementId).text().trim();
                         console.log(currentText);
-                        var doNotifyText = '@SharedHtmlLocalizer["Do not notify me"]';
-                        var notifyText = '@SharedHtmlLocalizer["Notify Me"]';
+                        var doNotifyText = '@SharedHtmlLocalizer["DoNotNotifyMe"]';
+                        var notifyText = '@SharedHtmlLocalizer["NotifyMe"]';
                         if (currentText == notifyText) {
                             $(elementId).html(doNotifyText);
                             ProductToastAlert('secondary', 'fa-solid fa-bell', '@SharedHtmlLocalizer["Notification Added"]', result.message, imgUrl, title, price, productUrl);
