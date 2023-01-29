@@ -736,7 +736,7 @@ namespace API.Areas.Backend.Helpers
                         {
                             productModel.SubscriptionPackTitles.Add(new KeyValuPairModel
                             {
-                                Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " x " + productDetail.Quantity,
+                                Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " × " + productDetail.Quantity,
                                 Value = childProduct.Id.ToString()
                             });
                         }
@@ -1220,7 +1220,7 @@ namespace API.Areas.Backend.Helpers
 
             if (loadDetails)
             {
-                orderModel.FormattedItemCount = order.OrderItems.Count + " " + (isEnglish ? Messages.Items : MessagesAr.Items);
+                orderModel.FormattedItemCount = order.OrderItems.Count + " " + (isEnglish ? Messages.Item : MessagesAr.Item);
 
                 if (order.Address != null)
                     orderModel.Address = await PrepareAddressModel(isEnglish: isEnglish, address: order.Address);
@@ -1330,7 +1330,7 @@ namespace API.Areas.Backend.Helpers
             else
             {
                 var orderItems = await _orderService.GetAllOrderItem(order.Id);
-                orderModel.FormattedItemCount = orderItems.Count + " " + (isEnglish ? Messages.Items : MessagesAr.Items);
+                orderModel.FormattedItemCount = orderItems.Count + " " + (isEnglish ? Messages.Item : MessagesAr.Item);
             }
             orderModel.OrderSummary = await PrepareOrderSummary(order, isEnglish);
             return orderModel;
@@ -1526,7 +1526,7 @@ namespace API.Areas.Backend.Helpers
                     {
                         subscriptionModel.SubscriptionPackTitles.Add(new KeyValuPairModel
                         {
-                            Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " x " + productDetail.Quantity,
+                            Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " × " + productDetail.Quantity,
                             Value = childProduct.Id.ToString()
                         });
                     }

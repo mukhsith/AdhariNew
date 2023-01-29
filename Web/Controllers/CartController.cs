@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Logging;
@@ -246,8 +247,7 @@ namespace Web.Controllers
         {
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (!string.IsNullOrEmpty(authenticationToken))
+                if (User.Identity.IsAuthenticated)
                 {
                     return RedirectToRoute("checkoutaddress");
                 }
@@ -263,21 +263,16 @@ namespace Web.Controllers
         /// <summary>
         /// Get checkout
         /// </summary>
+        [Authorize]
         public virtual async Task<IActionResult> CheckoutAddress()
         {
             List<AddressModel> addressModels = new();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    return RedirectToRoute("login");
-                }
-
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress?typeId=" + RelatedEntityType.Order);
                 if (responseModel.MessageCode == 401)
                 {
-                    return RedirectToRoute("login");
+                    return RedirectToRoute("checkout");
                 }
 
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
@@ -360,21 +355,16 @@ namespace Web.Controllers
             });
         }
 
+        [Authorize]
         public virtual async Task<IActionResult> CheckoutSummary(int addressId)
         {
             CheckOutModel checkOutModel = new();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    return RedirectToRoute("login");
-                }
-
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<CheckOutModel>>("webapi/cart/getcheckoutsummary");
                 if (responseModel.MessageCode == 401)
                 {
-                    return RedirectToRoute("login");
+                    return RedirectToRoute("checkout");
                 }
 
                 if (responseModel.Success && responseModel.Data != null)

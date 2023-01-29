@@ -93,13 +93,29 @@
                 width = this.currentTab.css('width');
                 left = this.currentTab.position().left;
             }
+            //if ($('.et-hero-tabs-container').hasClass('slick-initialized')) {
+            //    $('.et-hero-tab-slider').css('width', width);
+            //    $('.et-hero-tab-slider').css('left', 9);
+            //} else {
+            //    $('.et-hero-tab-slider').css('width', width);
+            //    $('.et-hero-tab-slider').css('left', left);
+            //}
+
             if ($('.et-hero-tabs-container').hasClass('slick-initialized')) {
-                $('.et-hero-tab-slider').css('width', width);
-                $('.et-hero-tab-slider').css('left', 9);
+                if ($('html').attr('dir') == 'rtl') {
+                    $('.et-hero-tab-slider').css('width', width);
+                    $('.et-hero-tab-slider').css('right', 9);
+                }
+                else {
+                    $('.et-hero-tab-slider').css('width', width);
+                    $('.et-hero-tab-slider').css('left', 9);
+                }
             } else {
                 $('.et-hero-tab-slider').css('width', width);
                 $('.et-hero-tab-slider').css('left', left);
             }
+
+
         }
 
         setTabSliderActive() {

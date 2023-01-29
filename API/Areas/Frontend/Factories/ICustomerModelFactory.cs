@@ -30,5 +30,6 @@ namespace API.Areas.Frontend.Factories
         Task<APIResponseModel<CreatePaymentModel>> CreateWalletPackageOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, CreatePaymentModel createPaymentModel);
         Task<APIResponseModel<List<WalletPackageOrderModel>>> GetWalletPackageOrders(bool isEnglish, int customerId, int id = 0, string orderNumber = "",
                   int limit = 0, int page = 0);
+        Task<APIResponseModel<object>> CreateExpiredWalletTransactions(bool isEnglish, string apiKey);
     }
 }

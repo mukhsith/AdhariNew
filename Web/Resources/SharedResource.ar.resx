@@ -420,6 +420,9 @@
   <data name="MainMenu" xml:space="preserve">
     <value>القائمة الرئيسية</value>
   </data>
+  <data name="MaximumQuantityAllowed" xml:space="preserve">
+    <value>الحد الأقصى للشراء : {0}</value>
+  </data>
   <data name="MediaPhonePlusLogo" xml:space="preserve">
     <value>شعار ميديا فون بلس</value>
   </data>
@@ -428,6 +431,9 @@
   </data>
   <data name="MessageIsRequired" xml:space="preserve">
     <value>يرجى ادخال الرسالة</value>
+  </data>
+  <data name="MinimumQuantityAllowed" xml:space="preserve">
+    <value>الحد الأدنى للشراء  : {0}</value>
   </data>
   <data name="MobileNumber" xml:space="preserve">
     <value>رقم الهاتف</value>
@@ -677,6 +683,9 @@
   </data>
   <data name="Select" xml:space="preserve">
     <value>اختر</value>
+  </data>
+  <data name="SelectDeliveryAddress" xml:space="preserve">
+    <value>اختر عنوان التوصيل</value>
   </data>
   <data name="SelectDeliveryDate" xml:space="preserve">
     <value>حدد تاريخ التسليم</value>

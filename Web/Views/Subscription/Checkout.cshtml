@@ -44,7 +44,7 @@
                                                 @SharedHtmlLocalizer["Verified"] <i class="fa-solid fa-circle-check"></i>
                                             </span>
                                         </label>
-                                        <div class="input-group">
+                                        <div class="input-group mobile-field">
                                             <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0">
                                                 <img src="/assets/img/Kuwait_flag.svg" width="25">
                                             </span>
@@ -52,7 +52,7 @@
                                                 <bdi>+965</bdi>
                                             </span>
                                             <input type="tel" id="MobileNumber" name="MobileNumber"
-                                                   class="form-control border-start-0 rounded-5 border-secondary body-bg-secondary"
+                                                   class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
                                                    maxlength="8" onkeypress="return validateMobileNumber(event);" />
                                         </div>
                                         <div id="dvErrorMobileNumber">
@@ -102,7 +102,7 @@
                                                 @SharedHtmlLocalizer["Verified"] <i class="fa-solid fa-circle-check"></i>
                                             </span>
                                         </label>
-                                        <div class="input-group">
+                                        <div class="input-group mobile-field">
                                             <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0">
                                                 <img src="/assets/img/Kuwait_flag.svg" width="25">
                                             </span>
@@ -110,7 +110,7 @@
                                                 <bdi>+965</bdi>
                                             </span>
                                             <input type="tel" id="LoginMobileNumber" name="LoginMobileNumber"
-                                                   class="form-control border-start-0 rounded-5 border-secondary body-bg-secondary"
+                                                   class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
                                                    maxlength="8" onkeypress="return validateMobileNumber(event);" />
                                         </div>
                                         <div id="dvErrorLoginMobileNumber">
@@ -338,26 +338,7 @@
                 RequestId: requestId, OTP: otp
             }, function (result) {
                 if (result.success) {
-                    $.post("@Url.RouteUrl("savesubscriptionattributes")", {
-                        AttributeTypeId: @((int)AttributeType.Subscribe),
-                        ProductId: getStorage("SubscriptionProductId"),
-                        Quantity: getStorage("SubscriptionQuantity"),
-                        DurationId: getStorage("SubscriptionDurationId"),
-                        DeliveryDateId: getStorage("SubscriptionDeliveryDateId"),
-                    }, function (result) {
-                        if (result.success) {
-                            removeStorage("SubscriptionProductId");
-                            removeStorage("SubscriptionQuantity");
-                            removeStorage("SubscriptionDurationId");
-                            removeStorage("SubscriptionDeliveryDateId");
-
-                            window.location = "@Url.RouteUrl("subscriptioncheckoutaddress")";
-                        }
-                        else {
-                            if (result.message != "")
-                                ToastAlert('error', '', result.message);
-                        }
-                    });
+                    window.location = "@Url.RouteUrl("subscriptioncheckoutaddress")";
                 }
                 else {
                     if (result.message != "")

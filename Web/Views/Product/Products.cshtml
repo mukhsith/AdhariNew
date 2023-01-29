@@ -44,7 +44,6 @@
         var limit = 1000;
         showLoader();
         $.get("@Url.RouteUrl("productsbyajax")", { seoName: '@Model.SeoName', page: pageCount, limit: limit }, function (result) {
-            debugger;
             if (result.productCount == 0) {
                 $("#dv-product-list").hide();
                 $("#dv-no-products").show();

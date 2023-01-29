@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Logging;
@@ -6,6 +9,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Utility.API;
 using Utility.Enum;
@@ -39,12 +43,18 @@ namespace Web.Controllers
         /// <summary>
         /// Login by email
         /// </summary>
-        public virtual IActionResult Login(string returnUrl = "")
+        public virtual async Task<IActionResult> Login(string returnUrl = "")
         {
             if (returnUrl == "/register")
             {
                 returnUrl = string.Empty;
             }
+
+            Response.Cookies.Append("AuthenticationToken", "");
+            Response.Cookies.Append("CustomerGuidValue", "");
+
+            //SignOutAsync is Extension method for SignOut    
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             CustomerModel customerModel = new();
             customerModel.ReturnUrl = returnUrl;
@@ -179,11 +189,15 @@ namespace Web.Controllers
                     if (response.Data != null && response.Success)
                     {
                         Response.Cookies.Append("AuthenticationToken", response.Data.Token, new CookieOptions { Expires = Convert.ToDateTime(response.Data.Expiration) });
-
                         if (!string.IsNullOrEmpty(customerGuidValue))
                         {
                             Response.Cookies.Append("CustomerGuidValue", customerGuidValue, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
                         }
+
+                        var claims = new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, Convert.ToString(response.Data.Id)) };
+                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var principal = new ClaimsPrincipal(identity);
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties());
                     }
                 }
                 else
@@ -206,17 +220,12 @@ namespace Web.Controllers
         /// <summary>
         /// Register
         /// </summary>
+        [Authorize]
         public virtual async Task<IActionResult> MyProfile()
         {
             CustomerModel customerModel = new();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    return RedirectToRoute("login");
-                }
-
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<CustomerModel>>("webapi/customer/getcustomer");
                 if (responseModel.MessageCode == 401)
                 {
@@ -245,13 +254,6 @@ namespace Web.Controllers
             APIResponseModel<CustomerModel> response = new();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    response.MessageCode = 401;
-                    return Json(response);
-                }
-
                 response = await _apiHelper.PutAsync<APIResponseModel<CustomerModel>>("webapi/customer/editprofile", customerModel);
                 if (response.MessageCode == 401)
                 {
@@ -376,14 +378,9 @@ namespace Web.Controllers
             return Json(response);
         }
 
+        [Authorize]
         public IActionResult MyNotifications()
         {
-            var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-            if (string.IsNullOrEmpty(authenticationToken))
-            {
-                return RedirectToRoute("login");
-            }
-
             var notificationModels = new List<NotificationModel>();
             return View(notificationModels);
         }
@@ -425,17 +422,12 @@ namespace Web.Controllers
             });
         }
 
+        [Authorize]
         public async Task<IActionResult> Addresses()
         {
             List<AddressModel> addressModels = new();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    return RedirectToRoute("login");
-                }
-
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress");
                 if (responseModel.MessageCode == 401)
                 {
@@ -461,13 +453,6 @@ namespace Web.Controllers
             var response = new APIResponseModel<AddressModel>();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    response.MessageCode = 401;
-                    return Json(response);
-                }
-
                 response = await _apiHelper.PostAsync<APIResponseModel<AddressModel>>("webapi/customer/addaddresswithselect", addressModel);
                 if (response.MessageCode == 401)
                 {
@@ -482,6 +467,7 @@ namespace Web.Controllers
             return Json(response);
         }
 
+        [Authorize]
         public IActionResult AddNewAddress()
         {
             try
@@ -496,17 +482,12 @@ namespace Web.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> AddressDetails(int addressId)
         {
             var addressModel = new AddressModel();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    return RedirectToRoute("login");
-                }
-
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress?id=" + addressId);
                 if (responseModel.MessageCode == 401)
                 {
@@ -534,13 +515,6 @@ namespace Web.Controllers
 
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    response.MessageCode = 401;
-                    return Json(response);
-                }
-
                 response = await _apiHelper.PutAsync<APIResponseModel<AddressModel>>("webapi/customer/updateaddress", addressModel);
                 if (response.MessageCode == 401)
                 {
@@ -554,17 +528,13 @@ namespace Web.Controllers
 
             return Json(response);
         }
+
+        [Authorize]
         public async Task<IActionResult> MyWallet()
         {
             WalletModel walletModel = new();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    return RedirectToRoute("login");
-                }
-
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<WalletModel>>("webapi/customer/getwallettransactions?walletType=" + WalletType.Wallet);
                 if (responseModel.MessageCode == 401)
                 {
@@ -583,17 +553,13 @@ namespace Web.Controllers
 
             return View(walletModel);
         }
+
+        [Authorize]
         public async Task<IActionResult> MyCashback()
         {
             WalletModel walletModel = new();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    return RedirectToRoute("login");
-                }
-
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<WalletModel>>("webapi/customer/getwallettransactions?walletType=" + WalletType.Cashback);
                 if (responseModel.MessageCode == 401)
                 {
@@ -613,17 +579,12 @@ namespace Web.Controllers
             return View(walletModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> WalletPackages()
         {
             WalletPackageWithPaymentMethodModel walletPackageWithPaymentMethodModel = new();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    return RedirectToRoute("login");
-                }
-
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<WalletPackageModel>>>("webapi/common/walletpackages");
                 if (responseModel.MessageCode == 401)
                 {
@@ -660,13 +621,6 @@ namespace Web.Controllers
             var responseModel = new APIResponseModel<CreatePaymentModel>();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    responseModel.MessageCode = 401;
-                    return Json(responseModel);
-                }
-
                 createPaymentModel.CustomerIp = _apiHelper.GetUserIP();
                 responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/customer/createwalletpackageorder", createPaymentModel);
                 if (responseModel.MessageCode == 401)
@@ -704,17 +658,6 @@ namespace Web.Controllers
             }
 
             return View(walletPackageOrderModel);
-        }
-
-        /// <summary>
-        /// Logout clear authentication token+CustomerGuidValue and redirect to home 
-        /// </summary>
-        public virtual IActionResult Logout()
-        {
-            Response.Cookies.Append("AuthenticationToken", "");
-            Response.Cookies.Append("CustomerGuidValue", "");
-
-            return RedirectToRoute("home");
         }
     }
 }

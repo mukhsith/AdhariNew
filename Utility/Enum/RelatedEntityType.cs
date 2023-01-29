@@ -8,5 +8,6 @@
         SignUp = 3,
         WalletPackageOrder = 4,
         SubscriptionOrder = 5,
+        WalletTransactionExpiry = 5,
     }
 }

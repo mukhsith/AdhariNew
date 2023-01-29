@@ -45,10 +45,10 @@ namespace API.Areas.Frontend.Controllers
         /// Save subscription attributes
         /// </summary>
         [HttpPost, Route("/webapi/subscription/savesubscriptionattributes")]
-        [Authorize]
         public async Task<APIResponseModel<SubscriptionSummaryModel>> SaveSubscriptionAttributes([FromBody] SubscriptionAttributeModel subscriptionAttributeModel, bool app = true)
         {
-            return await _subscriptionModelFactory.SaveSubscriptionAttribute(isEnglish: isEnglish, customerId: LoggedInCustomerId, subscriptionAttributeModel: subscriptionAttributeModel, app: app);
+            subscriptionAttributeModel.CustomerId = LoggedInCustomerId;
+            return await _subscriptionModelFactory.SaveSubscriptionAttribute(isEnglish: isEnglish, subscriptionAttributeModel: subscriptionAttributeModel, app: app);
         }
 
         /// <summary>

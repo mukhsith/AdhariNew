@@ -773,7 +773,7 @@ namespace API.Helpers
                 int noOfTimes = (int)(amount / promotion.CashbackRedeemMinOrderAmount);
                 cashbackAmount = noOfTimes * promotion.CashbackValueToDeduct;
 
-                if(cashbackAmount> cashbackBalance)
+                if (cashbackAmount > cashbackBalance)
                 {
                     cashbackAmount = cashbackBalance;
                 }
@@ -1209,6 +1209,19 @@ namespace API.Helpers
         #endregion
 
         #region Subscription
+        public async Task MigrateSubscriptionAttribute(string customerGuidValue, int customerId)
+        {
+            var subscriptionAttribute = await _cartService.GetSubscriptionAttributeByCustomer(customerGuidValue: customerGuidValue);
+            if (subscriptionAttribute != null)
+            {
+                await _cartService.DeleteSubscriptionAttributeByCustomer(customerId: customerId);
+
+                subscriptionAttribute.CustomerId = customerId;
+                subscriptionAttribute.CustomerGuidValue = null;
+                subscriptionAttribute.ModifiedOn = DateTime.Now;
+                await _cartService.UpdateSubscriptionAttribute(subscriptionAttribute);
+            }
+        }
         public string GetSubscriptionPdfUrl(SubscriptionModel order, string apiBaseUrl, bool isEnglish)
         {
             //ApplyLicenseKey();

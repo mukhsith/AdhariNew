@@ -201,6 +201,26 @@ namespace Services.Frontend.Shop
             var data = await _dbcontext.SubscriptionAttributes.Where(a => a.CustomerId == customerId).FirstOrDefaultAsync();
             return data;
         }
+        public async Task<SubscriptionAttribute> GetSubscriptionAttributeByCustomer(string customerGuidValue = "", int? customerId = null)
+        {
+            if (string.IsNullOrEmpty(customerGuidValue) && (customerId == null || customerId == 0))
+            {
+                return new SubscriptionAttribute();
+            }
+
+            var data = _dbcontext.SubscriptionAttributes.AsQueryable();
+
+            if (customerId != null && customerId.Value > 0)
+            {
+                data = data.Where(a => a.CustomerId == customerId);
+            }
+            else if (!string.IsNullOrEmpty(customerGuidValue))
+            {
+                data = data.Where(a => a.CustomerGuidValue == customerGuidValue);
+            }
+
+            return await data.FirstOrDefaultAsync();
+        }
         public async Task<SubscriptionAttribute> GetSubscriptionAttributeById(int Id)
         {
             var data = await _dbcontext.SubscriptionAttributes.FirstOrDefaultAsync(x => x.Id == Id);

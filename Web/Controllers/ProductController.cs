@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Localization;
@@ -112,6 +113,14 @@ namespace Web.Controllers
                 ProductQueryParameters query = new();
                 query.SeoName = seoName;
 
+                var customerGuidValue = Convert.ToString(Request.Cookies["CustomerGuidValue"]);
+                if (string.IsNullOrEmpty(customerGuidValue))
+                {
+                    customerGuidValue = Guid.NewGuid().ToString();
+                    Response.Cookies.Append("CustomerGuidValue", customerGuidValue, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+                }
+                query.CustomerGuidValue = customerGuidValue;
+
                 var responseModel = await _apiHelper.PostAsync<APIResponseModel<List<ProductModel>>>("webapi/product/products", query);
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
@@ -129,6 +138,7 @@ namespace Web.Controllers
         /// <summary>
         /// Get favorite products
         /// </summary>
+        [Authorize]
         public async Task<IActionResult> FavoriteProducts()
         {
             ViewBag.isFav = 1;
@@ -136,12 +146,6 @@ namespace Web.Controllers
 
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    return RedirectToRoute("login");
-                }
-
                 ProductQueryParameters query = new();
                 var responseModel = await _apiHelper.PostAsync<APIResponseModel<List<ProductModel>>>("webapi/product/products", query);
                 if (responseModel.MessageCode == 401)
@@ -170,13 +174,6 @@ namespace Web.Controllers
             var responseModel = new APIResponseModel<bool>();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    responseModel.MessageCode = 401;
-                    return Json(responseModel);
-                }
-
                 responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/product/addorremovefavourite?productId=" + productId);
                 if (responseModel.MessageCode == 401)
                 {
@@ -202,13 +199,6 @@ namespace Web.Controllers
             var responseModel = new APIResponseModel<bool>();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    responseModel.MessageCode = 401;
-                    return Json(responseModel);
-                }
-
                 responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/product/addorremoveproductavailabilitynotifyrequest?productId=" + productId);
                 if (responseModel.MessageCode == 401)
                 {

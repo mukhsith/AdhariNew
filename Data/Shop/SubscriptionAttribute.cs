@@ -1,12 +1,11 @@
 ﻿using Data.Common;
-using System.ComponentModel.DataAnnotations;
-using Utility.Helpers;
 
 namespace Data.Shop
 {
     public partial class SubscriptionAttribute : BaseEntityDate
     {
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
+        public string CustomerGuidValue { get; set; }
         public int? ProductId { get; set; }
         public int? AddressId { get; set; }
         public int? CouponId { get; set; }

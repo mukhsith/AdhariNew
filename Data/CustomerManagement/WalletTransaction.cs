@@ -27,6 +27,7 @@ namespace Data.CustomerManagement
         public decimal Balance { get; set; }
         public WalletTransactionType WalletTransactionTypeId { get; set; }
         public DateTime? ExpiryDate { get; set; }
+        public bool ExpiredEntryAdded { get; set; }
         public virtual Customer Customer { get; set; }
     }
 }

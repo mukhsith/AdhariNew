@@ -3,8 +3,6 @@
 @{
     var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}";
-    var token = Convert.ToString(Context.Request.Cookies["AuthenticationToken"]);
-    bool loggedIn = !string.IsNullOrEmpty(token);
 }
 <head>
     <meta charset="utf-8">

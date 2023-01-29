@@ -394,6 +394,7 @@ namespace API.Areas.Frontend.Factories
                     if (!string.IsNullOrEmpty(customerGuidValue))
                     {
                         await _commonHelper.MigrateCarts(customerGuidValue, customer.Id);
+                        await _commonHelper.MigrateSubscriptionAttribute(customerGuidValue, customer.Id);
                     }
 
                     var promotion = await _promotionService.GetDefault();
@@ -493,6 +494,7 @@ namespace API.Areas.Frontend.Factories
                     if (!string.IsNullOrEmpty(customerGuidValue))
                     {
                         await _commonHelper.MigrateCarts(customerGuidValue, customer.Id, clearexistingCartItems: true);
+                        await _commonHelper.MigrateSubscriptionAttribute(customerGuidValue, customer.Id);
                     }
                 }
                 else if (otpDetail.Type == NotificationType.UpdateMobileNumber)
@@ -553,6 +555,7 @@ namespace API.Areas.Frontend.Factories
                     if (!string.IsNullOrEmpty(customerGuidValue))
                     {
                         await _commonHelper.MigrateCarts(customerGuidValue, customer.Id);
+                        await _commonHelper.MigrateSubscriptionAttribute(customerGuidValue, customer.Id);
                     }
                 }
 
@@ -1513,6 +1516,59 @@ namespace API.Areas.Frontend.Factories
                 }
 
                 response.Data = walletPackageOrderModels;
+                response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
+        public async Task<APIResponseModel<object>> CreateExpiredWalletTransactions(bool isEnglish, string apiKey)
+        {
+            var response = new APIResponseModel<object>();
+
+            try
+            {
+                if (_appSettings.ServiceAPIKey != apiKey)
+                {
+                    response.Message = isEnglish ? Messages.AccessRightInvalid : MessagesAr.AccessRightInvalid;
+                    return response;
+                }
+
+                var walletTransactions = await _customerService.GetAllExpiredWalletTransaction(walletType: WalletType.Cashback);
+                List<WalletTransaction> newWalletTransactions = new();
+
+                if (walletTransactions.Count > 0)
+                {
+                    foreach (var walletTransaction in walletTransactions)
+                    {
+                        walletTransaction.ExpiredEntryAdded = true;
+
+                        var newWalletTransaction = new WalletTransaction
+                        {
+                            TransactionNo = Common.GenerateRandomNo(10000000, 99999999),
+                            CreatedBy = walletTransaction.CustomerId,
+                            CustomerId = walletTransaction.CustomerId,
+                            WalletTypeId = WalletType.Cashback,
+                            RelatedEntityTypeId = RelatedEntityType.WalletTransactionExpiry,
+                            RelatedEntityId = walletTransaction.Id,
+                            Credit = 0,
+                            RemainingCredit = 0,
+                            Debit = walletTransaction.RemainingCredit,
+                            WalletTransactionTypeId = WalletTransactionType.CashbackExpiry
+                        };
+
+                        newWalletTransactions.Add(newWalletTransaction);
+                    }
+
+                    await _customerService.UpdateWalletTransactions(walletTransactions);
+                    await _customerService.CreateWalletTransactions(newWalletTransactions);
+                }
+
                 response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
                 response.Success = true;
             }

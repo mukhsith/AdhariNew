@@ -420,6 +420,9 @@
   <data name="MainMenu" xml:space="preserve">
     <value>Main Menu</value>
   </data>
+  <data name="MaximumQuantityAllowed" xml:space="preserve">
+    <value>Maximum Quantity allowed : {0}</value>
+  </data>
   <data name="MediaPhonePlusLogo" xml:space="preserve">
     <value>Media Phone Plus Logo</value>
   </data>
@@ -428,6 +431,9 @@
   </data>
   <data name="MessageIsRequired" xml:space="preserve">
     <value>Message is required</value>
+  </data>
+  <data name="MinimumQuantityAllowed" xml:space="preserve">
+    <value>Minimum Quantity allowed : {0}</value>
   </data>
   <data name="MobileNumber" xml:space="preserve">
     <value>Mobile Number</value>
@@ -677,6 +683,9 @@
   </data>
   <data name="Select" xml:space="preserve">
     <value>Select</value>
+  </data>
+  <data name="SelectDeliveryAddress" xml:space="preserve">
+    <value>Select Delivery Address</value>
   </data>
   <data name="SelectDeliveryDate" xml:space="preserve">
     <value>Select delivery date</value>

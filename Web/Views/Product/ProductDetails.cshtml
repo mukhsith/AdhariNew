@@ -162,7 +162,7 @@
                                     </div>
                                 }
                             </div>
-                            <div class="col-12 col-xl-8 mb-3">
+                            <div class="@(Model.ProductType == ProductType.SubscriptionProduct?"col-12 col-xl-8 mb-3":"col-12 col-xl-6 mb-3")">
                                 @if (Model.ProductType == ProductType.SubscriptionProduct && Model.StockQuantity > 0)
                                 {
                                     <div class="row">
@@ -218,31 +218,24 @@
                                                     @SharedHtmlLocalizer["Subscribe"]
                                                 </button>
                                             }
-                                            else
-                                            {
-                                                <button type="button" class="add-to-cart btn btn-primary rounded-pill text-white fw-bold w-100"
-                                                        id="btn-add-to-cart">
-                                                    @SharedHtmlLocalizer["AddToCart"]
-                                                </button>
-                                            }
                                         </div>
                                     }
                                     else
                                     {
                                         <div class="btn-with-input-spinner d-flex w-100">
-                                            <input type="number" value="1" min="1" max="@Model.StockQuantity" step="1" class="input-spinner text-white bg-secondary border-0 fs-4" style="display: none;">
-                                            <div class="input-group  rounded-5 product-details-spinner">
-                                                <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold fs-4 btn-minus-product-details" type="button">
-                                                    <strong>−</strong>
-                                                </button>
-                                                <input type="text" inputmode="decimal" style="text-align: center" class="form-control input-spinner text-white bg-secondary border-0 fs-4" placeholder="" readonly=""
-                                                       value="1" data-maxquantity="@Model.StockQuantity" id="txt-quantity" disabled>
-                                                <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold fs-4 btn-plus-product-details" type="button">
-                                                    <strong>+</strong>
-                                                </button>
-                                            </div>
                                             @if (Model.ProductType == ProductType.SubscriptionProduct)
                                             {
+                                                <input type="number" value="@Model.MinCartQuantity" min="@Model.MinCartQuantity" max="@Model.MaxCartQuantity" step="1" class="input-spinner text-white bg-secondary border-0 fs-4" style="display: none;">
+                                                <div class="input-group  rounded-5 product-details-spinner">
+                                                    <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold fs-4 btn-minus-subscription-product-details" type="button">
+                                                        <strong>−</strong>
+                                                    </button>
+                                                    <input type="text" inputmode="decimal" style="text-align: center" class="form-control input-spinner text-white bg-secondary border-0 fs-4" placeholder="" readonly=""
+                                                           value="@Model.MinCartQuantity" data-minquantity="@Model.MinCartQuantity" data-maxquantity="@Model.MaxCartQuantity" id="txt-quantity" disabled>
+                                                    <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold fs-4 btn-plus-subscription-product-details" type="button">
+                                                        <strong>+</strong>
+                                                    </button>
+                                                </div>
                                                 <button type="button"
                                                         class="btn btn-lg btn-primary rounded-pill rounded-start text-white fw-bold w-100 add-to-cart" id="btn-subscribe">
                                                     @SharedHtmlLocalizer["Subscribe"]
@@ -250,10 +243,26 @@
                                             }
                                             else
                                             {
-                                                <button type="button"
-                                                        class="btn btn-lg btn-primary rounded-pill rounded-start text-white fw-bold w-100 add-to-cart" id="btn-add-to-cart">
-                                                    @SharedHtmlLocalizer["AddToCart"]
-                                                </button>
+                                                <div class="btn-with-input-spinner w-100">
+                                                    <button id="btn-add-to-cart-@Model.Id" type="button" class="add-to-cart btn btn-primary rounded-pill text-white fw-bold w-100 "
+                                                            style="@(Model.CartQuantity>0?"display: none;":"display: block;")"
+                                                            onclick="return addToCart(@Model.Id,1);">
+                                                        @SharedHtmlLocalizer["AddToCart"]
+                                                    </button>
+                                                    <input type="number" value="0" min="0" max="50" step="1" class="input-spinner text-white bg-secondary border-0" style="display: none;">
+                                                    <div id="dv-quantity-change-@Model.Id" class="input-group rounded-5 card-spinner" style="@(Model.CartQuantity>0?"display: flex;":"display: none;")">
+                                                        <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold rounded-5 rounded-end btn-minus-card"
+                                                                type="button" onclick="return deductCartItem(@Model.Id);">
+                                                            <strong>−</strong>
+                                                        </button>
+                                                        <input type="text" id="txt-quantity-@Model.Id" inputmode="decimal" style="text-align: center" class="form-control input-spinner text-white bg-secondary border-0"
+                                                               value="@Model.CartQuantity" data-maxquantity="@Model.StockQuantity" readonly="">
+                                                        <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold rounded-5 rounded-start btn-plus-card"
+                                                                type="button" onclick="return addCartItem(@Model.Id);">
+                                                            <strong>+</strong>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             }
                                         </div>
                                     }
@@ -268,30 +277,39 @@
 </section>
 <script>
     $(document).ready(function () {
-        $(".btn-plus-product-details").click(function () {
+        //Subscription product
+        $(".btn-plus-subscription-product-details").click(function () {
             var quantity = $(this).closest(".product-details-spinner").find("input").val();
             var finalQuantity = parseInt(quantity) + 1;
 
             var maxQuantity = $(this).closest(".product-details-spinner").find("input").attr("data-maxquantity");
             if (finalQuantity > maxQuantity) {
-                ToastAlert('error', '', '@SharedHtmlLocalizer["CannotAddMoreProductsToCartThanStock"]');
+                var errorMessage = "@(SharedHtmlLocalizer["MaximumQuantityAllowed"].Value)";
+                errorMessage = errorMessage.replace("{0}", maxQuantity);
+                ToastAlert('error', '', errorMessage);
                 return;
             }
 
             $(this).closest(".product-details-spinner").find("input").val(finalQuantity);
         });
 
-        $(".btn-minus-product-details").click(function () {
+        $(".btn-minus-subscription-product-details").click(function () {
             var quantity = $(this).closest(".product-details-spinner").find("input").val();
             var finalQuantity = parseInt(quantity) - 1;
-            if (finalQuantity <= 0)
+            debugger;
+            var minQuantity = $(this).closest(".product-details-spinner").find("input").attr("data-minquantity");
+            if (finalQuantity < minQuantity) {
+                var productType =@((int)Model.ProductType);
+                if (productType ==@((int)ProductType.SubscriptionProduct)) {
+                    var errorMessage = "@(SharedHtmlLocalizer["MinimumQuantityAllowed"].Value)";
+                    errorMessage = errorMessage.replace("{0}", minQuantity);
+                    ToastAlert('error', '', errorMessage);
+                }
+
                 return;
+            }
 
             $(this).closest(".product-details-spinner").find("input").val(finalQuantity);
-        });
-
-        $("#btn-add-to-cart").click(function () {
-            addToCart(@Model.Id, $("#txt-quantity").val());
         });
 
         $("#btn-subscribe").click(function () {
@@ -325,42 +343,78 @@
                 return;
             }
 
-            var authenticationToken = getCookie("AuthenticationToken");
-            if (authenticationToken == null || authenticationToken == "") {
-                $.get("@Url.RouteUrl("validatesubscription")", {
-                    ProductId: productId,
-                    Quantity: quantity
-                }, function (result) {
-                    if (result.success && result.data) {
-                        addStorage("SubscriptionProductId", productId);
-                        addStorage("SubscriptionQuantity", quantity);
-                        addStorage("SubscriptionDurationId", durationId);
-                        addStorage("SubscriptionDeliveryDateId", deliveryDateId);
-                        window.location = "@Url.RouteUrl("subscriptioncheckout")";
-                    }
-                    else {
-                        if (result.message != "")
-                            ToastAlert('error', '', result.message);
-                    }
-                });
-            }
-            else {
-                $.post("@Url.RouteUrl("savesubscriptionattributes")", {
-                    AttributeTypeId: @((int)AttributeType.Subscribe),
-                    ProductId: productId,
-                    Quantity: quantity,
-                    DurationId: durationId,
-                    DeliveryDateId: deliveryDateId
-                }, function (result) {
-                    if (result.success) {
-                        window.location = "@Url.RouteUrl("subscriptioncheckoutaddress")";
-                    }
-                    else {
-                        if (result.message != "")
-                            ToastAlert('error', '', result.message);
-                    }
-                });
-            }
+            $.post("@Url.RouteUrl("savesubscriptionattributes")", {
+                AttributeTypeId: @((int)AttributeType.Subscribe),
+                ProductId: productId,
+                Quantity: quantity,
+                DurationId: durationId,
+                DeliveryDateId: deliveryDateId
+            }, function (result) {
+                if (result.success) {
+                    window.location = "@Url.RouteUrl("subscriptioncheckout")";
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
         });
     });
+
+    //Normal product
+    function addCartItem(productId) {
+        var quantity = $("#txt-quantity-" + productId).val();
+        var finalQuantity = parseInt(quantity) + 1;
+
+        var maxQuantity = $("#txt-quantity-" + productId).attr("data-maxquantity");
+        if (finalQuantity > maxQuantity) {
+            var errorMessage = "@(SharedHtmlLocalizer["MaximumQuantityAllowed"].Value)";
+            errorMessage = errorMessage.replace("{0}", maxQuantity);
+            ToastAlert('error', '', errorMessage);
+            return;
+        }
+
+        updateCart(productId, 1);
+    }
+
+    function deductCartItem(productId) {
+        updateCart(productId, -1);
+    }
+
+    function updateCart(productId, quantity) {
+        if (quantity == "" || parseInt(quantity) == 0) {
+            ToastAlert('error', '', '@SharedHtmlLocalizer["Quantity should be greater than zero"]');
+            return;
+        }
+
+        $(".card-spinner").css("pointer-events", "none");
+        $.post("@Url.RouteUrl("addcartitem")", { productId: productId, Quantity: quantity }, function (result) {
+            $(".card-spinner").css("pointer-events", "all");
+            if (result.success) {
+                if (result.data) {
+                    updateCartCount();
+                    var currentQuantity = $("#txt-quantity-" + productId).val();
+                    var finalQuantity = parseInt(currentQuantity) + quantity;
+                    if (finalQuantity <= 0) {
+                        $("#btn-add-to-cart-" + productId).show();
+                        $("#dv-quantity-change-" + productId).css("display", "none");
+                        $("#txt-quantity-" + productId).val("");
+                    }
+                    else {
+                        $("#txt-quantity-" + productId).val(finalQuantity);
+                    }
+                }
+                else {
+                    if (result.message != "")
+                        ToastAlert("error", "", result.message);
+                }
+            }
+            else {
+                if (result.message != "")
+                    ToastAlert("error", "", result.message);
+            }
+        });
+
+        return false;
+    }
 </script>

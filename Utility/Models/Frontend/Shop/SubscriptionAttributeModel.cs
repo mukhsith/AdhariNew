@@ -4,6 +4,8 @@ namespace Utility.Models.Frontend.Shop
 {
     public class SubscriptionAttributeModel
     {
+        public int? CustomerId { get; set; }
+        public string CustomerGuidValue { get; set; }
         public int? ProductId { get; set; }
         public int? Quantity { get; set; }
         public int? DurationId { get; set; }

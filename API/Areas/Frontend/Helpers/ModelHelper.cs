@@ -506,13 +506,6 @@ namespace API.Areas.Frontend.Helpers
                 });
             }
 
-            walletDetails.Add(new KeyValuPairModel
-            {
-                Title = isEnglish ? Messages.WalletType : MessagesAr.WalletType,
-                Value = walletTransactionModel.WalletType,
-                DisplayOrder = 6
-            });
-
             if (walletTransaction.WalletTransactionTypeId == WalletTransactionType.SignUpPromotion)
             {
                 walletTransactionModel.Description = isEnglish ? Messages.SignUpBonus : MessagesAr.SignUpBonus;
@@ -886,11 +879,21 @@ namespace API.Areas.Frontend.Helpers
                     {
                         productModel.SubscriptionPackTitles.Add(new KeyValuPairModel
                         {
-                            Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " x " + productDetail.Quantity,
+                            Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " × " + productDetail.Quantity,
                             Value = childProduct.Id.ToString()
                         });
                     }
                 }
+            }
+
+            if (productModel.MaxCartQuantity <= 0)
+            {
+                productModel.MaxCartQuantity = productModel.StockQuantity;
+            }
+
+            if (productModel.MinCartQuantity <= 0)
+            {
+                productModel.MinCartQuantity = 1;
             }
 
             return productModel;
@@ -1255,7 +1258,7 @@ namespace API.Areas.Frontend.Helpers
 
             if (loadDetails)
             {
-                orderModel.FormattedItemCount = order.OrderItems.Count + " " + (isEnglish ? Messages.Items : MessagesAr.Items);
+                orderModel.FormattedItemCount = (isEnglish ? Messages.Item : MessagesAr.Item) + ": " + order.OrderItems.Count;
 
                 if (order.Address != null)
                     orderModel.Address = await PrepareAddressModel(isEnglish: isEnglish, address: order.Address);
@@ -1524,7 +1527,7 @@ namespace API.Areas.Frontend.Helpers
             else
             {
                 var orderItems = await _orderService.GetAllOrderItem(order.Id);
-                orderModel.FormattedItemCount = orderItems.Count + " " + (isEnglish ? Messages.Items : MessagesAr.Items);
+                orderModel.FormattedItemCount = (isEnglish ? Messages.Item : MessagesAr.Item) + ": " + orderItems.Count;
             }
 
             return orderModel;
@@ -1532,7 +1535,8 @@ namespace API.Areas.Frontend.Helpers
         #endregion
 
         #region Subscription
-        public async Task<SubscriptionSummaryModel> PrepareSubscriptionSummaryModel(bool isEnglish, Customer customer, bool app = true)
+        public async Task<SubscriptionSummaryModel> PrepareSubscriptionSummaryModel(bool isEnglish, Customer customer = null, bool app = true,
+            string customerGuidValue = "")
         {
             var subscriptionSummaryModel = new SubscriptionSummaryModel();
             decimal subscriptionPrice = 0;
@@ -1543,12 +1547,7 @@ namespace API.Areas.Frontend.Helpers
             bool b2bCustomer = false;
             List<KeyValuPairModel> AmountSplitUps = new();
 
-            if (customer == null)
-            {
-                return null;
-            }
-
-            var subscriptionAttribute = await _cartService.GetSubscriptionAttributeByCustomerId(customer.Id);
+            var subscriptionAttribute = await _cartService.GetSubscriptionAttributeByCustomer(customerId: customer?.Id, customerGuidValue: customerGuidValue);
             if (subscriptionAttribute == null)
             {
                 return null;
@@ -1580,9 +1579,13 @@ namespace API.Areas.Frontend.Helpers
 
             b2bCustomer = customer != null && customer.B2B;
 
-            var walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customer.Id, walletTypeId: WalletType.Wallet);
-            subscriptionSummaryModel.WalletBalanceAmount = walletBalance;
-            subscriptionSummaryModel.FormattedWalletBalanceAmount = await _commonHelper.ConvertDecimalToString(subscriptionSummaryModel.WalletBalanceAmount, isEnglish, includeZero: true);
+            decimal walletBalance = 0;
+            if (customer != null)
+            {
+                walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customer.Id, walletTypeId: WalletType.Wallet);
+                subscriptionSummaryModel.WalletBalanceAmount = walletBalance;
+                subscriptionSummaryModel.FormattedWalletBalanceAmount = await _commonHelper.ConvertDecimalToString(subscriptionSummaryModel.WalletBalanceAmount, isEnglish, includeZero: true);
+            }
 
             decimal price = product.GetPriceFrontend(b2bCustomer);
             decimal discountedPrice = product.GetDiscountedPriceFrontend(b2bCustomer);
@@ -1694,15 +1697,18 @@ namespace API.Areas.Frontend.Helpers
                 }
             }
 
-            cashbackAmount = await _commonHelper.GetCashbackAmount(customerId: customer.Id, amount: subscriptionPrice - discountAmount);
-            if (cashbackAmount > 0)
+            if (customer != null)
             {
-                AmountSplitUps.Add(new KeyValuPairModel
+                cashbackAmount = await _commonHelper.GetCashbackAmount(customerId: customer.Id, amount: subscriptionPrice - discountAmount);
+                if (cashbackAmount > 0)
                 {
-                    Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
-                    Value = "-" + await _commonHelper.ConvertDecimalToString(value: cashbackAmount, isEnglish: isEnglish),
-                    DisplayOrder = 6
-                });
+                    AmountSplitUps.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
+                        Value = "-" + await _commonHelper.ConvertDecimalToString(value: cashbackAmount, isEnglish: isEnglish),
+                        DisplayOrder = 6
+                    });
+                }
             }
 
             if (subscriptionAttribute.UseWalletAmount && walletBalance > 0)
@@ -1830,7 +1836,7 @@ namespace API.Areas.Frontend.Helpers
                         {
                             subscriptionCheckOutModel.SubscriptionPackTitles.Add(new KeyValuPairModel
                             {
-                                Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " x " + productDetail.Quantity,
+                                Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " × " + productDetail.Quantity,
                                 Value = childProduct.Id.ToString()
                             });
                         }
@@ -2317,7 +2323,7 @@ namespace API.Areas.Frontend.Helpers
                 {
                     subscriptionModel.SubscriptionPackTitles.Add(new KeyValuPairModel
                     {
-                        Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " x " + productDetail.Quantity,
+                        Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " × " + productDetail.Quantity,
                         Value = childProduct.Id.ToString()
                     });
                 }
@@ -2418,7 +2424,7 @@ namespace API.Areas.Frontend.Helpers
                 {
                     subscriptionModel.SubscriptionPackTitles.Add(new KeyValuPairModel
                     {
-                        Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " x " + productDetail.Quantity,
+                        Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " × " + productDetail.Quantity,
                         Value = childProduct.Id.ToString()
                     });
                 }

@@ -335,6 +335,7 @@
         public static string PaymentMethodNotActive = "طريقة الدفع غير نشطة";
         public static string PaymentMethodNotAvailable = "طريقة الدفع غير متوفرة";
         public static string Items = "الأصناف";
+        public static string Item = "أصناف";
         public static string DeliveryAmount = "رسوم التوصيل";
         public static string DiscountAmount = "المبلغ مخفضة";
         public static string Cashback = "كاش باك";

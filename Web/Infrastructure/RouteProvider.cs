@@ -50,11 +50,7 @@ namespace Web.Infrastructure
                    name: "login",
                    pattern: "login",
                    defaults: new { controller = "Customer", action = "Login" });
-            //logout
-            endpointRouteBuilder.MapControllerRoute(
-                   name: "logout",
-                   pattern: "logout",
-                   defaults: new { controller = "Customer", action = "Logout" });
+            
             //register
             endpointRouteBuilder.MapControllerRoute(
                    name: "register",

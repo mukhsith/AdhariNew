@@ -202,6 +202,11 @@ namespace Services.Frontend.CustomerManagement
             var result = await _dbcontext.WalletTransactions.FirstOrDefaultAsync(x => x.Id == walletTransaction.Id);
             return result;
         }
+        public async Task CreateWalletTransactions(List<WalletTransaction> walletTransactions)
+        {
+            await _dbcontext.WalletTransactions.AddRangeAsync(walletTransactions);
+            await _dbcontext.SaveChangesAsync();
+        }
         public async Task DeleteWalletTransaction(WalletTransaction walletTransaction)
         {
             walletTransaction.Deleted = true;
@@ -277,6 +282,23 @@ namespace Services.Frontend.CustomerManagement
             }
 
             return balance;
+        }
+        public async Task<List<WalletTransaction>> GetAllExpiredWalletTransaction(int customerId = 0, WalletType? walletType = null)
+        {
+            var result = _dbcontext.WalletTransactions.Where(a => !a.Deleted && a.ExpiryDate.HasValue &&
+            a.ExpiryDate.Value.Date < DateTime.Now.Date && a.RemainingCredit > 0 && !a.ExpiredEntryAdded);
+
+            if (customerId > 0)
+            {
+                result = result.Where(a => a.CustomerId == customerId);
+            }
+
+            if (walletType != null)
+            {
+                result = result.Where(a => a.WalletTypeId == walletType);
+            }
+
+            return await result.ToListAsync();
         }
         #endregion
     }

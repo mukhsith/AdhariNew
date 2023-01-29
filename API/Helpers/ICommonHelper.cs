@@ -53,6 +53,7 @@ namespace API.Helpers
         #endregion
 
         #region Subscription
+        Task MigrateSubscriptionAttribute(string customerGuidValue, int customerId);
         string GetSubscriptionPdfUrl(SubscriptionModel order, string apiBaseUrl, bool isEnglish);
         Task<string> GetSubscriptionFrontPdfUrl(SubscriptionModel subscriptionModel, bool isEnglish);
         Task<bool> UpdateSubscriptionOrderStatus(Subscription subscription, SubscriptionStatus subscriptionStatus, bool refundDeliveryFee = false, string notes = "");

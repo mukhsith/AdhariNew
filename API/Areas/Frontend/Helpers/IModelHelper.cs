@@ -65,7 +65,8 @@ namespace API.Areas.Frontend.Helpers
         #endregion
 
         #region Subscription
-        Task<SubscriptionSummaryModel> PrepareSubscriptionSummaryModel(bool isEnglish, Customer customer, bool app = true);
+        Task<SubscriptionSummaryModel> PrepareSubscriptionSummaryModel(bool isEnglish, Customer customer = null, bool app = true,
+            string customerGuidValue = "");
         Task<SubscriptionCheckOutModel> PrepareSubscriptionCheckOutModel(bool isEnglish, Customer customer, bool app = true);
         Task<SubscriptionModel> PrepareSubscriptionModel(Subscription subscription, bool isEnglish, bool loadDetails = false);
         Task<SubscriptionAdminModel> PrepareSubscriptionModel1(Subscription subscription, bool isEnglish, bool loadDetails = false);

@@ -109,12 +109,12 @@ namespace API.Areas.Frontend.Factories
             return response;
         }
         public async Task<APIResponseModel<bool>> ValidateSubscription(bool isEnglish, int customerId,
-            int productId,int quantity)
+            int productId, int quantity)
         {
             var response = new APIResponseModel<bool>();
             try
             {
-                var b2bCustomer = false; 
+                var b2bCustomer = false;
                 var product = await _productService.GetById(productId);
                 if (product == null)
                 {
@@ -123,12 +123,12 @@ namespace API.Areas.Frontend.Factories
                 }
 
                 var productValidationResponse = await ValidateSubscriptionProduct(product: product, isEnglish: isEnglish, quantity: quantity,
-                    customerId: 0, b2bCustomer: b2bCustomer);
+                     b2bCustomer: b2bCustomer, customerId: 0);
                 if (!productValidationResponse.Success)
                 {
                     response.Message = productValidationResponse.Message;
                     return response;
-                }              
+                }
 
                 response.Data = true;
                 response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
@@ -142,32 +142,44 @@ namespace API.Areas.Frontend.Factories
 
             return response;
         }
-        public async Task<APIResponseModel<SubscriptionSummaryModel>> SaveSubscriptionAttribute(bool isEnglish, int customerId,
+        public async Task<APIResponseModel<SubscriptionSummaryModel>> SaveSubscriptionAttribute(bool isEnglish,
             SubscriptionAttributeModel subscriptionAttributeModel, bool app = true)
         {
             var response = new APIResponseModel<SubscriptionSummaryModel>();
             try
             {
-                if (customerId == 0 || subscriptionAttributeModel.AttributeTypeId == 0)
+                if (subscriptionAttributeModel.AttributeTypeId == 0)
                 {
                     response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
                     return response;
                 }
 
-                var customer = await _customerService.GetCustomerById(customerId);
-                if (customer == null || customer.Deleted)
+                bool b2bCustomer = false;
+                Customer customer = null;
+                if (subscriptionAttributeModel.CustomerId.HasValue && subscriptionAttributeModel.CustomerId.Value > 0)
                 {
-                    response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
-                    return response;
-                }
+                    customer = await _customerService.GetCustomerById(subscriptionAttributeModel.CustomerId.Value);
+                    if (customer == null || customer.Deleted)
+                    {
+                        response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                        return response;
+                    }
 
-                if (!customer.Active)
+                    if (!customer.Active)
+                    {
+                        response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                        return response;
+                    }
+
+                    if (customer.B2B)
+                    {
+                        b2bCustomer = true;
+                    }
+                }
+                else
                 {
-                    response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
-                    return response;
+                    subscriptionAttributeModel.CustomerId = null;
                 }
-
-                var b2bCustomer = customer != null && customer.B2B;
 
                 if (subscriptionAttributeModel.AttributeTypeId == AttributeType.Subscribe)
                 {
@@ -177,13 +189,6 @@ namespace API.Areas.Frontend.Factories
                         response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
                         return response;
                     }
-
-                    //if (subscriptionAttributeModel.Quantity.Value > _appSettings.MaximumSubscriptionQuantityToPurchase)
-                    //{
-                    //    response.Message = isEnglish ? string.Format(Messages.SubscriptionQuantityValidation, _appSettings.MaximumSubscriptionQuantityToPurchase) :
-                    //       string.Format(MessagesAr.SubscriptionQuantityValidation, _appSettings.MaximumSubscriptionQuantityToPurchase);
-                    //    return response;
-                    //}
                 }
 
                 if (subscriptionAttributeModel.AttributeTypeId == AttributeType.SelectAddress)
@@ -201,7 +206,7 @@ namespace API.Areas.Frontend.Factories
                         return response;
                     }
 
-                    if (address.CustomerId != customer.Id)
+                    if (address.CustomerId != subscriptionAttributeModel.CustomerId)
                     {
                         response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
                         return response;
@@ -210,7 +215,7 @@ namespace API.Areas.Frontend.Factories
 
                 if (subscriptionAttributeModel.AttributeTypeId == AttributeType.AddWalletAmount)
                 {
-                    var walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customerId, walletTypeId: WalletType.Wallet);
+                    var walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: subscriptionAttributeModel.CustomerId.Value, walletTypeId: WalletType.Wallet);
                     if (walletBalance <= 0)
                     {
                         response.Message = isEnglish ? Messages.WalletBalanceLessThanActualAmount : MessagesAr.WalletBalanceLessThanActualAmount;
@@ -237,7 +242,8 @@ namespace API.Areas.Frontend.Factories
                 }
 
                 decimal subscriptionPrice = 0;
-                var subscriptionAttribute = await _cartService.GetSubscriptionAttributeByCustomerId(customerId: customerId);
+                var subscriptionAttribute = await _cartService.GetSubscriptionAttributeByCustomer(customerId: subscriptionAttributeModel.CustomerId,
+                    customerGuidValue: subscriptionAttributeModel.CustomerGuidValue);
                 if (subscriptionAttribute == null)
                 {
                     var product = await _productService.GetById(subscriptionAttributeModel.ProductId.Value);
@@ -248,7 +254,7 @@ namespace API.Areas.Frontend.Factories
                     }
 
                     var productValidationResponse = await ValidateSubscriptionProduct(product: product, isEnglish: isEnglish, quantity: subscriptionAttributeModel.Quantity.Value,
-                        customerId: customer.Id, b2bCustomer: b2bCustomer);
+                        b2bCustomer: b2bCustomer, customerId: subscriptionAttributeModel.CustomerId);
                     if (!productValidationResponse.Success)
                     {
                         response.Message = productValidationResponse.Message;
@@ -264,7 +270,8 @@ namespace API.Areas.Frontend.Factories
                     {
                         subscriptionAttribute = await _cartService.CreateSubscriptionAttribute(new SubscriptionAttribute
                         {
-                            CustomerId = customerId,
+                            CustomerId = subscriptionAttributeModel.CustomerId,
+                            CustomerGuidValue = subscriptionAttributeModel.CustomerGuidValue,
                             ProductId = subscriptionAttributeModel.ProductId,
                             Quantity = subscriptionAttributeModel.Quantity,
                             DurationId = subscriptionAttributeModel.DurationId,
@@ -289,7 +296,7 @@ namespace API.Areas.Frontend.Factories
                     if (subscriptionAttributeModel.AttributeTypeId == AttributeType.Subscribe)
                     {
                         var productValidationResponse = await ValidateSubscriptionProduct(product: product, isEnglish: isEnglish, quantity: subscriptionAttributeModel.Quantity.Value,
-                        customerId: customer.Id, b2bCustomer: b2bCustomer);
+                        b2bCustomer: b2bCustomer, customerId: subscriptionAttributeModel.CustomerId);
                         if (!productValidationResponse.Success)
                         {
                             response.Message = productValidationResponse.Message;
@@ -319,14 +326,6 @@ namespace API.Areas.Frontend.Factories
                         {
                             subscriptionAttribute.PaymentMethodId = subscriptionAttribute.OtherPaymentMethodId;
                             subscriptionAttribute.OtherPaymentMethodId = null;
-                            //if (!subscriptionAttribute.PaymentMethodId.HasValue)
-                            //{
-                            //    var paymentMethods = await _paymentMethodService.GetAllPaymentMethod(paymentRequestType: PaymentRequestType.Order);
-                            //    if (paymentMethods.Count > 0)
-                            //    {
-                            //        subscriptionAttribute.PaymentMethodId = paymentMethods.FirstOrDefault().Id;
-                            //    }
-                            //}
                         }
                         await _cartService.UpdateSubscriptionAttribute(subscriptionAttribute);
                     }
@@ -366,7 +365,8 @@ namespace API.Areas.Frontend.Factories
                     }
                 }
 
-                var subscriptionSummaryModel = await _modelHelper.PrepareSubscriptionSummaryModel(isEnglish: isEnglish, customer: customer, app: app);
+                var subscriptionSummaryModel = await _modelHelper.PrepareSubscriptionSummaryModel(isEnglish: isEnglish, customer: customer, app: app,
+                    customerGuidValue: subscriptionAttributeModel.CustomerGuidValue);
 
                 response.Data = subscriptionSummaryModel;
                 response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
@@ -565,7 +565,7 @@ namespace API.Areas.Frontend.Factories
 
                     if (product.MinCartQuantity > 0)
                     {
-                        if (subscriptionAttribute.Quantity.Value > product.MinCartQuantity)
+                        if (subscriptionAttribute.Quantity.Value < product.MinCartQuantity)
                         {
                             response.Message = isEnglish ? string.Format(Messages.MinimumQuantityAllowed, product.MinCartQuantity) : string.Format(MessagesAr.MinimumQuantityAllowed, product.MinCartQuantity);
                             return response;
@@ -1327,7 +1327,7 @@ namespace API.Areas.Frontend.Factories
             return response;
         }
         #region Utilities
-        public async Task<APIResponseModel<object>> ValidateSubscriptionProduct(Product product, bool isEnglish, int quantity, int customerId, bool b2bCustomer)
+        public async Task<APIResponseModel<object>> ValidateSubscriptionProduct(Product product, bool isEnglish, int quantity, bool b2bCustomer, int? customerId = null)
         {
             var response = new APIResponseModel<object>();
 

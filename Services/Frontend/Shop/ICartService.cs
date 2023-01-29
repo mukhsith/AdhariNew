@@ -29,6 +29,7 @@ namespace Services.Frontend.Shop
 
         #region Subscription attributes
         Task<SubscriptionAttribute> GetSubscriptionAttributeByCustomerId(int customerId);
+        Task<SubscriptionAttribute> GetSubscriptionAttributeByCustomer(string customerGuidValue = "", int? customerId = null);
         Task<SubscriptionAttribute> GetSubscriptionAttributeById(int Id);
         Task<SubscriptionAttribute> CreateSubscriptionAttribute(SubscriptionAttribute model);
         Task<bool> UpdateSubscriptionAttribute(SubscriptionAttribute model);

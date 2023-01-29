@@ -50,3 +50,48 @@
 .select2-container--bootstrap.select2-container--open {
     z-index: 9999999999;
 }
+
+html[dir=rtl] .mobile-field {
+    direction: ltr;
+}
+
+    html[dir=rtl] .mobile-field .border {
+        border: 1px solid #dee2e6 !important;
+    }
+
+    html[dir=rtl] .mobile-field .border-secondary {
+        border-color: #00aeef !important;
+    }
+
+    html[dir=rtl] .mobile-field .border-end-0 {
+        border-right: 0 !important;
+    }
+
+    html[dir=rtl] .mobile-field .border-start-0 {
+        border-left: 0 !important;
+    }
+
+    html[dir=rtl] .mobile-field .rounded-start {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 50rem !important;
+        border-top-right-radius: 50rem !important;
+    }
+
+    html[dir=rtl] .mobile-field .rounded-end {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 50rem !important;
+        border-top-left-radius: 50rem !important;
+    }
+
+    html[dir=rtl] .mobile-field .pe-0 {
+        padding-right: 0 !important;
+        padding-left: 0.75rem !important;
+    }
+
+    html[dir=rtl] .mobile-field input[type=tel] {
+        text-align: left !important;
+        border-right: 1px solid #00aeef !important;
+        direction: ltr !important;
+    }

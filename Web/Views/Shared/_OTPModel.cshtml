@@ -43,7 +43,7 @@
                                 <div id="timer" class="mb-3">04:59</div>
                             </div>
                             <div class="col-12 text-center">
-                                <button id="resend" type="button" class="btn btn-secondary text-light rounded-pill me-1">@SharedHtmlLocalizer["ResendOTP"]</button>
+                                <button id="resend" type="button" class="btn btn-secondary text-light rounded-pill me-1" style="display:none;">@SharedHtmlLocalizer["ResendOTP"]</button>
                                 <a href="#" class="btn btn-primary rounded-pill ms-1 verify-otp-button" id="otp-button">@SharedHtmlLocalizer["VerifyOTP"]</a>
                                 <input type="hidden" id="requestId" />
                             </div>
@@ -55,6 +55,22 @@
     </div>
 </div>
 <script>
+    $(document).ready(function () {
+        OTPInput();
+
+        // Timer Scrit
+        document.getElementById('timer').innerHTML = 00 + ":" + 10;
+        startTimer();
+        $('#resend').click(function () {
+            document.getElementById('timer').innerHTML =
+                00 + ":" + 05;
+            startTimer();
+
+            $("#resend").hide();
+            $("#otp-button").show();
+        });
+    });
+
     // For OTP Module
     function OTPInput() {
         var inputs = document.querySelectorAll('#otp  *[id]');
@@ -94,21 +110,8 @@
                 }
             });
         }
-    }
-    OTPInput();
-    // Timer Scrit
-    document.getElementById('timer').innerHTML =
-        00 + ":" + 10;
-    startTimer();
-    $("#resend").attr("disabled", true)
-    $('#resend').click(function () {
-        document.getElementById('timer').innerHTML =
-            00 + ":" + 05;
-        startTimer();
-
-        $(this).attr("disabled", true)
-    })
-
+    }   
+    
     function startTimer() {
         var presentTime = document.getElementById('timer').innerHTML;
         var timeArray = presentTime.split(/[:]+/);
@@ -118,13 +121,13 @@
             m = m - 1
         }
         if (m < 0) {
-            return
-
+            return;
         }
 
         document.getElementById('timer').innerHTML = m + ":" + s;
         if (m === '0' && s === '00') {
-            $("#resend").attr("disabled", false)
+            $("#resend").show();
+            $("#otp-button").hide();
         }
         setTimeout(startTimer, 1000);
     }

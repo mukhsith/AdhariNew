@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +33,11 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         { 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x => x.LoginPath = "/login");
+
+
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddScoped<IStringLocalizer, StringLocalizer<SharedResource>>();
             DependencyRegister.RegisterService(services, Configuration);
@@ -98,6 +104,7 @@ namespace Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

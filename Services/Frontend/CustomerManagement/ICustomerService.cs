@@ -39,6 +39,7 @@ namespace Services.Frontend.CustomerManagement
 
         #region Wallet transactions
         Task<WalletTransaction> CreateWalletTransaction(WalletTransaction walletTransaction);
+        Task CreateWalletTransactions(List<WalletTransaction> walletTransactions);
         Task DeleteWalletTransaction(WalletTransaction walletTransaction);
         Task<List<WalletTransaction>> GetAllWalletTransaction(int customerId = 0, WalletType? walletType = null, int relatedEntityTypeId = 0,
               int relatedEntityId = 0, bool forRedeem = false);
@@ -46,6 +47,7 @@ namespace Services.Frontend.CustomerManagement
         Task UpdateWalletTransaction(WalletTransaction walletTransaction);
         Task UpdateWalletTransactions(List<WalletTransaction> walletTransactions);
         Task<decimal> GetWalletBalanceByCustomerId(int id, WalletType walletTypeId);
+        Task<List<WalletTransaction>> GetAllExpiredWalletTransaction(int customerId = 0, WalletType? walletType = null);
         #endregion
     }
 }

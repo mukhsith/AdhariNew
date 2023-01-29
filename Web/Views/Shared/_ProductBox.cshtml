@@ -89,7 +89,9 @@
 
         var maxQuantity = $("#txt-quantity-" + productId).attr("data-maxquantity");
         if (finalQuantity > maxQuantity) {
-            ToastAlert('error', '', '@SharedHtmlLocalizer["CannotAddMoreProductsToCartThanStock"]');
+            var errorMessage = "@(SharedHtmlLocalizer["MaximumQuantityAllowed"].Value)";
+            errorMessage = errorMessage.replace("{0}", maxQuantity);
+            ToastAlert('error', '', errorMessage);
             return;
         }
 

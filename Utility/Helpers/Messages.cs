@@ -335,6 +335,7 @@
         public static string PaymentMethodNotActive = "Payment method not active";
         public static string PaymentMethodNotAvailable = "Payment method not avilable";
         public static string Items = "Items";
+        public static string Item = "Items";
         public static string DeliveryAmount = "Delivery Amount";
         public static string DiscountAmount = "Discount Amount";
         public static string Cashback = "Cashback";

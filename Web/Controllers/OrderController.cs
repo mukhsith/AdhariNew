@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,13 +36,6 @@ namespace Web.Controllers
             var responseModel = new APIResponseModel<CreatePaymentModel>();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    responseModel.MessageCode = 401;
-                    return Json(responseModel);
-                }
-
                 createPaymentModel.CustomerIp = _apiHelper.GetUserIP();
                 responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/order/createorder", createPaymentModel);
                 if (responseModel.MessageCode == 401)
@@ -139,17 +133,12 @@ namespace Web.Controllers
         /// <summary>
         /// Get orders
         /// </summary>
+        [Authorize]
         public async Task<IActionResult> Orders()
         {
             var orderModels = new List<OrderModel>();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    return RedirectToRoute("login");
-                }
-
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<OrderModel>>>("webapi/order/orders");
                 if (responseModel.MessageCode == 401)
                 {
@@ -242,13 +231,6 @@ namespace Web.Controllers
 
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    responseModel.MessageCode = 401;
-                    return Json(responseModel);
-                }              
-
                 responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/order/reorder?id=" + id);
                 if (responseModel.MessageCode == 401)
                 {
@@ -272,13 +254,6 @@ namespace Web.Controllers
             var responseModel = new APIResponseModel<object>();
             try
             {
-                var authenticationToken = Convert.ToString(Request.Cookies["AuthenticationToken"]);
-                if (string.IsNullOrEmpty(authenticationToken))
-                {
-                    responseModel.MessageCode = 401;
-                    return Json(responseModel);
-                }
-
                 responseModel = await _apiHelper.GetAsync<APIResponseModel<object>>("webapi/order/getorderpdf?id=" + id);
                 if (responseModel.MessageCode == 401)
                 {

@@ -235,5 +235,14 @@ namespace API.Areas.Frontend.Controllers
             return await _customerModelFactory.GetWalletPackageOrders(isEnglish: isEnglish, customerId: LoggedInCustomerId, id: id, orderNumber: orderNumber,
                 limit: limit, page: page);
         }
+
+        /// <summary>
+        /// Create expired wallet transactions
+        /// </summary>
+        [HttpGet, Route("/webapi/customer/createexpiredwallettransactions")]
+        public async Task<APIResponseModel<object>> CreateExpiredWalletTransactions()
+        {
+            return await _customerModelFactory.CreateExpiredWalletTransactions(isEnglish: isEnglish, apiKey: ServiceAPIKey);
+        }
     }
 }

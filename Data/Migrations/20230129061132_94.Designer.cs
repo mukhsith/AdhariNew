@@ -4,14 +4,16 @@ using Data.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230129061132_94")]
+    partial class _94
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -854,9 +856,6 @@ namespace Data.Migrations
                         .HasColumnType("decimal(18,3)");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("ExpiredEntryAdded")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ExpiryDate")
@@ -3510,13 +3509,13 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 493, DateTimeKind.Local).AddTicks(7620),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 304, DateTimeKind.Local).AddTicks(8350),
                             Deleted = false,
                             DisplayOrder = 1,
                             EmailAddress = "bk@gmail.com",
                             EncryptedPassword = "2Jn+7Bew1Ik=",
                             FullName = "system",
-                            GUID = new Guid("d06394da-3e1b-42a3-bbf6-938a1ecb633e"),
+                            GUID = new Guid("5b69a6ee-8eec-411c-80ac-78616d71bae4"),
                             GenderTypeId = 0,
                             MobileNumber = "97429779",
                             RoleId = 1
@@ -3619,7 +3618,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(617),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 298, DateTimeKind.Local).AddTicks(9285),
                             Deleted = false,
                             DisplayOrder = 1,
                             NavigationUrl = "#",
@@ -3629,7 +3628,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(625),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 298, DateTimeKind.Local).AddTicks(9294),
                             Deleted = false,
                             DisplayOrder = 100,
                             Icon = "fas fa-user-cog",
@@ -3640,7 +3639,7 @@ namespace Data.Migrations
                         {
                             Id = 3,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(867),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 298, DateTimeKind.Local).AddTicks(9534),
                             Deleted = false,
                             DisplayOrder = 101,
                             NavigationUrl = "/SystemUserManagement/UserList",
@@ -3651,7 +3650,7 @@ namespace Data.Migrations
                         {
                             Id = 4,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(873),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 298, DateTimeKind.Local).AddTicks(9541),
                             Deleted = false,
                             DisplayOrder = 102,
                             NavigationUrl = "/SystemUserManagement/UserRoleList",
@@ -3662,7 +3661,7 @@ namespace Data.Migrations
                         {
                             Id = 5,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(876),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 298, DateTimeKind.Local).AddTicks(9543),
                             Deleted = false,
                             DisplayOrder = 103,
                             NavigationUrl = "/SystemUserManagement/UserPermissionList",
@@ -3712,7 +3711,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 486, DateTimeKind.Local).AddTicks(7834),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 297, DateTimeKind.Local).AddTicks(1259),
                             Deleted = false,
                             DisplayOrder = 1,
                             Name = "Root"
@@ -3721,7 +3720,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 486, DateTimeKind.Local).AddTicks(8076),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 297, DateTimeKind.Local).AddTicks(1534),
                             Deleted = false,
                             DisplayOrder = 2,
                             Name = "Administrator"
@@ -3730,7 +3729,7 @@ namespace Data.Migrations
                         {
                             Id = 3,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 486, DateTimeKind.Local).AddTicks(8079),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 297, DateTimeKind.Local).AddTicks(1536),
                             Deleted = false,
                             DisplayOrder = 3,
                             Name = "Sales Manager"
@@ -3781,7 +3780,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Allowed = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(1484),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 299, DateTimeKind.Local).AddTicks(154),
                             Deleted = false,
                             PermissionId = 1,
                             RoleId = 1
@@ -3790,7 +3789,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Allowed = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(2287),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 299, DateTimeKind.Local).AddTicks(939),
                             Deleted = false,
                             PermissionId = 2,
                             RoleId = 1
@@ -3799,7 +3798,7 @@ namespace Data.Migrations
                         {
                             Id = 3,
                             Allowed = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(2310),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 299, DateTimeKind.Local).AddTicks(961),
                             Deleted = false,
                             PermissionId = 3,
                             RoleId = 1
@@ -3808,7 +3807,7 @@ namespace Data.Migrations
                         {
                             Id = 4,
                             Allowed = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(2326),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 299, DateTimeKind.Local).AddTicks(976),
                             Deleted = false,
                             PermissionId = 4,
                             RoleId = 1
@@ -3817,7 +3816,7 @@ namespace Data.Migrations
                         {
                             Id = 5,
                             Allowed = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(2340),
+                            CreatedOn = new DateTime(2023, 1, 29, 9, 11, 31, 299, DateTimeKind.Local).AddTicks(990),
                             Deleted = false,
                             PermissionId = 5,
                             RoleId = 1
