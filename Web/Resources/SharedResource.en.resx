@@ -528,6 +528,9 @@
   <data name="OrderAmount" xml:space="preserve">
     <value>Order Amount</value>
   </data>
+  <data name="OrderConfirmed" xml:space="preserve">
+    <value>Order Confirmed</value>
+  </data>
   <data name="OrderDate" xml:space="preserve">
     <value>Order Date</value>
   </data>
@@ -740,6 +743,9 @@
   </data>
   <data name="SubscriptionAmount" xml:space="preserve">
     <value>Subscription Amount</value>
+  </data>
+  <data name="SubscriptionConfirmed" xml:space="preserve">
+    <value>Subscription Confirmed</value>
   </data>
   <data name="SubscriptionDate" xml:space="preserve">
     <value>Subscription Date</value>

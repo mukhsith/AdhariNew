@@ -6,12 +6,17 @@
                 <ul class="navbar-nav flex-row mb-2 mb-md-0 col-4">
                     @await Html.PartialAsync("_SocialMediaLinks", Model)
                 </ul>
-                <div class="d-flex flex-row align-items-center justify-content-center text-white col-4">
-                    <a href="javascript:;" class="fw-bold link-light px-1 terms-and-conditions">@SharedHtmlLocalizer["TermsAndConditions"]</a>
-                    | <a href="javascript:;" class="fw-bold link-light px-1 privacy-policy">@SharedHtmlLocalizer["PrivacyPolicy"]</a>
-                    | <a href="javascript:;" class="fw-bold link-light px-1 refund-policy">@SharedHtmlLocalizer["RefundPolicy"]</a>
+                <div class="d-flex flex-row align-items-center justify-content-end text-white col-4">
+                    <a href="@Url.RouteUrl("termsandconditions")" class="fw-bold link-light px-1">@SharedHtmlLocalizer["TermsAndConditions"]</a>
+                    | <a href="@Url.RouteUrl("privacypolicy")" class="fw-bold link-light px-1">@SharedHtmlLocalizer["PrivacyPolicy"]</a>
+                    | <a href="@Url.RouteUrl("refundpolicy")" class="fw-bold link-light px-1">@SharedHtmlLocalizer["RefundPolicy"]</a>
                 </div>
-                @await Html.PartialAsync("_PoweredBy", 2)
+                @*<div class="d-flex flex-row align-items-center justify-content-end text-white col-4">
+            <a href="javascript:;" class="fw-bold link-light px-1 terms-and-conditions">@SharedHtmlLocalizer["TermsAndConditions"]</a>
+            | <a href="javascript:;" class="fw-bold link-light px-1 privacy-policy">@SharedHtmlLocalizer["PrivacyPolicy"]</a>
+            | <a href="javascript:;" class="fw-bold link-light px-1 refund-policy">@SharedHtmlLocalizer["RefundPolicy"]</a>
+        </div>*@
+                @*@await Html.PartialAsync("_PoweredBy", 2)*@
             </div>
         </div>
     </div>

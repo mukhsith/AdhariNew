@@ -474,6 +474,24 @@ namespace Web.Infrastructure
                    name: "walletorderresult",
                    pattern: "WPP/{orderNumber?}",
                    defaults: new { controller = "Customer", action = "WalletOrderResult" });
+
+            //Terms And Conditions
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "termsandconditions",
+                   pattern: "termsandconditions",
+                   defaults: new { controller = "Common", action = "TermsAndConditions" });
+
+            //Privacy Policy
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "privacypolicy",
+                   pattern: "privacypolicy",
+                   defaults: new { controller = "Common", action = "PrivacyPolicy" });
+
+            //Refund Policy
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "refundpolicy",
+                   pattern: "refundpolicy",
+                   defaults: new { controller = "Common", action = "RefundPolicy" });
         }
     }
 }

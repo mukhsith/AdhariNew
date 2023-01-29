@@ -163,5 +163,74 @@ namespace Web.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// Terms And Conditions
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> TermsAndConditions()
+        {
+            var siteContentModel = new SiteContentModel();
+            try
+            {
+                var responseSiteContentModels = await _apiHelper.GetAsync<APIResponseModel<SiteContentModel>>("webapi/common/sitecontent?appContentTypeId=" + (int)AppContentType.TermsCondition);
+                if (responseSiteContentModels.Success && responseSiteContentModels.Data != null)
+                {
+                    siteContentModel = responseSiteContentModels.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(siteContentModel);
+        }
+
+        /// <summary>
+        /// Privacy Policy
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> PrivacyPolicy()
+        {
+            var siteContentModel = new SiteContentModel();
+            try
+            {
+                var responseSiteContentModels = await _apiHelper.GetAsync<APIResponseModel<SiteContentModel>>("webapi/common/sitecontent?appContentTypeId=" + (int)AppContentType.PrivacyPolicy);
+                if (responseSiteContentModels.Success && responseSiteContentModels.Data != null)
+                {
+                    siteContentModel = responseSiteContentModels.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(siteContentModel);
+        }
+
+        /// <summary>
+        /// Refund Policy
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> RefundPolicy()
+        {
+            var siteContentModel = new SiteContentModel();
+            try
+            {
+                var responseSiteContentModels = await _apiHelper.GetAsync<APIResponseModel<SiteContentModel>>("webapi/common/sitecontent?appContentTypeId=" + (int)AppContentType.RefundPolicy);
+                if (responseSiteContentModels.Success && responseSiteContentModels.Data != null)
+                {
+                    siteContentModel = responseSiteContentModels.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(siteContentModel);
+        }
     }
 }

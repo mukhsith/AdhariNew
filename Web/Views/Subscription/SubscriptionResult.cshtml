@@ -14,10 +14,15 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 text-center">
-                @if (Model.PaymentStatusId == (int)PaymentStatus.Captured || Model.PaymentStatusId == (int)PaymentStatus.PendingCash)
+                @if (Model.PaymentStatusId == (int)PaymentStatus.Captured)
                 {
                     <i class="fa-solid fa-circle-check text-success success-icon text-center"></i>
                     <h2 class="text-center mt-3">@SharedHtmlLocalizer["PaymentSuccessful"]</h2>
+                }
+                else if (Model.PaymentStatusId == (int)PaymentStatus.PendingCash)
+                {
+                    <i class="fa-solid fa-circle-check text-success success-icon text-center"></i>
+                    <h2 class="text-center mt-3">@SharedHtmlLocalizer["SubscriptionConfirmed"]</h2>
                 }
                 else
                 {

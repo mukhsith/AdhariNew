@@ -133,7 +133,7 @@
                                 </li>
                                 <li> <hr class="dropdown-divider body-bg-secondary border-secondary my-0"> </li>
                                 <li>
-                                    <a href="javascript:;" class="dropdown-item text-primary my-1 rounded-3 fs-6 privacy-policy">
+                                    <a href="@Url.RouteUrl("privacypolicy")" class="dropdown-item text-primary my-1 rounded-3 fs-6">
                                         @SharedHtmlLocalizer["PrivacyPolicy"]
                                     </a>
                                 </li>
@@ -141,10 +141,23 @@
                                     <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="dropdown-item text-primary my-1 rounded-3 fs-6 terms-and-conditions">
+                                    <a href="@Url.RouteUrl("termsandconditions")" class="dropdown-item text-primary my-1 rounded-3 fs-6">
                                         @SharedHtmlLocalizer["TermsAndConditions"]
                                     </a>
                                 </li>
+                                @*<li>
+            <a href="javascript:;" class="dropdown-item text-primary my-1 rounded-3 fs-6 privacy-policy">
+                @SharedHtmlLocalizer["PrivacyPolicy"]
+            </a>
+        </li>
+        <li>
+            <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
+        </li>
+        <li>
+            <a href="javascript:;" class="dropdown-item text-primary my-1 rounded-3 fs-6 terms-and-conditions">
+                @SharedHtmlLocalizer["TermsAndConditions"]
+            </a>
+        </li>*@
                                 <li>
                                     <hr class="dropdown-divider body-bg-secondary border-secondary my-0">
                                 </li>
@@ -178,13 +191,13 @@
                             <ul class="navbar-nav mt-auto flex-row mb-2 mb-md-0 mx-auto">
                                 @await Html.PartialAsync("_SocialMediaLinks", Model.CompanySettings)
                             </ul>
-                            <div class="d-flex align-items-center justify-content-center w-100">
+                            @*<div class="d-flex align-items-center justify-content-center w-100">
                                 <div class="d-flex flex-column">
                                     <p class="mt-2 mb-3 text-center">
                                         @SharedHtmlLocalizer["Copyright"] © <span class="year"></span> <a href="@Url.RouteUrl("home")" class="fw-bold">@SharedHtmlLocalizer["Adhari"]</a>
                                     </p>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </div>

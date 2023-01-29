@@ -528,6 +528,9 @@
   <data name="OrderAmount" xml:space="preserve">
     <value>مبلغ الطلب</value>
   </data>
+  <data name="OrderConfirmed" xml:space="preserve">
+    <value>تم تاكيد الطلب</value>
+  </data>
   <data name="OrderDate" xml:space="preserve">
     <value>تاريخ الطلب</value>
   </data>
@@ -740,6 +743,9 @@
   </data>
   <data name="SubscriptionAmount" xml:space="preserve">
     <value>مبلغ الاشتراك</value>
+  </data>
+  <data name="SubscriptionConfirmed" xml:space="preserve">
+    <value>تم تأكيد الاشتراك</value>
   </data>
   <data name="SubscriptionDate" xml:space="preserve">
     <value>تاريخ الاشتراك</value>
