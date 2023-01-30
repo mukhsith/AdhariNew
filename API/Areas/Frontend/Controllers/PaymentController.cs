@@ -77,7 +77,7 @@ namespace API.Areas.Frontend.Controllers
         {
             try
             {
-
+                return Redirect(_appSettings.WebsiteUrl + "error");
             }
             catch (Exception ex)
             {
@@ -326,14 +326,13 @@ namespace API.Areas.Frontend.Controllers
                     paymentResponseModel.RequestType = type;
                     paymentResponseModel.BankServiceCharge = _appSettings.MasterCardFee;
                     paymentResponseModel.BankServiceChargeInPercentage = true;
-
-                    if (masterCardRootModel.status.ToLower() == "captured" && masterCardRootModel.result.ToLower() == "success")
+                    paymentResponseModel.Result = "not+captured";
+                    if (!string.IsNullOrEmpty(masterCardRootModel.status) && !string.IsNullOrEmpty(masterCardRootModel.result))
                     {
-                        paymentResponseModel.Result = "captured";
-                    }
-                    else
-                    {
-                        paymentResponseModel.Result = "not+captured";
+                        if (masterCardRootModel.status.ToLower() == "captured" && masterCardRootModel.result.ToLower() == "success")
+                        {
+                            paymentResponseModel.Result = "captured";
+                        }
                     }
 
                     var url = await _paymentHelper.UpdatePaymentEntity(paymentResponseModel);

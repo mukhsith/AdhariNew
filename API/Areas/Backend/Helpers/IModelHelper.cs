@@ -63,6 +63,7 @@ namespace API.Areas.Backend.Helpers
 
         #region Order
         Task<OrderModel> PrepareOrderModel(Order order, bool isEnglish, bool loadDetails = false);
+
         Task<AdminOrderSummaryModel> PrepareOrderSummary(Order order, bool isEnglish);
         #endregion
 

@@ -50,11 +50,11 @@ namespace Web.Controllers
                 returnUrl = string.Empty;
             }
 
-            Response.Cookies.Append("AuthenticationToken", "");
-            Response.Cookies.Append("CustomerGuidValue", "");
-
-            //SignOutAsync is Extension method for SignOut    
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (User.Identity.IsAuthenticated)
+            {
+                //SignOutAsync is Extension method for SignOut    
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            }
 
             CustomerModel customerModel = new();
             customerModel.ReturnUrl = returnUrl;
@@ -188,13 +188,7 @@ namespace Web.Controllers
                     response = await _apiHelper.PostAsync<APIResponseModel<CustomerModel>>("webapi/customer/verifyotp", customerModel);
                     if (response.Data != null && response.Success)
                     {
-                        Response.Cookies.Append("AuthenticationToken", response.Data.Token, new CookieOptions { Expires = Convert.ToDateTime(response.Data.Expiration) });
-                        if (!string.IsNullOrEmpty(customerGuidValue))
-                        {
-                            Response.Cookies.Append("CustomerGuidValue", customerGuidValue, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
-                        }
-
-                        var claims = new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, Convert.ToString(response.Data.Id)) };
+                        var claims = new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, Convert.ToString(response.Data.Token)) };
                         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var principal = new ClaimsPrincipal(identity);
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties());

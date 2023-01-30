@@ -277,6 +277,18 @@
 </section>
 <script>
     $(document).ready(function () {
+        var current_url = window.location.href.replace('https://', '');
+        current_url = window.location.href.replace('http://', '');
+
+        if (mobileCheck())
+            $('.whatsapp-btn').attr('href', "whatsapp://send?text=" + current_url);
+        else
+            $('.whatsapp-btn').attr('href', $('.whatsapp-btn').attr('href') + current_url);
+
+        $('.copy-link').click(function () {
+            navigator.clipboard.writeText(window.location.href);
+        });
+
         //Subscription product
         $(".btn-plus-subscription-product-details").click(function () {
             var quantity = $(this).closest(".product-details-spinner").find("input").val();
@@ -417,4 +429,13 @@
 
         return false;
     }
+
+    function mobileCheck() {
+        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        console.log(vw);
+        if (vw < 480)
+            return 1;
+        else
+            return 0;
+    };
 </script>

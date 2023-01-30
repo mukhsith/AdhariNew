@@ -34,7 +34,6 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Products(string seoName)
         {
-            var categoryModel = new CategoryModel();
             try
             {
                 if (!string.IsNullOrEmpty(seoName))
@@ -42,7 +41,8 @@ namespace Web.Controllers
                     var responseCategoriesModel = await _apiHelper.GetAsync<APIResponseModel<List<CategoryModel>>>("webapi/common/categories?seoName=" + seoName);
                     if (responseCategoriesModel.Success && responseCategoriesModel.Data != null && responseCategoriesModel.Data.Count > 0)
                     {
-                        categoryModel = responseCategoriesModel.Data[0];
+                        var categoryModel = responseCategoriesModel.Data[0];
+                        return View(categoryModel);
                     }
                 }
             }
@@ -51,7 +51,7 @@ namespace Web.Controllers
                 _logger.LogInformation(ex.Message);
             }
 
-            return View(categoryModel);
+            return RedirectToRoute("home");
         }
         public async Task<JsonResult> ProductsByAjax(string seoName, int limit, int page, bool search = false, string keyword = "")
         {

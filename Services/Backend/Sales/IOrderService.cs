@@ -29,6 +29,9 @@ namespace Services.Backend.Sales
 
         Task<DailyOrderSummaryModel> GetTodaySales();
         Task<DataTableResult<List<DeliveriesDashboard>>> GetAllOrdersForDeliveries(AdminOrderDeliveriesParam param);
+
+        Task<DailySubscriptionSummaryModel> GetCustomerOrdersSummary(AdminOrderDeliveriesParam param);
+
         Task<dynamic> GetAllSalesOrders(AdminSalesOrderParam param);
 
         Task<dynamic> GetSalesOrderForDataTable(DataTableParam param, string orderNumber = null,

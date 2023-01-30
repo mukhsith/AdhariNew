@@ -91,6 +91,10 @@ namespace Adhari
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                //to hide api move below code inside env.IsDevelopment()
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Adhari API v1"));
             }
             else
             {
@@ -98,9 +102,6 @@ namespace Adhari
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //to hide api move below code inside env.IsDevelopment()
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Adhari API v1"));
 
             app.UseHttpsRedirection();
 

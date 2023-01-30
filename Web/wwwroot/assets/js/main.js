@@ -14,26 +14,72 @@ $(document).ready(function () {
 });
 $(document).ready(function () {
     if ($('body').css('direction') == 'rtl') {
-        $('select:not(.no-search)').select2({
-            dir: "rtl",
-            theme: 'bootstrap'
+        $('select:not(.no-search)').each(function () {
+            if ($(this).closest(".modal").length) {
+                var modalID = "#" + $(this).closest(".modal").attr("id");
+                $(this).select2({
+                    dir: "rtl",
+                    theme: 'bootstrap',
+                    dropdownParent: modalID
+                });
+            }
+            else {
+                $(this).select2({
+                    dir: "rtl",
+                    theme: 'bootstrap'
+                });
+            }
         });
-    } else {
-        $('select:not(.no-search)').select2({
-            theme: 'bootstrap'
-        });
-    }
 
-    if ($('body').css('direction') == 'rtl') {
-        $('select.no-search').select2({
-            dir: "rtl",
-            theme: 'bootstrap',
-            minimumResultsForSearch: Infinity
+        $('select.no-search').each(function () {
+            if ($(this).closest(".modal").length) {
+                var modalID = "#" + $(this).closest(".modal").attr("id");
+                $(this).select2({
+                    dir: "rtl",
+                    theme: 'bootstrap',
+                    dropdownParent: modalID,
+                    minimumResultsForSearch: Infinity
+                });
+            }
+            else {
+                $(this).select2({
+                    dir: "rtl",
+                    theme: 'bootstrap',
+                    minimumResultsForSearch: Infinity
+                });
+            }
         });
     } else {
-        $('select.no-search').select2({
-            theme: 'bootstrap',
-            minimumResultsForSearch: Infinity
+        $('select:not(.no-search)').each(function () {
+            if ($(this).closest(".modal").length) {
+                var modalID = "#" + $(this).closest(".modal").attr("id");
+                $(this).select2({
+                    theme: 'bootstrap',
+                    dropdownParent: modalID
+                });
+            }
+            else {
+                $(this).select2({
+                    theme: 'bootstrap'
+                });
+            }
+        });
+
+        $('select.no-search').each(function () {
+            if ($(this).closest(".modal").length) {
+                var modalID = "#" + $(this).closest(".modal").attr("id");
+                $(this).select2({
+                    theme: 'bootstrap',
+                    dropdownParent: modalID,
+                    minimumResultsForSearch: Infinity
+                });
+            }
+            else {
+                $(this).select2({
+                    theme: 'bootstrap',
+                    minimumResultsForSearch: Infinity
+                });
+            }
         });
     }
 }); // (function ($) {

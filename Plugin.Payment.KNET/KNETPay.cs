@@ -59,7 +59,9 @@ namespace Plugin.Payment.KNET
                 {
                     returnUrl = pipe.getErrorURL();
                     string encEntityId = WebHelper.Encrypt(requestType + "~" + entityId);
-                    returnUrl = returnUrl + "?values=" + encEntityId + "&errorText=" + pipe.getError();
+                    returnUrl = returnUrl + "?values=" + encEntityId + "&errorText=" + pipe.getError()
+                        + "&resourcepath=" + resourcepath + "&recieptURL=" + recieptURL + "&errorURL=" + errorURL
+                        + "&aliasName=" + aliasName;
                 }
             }
 

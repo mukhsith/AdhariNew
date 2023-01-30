@@ -121,7 +121,6 @@ namespace Web.Controllers
         [Authorize]
         public virtual async Task<IActionResult> CheckoutSummary(int addressId)
         {
-            var subscriptionCheckOutModel = new SubscriptionCheckOutModel();
             try
             {
                 var responseModel = await _apiHelper.GetAsync<APIResponseModel<SubscriptionCheckOutModel>>("webapi/subscription/getcheckoutsummary?app=false");
@@ -132,13 +131,15 @@ namespace Web.Controllers
 
                 if (responseModel.Success && responseModel.Data != null)
                 {
+                    var subscriptionCheckOutModel = responseModel.Data;
+
                     var responsePaymentModel = await _apiHelper.GetAsync<APIResponseModel<List<PaymentMethodModel>>>("webapi/common/paymentmethods?typeId=" + PaymentRequestType.SubscriptionOrder);
                     if (responsePaymentModel.Success && responsePaymentModel.Data != null && responsePaymentModel.Data.Count > 0)
                     {
-                        responseModel.Data.PaymentMethods = responsePaymentModel.Data;
+                        subscriptionCheckOutModel.PaymentMethods = responsePaymentModel.Data;
                     }
 
-                    subscriptionCheckOutModel = responseModel.Data;
+                    return View(subscriptionCheckOutModel);
                 }
             }
             catch (Exception ex)
@@ -146,7 +147,7 @@ namespace Web.Controllers
                 _logger.LogInformation(ex.Message);
             }
 
-            return View(subscriptionCheckOutModel);
+            return RedirectToRoute("home");
         }
 
         [HttpPost]

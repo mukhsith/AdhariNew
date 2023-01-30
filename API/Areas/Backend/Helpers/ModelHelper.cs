@@ -22,7 +22,7 @@ using Services.Backend.Locations.Interface;
 using Services.Backend.ProductManagement.Interface;
 using Services.Backend.Shop;
 using Services.Backend.Content.Interface;
-using Services.Backend.Sales;
+using Services.Backend.Sales; 
 //using Utility.Models.Admin.ProductManagement;
 //using Utility.Models.Admin.Sales;
 //using Utility.Models.Admin.CustomizedModel;
@@ -58,7 +58,7 @@ namespace API.Areas.Backend.Helpers
         private readonly ICustomerService _customerService;
         private readonly IPaymentMethodService _paymentMethodService;
         private readonly IOrderService _orderService;
-        private readonly ISubscriptionService _subscriptionService;
+        private readonly ISubscriptionService _subscriptionService; 
         public ModelHelper(IMapper mapper,
            IOptions<AppSettingsModel> options,
            ICommonHelper commonHelper,
@@ -71,7 +71,7 @@ namespace API.Areas.Backend.Helpers
            IPaymentMethodService paymentMethodService,
 
            IOrderService orderService,
-           ISubscriptionService subscriptionService)
+           ISubscriptionService subscriptionService )
         {
             _mapper = mapper;
             _appSettings = options.Value;
@@ -84,7 +84,7 @@ namespace API.Areas.Backend.Helpers
             _customerService = customerService;
             _paymentMethodService = paymentMethodService;
             _orderService = orderService;
-            _subscriptionService = subscriptionService;
+            _subscriptionService = subscriptionService; 
         }
 
         #region Common
@@ -736,7 +736,7 @@ namespace API.Areas.Backend.Helpers
                         {
                             productModel.SubscriptionPackTitles.Add(new KeyValuPairModel
                             {
-                                Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " × " + productDetail.Quantity,
+                                Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " x " + productDetail.Quantity,
                                 Value = childProduct.Id.ToString()
                             });
                         }
@@ -1010,7 +1010,7 @@ namespace API.Areas.Backend.Helpers
                         AmountSplitUps.Add(new KeyValuPairModel
                         {
                             Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                            Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish, includeZero: true),
+                            Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish),
                             DisplayOrder = 1
                         });
                     }
@@ -1175,13 +1175,16 @@ namespace API.Areas.Backend.Helpers
                 DisplayOrder = 0
             });
 
-            orderModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: order.DeliveryFee, isEnglish: isEnglish, includeZero: true);
-            amountSplitUps.Add(new KeyValuPairModel
+            if (order.DeliveryFee > 0)
             {
-                Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                Value = orderModel.FormattedDeliveryFee,
-                DisplayOrder = 1
-            });
+                orderModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: order.DeliveryFee, isEnglish: isEnglish);
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                    Value = orderModel.FormattedDeliveryFee,
+                    DisplayOrder = 1
+                });
+            }
 
             if (order.CouponDiscountAmount > 0)
             {
@@ -1220,7 +1223,7 @@ namespace API.Areas.Backend.Helpers
 
             if (loadDetails)
             {
-                orderModel.FormattedItemCount = order.OrderItems.Count + " " + (isEnglish ? Messages.Item : MessagesAr.Item);
+                orderModel.FormattedItemCount = order.OrderItems.Count + " " + (isEnglish ? Messages.Items : MessagesAr.Items);
 
                 if (order.Address != null)
                     orderModel.Address = await PrepareAddressModel(isEnglish: isEnglish, address: order.Address);
@@ -1330,9 +1333,9 @@ namespace API.Areas.Backend.Helpers
             else
             {
                 var orderItems = await _orderService.GetAllOrderItem(order.Id);
-                orderModel.FormattedItemCount = orderItems.Count + " " + (isEnglish ? Messages.Item : MessagesAr.Item);
+                orderModel.FormattedItemCount = orderItems.Count + " " + (isEnglish ? Messages.Items : MessagesAr.Items);
             }
-            orderModel.OrderSummary = await PrepareOrderSummary(order, isEnglish);
+                    orderModel.OrderSummary = await PrepareOrderSummary(order, isEnglish);
             return orderModel;
         }
         #endregion
@@ -1341,7 +1344,7 @@ namespace API.Areas.Backend.Helpers
         public async Task<SubscriptionModel> PrepareSubscriptionModel(Subscription subscription, bool isEnglish, bool loadDetails = false)
         {
             var subscriptionModel = _mapper.Map<SubscriptionModel>(subscription);
-            if (subscription.Product != null)
+            if(subscription.Product != null)
             {
                 subscriptionModel.SubscriptionTitle = isEnglish ? subscription.Product.NameEn : subscription.Product.NameAr;
             }
@@ -1353,8 +1356,7 @@ namespace API.Areas.Backend.Helpers
             var subscriptionStatusDetails = _commonHelper.GetSubscriptionStatusNameAndColorCode(subscription.SubscriptionStatusId, isEnglish);
             subscriptionModel.SubscriptionStatusName = subscriptionStatusDetails.Item1;
             subscriptionModel.SubscriptionStatusColor = subscriptionStatusDetails.Item2;
-            if (subscription.SubscriptionOrders != null)
-            {
+            if(subscription.SubscriptionOrders != null) { 
                 var subscriptionOrder = subscription.SubscriptionOrders.OrderBy(a => a.Id).FirstOrDefault();
                 if (subscriptionOrder != null)
                 {
@@ -1375,7 +1377,7 @@ namespace API.Areas.Backend.Helpers
                     subscriptionModel.PaymentRefId = subscriptionOrder.PaymentRefId;
                     subscriptionModel.PaymentTrackId = subscriptionOrder.PaymentTrackId;
                 }
-            }
+            }  
             //order summary
             List<KeyValuPairModel> amountSplitUps = new();
 
@@ -1411,13 +1413,16 @@ namespace API.Areas.Backend.Helpers
                 DisplayOrder = 3
             });
 
-            subscriptionModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: subscription.DeliveryFee, isEnglish: isEnglish, includeZero: true);
-            amountSplitUps.Add(new KeyValuPairModel
+            if (subscription.DeliveryFee > 0)
             {
-                Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                Value = subscriptionModel.FormattedDeliveryFee,
-                DisplayOrder = 4
-            });
+                subscriptionModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: subscription.DeliveryFee, isEnglish: isEnglish);
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                    Value = subscriptionModel.FormattedDeliveryFee,
+                    DisplayOrder = 4
+                });
+            }
 
             if (subscription.CouponDiscountAmount > 0)
             {
@@ -1526,7 +1531,7 @@ namespace API.Areas.Backend.Helpers
                     {
                         subscriptionModel.SubscriptionPackTitles.Add(new KeyValuPairModel
                         {
-                            Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " × " + productDetail.Quantity,
+                            Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " x " + productDetail.Quantity,
                             Value = childProduct.Id.ToString()
                         });
                     }

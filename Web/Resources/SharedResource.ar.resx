@@ -220,7 +220,7 @@
     <value>العربة</value>
   </data>
   <data name="CashbackAmount" xml:space="preserve">
-    <value>مبلغ الاسترداد النقدي</value>
+    <value>كاش باك</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>فئة</value>
@@ -354,6 +354,9 @@
   <data name="GooglePlayLink" xml:space="preserve">
     <value>رابط Google Play</value>
   </data>
+  <data name="GoToHome" xml:space="preserve">
+    <value>انتقل الى الصفحة الرئيسية</value>
+  </data>
   <data name="Government" xml:space="preserve">
     <value>مكتب حكومي</value>
   </data>
@@ -460,7 +463,7 @@
     <value>عناويني</value>
   </data>
   <data name="MyCashback" xml:space="preserve">
-    <value>استرداد النقود</value>
+    <value>كاش باك</value>
   </data>
   <data name="MyChalet" xml:space="preserve">
     <value>شاليتي</value>
@@ -525,6 +528,9 @@
   <data name="NoTransactions" xml:space="preserve">
     <value>لا توجد معاملات</value>
   </data>
+  <data name="NoWalletPrepaidCardsAdded" xml:space="preserve">
+    <value>لم يتم إضافة بطاقات الدفع المسبق للمحفظة</value>
+  </data>
   <data name="Office" xml:space="preserve">
     <value>مكتب</value>
   </data>
@@ -563,6 +569,9 @@
   </data>
   <data name="PackOf" xml:space="preserve">
     <value>عبوة مكونة من</value>
+  </data>
+  <data name="PageNotFound" xml:space="preserve">
+    <value>الصفحة غير موجودة</value>
   </data>
   <data name="PayFromWallet" xml:space="preserve">
     <value>الدفع من المحفظة</value>
@@ -716,6 +725,9 @@
   </data>
   <data name="Size" xml:space="preserve">
     <value>الحجم</value>
+  </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>خطأ عام</value>
   </data>
   <data name="SorryNoResultsFound" xml:space="preserve">
     <value>عذرا ، لا توجد نتائج</value>

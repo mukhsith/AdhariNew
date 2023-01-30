@@ -108,12 +108,12 @@
                                 <li><a href="@Url.RouteUrl("aboutUs")" class="dropdown-item text-primary my-1 rounded-3 fs-6">@SharedHtmlLocalizer["AboutUs"]</a></li>
                                 <li> <hr class="dropdown-divider body-bg-secondary border-secondary my-0"></li>
                                 <li class="nav-item dropdown">
-                                    <a class="dropdown-item text-primary my-1 rounded-3 dropdown-toggle fs-6" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">@SharedHtmlLocalizer["Shop"]</a>
+                                    <a class="dropdown-item text-primary my-1 rounded-3 dropdown-toggle fs-6" href="#" id="dropdown01" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">@SharedHtmlLocalizer["Shop"]</a>
                                     <ul class="dropdown-menu border-0 px-2" aria-labelledby="dropdownCategories">
                                         @{ counter = 1;}
                                         @foreach (var menuitem in Model.Categories)
                                         {
-                                            <li><a class="dropdown-item text-primary my-1 rounded-3 fs-6" href="#">@menuitem.Title</a></li>
+                                            <li><a class="dropdown-item text-primary my-1 rounded-3 fs-6" href="@Url.RouteUrl("products", new { seoName = menuitem.SeoName })">@menuitem.Title</a></li>
                                             if (counter < Model.Categories.Count())
                                             {
                                                 <li><hr class="dropdown-divider body-bg-secondary border-secondary my-0"></li>

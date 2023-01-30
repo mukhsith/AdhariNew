@@ -354,6 +354,9 @@
   <data name="GooglePlayLink" xml:space="preserve">
     <value>Google Play Link</value>
   </data>
+  <data name="GoToHome" xml:space="preserve">
+    <value>Go to Home</value>
+  </data>
   <data name="Government" xml:space="preserve">
     <value>Government</value>
   </data>
@@ -525,6 +528,9 @@
   <data name="NoTransactions" xml:space="preserve">
     <value>No Transactions</value>
   </data>
+  <data name="NoWalletPrepaidCardsAdded" xml:space="preserve">
+    <value>No wallet prepaid cards added</value>
+  </data>
   <data name="Office" xml:space="preserve">
     <value>Office</value>
   </data>
@@ -563,6 +569,9 @@
   </data>
   <data name="PackOf" xml:space="preserve">
     <value>Pack of</value>
+  </data>
+  <data name="PageNotFound" xml:space="preserve">
+    <value>Page Not Found</value>
   </data>
   <data name="PayFromWallet" xml:space="preserve">
     <value>Pay from wallet</value>
@@ -716,6 +725,9 @@
   </data>
   <data name="Size" xml:space="preserve">
     <value>Size</value>
+  </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Something went wrong</value>
   </data>
   <data name="SorryNoResultsFound" xml:space="preserve">
     <value>Sorry, no results found</value>

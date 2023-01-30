@@ -1,0 +1,24 @@
+-----------Log Details on  1/30/2023 3:26:58 PM-----------------
+-------------------------------------------------------------------------------------
+apiOperation:INITIATE_CHECKOUT,apiPassword:73745c418836a8027b81f008035b7d4a,apiUsername:merchant.TEST900233001,merchant:TEST900233001,order.id:1022591927,order.amount:0.250,order.currency:KWD,order.description:Order for wallet package payment,order.reference:1022591927,interaction.operation:PURCHASE,interaction.returnUrl:https://localhost:44380/payment/getmastercardpaymentreceipt/1022591927/WalletPackageOrder/10,interaction.merchant.name:FORMAN CO,interaction.merchant.address.line1:Sharq,interaction.merchant.address.line2:Kuwait City,billing.address.street:Kuwait City,billing.address.city:Kuwait City,billing.address.postcodeZip:1111,billing.address.stateProvince:Kuwait City,billing.address.country:KWT,interaction.displayControl.billingAddress:HIDE,interaction.displayControl.customerEmail:HIDE,interaction.displayControl.shipping:HIDE,transaction.reference:TR1022591927
+--------------------------------*End*------------------------------------------
+
+
+-----------Log Details on  1/30/2023 3:28:38 PM-----------------
+-------------------------------------------------------------------------------------
+apiOperation:INITIATE_CHECKOUT,apiPassword:73745c418836a8027b81f008035b7d4a,apiUsername:merchant.TEST900233001,merchant:TEST900233001,order.id:1032526529,order.amount:0.250,order.currency:KWD,order.description:Order for wallet package payment,order.reference:1032526529,interaction.operation:PURCHASE,interaction.returnUrl:https://localhost:44380/payment/getmastercardpaymentreceipt/1032526529/WalletPackageOrder/11,interaction.merchant.name:FORMAN CO,interaction.merchant.address.line1:Sharq,interaction.merchant.address.line2:Kuwait City,billing.address.street:Kuwait City,billing.address.city:Kuwait City,billing.address.postcodeZip:1111,billing.address.stateProvince:Kuwait City,billing.address.country:KWT,interaction.displayControl.billingAddress:HIDE,interaction.displayControl.customerEmail:HIDE,interaction.displayControl.shipping:HIDE,transaction.reference:TR1032526529
+--------------------------------*End*------------------------------------------
+
+
+-----------Log Details on  1/30/2023 3:31:25 PM-----------------
+-------------------------------------------------------------------------------------
+apiOperation:INITIATE_CHECKOUT,apiPassword:73745c418836a8027b81f008035b7d4a,apiUsername:merchant.TEST900233001,merchant:TEST900233001,order.id:1063406437,order.amount:0.250,order.currency:KWD,order.description:Order for wallet package payment,order.reference:1063406437,interaction.operation:PURCHASE,interaction.returnUrl:https://localhost:44380/payment/getmastercardpaymentreceipt/1063406437/WalletPackageOrder/12,interaction.merchant.name:FORMAN CO,interaction.merchant.address.line1:Sharq,interaction.merchant.address.line2:Kuwait City,billing.address.street:Kuwait City,billing.address.city:Kuwait City,billing.address.postcodeZip:1111,billing.address.stateProvince:Kuwait City,billing.address.country:KWT,interaction.displayControl.billingAddress:HIDE,interaction.displayControl.customerEmail:HIDE,interaction.displayControl.shipping:HIDE,transaction.reference:TR1063406437
+--------------------------------*End*------------------------------------------
+
+
+-----------Log Details on  1/30/2023 4:31:09 PM-----------------
+-------------------------------------------------------------------------------------
+apiOperation:INITIATE_CHECKOUT,apiPassword:73745c418836a8027b81f008035b7d4a,apiUsername:merchant.TEST900233001,merchant:TEST900233001,order.id:1027447167,order.amount:0.250,order.currency:KWD,order.description:Order for wallet package payment,order.reference:1027447167,interaction.operation:PURCHASE,interaction.returnUrl:https://localhost:44380/payment/getmastercardpaymentreceipt/1027447167/WalletPackageOrder/15,interaction.merchant.name:FORMAN CO,interaction.merchant.address.line1:Sharq,interaction.merchant.address.line2:Kuwait City,billing.address.street:Kuwait City,billing.address.city:Kuwait City,billing.address.postcodeZip:1111,billing.address.stateProvince:Kuwait City,billing.address.country:KWT,interaction.displayControl.billingAddress:HIDE,interaction.displayControl.customerEmail:HIDE,interaction.displayControl.shipping:HIDE,transaction.reference:TR1027447167
+--------------------------------*End*------------------------------------------
+
+

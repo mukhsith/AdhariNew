@@ -135,6 +135,17 @@ namespace API.Areas.Backend.Factories
             return model;
         }
 
+        
+        public async Task<DailySubscriptionSummaryModel> GetCustomerSales(bool isEnglish, int customerId)
+        {
+            var model = await _subscriptionService.GetSubscriptionTodaySales();
+            if (model is not null)
+            {
+                model.FormattedSubscriptionOrdersReceivedToday = model.SubscriptionOrdersReceivedToday.ToString();
+                model.FormattedSubscriptionSalesAmountToday = await _commonHelper.ConvertDecimalToString(model.SubscriptionSalesAmountToday, isEnglish, 1, true);
+            }
+            return model;
+        }
         //public async Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel adminCreateOrderModel)
         //{
         //    var response = new APIResponseModel<AdminCreateOrderModel>();
@@ -1298,6 +1309,8 @@ namespace API.Areas.Backend.Factories
 
             return response;
         }
+
+
         public async Task<APIResponseModel<bool>> ReOrder(bool isEnglish, int customerId, int id)
         {
             var response = new APIResponseModel<bool>();
@@ -1496,6 +1509,18 @@ namespace API.Areas.Backend.Factories
         }
 
 
+
+        public async Task<DailySubscriptionSummaryModel> GetCustomerSummary(AdminOrderDeliveriesParam param)
+        {
+         
+                var  resultData = await _orderService.GetCustomerOrdersSummary(param);
+                resultData.FormattedSubscriptionSalesAmountToday = await _commonHelper.ConvertDecimalToString(resultData.SubscriptionSalesAmountToday, param.IsEnglish, 1, true);
+
+              
+
+                return resultData;
+           
+        }
 
         public async Task<APIResponseModel<bool>> AddQPay(int CustomerId, int orderID, string OrderNumber,decimal Ordertotal,int OrderType)
         {

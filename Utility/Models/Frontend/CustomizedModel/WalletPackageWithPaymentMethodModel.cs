@@ -6,7 +6,7 @@ namespace Utility.Models.Frontend.CustomizedModel
 {
     public class WalletPackageWithPaymentMethodModel
     {
-        public List<WalletPackageModel> WalletPackages { get; set; }
-        public List<PaymentMethodModel> PaymentMethods { get; set; }
+        public List<WalletPackageModel> WalletPackages { get; set; } = new();
+        public List<PaymentMethodModel> PaymentMethods { get; set; } = new();
     }
 }

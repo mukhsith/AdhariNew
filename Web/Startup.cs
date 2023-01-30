@@ -31,12 +31,19 @@ namespace Web
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
+        {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x => x.LoginPath = "/login");
-
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(options =>
+            {
+                options.LoginPath = "/login";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(43800);
+                options.Cookie.MaxAge = options.ExpireTimeSpan;
+                options.SlidingExpiration = true;
+            });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddScoped<IStringLocalizer, StringLocalizer<SharedResource>>();
@@ -97,20 +104,17 @@ namespace Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRequestLocalization(app.ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 RouteProvider.RegisterRoutes(endpoints);
-
                 endpoints.MapFallback(context =>
                 {
                     context.Response.Redirect("/error");
@@ -118,33 +122,5 @@ namespace Web
                 });
             });
         }
-
-        //// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        //public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        //{
-        //    if (env.IsDevelopment())
-        //    {
-        //        app.UseDeveloperExceptionPage();
-        //    }
-        //    else
-        //    {
-        //        app.UseExceptionHandler("/Home/Error");
-        //        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        //        app.UseHsts();
-        //    }
-        //    app.UseHttpsRedirection();
-        //    app.UseStaticFiles();
-
-        //    app.UseRouting();
-
-        //    app.UseAuthorization();
-
-        //    app.UseEndpoints(endpoints =>
-        //    {
-        //        endpoints.MapControllerRoute(
-        //            name: "default",
-        //            pattern: "{controller=Home}/{action=Index}/{id?}");
-        //    });
-        //}
     }
 }

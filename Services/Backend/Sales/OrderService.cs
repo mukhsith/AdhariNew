@@ -570,6 +570,164 @@ namespace Services.Backend.Sales
             return result;
         }
 
+
+        public async Task<DailySubscriptionSummaryModel> GetCustomerOrdersSummary(AdminOrderDeliveriesParam param)
+        {
+            //DataTableResult<DailySubscriptionSummaryModel> result = new() { Draw = param.DatatableParam.Draw };
+            DailySubscriptionSummaryModel dailyOrderSummary = new();
+         
+                var orders = await _dbcontext.Orders
+                    .Include(x => x.Customer)
+                    .Include(x => x.Address).ThenInclude(x => x.Area)
+                    .Include(x => x.Driver)
+                    .Where(x => x.Deleted == false &&
+                    (x.PaymentStatusId == PaymentStatus.Captured || x.PaymentStatusId == PaymentStatus.PendingCash))
+                    .Select(x => new DeliveriesDashboard()
+                    {
+
+                        Id = x.Id,
+                        OrderNumber = x.OrderNumber,
+                        DeliveryDate = x.DeliveryDate,
+                        PaymentStatusId = x.PaymentStatusId,
+                        OrderTypeId = x.OrderTypeId,
+                        OrderModeID = OrderMode.Normal,
+                        OrderStatusId = x.OrderStatusId,
+                        DriverId = x.DriverId,
+                        DeliveryFee = x.DeliveryFee,
+                        Total = x.Total,
+                        Deleted = x.Deleted,
+                        AddressAreadId = x.Address.AreaId,
+                        OrderTypeName = param.IsEnglish ? Messages.Normal : MessagesAr.Normal,
+                        OrderModeName = param.IsEnglish ? Messages.Online : MessagesAr.Online,
+                        DriverName = x.Driver != null ? x.Driver.FullName : "",
+                        AreaName = x.Address.Area != null ? x.Address.Area.NameEn : "",
+                        SubscriptionNumber = "",
+                        SubscriptionID = 0,
+                        MobileNumber = x.Customer.MobileNumber,
+                        CustomerId = x.Customer.Id,
+                        CreatedOn = x.CreatedOn,
+                        OrderStatus = "",
+                        CustomerName = x.Customer.Name,
+                        PaymentStatus = x.PaymentStatusId == PaymentStatus.Captured ? param.IsEnglish ? Messages.Paid : MessagesAr.Paid : param.IsEnglish ? Messages.NotPaid : MessagesAr.NotPaid,
+                        DeliveryStatus = x.OrderStatusId == OrderStatus.Delivered ? param.IsEnglish ? Messages.Delivered : MessagesAr.Delivered : param.IsEnglish ? Messages.Pending : MessagesAr.Pending,
+                        Delivered = x.OrderStatusId == OrderStatus.Delivered ? true : false,
+                    }).ToListAsync();
+
+                var subscriptions = await _dbcontext.SubscriptionOrders
+                   //var items = _dbcontext.SubscriptionOrders
+                   .Include(x => x.Subscription)
+               //.ThenInclude(y => y.Customer)
+               .Include(x => x.Driver)
+                .Where(x => x.Deleted == false)
+                     .Select(x => new DeliveriesDashboard()
+                     {
+                         Id = x.Id,
+                         OrderNumber = x.OrderNumber,
+                         DeliveryDate = x.DeliveryDate,
+                         PaymentStatusId = x.PaymentStatusId.HasValue ? (PaymentStatus)x.PaymentStatusId : PaymentStatus.Pending,
+                         OrderTypeId = OrderType.Online,
+                         OrderModeID = OrderMode.Subscription,
+                         OrderStatusId = x.Confirmed ? OrderStatus.Confirmed : OrderStatus.Pending,
+                         DriverId = x.DriverId,
+                         DeliveryFee = x.DeliveryFee,
+                         Total = x.Total,
+                         Deleted = x.Deleted,
+                         AddressAreadId = x.Subscription.Address.AreaId,
+                         OrderTypeName = param.IsEnglish ? Messages.Subscription : MessagesAr.Subscription,
+                         OrderModeName = param.IsEnglish ? Messages.Online : MessagesAr.Online,
+                         DriverName = x.Driver != null ? x.Driver.FullName : "",
+                         AreaName = x.Subscription.Address.Area != null ? x.Subscription.Address.Area.NameEn : "",
+                         SubscriptionNumber = x.Subscription.SubscriptionNumber,
+                         SubscriptionID = x.Subscription.Id,
+                         MobileNumber = x.Subscription.Customer.MobileNumber,
+                         CustomerId = x.Subscription.CustomerId,
+                         CreatedOn = x.CreatedOn,
+                         OrderStatus = "",
+                         CustomerName = x.Subscription.Customer.Name,
+                         PaymentStatus = x.PaymentStatusId == PaymentStatus.Captured ? param.IsEnglish ? Messages.Paid : MessagesAr.Paid : param.IsEnglish ? Messages.NotPaid : MessagesAr.NotPaid,
+                         DeliveryStatus = x.Delivered ? param.IsEnglish ? Messages.Delivered : MessagesAr.Delivered : param.IsEnglish ? Messages.Pending : MessagesAr.Pending,
+                         Delivered = x.Delivered,
+                     }).ToListAsync();
+
+                var items = orders.Union(subscriptions).AsQueryable();
+
+              
+
+
+                if (param.SelectedTab == 0)//Not Dispatched (Driver Not assigned)
+                {
+                    items = items.Where(x => x.DriverId == null);
+                }
+                else if (param.SelectedTab == 1) //Dispatched
+                {
+                    items = items.Where(x => x.DriverId != null);
+                }
+
+                if (!string.IsNullOrEmpty(param.OrderNumber))
+                {
+                    items = items.Where(x => x.OrderNumber == param.OrderNumber);
+                }
+
+
+
+                if (param.OrderModeId.HasValue)
+                {
+                    items = items.Where(x => x.OrderModeID == (OrderMode)param.OrderModeId.Value);
+                }
+                if (param.OrderTypeId.HasValue)
+                {
+                    items = items.Where(x => x.OrderTypeId == (OrderType)param.OrderTypeId.Value);
+                }
+                if (param.AreaId.HasValue)
+                {
+                    items = items.Where(x => x.AddressAreadId == param.AreaId.Value);
+                }
+                if (param.DriverId.HasValue)
+                {
+                    items = items.Where(x => x.DriverId == param.DriverId.Value);
+
+                }
+                //filter based on delivery date
+                if (param.DeliveryDate.HasValue)
+                {
+                    items = items.Where(x => x.DeliveryDate.Date == param.DeliveryDate.Value.Date);
+                }
+                //else
+                //{   //default, today deliveries only
+                //    items = items.Where(x => x.DeliveryDate.Date >= DateTime.Now.Date);
+                //}
+
+                if (param.OrderStatusID == OrderStatus.ReturnedByDriver)
+                {
+                    items = items.Where(x => x.OrderStatusId == OrderStatus.ReturnedByDriver);
+                }
+                else
+                {   //default, today deliveries only
+                    items = items.Where(x => x.OrderStatusId != OrderStatus.ReturnedByDriver);
+                }
+
+                ////Sorting
+                //if (!string.IsNullOrEmpty(param.DatatableParam.SortColumn) && !string.IsNullOrEmpty(param.DatatableParam.SortColumnDirection))
+                //{
+                //    //using System.Linq.Dynamic.Core;
+                //    //NEEDS TO BE INSTALLED FROM NUGET PACKAGE MANAGER
+                //    items = items.OrderBy(param.DatatableParam.SortColumn + " " + param.DatatableParam.SortColumnDirection);
+                //}
+                //else
+                //{
+                //    items = items.OrderByDescending(x => x.CreatedOn);
+                //}
+
+            items= items.Where(x => x.PaymentStatusId == PaymentStatus.Captured || x.PaymentStatusId == PaymentStatus.PendingCash);
+
+            dailyOrderSummary.SubscriptionOrdersReceivedToday = items.Count();
+            dailyOrderSummary.SubscriptionSalesAmountToday = items.Sum(x=> x.Total);
+
+            return dailyOrderSummary;
+            
+        }
+
+
         public async Task<dynamic> GetAllSalesOrders(AdminSalesOrderParam param)
         {
             DataTableResult<dynamic> result = new() { Draw = param.DatatableParam.Draw };

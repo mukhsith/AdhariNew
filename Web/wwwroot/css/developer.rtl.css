@@ -47,9 +47,14 @@
     animation: spin .8s linear infinite;
 }
 
-.select2-container--bootstrap.select2-container--open {
+/*.select2-container--bootstrap.select2-container--open {
     z-index: 9999999999;
+}*/
+
+.select2-container {
+    z-index: 1025;
 }
+
 
 html[dir=rtl] .mobile-field {
     direction: ltr;
@@ -95,3 +100,23 @@ html[dir=rtl] .mobile-field {
         border-right: 1px solid #00aeef !important;
         direction: ltr !important;
     }
+
+@media (max-width: 321px) {
+    .floating-btn span {
+        padding-right: 54px;
+        font-size: 14px;
+        margin-left: 0 !important;
+    }
+
+    .offcanvas-body .btn-with-input-spinner.w-50 {
+        width: 75% !important;
+    }
+
+    .offcanvas-footer h5 {
+        font-size: 16px;
+    }
+
+    .offcanvas-footer .btn {
+        font-size: 12px;
+    }
+}

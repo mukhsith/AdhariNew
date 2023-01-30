@@ -6,15 +6,24 @@
                 <div class="slider main_banner rounded-5 py-3 py-lg-0 mb-0">
                     @foreach (var item in Model)
                     {
-                        if (item.LinkType == BannerLinkType.URL)
+                        if (item.LinkEnabled)
                         {
-                            <a href="@item.LinkUrl" class="rounded-5 mx-3 my-2 m-md-3">
-                                <img src="@item.ImageUrl" class="img-fluid rounded-5">
-                            </a>
+                            if (item.LinkType == BannerLinkType.URL)
+                            {
+                                <a href="@item.LinkUrl" class="rounded-5 mx-3 my-2 m-md-3">
+                                    <img src="@item.ImageUrl" class="img-fluid rounded-5">
+                                </a>
+                            }
+                            else if (item.LinkType == BannerLinkType.Product)
+                            {
+                                <a href="@Url.RouteUrl("productdetails", new { catName = item.CategorySeoName, seoName = item.ProductSeoName })" class="rounded-5 mx-3 my-2 m-md-3">
+                                    <img src="@item.ImageUrl" class="img-fluid rounded-5">
+                                </a>
+                            }
                         }
                         else
                         {
-                            <a href="@Url.RouteUrl("productdetails",new {catName=item.CategorySeoName,seoName=item.ProductSeoName })" class="rounded-5 mx-3 my-2 m-md-3">
+                            <a href="#" class="rounded-5 mx-3 my-2 m-md-3" style="pointer-events: none; cursor: default;">
                                 <img src="@item.ImageUrl" class="img-fluid rounded-5">
                             </a>
                         }

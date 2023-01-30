@@ -72,6 +72,8 @@ namespace API.Areas.Backend.Controllers
                 if (!await Allowed()) { return Ok(accessResponse); }
 
                 SaveImage(ref item);
+
+
                 if (item.Id > 0)
                 {
                     item.ModifiedBy = UserId;
@@ -180,6 +182,8 @@ namespace API.Areas.Backend.Controllers
         #region Utility
         private void SaveImage(ref Banner model)
         {
+
+
             if (model.ImageEn != null && model.ImageEn.Length > 0)
             {
                 string fileName = MediaHelper.SaveImageToFile(model.ImageEn, "/" + AppSettings.ImageBanner, AppSettings.ImageBannerResized);
@@ -195,6 +199,10 @@ namespace API.Areas.Backend.Controllers
             }
 
         }
+
+
+
+    
 
         private List<Banner> BuildUrls(List<Banner> items)
         {

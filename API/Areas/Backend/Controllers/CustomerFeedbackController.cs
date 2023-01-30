@@ -84,8 +84,9 @@ namespace API.Areas.Backend.Controllers
         }
        
 
-        [HttpPost, Route("api/CustomerFeedback/GetAllForDataTable")]
-        public async Task<IActionResult> GetAllForDataTable()
+    
+        [HttpPost, Route("api/CustomerFeedback/GetAllFeedbackForDataTable")]
+        public async Task<IActionResult> GetAllFeedbackForDataTable()
         {
             ResponseMapper<dynamic> response = new();
             try

@@ -25,7 +25,6 @@ namespace Utility.API
     {
         private readonly AppSettingsModel _appSettings;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly string token;
         private readonly string lang;
 
         // Key: userName; Guid: refresh token value.
@@ -37,7 +36,6 @@ namespace Utility.API
         {
             _appSettings = options.Value;
             _httpContextAccessor = httpContextAccessor;
-            token = Convert.ToString(_httpContextAccessor.HttpContext.Request.Cookies[Constants.ClaimAuthenticationToken]);
             lang = _appSettings.DefaultLang;
             if (!string.IsNullOrEmpty(System.Globalization.CultureInfo.CurrentCulture.Name))
             {
@@ -310,6 +308,9 @@ namespace Utility.API
             httpClient.DefaultRequestHeaders.Add("user-agent", "web-admin");
             httpClient.DefaultRequestHeaders.Add("PaymentAccessToken", _appSettings.PaymentAPIAccessToken);
             httpClient.DefaultRequestHeaders.Add("deviceTypeId", ((int)DeviceType.Web).ToString());
+
+            var token = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
             if (!string.IsNullOrEmpty(token))
                 httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
 

@@ -17,6 +17,9 @@ namespace API.Areas.Backend.Factories
 
         Task<DailyOrderSummaryModel> GetTodaySales(bool isEnglish);
         Task<DailySubscriptionSummaryModel> GetTodaySubscriptionSales(bool isEnglish);
+
+        Task<DailySubscriptionSummaryModel> GetCustomerSales(bool isEnglish, int customerId);
+
         //Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel adminCreateOrderModel);
         Task<APIResponseModel<AdminCreateOrderModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, AdminCreateOrderModel createPaymentModel);
         Task<APIResponseModel<OrderModel>> GetOrder(bool isEnglish, int id, int customerId);
@@ -48,6 +51,8 @@ namespace API.Areas.Backend.Factories
         //    int? orderModeId = null, int? orderTypeId = null, int? areaId = null, int? driverId = null);
 
         Task<DataTableResult<List<DeliveriesDashboard>>> GetDeliveriesForDataTable(AdminOrderDeliveriesParam param);
-        
+
+        Task<DailySubscriptionSummaryModel> GetCustomerSummary(AdminOrderDeliveriesParam param);
+
     }
 }

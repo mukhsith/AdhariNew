@@ -1,25 +1,25 @@
-﻿@model Web.Models.ErrorViewModel
-@{
-    ViewData["Title"] = "Error";
-}
-
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
-
-<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
-</p>
+﻿<section class="breadcrumb-bg d-flex">
+    <div class="container d-flex flex-column justify-content-center align-items-center w-100">
+        <ul class="trail-items breadcrumb d-block d-md-none">
+            <li class="trail-item trail-begin">
+                <a href="javascript:history.back(1);">
+                    <i class="fa fa-angle-double-left"></i>@SharedHtmlLocalizer["Back"]
+                </a>
+            </li>
+        </ul>
+        <h3 class="text-center mb-1 mb-md-2">@SharedHtmlLocalizer["PageNotFound"]</h3>
+    </div>
+</section>
+<section class="main-content py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 mx-auto">
+                <h1 class="text-center text-primary fw-bold mb-0 display-1"><i class="fa-solid fa-triangle-exclamation"></i></h1>
+                <h3 class="text-center text-primary fw-bold mb-3">@SharedHtmlLocalizer["SomethingWentWrong"]</h3>
+                <div class="d-flex justify-content-center align-items-center">
+                    <a href="@Url.RouteUrl("home")" class="btn btn-primary color-white rounded-pill fw-bold px-5 text-center mx-auto">@SharedHtmlLocalizer["GoToHome"]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
