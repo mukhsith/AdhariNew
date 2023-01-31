@@ -222,49 +222,53 @@
                                     }
                                     else
                                     {
-                                        <div class="btn-with-input-spinner d-flex w-100">
-                                            @if (Model.ProductType == ProductType.SubscriptionProduct)
-                                            {
-                                                <input type="number" value="@Model.MinCartQuantity" min="@Model.MinCartQuantity" max="@Model.MaxCartQuantity" step="1" class="input-spinner text-white bg-secondary border-0 fs-4" style="display: none;">
-                                                <div class="input-group  rounded-5 product-details-spinner">
-                                                    <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold fs-4 btn-minus-subscription-product-details" type="button">
-                                                        <strong>−</strong>
-                                                    </button>
-                                                    <input type="text" inputmode="decimal" style="text-align: center" class="form-control input-spinner text-white bg-secondary border-0 fs-4" placeholder="" readonly=""
-                                                           value="@Model.MinCartQuantity" data-minquantity="@Model.MinCartQuantity" data-maxquantity="@Model.MaxCartQuantity" id="txt-quantity" disabled>
-                                                    <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold fs-4 btn-plus-subscription-product-details" type="button">
-                                                        <strong>+</strong>
-                                                    </button>
-                                                </div>
-                                                <button type="button"
-                                                        class="btn btn-lg btn-primary rounded-pill rounded-start text-white fw-bold w-100 add-to-cart" id="btn-subscribe">
-                                                    @SharedHtmlLocalizer["Subscribe"]
-                                                </button>
-                                            }
-                                            else
-                                            {
-                                                <div class="btn-with-input-spinner w-100">
-                                                    <button id="btn-add-to-cart-@Model.Id" type="button" class="add-to-cart btn btn-primary rounded-pill text-white fw-bold w-100 "
-                                                            style="@(Model.CartQuantity>0?"display: none;":"display: block;")"
-                                                            onclick="return addToCart(@Model.Id,1);">
-                                                        @SharedHtmlLocalizer["AddToCart"]
-                                                    </button>
-                                                    <input type="number" value="0" min="0" max="50" step="1" class="input-spinner text-white bg-secondary border-0" style="display: none;">
-                                                    <div id="dv-quantity-change-@Model.Id" class="input-group rounded-5 card-spinner" style="@(Model.CartQuantity>0?"display: flex;":"display: none;")">
-                                                        <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold rounded-5 rounded-end btn-minus-card"
-                                                                type="button" onclick="return deductCartItem(@Model.Id);">
-                                                            <strong>−</strong>
-                                                        </button>
-                                                        <input type="text" id="txt-quantity-@Model.Id" inputmode="decimal" style="text-align: center" class="form-control input-spinner text-white bg-secondary border-0"
-                                                               value="@Model.CartQuantity" data-maxquantity="@Model.StockQuantity" readonly="">
-                                                        <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold rounded-5 rounded-start btn-plus-card"
-                                                                type="button" onclick="return addCartItem(@Model.Id);">
-                                                            <strong>+</strong>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            }
+                                <div class="btn-with-input-spinner d-flex w-100">
+                                    @if (Model.ProductType == ProductType.SubscriptionProduct)
+                                    {
+                                        <input type="number" value="@Model.MinCartQuantity" min="@Model.MinCartQuantity" max="@Model.MaxCartQuantity" step="1" class="input-spinner text-white bg-secondary border-0 fs-4" style="display: none;">
+                                        <div class="input-group  rounded-5 product-details-spinner">
+                                            <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold fs-4 btn-minus-subscription-product-details" type="button">
+                                                <strong>−</strong>
+                                            </button>
+                                            <input type="text" inputmode="decimal" style="text-align: center" class="form-control input-spinner text-white bg-secondary border-0 fs-4" placeholder="" readonly=""
+                                                   value="@Model.MinCartQuantity" data-minquantity="@Model.MinCartQuantity" data-maxquantity="@Model.MaxCartQuantity" id="txt-quantity" disabled>
+                                            <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold fs-4 btn-plus-subscription-product-details" type="button">
+                                                <strong>+</strong>
+                                            </button>
                                         </div>
+                                        <button type="button"
+                                                class="btn btn-lg btn-primary rounded-pill rounded-start text-white fw-bold w-100 add-to-cart" id="btn-subscribe">
+                                            @SharedHtmlLocalizer["Subscribe"]
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <div class="btn-with-input-spinner w-100">
+                                            <button id="btn-add-to-cart-@Model.Id" type="button" class="add-to-cart btn btn-primary rounded-pill text-white fw-bold w-100 "
+                                                    style="@(Model.CartQuantity>0?"display: none;":"display: block;")"
+                                                    onclick="return addToCart(@Model.Id,1);">
+                                                @SharedHtmlLocalizer["AddToCart"]
+                                            </button>
+                                            <input type="number" value="0" min="0" max="50" step="1" class="input-spinner text-white bg-secondary border-0" style="display: none;">
+                                            <div id="dv-quantity-change-@Model.Id" class="input-group rounded-5 card-spinner" style="@(Model.CartQuantity>0?"display: flex;":"display: none;")">
+                                                <button style="min-width: 2.5rem" class="btn btn-decrement btn-secondary text-white fw-bold rounded-5 rounded-end btn-minus-card"
+                                                        type="button" onclick="return deductCartItem(@Model.Id);">
+                                                    <strong>−</strong>
+                                                </button>
+                                                <input type="text" id="txt-quantity-@Model.Id" inputmode="decimal" style="text-align: center" class="form-control input-spinner text-white bg-secondary border-0"
+                                                       value="@Model.CartQuantity" data-maxquantity="@Model.StockQuantity" readonly="">
+                                                <button style="min-width: 2.5rem" class="btn btn-increment btn-secondary text-white fw-bold rounded-5 rounded-start btn-plus-card"
+                                                        type="button" onclick="return addCartItem(@Model.Id);">
+                                                    <strong>+</strong>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <a href="#" id="view-cart-btn-@Model.Id" class="btn btn-primary rounded-pill fw-bold text-white w-100 view-cart-btn ms-2"
+                                           style="@(Model.CartQuantity > 0?"display: block;":"display: none;")">
+                                            @SharedHtmlLocalizer["ViewCart"]
+                                        </a>
+                                    }
+                                </div>
                                     }
                                 </div>
                             </div>
@@ -411,9 +415,11 @@
                         $("#btn-add-to-cart-" + productId).show();
                         $("#dv-quantity-change-" + productId).css("display", "none");
                         $("#txt-quantity-" + productId).val("");
+                        $(".view-cart-btn").hide();
                     }
                     else {
                         $("#txt-quantity-" + productId).val(finalQuantity);
+                        $(".view-cart-btn").show();
                     }
                 }
                 else {
@@ -438,4 +444,9 @@
         else
             return 0;
     };
+
+    $(".view-cart-btn").click(function (e) {
+        e.preventDefault();
+        $("#a-cart").trigger("click");
+    });
 </script>

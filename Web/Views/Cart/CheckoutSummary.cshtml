@@ -60,11 +60,11 @@
                                     <label for="name" class="fw-bold">@SharedHtmlLocalizer["DeliveryDate"]</label>
                                     <p class="text-primary mb-0">@Model.EstimatedDeliveryValue</p>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 text-center">
                                     <div class="order-notes">
                                         <div class="bg-grey rounded-4 mx-0">
-                                            <label for="inputNotes" class="fw-bold">@SharedHtmlLocalizer["Notes"]</label>
-                                            <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" id="txt-notes" rows="3"></textarea>
+                                            <a href="javascript:;" class="notes-field-btn text-secondary mb-0 fw-bold w-100 my-2">@SharedHtmlLocalizer["Notes"]</a>
+                                            <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field notes-field" id="txt-notes" rows="3" style="display: none;"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -419,4 +419,8 @@
         $(".promotion-input-field").removeClass("promocode-applied");
         $("#txt-coupon-code").val('');
     }
+
+    $(".notes-field-btn").click(function () {
+        $(".notes-field").toggle();
+    });
 </script>

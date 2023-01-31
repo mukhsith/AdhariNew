@@ -42,22 +42,22 @@
         }
     </ul>
 </div>
-<div class="offcanvas-footer border-top p-3 text-center">
+<div class="offcanvas-footer border-top p-3 text-center bg-secondary">
     <div class="row">
         <div class="col-6">
-            <h5 class="text-uppercase text-primary fw-bold mb-2 text-start">@SharedHtmlLocalizer["GrandTotal"]</h5>
+            <h5 class="text-uppercase text-white fw-bold mb-2 text-start">@SharedHtmlLocalizer["GrandTotal"]</h5>
         </div>
         <div class="col-6">
-            <h5 class="text-uppercase fw-bold mb-2 text-end">@Model.FormattedSubTotal</h5>
+            <h5 class="text-uppercase text-white fw-bold mb-2 text-end">@Model.FormattedSubTotal</h5>
         </div>
     </div>
     <div class="justify-content-between">
         <div class="row">
             <div class="col-6 pe-0 mb-4">
-                <a href="@Url.RouteUrl("home")" class="btn btn-outline-primary rounded-pill fw-bold w-100 col-6">@SharedHtmlLocalizer["ContinueShopping"]</a>
+                <a href="@Url.RouteUrl("home")" class="btn btn-outline-light rounded-pill fw-bold w-100 col-6">@SharedHtmlLocalizer["ContinueShopping"]</a>
             </div>
             <div class="col-6 mb-4">
-                <a href="@Url.RouteUrl("checkout")" class="btn btn-primary rounded-pill text-white fw-bold w-100 col-6">@SharedHtmlLocalizer["Checkout"]</a>
+                <a href="@Url.RouteUrl("checkout")" class="btn btn-light rounded-pill text-secondary fw-bold w-100 col-6">@SharedHtmlLocalizer["Checkout"]</a>
             </div>
         </div>
     </div>
@@ -138,6 +138,7 @@
                 $("#btn-add-to-cart-" + productId).show();
                 $("#dv-quantity-change-" + productId).css("display", "none");
                 $("#txt-quantity-" + productId).val("");
+                $("#view-cart-btn-" + productId).hide();
 
                 var cartItems = $(".cart-item");
                 if (cartItems.length == 0) {
