@@ -11,8 +11,8 @@
     <!--OK-->
     <div class="nano">
         <div class="nano-content">
-            <nav id="menu" class="nav-main" role="navigation">
-                <ul class="nav nav-main">
+            <nav id="menu" class="nav-main pb-5" role="navigation">
+                <ul class="nav nav-main pb-5">
                     @foreach (var menu in Model)
                     {
                         if (menu.ChildPermissions.Count > 0) //level 1 with its children (dropdown)
@@ -20,9 +20,13 @@
 
                             <li class="nav-parent" id="@menu.Title">
                                 <a class="nav-link" href="@menu.NavigationUrl">
-                                    @if (menu.NotificationBadgeCount > 0 && menu.Id== (int)PermissionTypes.WebsiteContentManagement)
+                                    @if (menu.NotificationBadgeCount > 0 && menu.Id == (int)PermissionTypes.WebsiteContentManagement)
                                     {
-                                        <div class="float-end badge badge-primary fs-6 me-3 customerNotificationCount">@menu.NotificationBadgeCount</div>
+                                        <span class="float-end badge badge-primary me-3 customerNotificationCount">@menu.NotificationBadgeCount</span>
+                                    }
+                                    @if (menu.Id == (int)PermissionTypes.SalesOrder)
+                                    {
+                                        <span class="float-end badge badge-primary me-3 customerNotificationCount">@menu.SalesOrderBadgeCount</span>
                                     }
                                     <i class="@menu.Icon" aria-hidden="true"></i>
                                     <span>@menu.Title</span>
@@ -65,7 +69,11 @@
                                                     <a class="nav-link" href="@child.NavigationUrl">
                                                         @if (child.NotificationBadgeCount > 0 && child.Id == (int)PermissionTypes.CustomerFeedback)
                                                         {
-                                                            <div class="float-end badge badge-primary fs-6 me-3 customerNotificationCount">@menu.NotificationBadgeCount</div>
+                                                            <span class="float-end badge badge-primary customerNotificationCount">@menu.NotificationBadgeCount</span>
+                                                        }
+                                                        @if (child.Id == (int)PermissionTypes.Orders)
+                                                        {
+                                                            <span class="float-end badge badge-primary customerNotificationCount">@menu.SalesOrderBadgeCount</span>
                                                         }
                                                         <i class="@child.Icon" aria-hidden="true"></i>
                                                         <span>@child.Title</span>

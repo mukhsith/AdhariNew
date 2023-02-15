@@ -20,10 +20,12 @@ namespace Services.Frontend.SMS
         #endregion
 
         #region OTP details
-        Task<OTPDetail> CreateOTPDetail(OTPDetail otpDetail, string message);
+        Task<OTPDetail> CreateOTPDetail(OTPDetail otpDetail, string message, int languageId = 0);
         Task<OTPDetail> GetOTPDetailByIdAndType(int id, int typeId);
         Task<IList<OTPDetail>> GetOTPDetailByCustomerIdAndType(int customerId, int typeId);
         Task<OTPDetail> GetOTPDetailById(int id);
+        Task<bool> UpdateOTPDetail(OTPDetail model);
+        Task<OTPDetail> GetLastOTPDetailByCustomer(int typeId, string mobileNumber);
         #endregion
 
         #region SMS push

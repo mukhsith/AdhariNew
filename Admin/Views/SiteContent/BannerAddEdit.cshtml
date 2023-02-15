@@ -32,7 +32,7 @@
                                 <div class="row">
                                     <div class="col-10 mb-3">
                                         <label for="formFile" class="form-label">@SharedHtmlLocalizer["BannerImageEn"]<span class=" text-danger">*</span></label>
-                                        <input class="form-control form-control-lg border-secondary rounded-4" type="file" id="imageFileEn" name="imageFileEn">
+                                        <input class="form-control form-control-lg border-secondary rounded-4" type="file" id="imageFileEn" name="imageFileEn"  accept="image/jpg, image/jpeg">
                                         <small class="form-text text-muted">@SharedHtmlLocalizer["ConsistencyPurpose2048X1200"]</small>
                                         <div class="invalid-feedback">
                                             @SharedHtmlLocalizer["ConsistencyPurpose2048X1200"]
@@ -58,14 +58,14 @@
                                 <div class="row">
                                     <div class="col-10 mb-3">
                                         <label for="formFile" class="form-label">@SharedHtmlLocalizer["BannerImageAr"]<span class=" text-danger">*</span></label>
-                                        <input class="form-control form-control-lg border-secondary rounded-4" type="file" id="imageFileAr" name="imageFileAr">
+                                        <input class="form-control form-control-lg border-secondary rounded-4" type="file" id="imageFileAr" name="imageFileAr"  accept="image/jpg, image/jpeg">
                                         <small class="form-text text-muted">@SharedHtmlLocalizer["ConsistencyPurpose2048X1200"]</small>
                                         <div class="invalid-feedback">
                                             @SharedHtmlLocalizer["ConsistencyPurpose2048X1200"]
                                         </div>
                                     </div>
                                     <div class="col-2 d-flex flex-column align-items-center justify-content-center">
-                                        <img src="/assets/img/general-placeholder.png" class="img-fluid preview-image-" id="imagePreviewAr" name="imagePreviewAr">
+                                        <img src="/assets/img/general-placeholder.png" class="img-fluid preview-image-" id="imagePreviewAr" name="imagePreviewAr" >
                                         <p class="text-muted text-center mb-1 mt-2">@SharedHtmlLocalizer["Preview"]</p>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                             <!-- ========== Start Simple Select Field Block ========== -->
                             <label for="linkType" class="form-label">@SharedHtmlLocalizer["LinkTo"]</label>
                             <select class="form-select form-select-lg rounded-4 border-secondary" name="linkType" id="linkType" aria-describedby="@SharedHtmlLocalizer["LinkTo"]" >
-                                <option value="0" selected>@SharedHtmlLocalizer["SelectOne"]</option>
+                                <option value="" selected>@SharedHtmlLocalizer["SelectOne"]</option>
                                 <option value="1">@SharedHtmlLocalizer["URL"]</option>
                                 <option value="2">@SharedHtmlLocalizer["Product"]</option>
                             </select>
@@ -121,13 +121,13 @@
                         </div>
 
                         <div class="col-12 col-lg-4 mb-3 banner-field-product" style="display:none;">
-                            <label for="bannerProduct" class="form-label">Product</label>
+                            <label for="bannerProduct" class="form-label">@SharedHtmlLocalizer["Product"]</label>
                             <select data-plugin-selectTwo class="form-control form-control-lg border border-secondary rounded-4 h-100" style="height: 48px" name="productList" id="productList" data-plugin-options='{ "placeholder": "Select a Product...", "allowClear": true,"height": "48px" }'>
                                 <option value="0" selected>--select--</option>
-                                <option value="1">Adhari Water Carton</option>
+                                @*<option value="1">Adhari Water Carton</option>
                                 <option value="2">Munakka Water Carton</option>
                                 <option value="3">Aqua8 Water Carton</option>
-                                <option value="4">Qatra Water Carton</option>
+                                <option value="4">Qatra Water Carton</option>*@
                             </select>
                             <small class="form-text text-muted">@SharedHtmlLocalizer["LinkAnyWebpageOrURL"]</small>
 

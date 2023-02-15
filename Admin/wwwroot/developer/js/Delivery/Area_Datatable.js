@@ -1,7 +1,8 @@
 ﻿
 $(document).ready(function () {
     searchDataTable(); 
-    fillDropDownList("governorateList", 'governorate/GetAll', false, null, "id", "nameEn");
+    /* fillDropDownList("governorateList", 'governorate/GetAll', false, null, "id", "nameEn");*/
+    fillDropDownList("governorateList", 'Governorate/ForDropDownList', false, null, "id", "name");
 });
  
     
@@ -12,28 +13,35 @@ searchDataTable = () => {
     }
     
     $("#datatable-default-").DataTable({
+        responsive: true,
         searching: true,
+        serverSide: true,
         "ajax": {
             url: getAPIUrl() + "Area/GetAllForDataTable",
             type: "POST",
             headers: { "Authorization": 'Bearer ' + getToken() }, 
             data: function (d) {
-                var search = $(":input[type=search]").val();
-                d.governorateId  = getSelectedItemValue("governorateList");
+                 var search = $(":input[type=search]").val();
                 if (search.length <= 0) { showLoader(); }
+              
+                d.governorateId = getSelectedItemValue("governorateList");
             },
             "datatype": "json",
             "dataSrc": function (json) {
                 showLog(json);
+              /*  checkAPIResponse(json);*/
                 hideLoader();
                 return json.data;
-            }
+            },
+            error: function (error) {
+                showLog('error' + error);
+            },
         },
                    
         "columns": [
-            {    "data": "id", "name": "id"},
+            { "data": "id", "name": "id" },
             {
-                "data": "displayOrder", "name": "displayOrder",  render: function (data, type, row) {
+                "data": "displayOrder", "name": "displayOrder", render: function (data, type, row) {
                     return `<td data-displayorder='${row.id}'> ${row.displayOrder}</td>`;
                 }
             },
@@ -48,13 +56,21 @@ searchDataTable = () => {
             {
                 "data": "nameAr", render: function (data, type, row) { return row.nameAr; }
             },
+              {
+                "data": "governorate.nameEn", render: function (data, type, row) {
+                    return (row.governorate == null ? "None" : row.governorate.nameEn);
+                }
+            },
+            {
+                "data": "governorate.nameAr", render: function (data, type, row) {
+                    return (row.governorate == null ? "None" : row.governorate.nameAr);
+                }
+            },
             {
                 "data": "deliveryFee", render: function (data, type, row) { return row.deliveryFee; }
             },
             {
-                "data": "governorate.nameEn", render: function (data, type, row) {
-                    return (row.governorate == null ? "None" : row.governorate.nameEn);
-                }
+                "data": "minOrderAmount", render: function (data, type, row) { return row.minOrderAmount; }
             },
             {
                 "data": null, "name":"Actions", render: function (data, type, row) {
@@ -71,13 +87,10 @@ searchDataTable = () => {
             //    Reinitialize ios-switch
             $(row).find('[data-plugin-ios-switch]').themePluginIOS7Switch();
         },
-       
         columnDefs: [
             { "targets": -1, "orderable": false },
             { "className": "text-wrap", "targets": "_all" },
         ],
-        
-    
     });
 }
 

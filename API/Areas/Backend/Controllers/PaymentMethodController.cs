@@ -118,6 +118,8 @@ namespace API.Areas.Backend.Controllers
                 if (!await Allowed()) { return Ok(accessResponse); }
 
                 var item = await _get.ToggleNormalRegistered(Id);
+
+
                 response.ToggleActive(item);
             }
             catch (Exception ex)

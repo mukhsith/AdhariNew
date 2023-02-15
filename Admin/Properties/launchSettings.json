@@ -19,6 +19,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "ancmHostingModel": "InProcess",
+      "applicationUrl": "",
       "jsWebView2Debugging": true
     },
     "Admin": {

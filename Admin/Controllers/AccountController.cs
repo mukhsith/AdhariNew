@@ -49,7 +49,7 @@ namespace Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Validation Error", "Please enter Username or Password");
+                ModelState.AddModelError("Validation Error", "Please enter User Name or Password");
                 return View(login);
             }
             //
@@ -98,6 +98,12 @@ namespace Admin.Controllers
 
                     // return View();
                 }
+            }
+            else
+            {
+                ModelState.AddModelError("NOACCOUNT", "User Name or Password is incorrect");
+                return View(login);
+
             }
             return View(nameof(Index)); //if success 
         }

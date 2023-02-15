@@ -1,7 +1,26 @@
 ﻿
 $(document).ready(function () {
-    searchDataTable(); 
+
+    configureDialogModels();
+    searchDataTable();
+   
 });
+
+
+configureDialogModels = () => {
+
+    //$(document).on("click", ".open-order-status", function () {
+    //    $("#order-status .modal-header #dialogOrderId").val($(this).data('id'));
+
+    //});
+
+    $(document).on("click", ".open-category-cancel-modal", function () {
+        $("#category-cancel .modal-header #dialogCategoryId").val($(this).data('id'));
+    });
+    
+
+}
+
 
 searchDataTable = () => {
    
@@ -53,11 +72,12 @@ searchDataTable = () => {
             {
                 "data": "Products", render: function (data, type, row) { return row.id; }
             },
-            {
-                "data": null, "name":"Actions", render: function (data, type, row) {
-                    return `${addEditAction('Category','/Product/CategoryAddEdit/', row)} ${addPopupAction('Category', row) }`;
-                }
-            },  
+           
+                //"data": null, "name":"Actions", render: function (data, type, row) {
+                //    return `${addEditAction('Category','/Product/CategoryAddEdit/', row)} ${addPopupAction('Category', row) }`;
+                //}
+                 { "data": null, render: function (data, type, row) { return getActionsHtml(row); }, },
+             
         ],
          
         createdRow: function (row, data, index) {
@@ -77,6 +97,24 @@ searchDataTable = () => {
         ],
         
     });
+
+    getActionsHtml = (row) => {
+        var html = `${addEditAction('Category', '/Product/CategoryAddEdit/', row)} ${addPopupAction('Category', row)}`;
+
+
+        html += `<span data-bs-toggle="modal" class="open-category-cancel-modal" data-id="${row.id}" data-bs-target="#category-cancel"><a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-danger"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Category Delete" data-bs-original-title="Category Delete" aria-label="Category Delete" ><i class="fa-solid fa-xmark"></i></a> </span>`;
+       
+
+
+
+
+
+
+        return html;
+    }
+
+
+
 }
 
  

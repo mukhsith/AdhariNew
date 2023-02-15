@@ -46,8 +46,11 @@ namespace Services.Backend.Locations.Interface
                               DisplayOrder=x.DisplayOrder,
                               NameEn=x.NameEn,
                               NameAr=x.NameAr,
-                              Governorate = x.Governorate,
-                              CreatedOn = x.CreatedOn,
+                             GovernorateId = x.Governorate.Id,
+                             Governorate = x.Governorate,
+                             DeliveryFee = x.DeliveryFee,
+                             MinOrderAmount = x.MinOrderAmount,
+                             CreatedOn = x.CreatedOn,
                               Active = x.Active,
                               Deleted = x.Deleted
                           }).Where(x => x.Deleted == false);
@@ -144,6 +147,7 @@ namespace Services.Backend.Locations.Interface
                 updateData.NameEn = model.NameEn;
                 updateData.NameAr = model.NameAr;
                 updateData.DeliveryFee = model.DeliveryFee;
+                updateData.MinOrderAmount = model.MinOrderAmount;
                 updateData.GovernorateId = model.GovernorateId;
                 updateData.ModifiedOn = DateTime.Now;
             }

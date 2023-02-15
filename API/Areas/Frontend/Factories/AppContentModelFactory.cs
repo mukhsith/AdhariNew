@@ -6,6 +6,7 @@ using Data.CouponPromotion;
 using Data.CustomerManagement;
 using Data.Locations;
 using Data.ProductManagement;
+using Data.Sales;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Services.Frontend.Content;
@@ -31,6 +32,7 @@ using Utility.Models.Frontend.Locations;
 using Utility.Models.Frontend.ProductManagement;
 using Utility.Models.Frontend.Sales;
 using Utility.Models.KNET;
+using Utility.Models.MasterCard;
 using Utility.ResponseMapper;
 
 namespace API.Areas.Frontend.Factories
@@ -58,6 +60,10 @@ namespace API.Areas.Frontend.Factories
         private readonly IQuickPaymentService _quickPaymentService;
         private readonly IAPIHelper _apiHelper;
         private readonly IPushNotification _pushNotification;
+        private readonly IOrderService _orderService;
+        private readonly IMasterCardHelper _masterCardHelper;
+        private readonly IPaymentHelper _paymentHelper;
+        private readonly ISubscriptionService _subscriptionService;
         public AppContentModelFactory(
             IMapper mapper,
             ILoggerFactory logger,
@@ -79,7 +85,11 @@ namespace API.Areas.Frontend.Factories
             IWalletPackageService walletPackageService,
             IQuickPaymentService quickPaymentService,
             IAPIHelper apiHelper,
-            IPushNotification pushNotification)
+            IPushNotification pushNotification,
+            IOrderService orderService,
+            IMasterCardHelper masterCardHelper,
+            IPaymentHelper paymentHelper,
+            ISubscriptionService subscriptionService)
         {
             _mapper = mapper;
             _logger = logger.CreateLogger(typeof(AppContentModelFactory).Name);
@@ -102,6 +112,10 @@ namespace API.Areas.Frontend.Factories
             _quickPaymentService = quickPaymentService;
             _apiHelper = apiHelper;
             _pushNotification = pushNotification;
+            _orderService = orderService;
+            _masterCardHelper = masterCardHelper;
+            _paymentHelper = paymentHelper;
+            _subscriptionService = subscriptionService;
         }
         public async Task<APIResponseModel<CompanySettingModel>> PrepareCompanySettingModel(bool isEnglish)
         {
@@ -136,6 +150,7 @@ namespace API.Areas.Frontend.Factories
                     companySettingModel.Address = isEnglish ? contactDetail.AddressEn : contactDetail.AddressAr;
                     companySettingModel.EmailAddress = contactDetail.EmailAddress;
                     companySettingModel.MobileNumber = contactDetail.MobileNumber;
+                    companySettingModel.WhatsAppNumber = contactDetail.WhatsAppNumber;
                 }
 
                 response.Data = companySettingModel;
@@ -150,7 +165,8 @@ namespace API.Areas.Frontend.Factories
 
             return response;
         }
-        public async Task<APIResponseModel<HomepageModel>> PrepareHomepageContent(bool isEnglish, int customerId = 0, string customerGuidValue = "")
+        public async Task<APIResponseModel<HomepageModel>> PrepareHomepageContent(bool isEnglish, int customerId = 0, string customerGuidValue = "",
+            DeviceType? deviceType = null)
         {
             var response = new APIResponseModel<HomepageModel>();
             try
@@ -159,16 +175,10 @@ namespace API.Areas.Frontend.Factories
                 if (customerId > 0)
                 {
                     customer = await _customerService.GetCustomerById(customerId);
-                    if (customer == null || customer.Deleted)
+                    if (customer == null || customer.Deleted || !customer.Active)
                     {
-                        response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
-                        return response;
-                    }
-
-                    if (!customer.Active)
-                    {
-                        response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
-                        return response;
+                        customer = null;
+                        customerId = 0;
                     }
                 }
 
@@ -177,11 +187,17 @@ namespace API.Areas.Frontend.Factories
                 HomepageModel homepage = new();
 
                 var banners = await _bannerService.GetAll();
+                if (deviceType != null && (deviceType == DeviceType.Android || deviceType == DeviceType.IOS))
+                {
+                    banners = banners.Where(a => !a.ExcludeFromApp).ToList();
+                }
+
                 foreach (var banner in banners)
                 {
                     var bannerModel = _modelHelper.PrepareBannerModel(banner, isEnglish);
+                    bannerModel.DeviceDependent = banner.ExcludeFromApp;
                     homepage.Banners.Add(bannerModel);
-                }                   
+                }
 
                 var categories = await _categoryService.GetAll();
                 foreach (var category in categories)
@@ -348,51 +364,66 @@ namespace API.Areas.Frontend.Factories
 
             return response;
         }
-        public async Task<APIResponseModel<List<PaymentMethodModel>>> PreparePaymentMethods(bool isEnglish, PaymentRequestType paymentRequestType, int customerId)
+        public async Task<APIResponseModel<List<PaymentMethodModel>>> PreparePaymentMethods(bool isEnglish, PaymentRequestType paymentRequestType,
+            int customerId, DeviceType? deviceType = null)
         {
             var response = new APIResponseModel<List<PaymentMethodModel>>();
             try
             {
-                var customer = await _customerService.GetCustomerById(customerId);
-                if (customer == null || customer.Deleted)
+                if (customerId > 0)
                 {
-                    response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
-                    return response;
-                }
+                    var customer = await _customerService.GetCustomerById(customerId);
+                    if (customer == null || customer.Deleted)
+                    {
+                        response.MessageCode = 401;
+                        response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                        return response;
+                    }
 
-                if (!customer.Active)
-                {
-                    response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
-                    return response;
+                    if (!customer.Active)
+                    {
+                        response.MessageCode = 401;
+                        response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                        return response;
+                    }
                 }
 
                 var paymentMethods = await _paymentMethodService.GetAllPaymentMethod(paymentRequestType: paymentRequestType);
+
+                if (deviceType == null || deviceType != DeviceType.IOS)
+                {
+                    paymentMethods = paymentMethods.Where(a => a.Id != (int)Utility.Enum.PaymentMethod.ApplePay).ToList();
+                }
+
                 var paymentMethodModels = paymentMethods.Select(paymentMethod =>
                 {
                     return _modelHelper.PreparePaymentMethodModel(paymentMethod, isEnglish);
                 }).ToList();
 
-                if (paymentRequestType == PaymentRequestType.Order)
+                if (customerId > 0)
                 {
-                    var cartAttribute = (await _cartService.GetAllCartAttribute(customerId: customer.Id)).FirstOrDefault();
-                    if (cartAttribute != null && cartAttribute.PaymentMethodId.HasValue)
+                    if (paymentRequestType == PaymentRequestType.Order)
                     {
-                        foreach (var paymentMethodModel in paymentMethodModels)
+                        var cartAttribute = (await _cartService.GetAllCartAttribute(customerId: customerId)).FirstOrDefault();
+                        if (cartAttribute != null && cartAttribute.PaymentMethodId.HasValue)
                         {
-                            if (paymentMethodModel.Id == cartAttribute.PaymentMethodId.Value)
-                                paymentMethodModel.Selected = true;
+                            foreach (var paymentMethodModel in paymentMethodModels)
+                            {
+                                if (paymentMethodModel.Id == cartAttribute.PaymentMethodId.Value)
+                                    paymentMethodModel.Selected = true;
+                            }
                         }
                     }
-                }
-                else if (paymentRequestType == PaymentRequestType.SubscriptionOrder)
-                {
-                    var subscriptionAttribute = (await _cartService.GetSubscriptionAttributeByCustomerId(customerId: customer.Id));
-                    if (subscriptionAttribute != null && subscriptionAttribute.PaymentMethodId.HasValue)
+                    else if (paymentRequestType == PaymentRequestType.SubscriptionOrder)
                     {
-                        foreach (var paymentMethodModel in paymentMethodModels)
+                        var subscriptionAttribute = await _cartService.GetSubscriptionAttributeByCustomerId(customerId: customerId);
+                        if (subscriptionAttribute != null && subscriptionAttribute.PaymentMethodId.HasValue)
                         {
-                            if (paymentMethodModel.Id == subscriptionAttribute.PaymentMethodId.Value)
-                                paymentMethodModel.Selected = true;
+                            foreach (var paymentMethodModel in paymentMethodModels)
+                            {
+                                if (paymentMethodModel.Id == subscriptionAttribute.PaymentMethodId.Value)
+                                    paymentMethodModel.Selected = true;
+                            }
                         }
                     }
                 }
@@ -543,7 +574,123 @@ namespace API.Areas.Frontend.Factories
 
             return response;
         }
-        public async Task<APIResponseModel<CreatePaymentModel>> CreateQuickpay(bool isEnglish, CreatePaymentModel createPaymentModel)
+        public async Task<APIResponseModel<CreatePaymentModel>> CreateQuickpay(bool isEnglish, QuickPaymentModel quickPaymentModel)
+        {
+            var response = new APIResponseModel<CreatePaymentModel>();
+
+            try
+            {
+                if (quickPaymentModel.Amount <= 0 || quickPaymentModel.PaymentMethodId <= 0)
+                {
+                    response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+                    return response;
+                }
+
+                var paymentMethod = await _paymentMethodService.GetPaymentMethodById(quickPaymentModel.PaymentMethodId);
+                if (paymentMethod == null)
+                {
+                    response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
+                    return response;
+                }
+
+                if (paymentMethod.Deleted)
+                {
+                    response.Message = isEnglish ? Messages.PaymentMethodNotExists : MessagesAr.PaymentMethodNotExists;
+                    return response;
+                }
+
+                if (!paymentMethod.Active)
+                {
+                    response.Message = isEnglish ? Messages.PaymentMethodNotActive : MessagesAr.PaymentMethodNotActive;
+                    return response;
+                }
+
+                if (!paymentMethod.ForQuickPay)
+                {
+                    response.Message = isEnglish ? Messages.PaymentMethodNotAvailable : MessagesAr.PaymentMethodNotAvailable;
+                    return response;
+                }
+
+                QuickPayment quickPayment = new();
+                quickPayment.PaymentRequestTypeId = PaymentRequestType.QuickPay;
+                quickPayment.CustomerIp = quickPaymentModel.CustomerIp;
+                quickPayment.MobileNumber = quickPaymentModel.MobileNumber;
+                quickPayment.Name = quickPaymentModel.Name;
+                quickPayment.PaymentMethodId = quickPaymentModel.PaymentMethodId;
+                quickPayment.PaymentStatusId = PaymentStatus.Canceled;
+                quickPayment.CustomQuickPay = true;
+                quickPayment.CustomerLanguageId = isEnglish ? 1 : 2;
+                quickPayment.Amount = quickPaymentModel.Amount;
+
+                if (quickPayment.Amount <= 0)
+                {
+                    response.Message = isEnglish ? Messages.OrderAmountValidation : MessagesAr.OrderAmountValidation;
+                    return response;
+                }
+
+                quickPayment = await _quickPaymentService.CreateQuickPayment(quickPayment);
+                if (quickPayment != null)
+                {
+                    var paymentNumber = string.Empty;
+                    QuickPayment quickPaymentByPaymentNumber = null;
+                    do
+                    {
+                        paymentNumber = "10" + Common.GenerateRandomNo();
+                        quickPaymentByPaymentNumber = await _quickPaymentService.GetQuickPaymentByPaymentNumber(paymentNumber);
+                    }
+                    while (quickPaymentByPaymentNumber != null);
+
+                    quickPayment.EntityId = quickPayment.Id;
+                    quickPayment.PaymentNumber = paymentNumber;
+                    await _quickPaymentService.UpdateQuickPayment(quickPayment);
+                }
+
+                CreatePaymentModel createPaymentModel = new();
+                if (quickPayment.PaymentMethodId == (int)Utility.Enum.PaymentMethod.KNET)
+                {
+                    var paymentUrlRequestModel = new PaymentUrlRequestModel
+                    {
+                        LangId = quickPayment.CustomerLanguageId.ToString(),
+                        Amount = quickPayment.Amount.ToString("N3"),
+                        TrackId = quickPayment.PaymentNumber.ToString(),
+                        EntityId = quickPayment.Id.ToString(),
+                        CustomerId = "0",
+                        RequestType = PaymentRequestType.QuickPay.ToString()
+                    };
+
+                    var paymentUrl = await _apiHelper.PostAsync<string>("Home/GetPaymentUrl", paymentUrlRequestModel, baseUrl: _appSettings.PaymentAPIUrl);
+                    if (!string.IsNullOrEmpty(paymentUrl))
+                    {
+                        createPaymentModel.PaymentUrl = paymentUrl;
+                        createPaymentModel.RedirectToPaymentPage = true;
+                    }
+                }
+                else if (quickPayment.PaymentMethodId == (int)Utility.Enum.PaymentMethod.VISAMASTER)
+                {
+                    var value = Cryptography.Encrypt(PaymentRequestType.QuickPay.ToString() + "-" + quickPayment.Id);
+                    createPaymentModel.PaymentUrl = _appSettings.APIBaseUrl + _appSettings.MasterCardInteractionRequestUrl + "?value=" + value;
+                    createPaymentModel.RedirectToPaymentPage = true;
+                }
+
+                createPaymentModel.PaymentReturnUrl = _appSettings.QuickPayUrl + "QPR/" + quickPayment.PaymentNumber;
+
+                createPaymentModel.EntityId = quickPayment.Id;
+                createPaymentModel.EntityNumber = quickPayment.PaymentNumber;
+                createPaymentModel.PaymentRequestTypeId = PaymentRequestType.QuickPay;
+
+                response.Data = createPaymentModel;
+                response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
+        public async Task<APIResponseModel<CreatePaymentModel>> UpdateQuickpay(bool isEnglish, CreatePaymentModel createPaymentModel)
         {
             var response = new APIResponseModel<CreatePaymentModel>();
 
@@ -649,7 +796,52 @@ namespace API.Areas.Frontend.Factories
 
             return response;
         }
-        public async Task<APIResponseModel<bool>> TestPush(bool isEnglish, string title, string message, string token)
+        public async Task<APIResponseModel<AppVersionModel>> IsUpdatedApp(bool isEnglish, int deviceTypeId, decimal version)
+        {
+            var response = new APIResponseModel<AppVersionModel>();
+            try
+            {
+                var companySetting = await _companySettingService.GetDefault();
+                if (companySetting != null)
+                {
+                    AppVersionModel AppVersionModel = new();
+                    if (deviceTypeId == 1)
+                    {
+                        AppVersionModel.Link = companySetting.PlayStoreLink;
+                        if (version >= companySetting.AndroidVersion)
+                            AppVersionModel.Updated = true;
+                        else
+                        {
+                            AppVersionModel.Updated = false;
+                            AppVersionModel.Message = isEnglish ? Messages.AndroidAppNewVersionAvailable : MessagesAr.AndroidAppNewVersionAvailable;
+                        }
+                    }
+                    else if (deviceTypeId == 2)
+                    {
+                        AppVersionModel.Link = companySetting.AppStoreLink;
+                        if (version >= companySetting.IOSVersion)
+                            AppVersionModel.Updated = true;
+                        else
+                        {
+                            AppVersionModel.Updated = false;
+                            AppVersionModel.Message = isEnglish ? Messages.IOSAppNewVersionAvailable : MessagesAr.IOSAppNewVersionAvailable;
+                        }
+                    }
+
+                    response.Data = AppVersionModel;
+                    response.Success = true;
+                    response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
+        public APIResponseModel<bool> TestPush(bool isEnglish, string title, string message, string token)
         {
             var response = new APIResponseModel<bool>();
 
@@ -665,6 +857,171 @@ namespace API.Areas.Frontend.Factories
             {
                 _logger.LogError(ex.Message);
                 response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
+        public async Task<APIResponseModel<CreatePaymentModel>> CreateApplePayRequest(bool isEnglish, int customerId, CreateApplePayRequestModel createApplePayRequestModel)
+        {
+            var response = new APIResponseModel<CreatePaymentModel>();
+
+            try
+            {
+                if (customerId <= 0)
+                {
+                    response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+                    return response;
+                }
+
+                var customer = await _customerService.GetCustomerById(customerId);
+                if (customer == null || customer.Deleted)
+                {
+                    response.MessageCode = 401;
+                    response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                    return response;
+                }
+
+                if (!customer.Active)
+                {
+                    response.MessageCode = 401;
+                    response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                    return response;
+                }
+
+                CreatePaymentModel createPaymentModel = new();
+                decimal minimumLimit = Convert.ToDecimal(0.100);
+                decimal amount = 0;
+                string orderNumber = string.Empty;
+                if (createApplePayRequestModel.PaymentRequestTypeId == PaymentRequestType.Order)
+                {
+                    var order = await _orderService.GetOrderById(createApplePayRequestModel.EntityId);
+                    if (order == null)
+                    {
+                        response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+                        return response;
+                    }
+
+                    amount = order.Total;
+                    orderNumber = order.OrderNumber;
+
+                    createPaymentModel.EntityNumber = order.OrderNumber;
+                    createPaymentModel.PaymentRequestTypeId = PaymentRequestType.Order;
+
+                }
+                else if (createApplePayRequestModel.PaymentRequestTypeId == PaymentRequestType.SubscriptionOrder)
+                {
+                    var subscriptionOrder = await _subscriptionService.GetSubscriptionOrderById(createApplePayRequestModel.EntityId);
+                    if (subscriptionOrder == null)
+                    {
+                        response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+                        return response;
+                    }
+
+                    amount = subscriptionOrder.Total;
+                    orderNumber = subscriptionOrder.OrderNumber;
+
+                    createPaymentModel.EntityNumber = subscriptionOrder.OrderNumber;
+                    createPaymentModel.PaymentRequestTypeId = PaymentRequestType.SubscriptionOrder;
+                }
+                else if (createApplePayRequestModel.PaymentRequestTypeId == PaymentRequestType.WalletPackageOrder)
+                {
+                    var walletPackageOrder = await _walletPackageService.GetWalletPackageOrderById(createApplePayRequestModel.EntityId);
+                    if (walletPackageOrder == null)
+                    {
+                        response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+                        return response;
+                    }
+
+                    amount = walletPackageOrder.Amount;
+                    orderNumber = walletPackageOrder.OrderNumber;
+
+                    createPaymentModel.EntityNumber = walletPackageOrder.OrderNumber;
+                    createPaymentModel.PaymentRequestTypeId = PaymentRequestType.WalletPackageOrder;
+                }
+                else if (createApplePayRequestModel.PaymentRequestTypeId == PaymentRequestType.QuickPay)
+                {
+                    var quickPayment = await _quickPaymentService.GetQuickPaymentById(createApplePayRequestModel.EntityId);
+                    if (quickPayment == null)
+                    {
+                        response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+                        return response;
+                    }
+
+                    amount = quickPayment.Amount;
+                    orderNumber = quickPayment.PaymentNumber;
+
+                    createPaymentModel.EntityNumber = quickPayment.PaymentNumber;
+                    createPaymentModel.PaymentRequestTypeId = PaymentRequestType.QuickPay;
+                }
+
+                if (amount <= minimumLimit || string.IsNullOrEmpty(orderNumber))
+                {
+                    response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
+                    return response;
+                }
+
+                createPaymentModel.EntityId = createApplePayRequestModel.EntityId;
+                var masterCardTransaction = await _masterCardHelper.CreateApplepayRequest(amount, orderNumber, createApplePayRequestModel.PaymentToken);
+                if (masterCardTransaction != null)
+                {
+                    PaymentResponseModel paymentResponseModel = new();
+                    paymentResponseModel.Amount = masterCardTransaction.amount.ToString();
+
+                    if (masterCardTransaction.sourceOfFunds != null && masterCardTransaction.sourceOfFunds.provided != null &&
+                        masterCardTransaction.sourceOfFunds.provided.card != null)
+                    {
+                        paymentResponseModel.PaymentId = masterCardTransaction.sourceOfFunds.provided.card.number;
+                        paymentResponseModel.CreditCardType = masterCardTransaction.sourceOfFunds.provided.card.scheme.ToLower() == "visa" ? "001" : "002";
+                        paymentResponseModel.CreditCardNumber = masterCardTransaction.sourceOfFunds.provided.card.number;
+                    }
+
+                    if (masterCardTransaction.transaction != null)
+                    {
+                        paymentResponseModel.Auth = masterCardTransaction.transaction.authorizationCode;
+                        paymentResponseModel.TransId = masterCardTransaction.transaction.receipt;
+                    }
+
+                    paymentResponseModel.TrackId = createPaymentModel.EntityNumber;
+                    paymentResponseModel.RefId = createPaymentModel.EntityNumber;
+                    paymentResponseModel.EntityId = createPaymentModel.EntityId.ToString();
+                    paymentResponseModel.RequestType = createPaymentModel.PaymentRequestTypeId.ToString();
+                    paymentResponseModel.BankServiceCharge = _appSettings.MasterCardFee;
+                    paymentResponseModel.BankServiceChargeInPercentage = true;
+                    paymentResponseModel.Result = "not+captured";
+                    if (masterCardTransaction.response.gatewayCode.ToLower() == "approved")
+                    {
+                        paymentResponseModel.Result = "captured";
+                    }
+
+                    await _paymentHelper.UpdatePaymentEntity(paymentResponseModel);
+
+                    response.Data = createPaymentModel;
+                    response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
+        public async Task<APIResponseModel<bool>> TestApple(string requestUrl)
+        {
+            var response = new APIResponseModel<bool>();
+
+            try
+            {
+                var result = await _masterCardHelper.ValidateApplepayMerchant(requestUrl);
+
+                response.Data = result;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
             }
 
             return response;

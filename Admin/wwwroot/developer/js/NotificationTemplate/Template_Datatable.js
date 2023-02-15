@@ -36,8 +36,8 @@ searchDataTable = () => {
             { "data": "smsMessageEn" },
             { "data": "smsMessageAr"}, 
            
-            { "data": "pushMessageEn" },
-            { "data": "pushMessageAr" },
+            //{ "data": "pushMessageEn" },
+            //{ "data": "pushMessageAr" },
              
             {
                 "data": null, "name":"Actions", render: function (data, type, row) {

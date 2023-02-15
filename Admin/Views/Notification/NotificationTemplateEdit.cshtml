@@ -29,40 +29,40 @@
                     <div class="card-body ">
                         <div class="row">
                             <div class="col-12 mb-3">
-                                <h2 class="card-title text-primary mb-2">OTP SMS Notification</h2>
+                                @*<h2 class="card-title text-primary mb-2">OTP SMS Notification</h2>*@
                                 <!-- ========== Start ios7 Switch ========== -->
 
-                                <div class="switch switch-sm switch-primary my-0  EnableOTPNotifications-switch">
+                                @*<div class="switch switch-sm switch-primary my-0  EnableOTPNotifications-switch">
 
                                     <input type="checkbox" name="smsEnabled" id="smsEnabled" data-plugin-ios-switch  />
-                                </div>
+                                </div>*@
                                 <!-- ========== End ios7 Switch ========== -->
                                 <!-- ========== Start ios7 Switch Conditional Script ========== -->
                                 
                                 <!-- ========== End ios7 Switch Conditional Script ========== -->
 
-                                <div class="row mt-2 EnableOTPNotifications" style="display:none">
+                                <div class="row mt-2" >
                                     <div class="col-12 col-lg-6 mb-3">
                                         <!-- ========== Start Simple Text Area ========== -->
-                                        <label for="" class="form-label ">SMS Template (EN)<span class=" text-danger">*</span></label>
+                                        <label for="" class="form-label ">@SharedHtmlLocalizer["SMS_Message_En"]<span class=" text-danger">*</span></label>
                                         <textarea class="form-control form-control-lg rounded-4 border-secondary " name="smsMessageEn" id="smsMessageEn" 
-                                                  aria-describedby="SMS Template (EN)" placeholder="" rows="3" required>Please use OTP code [OTPCODE] to verify.</textarea>
-                                        <small class="form-text text-muted">Be sure to use the text <span class='fw-bold text-danger'>[OTPCODE]</span> in the message for the OTP to be added.</small>
+                                                  aria-describedby="" placeholder="" rows="3" required></textarea>
+                                        <small class="form-text text-muted"></small>
 
                                         <!-- ========== End Simple Text Area ========== -->
                                     </div>
                                     <div class="col-12 col-lg-6 mb-3">
                                         <!-- ========== Start Simple Text Area ========== -->
-                                        <label for="" class="form-label ">SMS Template (AR)<span class=" text-danger">*</span></label>
+                                        <label for="" class="form-label ">@SharedHtmlLocalizer["SMS_Message_Ar"]<span class=" text-danger">*</span></label>
                                         <textarea dir="rtl" class="form-control form-control-lg rounded-4 border-secondary " name="smsMessageAr" id="smsMessageAr" 
-                                                  aria-describedby="SMS Template (AR)" placeholder="" rows="3" required>الرجاء استخدام الرمز [OTPCODE] للتحقق.</textarea>
-                                        <small class="form-text text-muted">Be sure to use the text <span class='fw-bold text-danger'>[OTPCODE]</span> in the message for the OTP to be added.</small>
+                                                  aria-describedby="" placeholder="" rows="3" required></textarea>
+                                        <small class="form-text text-muted"></small>
 
                                         <!-- ========== End Simple Text Area ========== -->
                                     </div>
                                 </div>
                            
-                            <div class="col-12 mb-3">
+                            <div class="col-12 mb-3" style="display:none">
                                 <h2 class="card-title text-primary mb-2">Push Notification</h2>
                                 <!-- ========== Start ios7 Switch ========== -->
 
@@ -103,8 +103,8 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
-                            <button id="btnSave" class="btn btn-primary btn-lg save-btn  fw-bold">Save</button>
-                            <button type="button" class="btn btn-warning" onclick="history.go(-1)"> Back </button> 
+                            <button id="btnSave" class="btn btn-primary btn-lg save-btn  fw-bold">@SharedHtmlLocalizer["Save"]</button>
+                            <button type="button" class="btn btn-warning" onclick="history.go(-1)">@SharedHtmlLocalizer["Back"]</button> 
                         </div>
                     </div>
                         </div>

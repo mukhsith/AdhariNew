@@ -11,8 +11,8 @@ setup = () => {
 
         },
         messages: {
-            contentEn: { required: 'Required' },
-            contentAr: { required: 'Required', },
+            contentEn: { required: '' },
+            contentAr: { required: '', },
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -59,15 +59,15 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) {
-        ToastAlert('success', 'Terms & Conditions', 'Saved Successfully'); 
+        ToastAlert('success', Resources.TermsAndConditions , Resources.SavedSuccessfully);
     } else {
         showLog(data);
-        ToastAlert('error', 'Terms & Conditions', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.TermsAndConditions, Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => {
-    ToastAlert('error', 'Terms & Conditions', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.TermsAndConditions, Resources.UnableTosave);
 }
 
 

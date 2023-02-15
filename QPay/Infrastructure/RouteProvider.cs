@@ -26,9 +26,15 @@ namespace QPay.Infrastructure
 
             //home
             endpointRouteBuilder.MapControllerRoute(
-                   name: "quickpay",
-                   pattern: "/{quickPayNumber?}",
+                   name: "home",
+                   pattern: "",
                    defaults: new { controller = "Home", action = "Index" });
+
+            //pay
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "pay",
+                   pattern: "pay/{quickPayNumber?}",
+                   defaults: new { controller = "Home", action = "Pay" });
 
             //to create quick pay
             endpointRouteBuilder.MapControllerRoute(
@@ -36,11 +42,35 @@ namespace QPay.Infrastructure
                    pattern: "qpay/createqpay",
                    defaults: new { controller = "Home", action = "CreateQPay" });
 
+            //to update quick pay
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "updateqpay",
+                   pattern: "qpay/updateqpay",
+                   defaults: new { controller = "Home", action = "UpdateQPay" });
+
             //quick pay result
             endpointRouteBuilder.MapControllerRoute(
                    name: "qpayresult",
                    pattern: "QPR/{quickPayNumber?}",
                    defaults: new { controller = "Home", action = "QPayResult" });
+
+            //register
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "register",
+                   pattern: "register",
+                   defaults: new { controller = "Home", action = "Register" });
+
+            //verify otp
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "verifyotp",
+                   pattern: "verifyotp/{code?}",
+                   defaults: new { controller = "Home", action = "VerifyOTP" });
+
+            //verify otp
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "verifyotp",
+                   pattern: "verifyotp/{code?}",
+                   defaults: new { controller = "Home", action = "VerifyOTP" });
         }
     }
 }

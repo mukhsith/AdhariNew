@@ -23,6 +23,9 @@ namespace Data.Content
         [StringLength(Constants.MobileDataSize)]
         public string MobileNumber { get; set; }
 
+        [StringLength(Constants.MobileDataSize)]
+        public string WhatsAppNumber { get; set; }
+
         [StringLength(Constants.EmailDataSize)]
         public string EmailAddress { get; set; }
     }

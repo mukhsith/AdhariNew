@@ -12,6 +12,7 @@ using Utility.Models.Frontend.CustomizedModel;
 using Utility.Models.Frontend.Locations;
 using Utility.Models.Frontend.ProductManagement;
 using Utility.Models.Frontend.Sales;
+using Utility.Models.MasterCard;
 using Utility.ResponseMapper;
 
 namespace API.Areas.Frontend.Controllers
@@ -42,7 +43,8 @@ namespace API.Areas.Frontend.Controllers
         [HttpGet, Route("/webapi/common/homepagecontents")]
         public async Task<APIResponseModel<HomepageModel>> GetHomepageContents(string customerGuidValue = "")
         {
-            return await _appContentModelFactory.PrepareHomepageContent(isEnglish: isEnglish, customerId: LoggedInCustomerId, customerGuidValue: customerGuidValue);
+            return await _appContentModelFactory.PrepareHomepageContent(isEnglish: isEnglish, customerId: LoggedInCustomerId, customerGuidValue: customerGuidValue,
+                deviceType: HeaderDeviceTypeId);
         }
 
         /// <summary>
@@ -90,10 +92,10 @@ namespace API.Areas.Frontend.Controllers
         /// </summary>
         /// <returns>Payment methods</returns>
         [HttpGet, Route("/webapi/common/paymentmethods")]
-        [Authorize]
         public async Task<APIResponseModel<List<PaymentMethodModel>>> GetPaymentMethods(PaymentRequestType typeId)
         {
-            return await _appContentModelFactory.PreparePaymentMethods(isEnglish, paymentRequestType: typeId, customerId: LoggedInCustomerId);
+            return await _appContentModelFactory.PreparePaymentMethods(isEnglish, paymentRequestType: typeId,
+                customerId: LoggedInCustomerId, deviceType: HeaderDeviceTypeId);
         }
 
         /// <summary>
@@ -129,15 +131,40 @@ namespace API.Areas.Frontend.Controllers
         }
 
         [HttpPost, Route("/webapi/common/createquickpay")]
-        public async Task<APIResponseModel<CreatePaymentModel>> CreateQuickpay([FromBody] CreatePaymentModel createPaymentModel)
+        public async Task<APIResponseModel<CreatePaymentModel>> CreateQuickpay([FromBody] QuickPaymentModel quickPaymentModel)
         {
-            return await _appContentModelFactory.CreateQuickpay(isEnglish: isEnglish, createPaymentModel: createPaymentModel);
+            return await _appContentModelFactory.CreateQuickpay(isEnglish: isEnglish, quickPaymentModel: quickPaymentModel);
+        }
+
+        [HttpPost, Route("/webapi/common/updatequickpay")]
+        public async Task<APIResponseModel<CreatePaymentModel>> UpdateQuickpay([FromBody] CreatePaymentModel createPaymentModel)
+        {
+            return await _appContentModelFactory.UpdateQuickpay(isEnglish: isEnglish, createPaymentModel: createPaymentModel);
+        }
+
+        [HttpGet, Route("/webapi/common/isupdatedapp")]
+        public async Task<APIResponseModel<AppVersionModel>> IsUpdatedApp(int deviceTypeId, decimal version)
+        {
+            return await _appContentModelFactory.IsUpdatedApp(isEnglish: isEnglish, deviceTypeId: deviceTypeId, version: version);
         }
 
         [HttpPost, Route("/webapi/common/testpush")]
-        public async Task<APIResponseModel<bool>> CreateQuickpay(string title, string message, string token)
+        public APIResponseModel<bool> TestPush(string title, string message, string token)
         {
-            return await _appContentModelFactory.TestPush(isEnglish: isEnglish, title: title, message: message, token: token);
+            return _appContentModelFactory.TestPush(isEnglish: isEnglish, title: title, message: message, token: token);
+        }
+
+        [HttpPost, Route("/webapi/common/createapplepayrequest")]
+        public async Task<APIResponseModel<CreatePaymentModel>> CreateApplePayRequest(CreateApplePayRequestModel createApplePayRequestModel)
+        {
+            return await _appContentModelFactory.CreateApplePayRequest(isEnglish: isEnglish, customerId: LoggedInCustomerId,
+                createApplePayRequestModel: createApplePayRequestModel);
+        }
+
+        [HttpPost, Route("/webapi/common/testapple")]
+        public async Task<APIResponseModel<bool>> TestApple(string requestUrl)
+        {
+            return await _appContentModelFactory.TestApple(requestUrl);
         }
     }
 }

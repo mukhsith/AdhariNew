@@ -8,6 +8,7 @@
  
 downloadPDF = (orderId) => {
     ajaxGet('Order/GetOrderPDF?id=' + orderId, cbGetPDFSuccess);
+    //ajaxGet('Order/downloadNewPDF?id=' + orderId , cbGetPDFSuccess);
 }
 cbGetPDFSuccess = (data) => {
     window.open(data.data, "_blank");

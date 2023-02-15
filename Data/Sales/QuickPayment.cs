@@ -12,8 +12,9 @@ namespace Data.Sales
     {
         public PaymentRequestType PaymentRequestTypeId { get; set; }
         public int EntityId { get; set; }
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         public string MobileNumber { get; set; }
+        public string Name { get; set; }
         public string PaymentNumber { get; set; }
 
         [Column(TypeName = Constants.AmountDataType)]
@@ -57,6 +58,8 @@ namespace Data.Sales
         public bool Used { get; set; }
         public string CustomerIp { get; set; }
         public string Notes { get; set; }
+        public bool CustomQuickPay { get; set; }
+        public int CustomerLanguageId { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Data.Content.PaymentMethod PaymentMethod { get; set; }
     }

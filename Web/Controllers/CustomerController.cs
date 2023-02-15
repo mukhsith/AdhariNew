@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Utility.API;
 using Utility.Enum;
@@ -65,29 +66,19 @@ namespace Web.Controllers
         /// Login by mobile
         /// </summary>
         [HttpPost]
-        public virtual async Task<JsonResult> Login(CustomerModel customerModel)
+        public virtual JsonResult Login(CustomerModel customerModel)
         {
             APIResponseModel<CustomerModel> response = new();
+
             try
             {
-                if (ModelState.IsValid)
-                {
-                    response = await _apiHelper.PostAsync<APIResponseModel<CustomerModel>>("webapi/customer/login", customerModel);
-                }
-                else
-                {
-                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                    if (errors.Count() > 0)
-                    {
-                        response.Message = errors.FirstOrDefault();
-                    }
-                }
+                response = _apiHelper.PostAsync<APIResponseModel<CustomerModel>>("webapi/customer/login", customerModel).Result;
             }
             catch (Exception ex)
             {
                 response.Message = ex.Message;
             }
-            //CustomerRegisterModel
+
             return Json(response);
         }
 
@@ -104,23 +95,13 @@ namespace Web.Controllers
         /// Register with name+mobile+email
         /// </summary>
         [HttpPost]
-        public virtual async Task<JsonResult> Register(CustomerModel customerModel)
+        public virtual JsonResult Register(CustomerModel customerModel)
         {
             APIResponseModel<CustomerModel> response = new();
+
             try
             {
-                if (ModelState.IsValid)
-                {
-                    response = await _apiHelper.PostAsync<APIResponseModel<CustomerModel>>("webapi/customer/register", customerModel);
-                }
-                else
-                {
-                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                    if (errors.Count() > 0)
-                    {
-                        response.Message = errors.FirstOrDefault();
-                    }
-                }
+                response = _apiHelper.PostAsync<APIResponseModel<CustomerModel>>("webapi/customer/register", customerModel).Result;
             }
             catch (Exception ex)
             {
@@ -502,6 +483,27 @@ namespace Web.Controllers
             return View(addressModel);
         }
 
+        [HttpGet]
+        public async Task<JsonResult> GetAddress(int addressId)
+        {
+            var response = new APIResponseModel<List<AddressModel>>();
+
+            try
+            {
+                response = await _apiHelper.GetAsync<APIResponseModel<List<AddressModel>>>("webapi/customer/getaddress?id=" + addressId);
+                if (response.MessageCode == 401)
+                {
+                    return Json(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return Json(response);
+        }
+
         [HttpPut]
         public async Task<JsonResult> UpdateAddress(AddressModel addressModel)
         {
@@ -509,7 +511,28 @@ namespace Web.Controllers
 
             try
             {
-                response = await _apiHelper.PutAsync<APIResponseModel<AddressModel>>("webapi/customer/updateaddress", addressModel);
+                response = await _apiHelper.PutAsync<APIResponseModel<AddressModel>>("webapi/customer/updateaddressweb", addressModel);
+                if (response.MessageCode == 401)
+                {
+                    return Json(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return Json(response);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> DeleteAddress(int id)
+        {
+            var response = new APIResponseModel<object>();
+
+            try
+            {
+                response = await _apiHelper.DeleteAsync<APIResponseModel<object>>("webapi/customer/deleteaddress?id=" + id);
                 if (response.MessageCode == 401)
                 {
                     return Json(response);
@@ -629,7 +652,6 @@ namespace Web.Controllers
 
             return Json(responseModel);
         }
-
         public async Task<IActionResult> WalletOrderResult(string orderNumber)
         {
             var walletPackageOrderModel = new WalletPackageOrderModel();

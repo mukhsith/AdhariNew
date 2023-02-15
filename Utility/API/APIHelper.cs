@@ -362,12 +362,12 @@ namespace Utility.API
                     audience: _appSettings.Issuer,
                     subject: new ClaimsIdentity(claims),
                     notBefore: DateTime.Now,
-                    expires: DateTime.Now.AddHours(1),
+                    expires: DateTime.Now.AddMonths(2),
                     issuedAt: DateTime.Now,
                     signingCredentials: signingCredentials,
                     encryptingCredentials: TokenEncryption);
 
-                DateTime expiry = DateTime.UtcNow.AddSeconds(_appSettings.TokenTimeout);
+                DateTime expiry = DateTime.Now.AddMonths(2);
                 //string tokenString = handler.WriteToken(jwtSecurityToken);
                 //return tokenString;
 

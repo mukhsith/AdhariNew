@@ -12,9 +12,9 @@ setup = () => {
             note: { required: true }, 
         },
         messages: {
-            fromDate: { required: 'Required' },
-            toDate: { required: 'Required' },
-            note: { required: 'Required' },
+            fromDate: { required: '' },
+            toDate: { required: '' },
+            note: { required: '' },
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -57,16 +57,16 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) { 
-        ToastAlert('success', 'Delivery Blocked Date', 'Saved Successfully');
+        ToastAlert('success', 'Delivery Blocked Date', Resources.SavedSuccessfully);
         setTimeout(() => location.href = "/Delivery/BlockedDateList", 500);
     } else {
         //showLog(data);
-        ToastAlert('error', 'Delivery Blocked Date', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', 'Delivery Blocked Date', Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => { 
-    ToastAlert('error', 'Delivery Blocked Date', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', 'Delivery Blocked Date', Resources.UnableTosave);
 }
 
  

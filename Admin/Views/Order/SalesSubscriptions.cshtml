@@ -69,36 +69,32 @@
 
                         <label for="OrderID" class="form-label">@SharedHtmlLocalizer["SubscriptionID"]</label>
                         <input type="text" class="form-control form-control-lg rounded-4 border-secondary "
-                               name="subscriptionId" id="subscriptionId" aria-describedby="@SharedHtmlLocalizer["SubscriptionID"]" placeholder="@SharedHtmlLocalizer["EnterSubscriptionID"]" value="">
+                               name="subscriptionId" id="subscriptionId" aria-describedby="@SharedHtmlLocalizer["SubscriptionID"]" placeholder="" value="">
 
 
                         <!-- ========== End Simple Input Field ========== -->
                     </div>
                     <div class="col-12 col-lg-3 mb-3">
                         <!-- ========== Start Datepicker Field ========== -->
-                        <label for="" class="form-label">@SharedHtmlLocalizer["SubscriptionDate"]</label>
+                   
+                        <div class="d-flex justify-content-between">
+                            <label for="" class="form-label">@SharedHtmlLocalizer["SubscriptionDate"]</label>
+                            <a id="btnclear" class="fw-bold text-danger pe-3 " style="cursor: pointer; text-decoration: none;">Clear</a>
+                        </div>
                         <div class="input-daterange input-group rounded-4" data-plugin-datepicker>
+                            @*<span class="input-group-text rounded-4 border border-secondary">
+                <i class="fas fa-calendar-alt"></i>
+            </span>*@
                             <span class="input-group-text rounded-4 border border-secondary">
-                                <i class="fas fa-calendar-alt"></i>
+                                @SharedHtmlLocalizer["From"]
                             </span>
-                            <!-- ========== Start Simple Input Field ========== -->
-
-
-                            <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary "
-                                   name="startDate" id="startDate" aria-describedby="" placeholder="" value="">
-
-
-                            <!-- ========== End Simple Input Field ========== --> <span class="input-group-text border-start-0 border-end-0 border-secondary rounded-0">
-                                to
+                            <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary " name="startDate" id="startDate" aria-describedby="" placeholder="" value="">
+                            <span class="input-group-text border-start-0 border-end-0 border-secondary rounded-0">
+                                @SharedHtmlLocalizer["To"]
                             </span>
-                            <!-- ========== Start Simple Input Field ========== -->
 
+                            <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary " name="endDate" id="endDate" aria-describedby="" placeholder="" value="">
 
-                            <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary "
-                                   name="endDate" id="endDate" aria-describedby="" placeholder="" value="">
-
-
-                            <!-- ========== End Simple Input Field ========== -->
                         </div>
                         <!-- ========== End Datepicker Field ========== -->
                     </div>
@@ -107,7 +103,7 @@
 
                         <label for="CustomerName" class="form-label">@SharedHtmlLocalizer["CustomerName"]</label>
                         <input type="text" class="form-control form-control-lg rounded-4 border-secondary "
-                               name="customerName" id="customerName" aria-describedby="@SharedHtmlLocalizer["CustomerName"]" placeholder="@SharedHtmlLocalizer["EnterName"]" value="">
+                               name="customerName" id="customerName" aria-describedby="@SharedHtmlLocalizer["CustomerName"]" placeholder="" value="">
 
 
                         <!-- ========== End Simple Input Field ========== -->
@@ -117,7 +113,7 @@
 
                         <label for="MobileNumber" class="form-label">@SharedHtmlLocalizer["MobileNumber"]</label>
                         <input type="tel" class="form-control form-control-lg rounded-4 border-secondary "
-                               name="customerMobile" id="customerMobile" aria-describedby="@SharedHtmlLocalizer["MobileNumber"]" placeholder="@SharedHtmlLocalizer["EnterMobileNumber"]" value="">
+                               name="customerMobile" id="customerMobile" aria-describedby="@SharedHtmlLocalizer["MobileNumber"]" placeholder="" value="">
 
 
                         <!-- ========== End Simple Input Field ========== -->
@@ -127,7 +123,7 @@
 
                         <label for="CustomerEmail" class="form-label">@SharedHtmlLocalizer["CustomerEmail"]</label>
                         <input type="email" class="form-control form-control-lg rounded-4 border-secondary "
-                               name="customerEmail" id="customerEmail" aria-describedby="@SharedHtmlLocalizer["CustomerEmail"]" placeholder="@SharedHtmlLocalizer["EnterEmail"]" value="">
+                               name="customerEmail" id="customerEmail" aria-describedby="@SharedHtmlLocalizer["CustomerEmail"]" placeholder="" value="">
 
 
                         <!-- ========== End Simple Input Field ========== -->
@@ -137,7 +133,7 @@
                         <label for="PaymentMethod" class="form-label">Payment Method</label>
                         <select class="form-select form-select-lg rounded-4 border-secondary"
                                 name="paymentMethodList" id="paymentMethodList" aria-describedby="Payment Method">
-                            <option value="" selected>All</option>
+                            <option value="" selected>@SharedHtmlLocalizer["All"]</option>
                             <option value="@((Int32)PaymentMethod.KNET)">KNET</option>
                             <option value="@((Int32)PaymentMethod.VISAMASTER)">Visa / Mastercard</option>
                             <option value="@((Int32)PaymentMethod.Tabby)">Tabby</option>
@@ -151,7 +147,7 @@
                         <label for="OrderStatus" class="form-label">Subscription Status</label>
                         <select class="form-select form-select-lg rounded-4 border-secondary"
                                 name="subscriptionStatusList" id="subscriptionStatusList" aria-describedby="Subscription Status">
-                            <option value="" selected>All</option>
+                            <option value="" selected>@SharedHtmlLocalizer["All"]</option>
                             <option value="@((Int32)SubscriptionStatus.Pending)">@SharedHtmlLocalizer["Pending"]</option>
                             <option value="@((Int32)SubscriptionStatus.Confirmed)">@SharedHtmlLocalizer["Confirmed"]</option>
                             <option value="@((Int32)SubscriptionStatus.Expired)">@SharedHtmlLocalizer["Expired"]</option>
@@ -196,7 +192,8 @@
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["MobileNumber"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentMethod"]</th>
-                                        <th data-priority="5" class="">@SharedHtmlLocalizer["Status"]</th>
+                                        <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentStatus"]</th>
+                                        <th data-priority="3" class="">@SharedHtmlLocalizer["OrderStatus"]</th>
                                         <th data-priority="6" class="">@SharedHtmlLocalizer["Actions"]</th>
 
                                     </tr>
@@ -223,7 +220,8 @@
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["MobileNumber"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentMethod"]</th>
-                                        <th data-priority="5" class="">@SharedHtmlLocalizer["Status"]</th>
+                                        <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentStatus"]</th>
+                                        <th data-priority="3" class="">@SharedHtmlLocalizer["OrderStatus"]</th>
                                         <th data-priority="6" class="">@SharedHtmlLocalizer["Actions"]</th>
 
                                     </tr>
@@ -249,7 +247,8 @@
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["MobileNumber"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentMethod"]</th>
-                                        <th data-priority="5" class="">@SharedHtmlLocalizer["Status"]</th>
+                                        <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentStatus"]</th>
+                                        <th data-priority="3" class="">@SharedHtmlLocalizer["OrderStatus"]</th>
                                         <th data-priority="6" class="">@SharedHtmlLocalizer["Actions"]</th>
 
                                     </tr>

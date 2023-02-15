@@ -1,140 +1,142 @@
-﻿<form id="frm-address">
-    <div class="row mb-3">
-        <div class="col-12 col-md-4 mb-3">
-            <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["AddressName"]<span class="ms-1 text-danger">*</span></label>
-            <input type="text" class="form-control rounded-5 border-secondary body-bg-secondary" name="AddressName" id="AddressName">
-            <div id="dvErrorAddressName">
+﻿<div id="dv-add-new-address">
+    <form id="frm-address">
+        <div class="row mb-3">
+            <div class="col-12 col-md-4 mb-3">
+                <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["AddressName"]<span class="ms-1 text-danger">*</span></label>
+                <input type="text" class="form-control rounded-5 border-secondary body-bg-secondary" name="AddressName" id="AddressName">
+                <div id="dvErrorAddressName">
+                </div>
             </div>
-        </div>
-        <div class="col-6 col-md-4 mb-3">
-            <label for="governorate" class="form-label">@SharedHtmlLocalizer["Governorate"]<span class="ms-1 text-danger">*</span></label>
-            <select class="form-select rounded-5 border-secondary body-bg-secondary select-2-dl" name="Governorate" id="Governorate">
-                <option value="">@SharedHtmlLocalizer["Select"]</option>
-            </select>
-            <div id="dvErrorGovernorate">
+            <div class="col-6 col-md-4 mb-3">
+                <label for="governorate" class="form-label">@SharedHtmlLocalizer["Governorate"]<span class="ms-1 text-danger">*</span></label>
+                <select class="form-select rounded-5 border-secondary body-bg-secondary select-2-dl" name="Governorate" id="Governorate">
+                    <option value="">@SharedHtmlLocalizer["Select"]</option>
+                </select>
+                <div id="dvErrorGovernorate">
+                </div>
             </div>
-        </div>
-        <div class="col-6 col-md-4 mb-3">
-            <label for="city" class="form-label">@SharedHtmlLocalizer["Area"]<span class="ms-1 text-danger">*</span></label>
-            <select class="form-select rounded-5 border-secondary body-bg-secondary" name="Area" id="Area">
-                <option value="">@SharedHtmlLocalizer["Select"]</option>
-            </select>
-            <div id="dvErrorArea">
-            </div>
-        </div>
-    </div>
-    <!-- Nav tabs -->
-    <ul class="nav nav-pills delivery-addresses mb-3 row col-12 col-lg-10 mx-auto justify-content-center" id="myTab" role="tablist">
-        <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
-            <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 active address-tab" id="Home-tab">
-                <img src="/assets/img/icons/address-icons/house-line.svg" class="img-fluid me-0 me-md-2">
-                <span class="text-muted">@SharedHtmlLocalizer["House"]</span>
-            </a>
-        </li>
-        <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
-            <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 address-tab" id="Apartment-tab">
-                <img src="/assets/img/icons/address-icons/building.svg" class="img-fluid me-0 me-md-2">
-                <span class="text-muted">@SharedHtmlLocalizer["Apartment"]</span>
-            </a>
-        </li>
-        <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
-            <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 address-tab" id="Office-tab">
-                <img src="/assets/img/icons/address-icons/office.svg" class="img-fluid me-0 me-md-2">
-                <span class="text-muted">@SharedHtmlLocalizer["Office"]</span>
-            </a>
-        </li>
-        <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
-            <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 address-tab" id="School-tab">
-                <img src="/assets/img/icons/address-icons/school.svg" class="img-fluid me-0 me-md-2">
-                <span class="text-muted">@SharedHtmlLocalizer["School"]</span>
-            </a>
-        </li>
-        <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
-            <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 address-tab" id="Mosque-tab">
-                <img src="/assets/img/icons/address-icons/mosque.svg" class="img-fluid me-0 me-md-2">
-                <span class="text-muted">@SharedHtmlLocalizer["Mosque"]</span>
-            </a>
-        </li>
-        <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
-            <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 address-tab" id="Government-tab">
-                <img src="/assets/img/icons/address-icons/government.svg" class="img-fluid me-0 me-md-2">
-                <span class="text-muted">@SharedHtmlLocalizer["Government"]</span>
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active">
-            <div class="row">
-                <div class="col-6 col-lg-3 mb-3 address-div" id="dv-block">
-                    <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["Block"]<span id="sp-star-block" class="ms-1 text-danger address-star">*</span></label>
-                    <input type="text" id="Block" name="Block" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
-                    <div id="dvErrorBlock">
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 mb-3 address-div" id="dv-street">
-                    <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["Street"]<span id="sp-star-street" class="ms-1 text-danger address-star">*</span></label>
-                    <input type="text" id="Street" name="Street" class="form-control rounded-5 border-secondary body-bg-secondary address-field" >
-                    <div id="dvErrorStreet">
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 mb-3 address-div" id="dv-avenue">
-                    <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["Avenue"]</label>
-                    <input type="text" id="Avenue" name="Avenue" class="form-control rounded-5 border-secondary body-bg-secondary address-field" >
-                    <div id="dvErrorAvenue">
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 mb-3 address-div" id="dv-house-no">
-                    <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["HouseNo."]<span id="sp-star-houseno" class="ms-1 text-danger address-star">*</span></label>
-                    <input type="text" id="HouseNo" name="HouseNo" class="form-control rounded-5 border-secondary body-bg-secondary address-field" >
-                    <div id="dvErrorHouseNo">
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 mb-3 address-div" id="dv-building-no">
-                    <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["BuildingNo."]<span id="sp-star-buildingno" class="ms-1 text-danger address-star">*</span></label>
-                    <input type="text" id="BuildingNo" name="BuildingNo" class="form-control rounded-5 border-secondary body-bg-secondary address-field" >
-                    <div id="dvErrorBuildingNo">
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 mb-3 address-div" id="dv-floor-no">
-                    <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["FloorNo."]<span id="sp-star-floorno" class="ms-1 text-danger address-star">*</span></label>
-                    <input type="text" id="FloorNo" name="FloorNo" class="form-control rounded-5 border-secondary body-bg-secondary address-field" >
-                    <div id="dvErrorFloorNo">
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 mb-3 address-div" id="dv-flat-no">
-                    <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["FlatNo."]<span id="sp-star-flatno" class="ms-1 text-danger address-star">*</span></label>
-                    <input type="text" id="FlatNo" name="FlatNo" class="form-control rounded-5 border-secondary body-bg-secondary address-field" >
-                    <div id="dvErrorFlatNo">
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 mb-3 address-div" id="dv-school-name">
-                    <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["SchoolName"]<span id="sp-star-schoolname" class="ms-1 text-danger address-star">*</span></label>
-                    <input type="text" id="SchoolName" name="SchoolName" class="form-control rounded-5 border-secondary body-bg-secondary address-field" >
-                    <div id="dvErrorSchoolName">
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 mb-3 address-div" id="dv-mosque-name">
-                    <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["MosqueName"]<span id="sp-star-mosquename" class="ms-1 text-danger address-star">*</span></label>
-                    <input type="text" id="MosqueName" name="MosqueName" class="form-control rounded-5 border-secondary body-bg-secondary address-field" >
-                    <div id="dvErrorMosqueName">
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 mb-3 address-div" id="dv-government-entity">
-                    <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["GovernmentEntity"]<span id="sp-star-governmententity" class="ms-1 text-danger address-star">*</span></label>
-                    <input type="text" id="GovernmentEntity" name="GovernmentEntity" class="form-control rounded-5 border-secondary body-bg-secondary address-field" >
-                    <div id="dvErrorGovernmentEntity">
-                    </div>
-                </div>
-                <div class="col-12 mb-3" id="dv-notes">
-                    <label for="inputNotes" class="form-label">@SharedHtmlLocalizer["Notes"]</label>
-                    <textarea id="Notes" name="Notes" class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" rows="3"></textarea>
-                    <div id="dvErrorNotes">
-                    </div>
+            <div class="col-6 col-md-4 mb-3">
+                <label for="city" class="form-label">@SharedHtmlLocalizer["Area"]<span class="ms-1 text-danger">*</span></label>
+                <select class="form-select rounded-5 border-secondary body-bg-secondary" name="Area" id="Area">
+                    <option value="">@SharedHtmlLocalizer["Select"]</option>
+                </select>
+                <div id="dvErrorArea">
                 </div>
             </div>
         </div>
-    </div>
-</form>
+        <!-- Nav tabs -->
+        <ul class="nav nav-pills delivery-addresses mb-3 row col-12 col-lg-10 mx-auto justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 active address-tab" id="Home-tab">
+                    <img src="/assets/img/icons/address-icons/house-line.svg" class="img-fluid me-0 me-md-2">
+                    <span class="text-muted">@SharedHtmlLocalizer["House"]</span>
+                </a>
+            </li>
+            <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 address-tab" id="Apartment-tab">
+                    <img src="/assets/img/icons/address-icons/building.svg" class="img-fluid me-0 me-md-2">
+                    <span class="text-muted">@SharedHtmlLocalizer["Apartment"]</span>
+                </a>
+            </li>
+            <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 address-tab" id="Office-tab">
+                    <img src="/assets/img/icons/address-icons/office.svg" class="img-fluid me-0 me-md-2">
+                    <span class="text-muted">@SharedHtmlLocalizer["Office"]</span>
+                </a>
+            </li>
+            <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 address-tab" id="School-tab">
+                    <img src="/assets/img/icons/address-icons/school.svg" class="img-fluid me-0 me-md-2">
+                    <span class="text-muted">@SharedHtmlLocalizer["School"]</span>
+                </a>
+            </li>
+            <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 address-tab" id="Mosque-tab">
+                    <img src="/assets/img/icons/address-icons/mosque.svg" class="img-fluid me-0 me-md-2">
+                    <span class="text-muted">@SharedHtmlLocalizer["Mosque"]</span>
+                </a>
+            </li>
+            <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 address-tab" id="Government-tab">
+                    <img src="/assets/img/icons/address-icons/government.svg" class="img-fluid me-0 me-md-2">
+                    <span class="text-muted">@SharedHtmlLocalizer["Government"]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <div class="row">
+                    <div class="col-6 col-lg-3 mb-3 address-div" id="dv-block">
+                        <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["Block"]<span id="sp-star-block" class="ms-1 text-danger address-star">*</span></label>
+                        <input type="text" id="Block" name="Block" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
+                        <div id="dvErrorBlock">
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 mb-3 address-div" id="dv-street">
+                        <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["Street"]<span id="sp-star-street" class="ms-1 text-danger address-star">*</span></label>
+                        <input type="text" id="Street" name="Street" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
+                        <div id="dvErrorStreet">
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 mb-3 address-div" id="dv-avenue">
+                        <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["Avenue"]</label>
+                        <input type="text" id="Avenue" name="Avenue" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
+                        <div id="dvErrorAvenue">
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 mb-3 address-div" id="dv-house-no">
+                        <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["HouseNo."]<span id="sp-star-houseno" class="ms-1 text-danger address-star">*</span></label>
+                        <input type="text" id="HouseNo" name="HouseNo" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
+                        <div id="dvErrorHouseNo">
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 mb-3 address-div" id="dv-building-no">
+                        <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["BuildingNo."]<span id="sp-star-buildingno" class="ms-1 text-danger address-star">*</span></label>
+                        <input type="text" id="BuildingNo" name="BuildingNo" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
+                        <div id="dvErrorBuildingNo">
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 mb-3 address-div" id="dv-floor-no">
+                        <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["FloorNo."]<span id="sp-star-floorno" class="ms-1 text-danger address-star">*</span></label>
+                        <input type="text" id="FloorNo" name="FloorNo" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
+                        <div id="dvErrorFloorNo">
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 mb-3 address-div" id="dv-flat-no">
+                        <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["FlatNo."]<span id="sp-star-flatno" class="ms-1 text-danger address-star">*</span></label>
+                        <input type="text" id="FlatNo" name="FlatNo" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
+                        <div id="dvErrorFlatNo">
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 mb-3 address-div" id="dv-school-name">
+                        <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["SchoolName"]<span id="sp-star-schoolname" class="ms-1 text-danger address-star">*</span></label>
+                        <input type="text" id="SchoolName" name="SchoolName" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
+                        <div id="dvErrorSchoolName">
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 mb-3 address-div" id="dv-mosque-name">
+                        <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["MosqueName"]<span id="sp-star-mosquename" class="ms-1 text-danger address-star">*</span></label>
+                        <input type="text" id="MosqueName" name="MosqueName" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
+                        <div id="dvErrorMosqueName">
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 mb-3 address-div" id="dv-government-entity">
+                        <label for="inputAddress" class="form-label">@SharedHtmlLocalizer["GovernmentEntity"]<span id="sp-star-governmententity" class="ms-1 text-danger address-star">*</span></label>
+                        <input type="text" id="GovernmentEntity" name="GovernmentEntity" class="form-control rounded-5 border-secondary body-bg-secondary address-field">
+                        <div id="dvErrorGovernmentEntity">
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3" id="dv-notes">
+                        <label for="inputNotes" class="form-label">@SharedHtmlLocalizer["Notes"]</label>
+                        <textarea id="Notes" name="Notes" class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" rows="3"></textarea>
+                        <div id="dvErrorNotes">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 <input type="hidden" id="hdnAddressTypeId" />
 <script>
     $(document).ready(function () {
@@ -386,19 +388,19 @@
     function loadGovernorates() {
         $.get("@Url.RouteUrl("getgovernorates")", function (result) {
             if (result.success && result.data != null) {
+                $('#Governorate').find('option:not(:first)').remove();
                 $.each(result.data, function (i, item) {
                     $('#Governorate').append($('<option>', {
                         value: item.id,
                         text: item.name
                     }));
                 });
-                console.log('gov loaded');
             }
         });
     }
 
     function loadAreas(id) {
-        $.get("getareas/" + id, function (result) {
+        $.get("/getareas/" + id, function (result) {
             if (result.success && result.data != null) {
                 $('#Area').find('option:not(:first)').remove();
                 $.each(result.data, function (i, item) {
@@ -407,8 +409,6 @@
                         text: item.name
                     }));
                 });
-
-                console.log('area loaded');
             }
         });
     }

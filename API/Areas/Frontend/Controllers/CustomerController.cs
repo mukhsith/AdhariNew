@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Utility.API;
 using Utility.Enum;
@@ -16,6 +17,7 @@ namespace API.Areas.Frontend.Controllers
     public class CustomerController : BaseController
     {
         private readonly ICustomerModelFactory _customerModelFactory;
+        private static readonly object controllerLock = new object();
         public CustomerController(IOptions<AppSettingsModel> options,
             ICustomerModelFactory customerModelFactory) : base(options)
         {
@@ -27,9 +29,16 @@ namespace API.Areas.Frontend.Controllers
         /// </summary>
         [HttpPost, Route("/webapi/customer/login")]
         [AllowAnonymous]
-        public async Task<APIResponseModel<CustomerModel>> Login([FromBody] CustomerModel customerModel)
+        public APIResponseModel<CustomerModel> Login([FromBody] CustomerModel customerModel)
         {
-            return await _customerModelFactory.Login(isEnglish: isEnglish, customerModel: customerModel);
+            APIResponseModel<CustomerModel> response = new();
+
+            lock (controllerLock)
+            {
+                response = _customerModelFactory.Login(isEnglish: isEnglish, customerModel: customerModel).Result;
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -37,9 +46,15 @@ namespace API.Areas.Frontend.Controllers
         /// </summary>
         [HttpPost, Route("/webapi/customer/register")]
         [AllowAnonymous]
-        public async Task<APIResponseModel<CustomerModel>> Register([FromBody] CustomerRegisterModel customerModel)
+        public APIResponseModel<CustomerModel> Register([FromBody] CustomerRegisterModel customerModel)
         {
-            return await _customerModelFactory.Register(isEnglish: isEnglish, customerModel: customerModel);
+            APIResponseModel<CustomerModel> response = new();
+            lock (controllerLock)
+            {
+                response = _customerModelFactory.Register(isEnglish: isEnglish, customerModel: customerModel).Result;
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -47,9 +62,14 @@ namespace API.Areas.Frontend.Controllers
         /// </summary>
         [HttpGet, Route("/webapi/customer/resendotp")]
         [AllowAnonymous]
-        public async Task<APIResponseModel<CustomerModel>> ResendOTP(int otpDetailId)
+        public APIResponseModel<CustomerModel> ResendOTP(int otpDetailId)
         {
-            return await _customerModelFactory.ResendOTP(isEnglish: isEnglish, otpDetailId: otpDetailId);
+            APIResponseModel<CustomerModel> response = new();
+            lock (controllerLock)
+            {
+                response = _customerModelFactory.ResendOTP(isEnglish: isEnglish, otpDetailId: otpDetailId).Result;
+            }
+            return response;
         }
 
         /// <summary>
@@ -57,10 +77,16 @@ namespace API.Areas.Frontend.Controllers
         /// </summary>
         [HttpPost, Route("/webapi/customer/verifyotp")]
         [AllowAnonymous]
-        public async Task<APIResponseModel<CustomerModel>> VerifyOTP(CustomerModel customerModel)
+        public APIResponseModel<CustomerModel> VerifyOTP(CustomerModel customerModel)
         {
-            return await _customerModelFactory.VerifyOTP(isEnglish: isEnglish, otpDetailId: customerModel.OTPDetailId, otp: customerModel.OTP,
-                         customerGuidValue: customerModel.CustomerGuidValue, deviceId: customerModel.DeviceId, deviceToken: customerModel.DeviceToken);
+            APIResponseModel<CustomerModel> response = new();
+            lock (controllerLock)
+            {
+                response = _customerModelFactory.VerifyOTP(isEnglish: isEnglish, otpDetailId: customerModel.OTPDetailId, otp: customerModel.OTP,
+                         customerGuidValue: customerModel.CustomerGuidValue, deviceId: customerModel.DeviceId, deviceToken: customerModel.DeviceToken,
+                         deviceType: HeaderDeviceTypeId).Result;
+            }
+            return response;
         }
 
         /// <summary>
@@ -88,10 +114,15 @@ namespace API.Areas.Frontend.Controllers
         /// </summary>
         [HttpPut, Route("/webapi/customer/editprofile")]
         [Authorize]
-        public async Task<APIResponseModel<CustomerModel>> EditProfile([FromBody] CustomerModel customerModel)
+        public APIResponseModel<CustomerModel> EditProfile([FromBody] CustomerModel customerModel)
         {
-            customerModel.Id = LoggedInCustomerId;
-            return await _customerModelFactory.UpdateCustomer(isEnglish: isEnglish, customerModel: customerModel);
+            APIResponseModel<CustomerModel> response = new();
+            lock (controllerLock)
+            {
+                customerModel.Id = LoggedInCustomerId;
+                response = _customerModelFactory.UpdateCustomer(isEnglish: isEnglish, customerModel: customerModel).Result;
+            }
+            return response;
         }
 
         /// <summary>
@@ -143,6 +174,19 @@ namespace API.Areas.Frontend.Controllers
         {
             addressModel.CustomerId = LoggedInCustomerId;
             return await _customerModelFactory.UpdateAddress(isEnglish: isEnglish, addressModel: addressModel);
+        }
+
+        /// <summary>
+        /// To update address
+        /// </summary>
+        /// <param name="addressDto">Address dto</param>
+        /// <returns></returns>
+        [HttpPut, Route("/webapi/customer/updateaddressweb")]
+        [Authorize]
+        public async Task<APIResponseModel<AddressModel>> UpdateAddressWeb([FromBody] AddressModel addressModel)
+        {
+            addressModel.CustomerId = LoggedInCustomerId;
+            return await _customerModelFactory.UpdateAddressWeb(isEnglish: isEnglish, addressModel: addressModel);
         }
 
         /// <summary>

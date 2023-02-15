@@ -320,11 +320,11 @@ namespace Services.Backend.Sales
                 }
                 if (param.StartDate.HasValue)
                 {
-                    items = items.Where(x => x.CreatedOn.Date >= param.StartDate.Value.Date);
+                    items = items.Where(x => x.CreatedOn.Date >= param.StartDate.Value);
                 }
                 if (param.EndDate.HasValue)
                 {
-                    items = items.Where(x => x.CreatedOn.Date <= param.EndDate.Value.Date);
+                    items = items.Where(x => x.CreatedOn.Date <= param.EndDate.Value);
                 }
 
                 if (!string.IsNullOrEmpty(param.CustomerName))

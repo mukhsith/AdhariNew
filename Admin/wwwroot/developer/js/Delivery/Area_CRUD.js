@@ -11,13 +11,15 @@ setup = () => {
             nameEn: { required: true },
             nameAr: { required: true },
             deliveryFee: { required: true },
+            minOrderAmount: { required: true },
             governorateList: { required: true },
         },
         messages: {
-            nameEn: { required: 'Required' },
-            nameAr: { required: 'Required' },
-            deliveryFee: { required: 'Required' },
-            governorateList: { required: 'Required' },
+            nameEn: { required: '' },
+            nameAr: { required: '' },
+            deliveryFee: { required: '' },
+            minOrderAmount: { required: '' },
+            governorateList: { required: '' },
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -30,7 +32,7 @@ setup = () => {
 
 loadDataFor = () => {
     if (id == 0) { return;}
-    ajaxGet('Governorate/ById?Id=' + id, cbGetSuccess);
+    ajaxGet('Area/ById?Id=' + id, cbGetSuccess);
 };
 cbGetSuccess = (data) => {
     
@@ -40,6 +42,7 @@ cbGetSuccess = (data) => {
     setTextValue("nameEn", r.nameEn);
     setTextValue("nameAr", r.nameAr);
     setTextValue("deliveryFee", r.deliveryFee);
+    setTextValue("minOrderAmount", r.minOrderAmount);
     setSelectedItemByValueAndTriggerChangeEvent("governorateList", r.governorateId);
     
     setHiddenData(r);
@@ -55,6 +58,7 @@ saveData = () => {
     submitData.append('nameEn', getTextValue('nameEn'));
     submitData.append('nameAr', getTextValue('nameAr'));
     submitData.append('deliveryFee', getFloatValue('deliveryFee'));
+    submitData.append('minOrderAmount', getFloatValue('minOrderAmount'));
     submitData.append('governorateId', getSelectedItemValue('governorateList'));
     submitHiddenData(submitData);
     ajaxPost("Area/AddEdit", submitData, cbPostSuccess, cbPostError);
@@ -64,16 +68,16 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) { 
-        ToastAlert('success', 'Area', 'Saved Successfully');
+        ToastAlert('success', Resources.Area, Resources.SavedSuccessfully);
         setTimeout(() => location.href = "/Delivery/AreaList", 100);
     } else {
         //showLog(data);
-        ToastAlert('error', 'Area', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.Area, Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => { 
-    ToastAlert('error', 'Area', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.Area, Resources.UnableTosave);
 }
 
  

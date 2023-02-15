@@ -25,18 +25,22 @@ setup = () => {
             categoryList: { required: true },
             imageFile: { required: true },
             price: { required: true },
+            MinCartQuantity: { required: true },
+            MaxCartQuantity: { required: true },
         },
         messages: { 
-            nameEn: { required: 'Required' },
-            nameAr: { required: 'Required' },
-            descriptionEn: { required: 'Required' },
-            descriptionAr: { required: 'Required' },
-            piecePerPacking: { required: 'Required' },
-            itemSizeList: { required: 'Required' },
-            stock: { required: 'Required' },
-            categoryList: { required: 'Required' },
-            imageFile: { required: 'Required' },
-            price: { required: 'Required' },
+            nameEn: { required: '' },
+            nameAr: { required: '' },
+            descriptionEn: { required: '' },
+            descriptionAr: { required: '' },
+            piecePerPacking: { required: '' },
+            itemSizeList: { required: '' },
+            stock: { required: '' },
+            categoryList: { required: '' },
+            imageFile: { required: '' },
+            price: { required: '' },
+            MinCartQuantity: { required: '' },
+            MaxCartQuantity: { required: '' },
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -90,6 +94,9 @@ cbGetSuccess = (data) => {
     setTextValue("discountedPrice", r.discountedPrice);
     setDatePickerValue("discountFromDate", r.discountFromDate);
     setDatePickerValue("discountToDate", r.discountToDate);
+
+    setTextValue("MinCartQuantity", r.minCartQuantity);
+    setTextValue("MaxCartQuantity", r.maxCartQuantity);
       
     if (r.b2BPriceEnabled) {
         $('.enablePricingB2B').show(500);
@@ -98,7 +105,11 @@ cbGetSuccess = (data) => {
         setTextValue("b2BPrice", r.b2BPrice);
         setTextValue("b2BDiscountedPrice", r.b2BDiscountedPrice);
         setDatePickerValue("b2BDiscountFromDate",  r.b2BDiscountFromDate);
-        setDatePickerValue("b2BDiscountToDate",  r.b2BDiscountToDate);
+        setDatePickerValue("b2BDiscountToDate", r.b2BDiscountToDate);
+
+
+        setTextValue("B2BMinCartQuantity", r.b2BMinCartQuantity);
+        setTextValue("B2BMaxCartQuantity", r.b2BMaxCartQuantity);
     }
     setHiddenData(r);
    searchDataTableForStockHistory(r.id);
@@ -107,13 +118,29 @@ cbGetSuccess = (data) => {
  
 isValidData = () => {
     if (getFloatValue('price') == 0) {
-        ToastAlert('error', 'Product', 'Please enter Price');
+        ToastAlert('error', Resources.Product, Resources.PleaseEnterPrice);
         $("#price").focus();
         return false;
-    } else {
+    }
+    else if (getIntegerValue('MinCartQuantity') == 0) {
+        ToastAlert('error', Resources.Product, Resources.PleaseMinmumCartQuantity);
+        $("#MinCartQuantity").focus();
+        return false;
+    }
+    else if (getIntegerValue('MaxCartQuantity') == 0) {
+        ToastAlert('error', Resources.Product, Resources.PleaseMaximumCartQuantity);
+        $("#MaxCartQuantity").focus();
+        return false;
+    }
+    else if (getIntegerValue('MaxCartQuantity') <= getIntegerValue('MinCartQuantity')) {
+        ToastAlert('error', Resources.Product, Resources.PleaseValidMaximumCartQuantity);
+        $("#MaxCartQuantity").focus();
+        return false;
+    }
+    else {
         if (getDatePickerValue('discountFromDate') != null || getDatePickerValue('discountToDate') != null) {
             if (getFloatValue('discountedPrice') == 0) {
-                ToastAlert('error', 'Product', 'Please enter Discounted Price');
+                ToastAlert('error', Resources.Product, Resources.PleaseDiscountedPrice);
                 $("#discountedPrice").focus();
                 return false;
             }
@@ -122,15 +149,31 @@ isValidData = () => {
     if (getCheckValue('b2BPriceEnabled')) {
 
         if (getFloatValue('b2BPrice') == 0) {
-            ToastAlert('error', 'Product', 'Please enter B2B Price');
+            ToastAlert('error', Resources.Product, Resources.PleaseB2BPrice);
             $("#b2BPrice").focus();
             return false;
+        } else if (getIntegerValue('B2BMinCartQuantity') == 0) {
+            ToastAlert('error', Resources.Product, Resources.PleaseB2BMinmumCartQuantity);
+            $("#B2BMinCartQuantity").focus();
+            return false;
         }
-        if (getDatePickerValue('b2BDiscountFromDate') != null || getDatePickerValue('b2BDiscountToDate') != null) {
-            if (getFloatValue('b2BDiscountedPrice') == 0) {
-                ToastAlert('error', 'Product', 'Please enter B2B Discount Price');
-                $("#b2BDiscountedPrice").focus();
-                return false;
+        else if (getIntegerValue('B2BMaxCartQuantity') == 0) {
+            ToastAlert('error', Resources.Product, Resources.PleaseB2BMaximumCartQuantity);
+            $("#B2BMaxCartQuantity").focus();
+            return false;
+        }
+        else if (getIntegerValue('B2BMaxCartQuantity') <= getIntegerValue('B2BMinCartQuantity')) {
+            ToastAlert('error', Resources.Product, Resources.PleaseValidMaximumCartQuantity);
+            $("#B2BMaxCartQuantity").focus();
+            return false;
+        }
+        else {
+            if (getDatePickerValue('b2BDiscountFromDate') != null || getDatePickerValue('b2BDiscountToDate') != null) {
+                if (getFloatValue('b2BDiscountedPrice') == 0) {
+                    ToastAlert('error', Resources.Product, Resources.PleaseB2BDiscountPrice);
+                    $("#b2BDiscountedPrice").focus();
+                    return false;
+                }
             }
         }
     }
@@ -158,7 +201,9 @@ saveData = () => {
         submitData.append('discountFromDate', getDatePickerValue('discountFromDate'));
         submitData.append('discountToDate', getDatePickerValue('discountToDate'));
     }
-     
+    submitData.append('minCartQuantity', getIntegerValue('MinCartQuantity'));
+    submitData.append('maxCartQuantity', getIntegerValue('MaxCartQuantity'));
+
 
     if (getCheckValue('b2BPriceEnabled')) {
         submitData.append('b2BPriceEnabled', getCheckValue('b2BPriceEnabled'));
@@ -168,6 +213,10 @@ saveData = () => {
             submitData.append('b2BDiscountFromDate', getDatePickerValue('b2BDiscountFromDate'));
             submitData.append('b2BDiscountToDate', getDatePickerValue('b2BDiscountToDate'));
         }
+
+        submitData.append('b2BMinCartQuantity', getIntegerValue('B2BMinCartQuantity'));
+        submitData.append('b2BMaxCartQuantity', getIntegerValue('B2BMaxCartQuantity'));
+
     }
 
     if (imageFile.files[0] != undefined) {
@@ -182,16 +231,16 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) { 
-        ToastAlert('success', 'Product', 'Saved Successfully');
+        ToastAlert('success', Resources.Product, Resources.SavedSuccessfully);
         setTimeout(() => location.href = "/Product/ProductList", 10);
     } else {
         showLog(data);
-        ToastAlert('error', 'Product', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.Product, Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => { 
-    ToastAlert('error', 'Product', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.Product, Resources.UnableTosave);
 }
 
  

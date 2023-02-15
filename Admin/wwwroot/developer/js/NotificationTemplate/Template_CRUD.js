@@ -26,8 +26,10 @@ setup = () => {
 
 loadDataFor = () => {
     if (id == 0) { return;}
-    ajaxGet('Notification/ById?Id=' + id, cbGetSuccess);
+    ajaxGet('NotificationTemplate/ById?Id=' + id, cbGetSuccess);
 };
+
+
 cbGetSuccess = (data) => {
     
     if (data.data == null) {  return; }
@@ -60,13 +62,13 @@ saveData = () => {
     let submitData = new FormData();
     submitData.append("Id", id);
 
-    submitData.append('smsEnabled', getCheckValue('smsEnabled'));
+  /*  submitData.append('smsEnabled', getCheckValue('smsEnabled'));*/
     submitData.append('smsMessageEn', getTextValue('smsMessageEn'));
     submitData.append('smsMessageAr', getTextValue('smsMessageAr'));
      
-    submitData.append('pushEnabled', getCheckValue('pushEnabled'));
-    submitData.append('pushMessageEn', getTextValue('pushMessageEn'));
-    submitData.append('pushMessageAr', getTextValue('pushMessageAr'));
+    //submitData.append('pushEnabled', getCheckValue('pushEnabled'));
+    //submitData.append('pushMessageEn', getTextValue('pushMessageEn'));
+    //submitData.append('pushMessageAr', getTextValue('pushMessageAr'));
        
     submitHiddenData(submitData);
     ajaxPost("NotificationTemplate/AddEdit", submitData, cbPostSuccess, cbPostError);
@@ -76,14 +78,14 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) { 
-        ToastAlert('success', 'Notification Template', 'Saved Successfully');
-        setTimeout(() => location.href = "/Notification/NotificationTemplateList", 100);
+        ToastAlert('success', Resources.NotificationTemplates, Resources.SavedSuccessfully);
+        setTimeout(() => location.href = "/Notification/NotificationTemplateList", 1500);
     } else { 
-        ToastAlert('error', 'Notification Template', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.NotificationTemplates, Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => { 
-    ToastAlert('error', 'Notification Template', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.NotificationTemplates, Resources.UnableTosave);
 }
 

@@ -64,6 +64,9 @@ namespace Data.Sales
         public decimal Total { get; set; }
 
         [Column(TypeName = Constants.AmountDataType)]
+        public decimal GrandTotal { get; set; }
+
+        [Column(TypeName = Constants.AmountDataType)]
         public decimal ReceivedCashbackAmount { get; set; }
         public int CustomerLanguageId { get; set; }
         public string CustomerIp { get; set; }

@@ -38,14 +38,15 @@ namespace Utility.Models.Frontend.Sales
         public CustomerModel Customer { get; set; }
         public List<KeyValuPairModel> AmountSplitUps { get; set; } = new();
         public List<KeyValuPairModel> PaymentSummary { get; set; } = new();
+        public List<KeyValuPairModel> PaymentSummaryForPrint { get; set; } = new();
         public List<KeyValuPairModel> PaymentDetails { get; set; } = new();
         public List<KeyValuPairModel> OrderDetails { get; set; } = new();
         public List<OrderItemModel> OrderItems { get; set; } = new();
 
         #region admin
-        public string OrderTypeText { get; set; } = Messages.Online; 
-
+        public string OrderTypeText { get; set; } = Messages.Online;
         public AdminOrderSummaryModel OrderSummary { get; set; }
+        public string OrderNotes { get; set; }
         #endregion
     }
 }

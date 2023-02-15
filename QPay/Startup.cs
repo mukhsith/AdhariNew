@@ -13,6 +13,8 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using QPay.Infrastructure;
+using Microsoft.AspNetCore.Rewrite;
+using Utility.API;
 
 namespace QPay
 {
@@ -96,6 +98,15 @@ namespace QPay
             app.UseRouting();
 
             app.UseAuthorization();
+
+            var appSettingsModel = Configuration.GetSection("AppSettings").Get<AppSettingsModel>();
+            if (appSettingsModel.EnableRedirectToWwwRule)
+            {
+                var options = new RewriteOptions();
+                options.AddRedirectToHttps();
+                options.Rules.Add(new RedirectToWwwRule());
+                app.UseRewriter(options);
+            }
 
             app.UseEndpoints(endpoints =>
             {

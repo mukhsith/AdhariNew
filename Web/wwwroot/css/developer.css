@@ -47,15 +47,11 @@
     animation: spin .8s linear infinite;
 }
 
-/*.select2-container--bootstrap.select2-container--open {
-    z-index: 9999999999;
-}*/
-
 .select2-container {
-    z-index: 1025;
+    z-index: 1020;
 }
 
-@media (max-width: 321px) {
+@media (max-width: 374px) {
     .floating-btn span {
         padding-left: 54px;
         font-size: 14px;
@@ -73,4 +69,11 @@
     .offcanvas-footer .btn {
         font-size: 12px;
     }
+}
+
+#OTPModal .modal-dialog.modal-dialog-centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

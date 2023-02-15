@@ -1,8 +1,42 @@
 ﻿
 $(document).ready(function () {
-    searchDataTable();
+    configureDialogModels();
     popupStockSettings();
+    ajaxGet('Product/GetAllCategoryAndItemSize', cbGetList);
 });
+
+
+cbGetList = (data) => {
+   
+    fillDropDownListData("categoryList", data.data.category, false, null, "id", "nameEn");
+    searchDataTable();
+}
+
+
+configureDialogModels = () => {
+
+    //$(document).on("click", ".open-order-status", function () {
+    //    $("#order-status .modal-header #dialogOrderId").val($(this).data('id'));
+
+    //});
+
+    $(document).on("click", ".open-product-cancel-modal", function () {
+        $("#product-cancel .modal-header #dialogProductId").val($(this).data('id'));
+    });
+
+
+}
+
+
+cbCancelOrderSuccess = (data) => {
+    if (data.success) {
+        ToastAlert('success', 'product', 'product deleted successfully');
+        setTimeout(() => location.href = "/product/productList", 2500);
+
+    } else {
+        ToastAlert('error', 'product', data.message);
+    }
+}
 
 searchDataTable = () => {
    
@@ -18,7 +52,10 @@ searchDataTable = () => {
             headers: {"Authorization": 'Bearer ' + getToken()},
             data: function (d) {
                 var search = $(":input[type=search]").val();
-                if (search.length <= 0) { showLoader(); }
+                d.productName = getTextValue("productName");
+                d.categoryID = getSelectedItemValue("categoryList");
+
+               // if (search.length <= 0) { showLoader(); }
             },
             "datatype": "json",
             "dataSrc": function (json) {
@@ -50,6 +87,12 @@ searchDataTable = () => {
                 }
             },
             {
+                "data": "category.nameEn", render: function (data, type, row) { return row.category.nameEn; }
+            },
+            {
+                "data": "category.nameAr", render: function (data, type, row) { return row.category.nameAr; }
+            },
+            {
                 "data": "nameEn", render: function (data, type, row) {return row.nameEn;}
             },
             {
@@ -59,11 +102,12 @@ searchDataTable = () => {
             {
                 "data": "stock", render: function (data, type, row) { return row.stock; }
             },
-            {
-                "data": null, "name":"Actions", render: function (data, type, row) {
-                    return `${addEditAction('Product', '/Product/ProductAddEdit/', row)} ${addPopupAction('Product', row)}   ${restock(row)}`;
-                }
-            },  
+            { "data": null, render: function (data, type, row) { return getActionsHtml(row); }, },
+            //{
+            //    "data": null, "name":"Actions", render: function (data, type, row) {
+            //        return `${addEditAction('Product', '/Product/ProductAddEdit/', row)} ${addPopupAction('Product', row)}   ${restock(row)}`;
+            //    }
+            //},  
         ],
          
         createdRow: function (row, data, index) {
@@ -83,6 +127,16 @@ searchDataTable = () => {
         ],
         
     });
+
+
+    getActionsHtml = (row) => {
+        var html = `${addEditAction('Product', '/Product/ProductAddEdit/', row)} ${addPopupAction('Product', row)} ${restock(row)}`;
+
+        html += `<span data-bs-toggle="modal" class="open-product-cancel-modal" data-id="${row.id}" data-bs-target="#product-cancel"><a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-danger"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Product Delete" data-bs-original-title="Product Delete" aria-label="Product Delete" ><i class="fa-solid fa-xmark"></i></a> </span>`;
+
+        return html;
+    }
+
 }
 
 restock = (row) => {

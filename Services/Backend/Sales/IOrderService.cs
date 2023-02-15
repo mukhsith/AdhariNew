@@ -28,6 +28,10 @@ namespace Services.Backend.Sales
         Task<AdminDeliverySummaryModel> GetTodayDeliverySummary();
 
         Task<DailyOrderSummaryModel> GetTodaySales();
+
+        Task<DailyOrderSummaryModel> GetFilterSalesSummary(DateTime? startDate = null, DateTime? endDate = null);
+        Task<DataTableResult<List<AdminOrderedItemModel>>> GetAllForOrderedItemDataTable(AdminOrderedItemParam param);
+
         Task<DataTableResult<List<DeliveriesDashboard>>> GetAllOrdersForDeliveries(AdminOrderDeliveriesParam param);
 
         Task<DailySubscriptionSummaryModel> GetCustomerOrdersSummary(AdminOrderDeliveriesParam param);

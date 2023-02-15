@@ -29,7 +29,7 @@
                         <div class="col-12 col-lg-6 mb-3">
                             <!-- ========== Start Simple Input Field ========== -->
                             <label for="nameEn" class="form-label">@SharedHtmlLocalizer["TitleEn"]<span class=" text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="nameEn" id="nameEn" aria-describedby="@SharedHtmlLocalizer["TitleEn"]" placeholder="@SharedHtmlLocalizer["ProductName"]" value="" required>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="nameEn" id="nameEn" aria-describedby="@SharedHtmlLocalizer["TitleEn"]" placeholder="" value="" required>
                             <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterProductName"]</div>
                             <!-- ========== End Simple Input Field ========== -->
                         </div>
@@ -37,21 +37,21 @@
                             <!-- ========== Start Simple Input Field ========== -->
 
                             <label for="nameAr" class="form-label">@SharedHtmlLocalizer["TitleAr"]<span class=" text-danger">*</span></label>
-                            <input type="text" dir="rtl" class="form-control form-control-lg rounded-4 border-secondary " name="nameAr" id="nameAr" aria-describedby="@SharedHtmlLocalizer["TitleAr"]" placeholder="@SharedHtmlLocalizer["ProductName"]" value="" required>
+                            <input type="text" dir="rtl" class="form-control form-control-lg rounded-4 border-secondary " name="nameAr" id="nameAr" aria-describedby="@SharedHtmlLocalizer["TitleAr"]" placeholder="" value="" required>
                             <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterProductName"]</div>
                             <!-- ========== End Simple Input Field ========== -->
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
                             <!-- ========== Start Simple Text Area ========== -->
                             <label for="descriptionEn" class="form-label ">@SharedHtmlLocalizer["DescriptionEn"]<span class=" text-danger">*</span></label>
-                            <textarea class="form-control form-control-lg rounded-4 border-secondary " name="descriptionEn" id="descriptionEn" aria-describedby="@SharedHtmlLocalizer["DescriptionEn"]" placeholder="@SharedHtmlLocalizer["ProductDescription"]" rows="3" required></textarea>
+                            <textarea class="form-control form-control-lg rounded-4 border-secondary " name="descriptionEn" id="descriptionEn" aria-describedby="@SharedHtmlLocalizer["DescriptionEn"]" placeholder="" rows="3" required></textarea>
                             <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterProductDescription"]</div>
                             <!-- ========== End Simple Text Area ========== -->
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
                             <!-- ========== Start Simple Text Area ========== -->
                             <label for="descriptionAr" class="form-label ">@SharedHtmlLocalizer["DescriptionAr"]<span class=" text-danger">*</span></label>
-                            <textarea dir="rtl" class="form-control form-control-lg rounded-4 border-secondary " name="descriptionAr" id="descriptionAr" aria-describedby="@SharedHtmlLocalizer["DescriptionAr"]" placeholder="@SharedHtmlLocalizer["ProductDescription"]" rows="3" required></textarea>
+                            <textarea dir="rtl" class="form-control form-control-lg rounded-4 border-secondary " name="descriptionAr" id="descriptionAr" aria-describedby="@SharedHtmlLocalizer["DescriptionAr"]" placeholder="" rows="3" required></textarea>
                             <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterProductDescription"]</div>
                             <!-- ========== End Simple Text Area ========== -->
                         </div>
@@ -62,7 +62,7 @@
                             <!-- ========== Start Simple Input Field ========== -->
 
                             <label for="piecesPerPacking" class="form-label">@SharedHtmlLocalizer["PiecesPerPacking"]<span class=" text-danger">*</span></label>
-                            <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="piecesPerPacking" id="piecesPerPacking" aria-describedby="@SharedHtmlLocalizer["PiecesPerPacking"]" placeholder="@SharedHtmlLocalizer["PiecesPerPacking"]" value="0" required>
+                            <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="piecesPerPacking" id="piecesPerPacking" aria-describedby="@SharedHtmlLocalizer["PiecesPerPacking"]" placeholder="" value="0" required>
 
                             <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterValue"]</div>
                             <!-- ========== End Simple Input Field ========== -->
@@ -163,6 +163,26 @@
                             </div>
                             <!-- ========== End Datepicker Field ========== -->
                         </div>
+                        <div class="col-12 col-lg-4 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+
+                            <label for="Quantity" class="form-label">
+                                @SharedHtmlLocalizer["MinCartQuantity"]<span class=" text - danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="MinCartQuantity" id="MinCartQuantity" aria-describedby="@SharedHtmlLocalizer["MinCartQuantity"]" placeholder="@SharedHtmlLocalizer["MinCartQuantity"]" value="0" required>
+
+                                <div class="invalid-feedback"> @SharedHtmlLocalizer["PleaseMinmumCartQuantity"]</div>
+                                <!-- ========== End Simple Input Field ========== -->
+</div>
+                        <div class="col-12 col-lg-4 mb-3">
+                            <!-- ========== Start Simple Input Field ========== -->
+
+                            <label for="Quantity" class="form-label">
+                                @SharedHtmlLocalizer["MaxCartQuantity"]<span class=" text - danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="MaxCartQuantity" id="MaxCartQuantity" aria-describedby="@SharedHtmlLocalizer["MaxCartQuantity"]" placeholder="@SharedHtmlLocalizer["MaxCartQuantity"]" value="0" required>
+
+                                <div class="invalid-feedback"> @SharedHtmlLocalizer["PleaseMaximumCartQuantity"]</div>
+                                <!-- ========== End Simple Input Field ========== -->
+</div>
 
                         <div class="col-12 my-3">
                             <!-- ========== Start ios7 Switch ========== -->
@@ -223,6 +243,26 @@
                                 <!-- ========== End Simple Input Field ========== -->
                             </div>
                             <!-- ========== End Datepicker Field ========== -->
+                        </div>
+
+
+                        <div class="col-12 col-lg-4 mb-3 enablePricingB2B" style="display: none;">
+                            <!-- ========== Start Simple Input Field ========== -->
+
+                            <label for="Quantity" class="form-label"> @SharedHtmlLocalizer["MinCartQuantity"]<span class=" text-danger">*</span></label>
+                            <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="B2BMinCartQuantity" id="B2BMinCartQuantity" aria-describedby="@SharedHtmlLocalizer["MinCartQuantity"]" placeholder="@SharedHtmlLocalizer["MinCartQuantity"]" value="0" required>
+
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseMinmumCartQuantity"]</div>
+                            <!-- ========== End Simple Input Field ========== -->
+                        </div>
+                        <div class="col-12 col-lg-4 mb-3 enablePricingB2B" style="display: none;">
+                            <!-- ========== Start Simple Input Field ========== -->
+
+                            <label for="Quantity" class="form-label"> @SharedHtmlLocalizer["MaxCartQuantity"]<span class=" text-danger">*</span></label>
+                            <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="B2BMaxCartQuantity" id="B2BMaxCartQuantity" aria-describedby="@SharedHtmlLocalizer["MaxCartQuantity"]" placeholder="@SharedHtmlLocalizer["MaxCartQuantity"]" value="0" required>
+
+                            <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseMaximumCartQuantity"]</div>
+                            <!-- ========== End Simple Input Field ========== -->
                         </div>
 
                     </div>

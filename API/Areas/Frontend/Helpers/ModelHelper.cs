@@ -138,6 +138,9 @@ namespace API.Areas.Frontend.Helpers
             {
                 siteContentModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageSiteContent + siteContent.ImageName;
             }
+
+            siteContentModel.PageUrl = _appSettings.WebsiteUrl + "sitecontentmobile/" + (int)siteContent.AppContentType + "/" + isEnglish;
+
             return siteContentModel;
         }
         public ContactDetailModel PrepareContactDetailModel(ContactDetail contactDetail, bool isEnglish)
@@ -203,16 +206,26 @@ namespace API.Areas.Frontend.Helpers
             if (quickPayment.PaymentStatusId.HasValue)
                 quickPayModel.PaymentStatusId = (int)quickPayment.PaymentStatusId;
 
-            var customer = await _customerService.GetCustomerById(quickPayment.CustomerId);
-            if (customer != null)
+            if (quickPayment.CustomerId.HasValue)
+            {
+                var customer = await _customerService.GetCustomerById(quickPayment.CustomerId.Value);
+                if (customer != null)
+                {
+                    CustomerModel customerModel = new();
+                    customerModel.Name = customer.Name;
+                    customerModel.MobileNumber = customer.MobileNumber;
+                    customerModel.EmailAddress = customer.EmailAddress;
+                    quickPayModel.Customer = customerModel;
+
+                    quickPayModel.CustomerLanguageId = customer.LanguageId;
+                }
+            }
+            else
             {
                 CustomerModel customerModel = new();
-                customerModel.Name = customer.Name;
-                customerModel.MobileNumber = customer.MobileNumber;
-                customerModel.EmailAddress = customer.EmailAddress;
+                customerModel.Name = quickPayment.Name;
+                customerModel.MobileNumber = quickPayment.MobileNumber;
                 quickPayModel.Customer = customerModel;
-
-                quickPayModel.CustomerLanguageId = customer.LanguageId;
             }
 
             var paymentMethods = await _paymentMethodService.GetAllPaymentMethod(PaymentRequestType.QuickPay);
@@ -980,17 +993,40 @@ namespace API.Areas.Frontend.Helpers
                 return null;
             }
 
-            List<KeyValuPairModel> AmountSplitUps = new();
-            AmountSplitUps.Add(new KeyValuPairModel
+            List<KeyValuPairModel> amountSplitUps = new();
+            amountSplitUps.Add(new KeyValuPairModel
             {
                 Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
                 Value = await _commonHelper.ConvertDecimalToString(value: subTotal, isEnglish: isEnglish, includeZero: true),
-                DisplayOrder = 0
+                DisplayOrder = 0,
+                TitleColor = "#18181d",
+                TitleBold = true,
+                ValueColor = "#18181d",
+                ValueBold = true
             });
 
-            var walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customerId, walletTypeId: WalletType.Wallet);
-            cartSummaryModel.WalletBalanceAmount = walletBalance;
-            cartSummaryModel.FormattedWalletBalanceAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletBalanceAmount, isEnglish: isEnglish);
+            if (cartAttribute.AddressId.HasValue)
+            {
+                var address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
+                if (address != null)
+                {
+                    var area = await _areaService.GetById(address.AreaId);
+                    if (area != null)
+                    {
+                        deliveryFee = await _commonHelper.GetDeliveryFeeByAreaId(areaId: area.Id);
+                        amountSplitUps.Add(new KeyValuPairModel
+                        {
+                            Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                            Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish, includeZero: true),
+                            DisplayOrder = 1,
+                            TitleColor = "#6c757d",
+                            TitleBold = false,
+                            ValueColor = "#18181d",
+                            ValueBold = false
+                        });
+                    }
+                }
+            }
 
             if (cartAttribute.CouponId.HasValue)
             {
@@ -1000,11 +1036,15 @@ namespace API.Areas.Frontend.Helpers
                     discountAmount = coupon.ApplyCouponDiscount2(subTotal);
                     cartSummaryModel.CouponCode = coupon.CouponCode;
 
-                    AmountSplitUps.Add(new KeyValuPairModel
+                    amountSplitUps.Add(new KeyValuPairModel
                     {
                         Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
                         Value = "-" + await _commonHelper.ConvertDecimalToString(value: discountAmount, isEnglish: isEnglish),
-                        DisplayOrder = 2
+                        DisplayOrder = 2,
+                        TitleColor = "#6c757d",
+                        TitleBold = false,
+                        ValueColor = "#ff0000",
+                        ValueBold = false
                     });
                 }
                 else
@@ -1017,35 +1057,39 @@ namespace API.Areas.Frontend.Helpers
             cashbackAmount = await _commonHelper.GetCashbackAmount(customerId: customerId, amount: subTotal - discountAmount);
             if (cashbackAmount > 0)
             {
-                AmountSplitUps.Add(new KeyValuPairModel
+                amountSplitUps.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
                     Value = "-" + await _commonHelper.ConvertDecimalToString(value: cashbackAmount, isEnglish: isEnglish),
-                    DisplayOrder = 3
+                    DisplayOrder = 3,
+                    TitleColor = "#6c757d",
+                    TitleBold = false,
+                    ValueColor = "#ff0000",
+                    ValueBold = false
                 });
             }
 
-            if (cartAttribute.AddressId.HasValue)
-            {
-                var address = await _customerService.GetAddressById(cartAttribute.AddressId.Value);
-                if (address != null)
-                {
-                    var area = await _areaService.GetById(address.AreaId);
-                    if (area != null)
-                    {
-                        deliveryFee = await _commonHelper.GetDeliveryFeeByAreaId(areaId: area.Id);
-                        AmountSplitUps.Add(new KeyValuPairModel
-                        {
-                            Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
-                            Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish, includeZero: true),
-                            DisplayOrder = 1
-                        });
-                    }
-                }
-            }
+            var total = subTotal + deliveryFee - discountAmount - cashbackAmount;
+
+            var walletBalance = await _customerService.GetWalletBalanceByCustomerId(id: customerId, walletTypeId: WalletType.Wallet);
+            cartSummaryModel.WalletBalanceAmount = walletBalance;
+            cartSummaryModel.FormattedWalletBalanceAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletBalanceAmount, isEnglish: isEnglish);
 
             if (cartAttribute.UseWalletAmount && walletBalance > 0)
             {
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.OrderAmount : MessagesAr.OrderAmount,
+                    Value = await _commonHelper.ConvertDecimalToString(value: total, isEnglish: isEnglish, includeZero: true),
+                    DisplayOrder = 4,
+                    TitleColor = "#18181d",
+                    TitleBold = true,
+                    TitleBig = true,
+                    ValueColor = "#18181d",
+                    ValueBold = true,
+                    ValueBig = true
+                });
+
                 walletUsedAmount = walletBalance;
 
                 decimal grossTotal = subTotal - discountAmount + deliveryFee - cashbackAmount;
@@ -1070,21 +1114,62 @@ namespace API.Areas.Frontend.Helpers
                     }
                 }
 
-                AmountSplitUps.Add(new KeyValuPairModel
+                amountSplitUps.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
                     Value = "-" + await _commonHelper.ConvertDecimalToString(value: walletUsedAmount, isEnglish: isEnglish),
-                    DisplayOrder = 4
+                    DisplayOrder = 5,
+                    TitleColor = "#6c757d",
+                    TitleBold = false,
+                    TitleBig = true,
+                    ValueColor = "#00aeef",
+                    ValueBold = true,
+                    ValueBig = true
+                });
+
+                var balance = total - walletUsedAmount;
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                    Value = await _commonHelper.ConvertDecimalToString(value: balance, isEnglish: isEnglish, includeZero: true),
+                    DisplayOrder = 6,
+                    TitleColor = "#850b5a",
+                    TitleBold = true,
+                    TitleBig = true,
+                    ValueColor = "#850b5a",
+                    ValueBold = true,
+                    ValueBig = true
                 });
 
                 cartSummaryModel.WalletUsedAmount = walletUsedAmount;
                 cartSummaryModel.FormattedWalletUsedAmount = await _commonHelper.ConvertDecimalToString(cartSummaryModel.WalletUsedAmount, isEnglish: isEnglish);
             }
+            else
+            {
+                if (cartAttribute.UseWalletAmount)
+                {
+                    cartAttribute.UseWalletAmount = false;
+                    await _cartService.UpdateCartAttribute(cartAttribute);
+                }
+
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                    Value = await _commonHelper.ConvertDecimalToString(value: total, isEnglish: isEnglish, includeZero: true),
+                    DisplayOrder = 4,
+                    TitleColor = "#850b5a",
+                    TitleBold = true,
+                    TitleBig = true,
+                    ValueColor = "#850b5a",
+                    ValueBold = true,
+                    ValueBig = true
+                });
+            }
 
             cartSummaryModel.Total = subTotal + deliveryFee - discountAmount - cashbackAmount - walletUsedAmount;
             cartSummaryModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(cartSummaryModel.Total, isEnglish: isEnglish, includeZero: true);
 
-            cartSummaryModel.AmountSplitUps = AmountSplitUps.OrderBy(a => a.DisplayOrder).ToList();
+            cartSummaryModel.AmountSplitUps = amountSplitUps.OrderBy(a => a.DisplayOrder).ToList();
             cartSummaryModel.Notes = cartAttribute.Notes;
 
             return cartSummaryModel;
@@ -1172,7 +1257,7 @@ namespace API.Areas.Frontend.Helpers
 
             if (orderItem.Product != null)
             {
-                orderItemModel.Product = await PrepareProductModel(product: orderItem.Product, isEnglish: isEnglish);
+                orderItemModel.Product = await PrepareProductModel(product: orderItem.Product, isEnglish: isEnglish, loadDescription: true);
             }
 
             return orderItemModel;
@@ -1181,7 +1266,7 @@ namespace API.Areas.Frontend.Helpers
         {
             var orderModel = _mapper.Map<OrderModel>(order);
 
-            orderModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(order.Total, isEnglish, includeZero: true);
+            orderModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(order.GrandTotal, isEnglish, includeZero: true);
             orderModel.FormattedDate = order.CreatedOn.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
             orderModel.FormattedTime = order.CreatedOn.ToString("hh:mm tt", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
 
@@ -1210,7 +1295,11 @@ namespace API.Areas.Frontend.Helpers
             {
                 Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
                 Value = orderModel.FormattedSubTotal,
-                DisplayOrder = 0
+                DisplayOrder = 0,
+                TitleColor = "#6c757d",
+                TitleBold = false,
+                ValueColor = "#850b5a",
+                ValueBold = true
             });
 
             orderModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: order.DeliveryFee, isEnglish: isEnglish, includeZero: true);
@@ -1218,7 +1307,11 @@ namespace API.Areas.Frontend.Helpers
             {
                 Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
                 Value = orderModel.FormattedDeliveryFee,
-                DisplayOrder = 1
+                DisplayOrder = 1,
+                TitleColor = "#6c757d",
+                TitleBold = false,
+                ValueColor = "#850b5a",
+                ValueBold = true
             });
 
             if (order.CouponDiscountAmount > 0)
@@ -1228,7 +1321,11 @@ namespace API.Areas.Frontend.Helpers
                 {
                     Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
                     Value = orderModel.FormattedCouponDiscountAmount,
-                    DisplayOrder = 2
+                    DisplayOrder = 2,
+                    TitleColor = "#6c757d",
+                    TitleBold = false,
+                    ValueColor = "#850b5a",
+                    ValueBold = true
                 });
             }
 
@@ -1239,19 +1336,79 @@ namespace API.Areas.Frontend.Helpers
                 {
                     Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
                     Value = orderModel.FormattedCashbackAmount,
-                    DisplayOrder = 3
+                    DisplayOrder = 3,
+                    TitleColor = "#6c757d",
+                    TitleBold = false,
+                    ValueColor = "#850b5a",
+                    ValueBold = true
                 });
             }
 
+            var total = order.SubTotal + order.DeliveryFee - order.CouponDiscountAmount - order.CashbackAmount;
+
             if (order.WalletUsedAmount > 0)
             {
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.OrderAmount : MessagesAr.OrderAmount,
+                    Value = await _commonHelper.ConvertDecimalToString(value: total, isEnglish: isEnglish, includeZero: true),
+                    DisplayOrder = 4,
+                    TitleColor = "#6c757d",
+                    TitleBold = true,
+                    TitleBig = true,
+                    ValueColor = "#850b5a",
+                    ValueBold = true,
+                    ValueBig = true
+                });
+
                 orderModel.FormattedWalletUsedAmount = "-" + await _commonHelper.ConvertDecimalToString(value: order.WalletUsedAmount, isEnglish: isEnglish);
                 amountSplitUps.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
                     Value = orderModel.FormattedWalletUsedAmount,
-                    DisplayOrder = 4
+                    DisplayOrder = 5,
+                    TitleColor = "#6c757d",
+                    TitleBold = true,
+                    TitleBig = true,
+                    ValueColor = "#850b5a",
+                    ValueBold = true,
+                    ValueBig = true
                 });
+
+                var balance = total - order.WalletUsedAmount;
+                if (balance > 0)
+                {
+                    amountSplitUps.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                        Value = await _commonHelper.ConvertDecimalToString(value: balance, isEnglish: isEnglish, includeZero: true),
+                        DisplayOrder = 6,
+                        TitleColor = "#6c757d",
+                        TitleBold = true,
+                        TitleBig = true,
+                        ValueColor = "#850b5a",
+                        ValueBold = true,
+                        ValueBig = true
+                    });
+                }
+            }
+            else
+            {
+                if (total > 0)
+                {
+                    amountSplitUps.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                        Value = await _commonHelper.ConvertDecimalToString(value: total, isEnglish: isEnglish),
+                        DisplayOrder = 4,
+                        TitleColor = "#6c757d",
+                        TitleBold = true,
+                        TitleBig = true,
+                        ValueColor = "#850b5a",
+                        ValueBold = true,
+                        ValueBig = true
+                    });
+                }
             }
 
             orderModel.AmountSplitUps = amountSplitUps.OrderBy(a => a.DisplayOrder).ToList();
@@ -1371,41 +1528,129 @@ namespace API.Areas.Frontend.Helpers
 
                 orderModel.PaymentSummary = patmentSummary.OrderBy(a => a.DisplayOrder).ToList();
 
+                //payment summary for print
+                List<KeyValuPairModel> paymentSummaryForPrint = new();
+                paymentSummaryForPrint.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.PaymentMethod : MessagesAr.PaymentMethod,
+                    Value = orderModel.PaymentMethod.Name,
+                    DisplayOrder = 4
+                });
+
+                paymentSummaryForPrint.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.PaymentResult : MessagesAr.PaymentResult,
+                    Value = _commonHelper.GetPaymentResultTitle(order.PaymentStatusId, isEnglish),
+                    DisplayOrder = 5
+                });
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentId))
+                {
+                    paymentSummaryForPrint.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentId : MessagesAr.PaymentId,
+                        Value = orderModel.PaymentId,
+                        DisplayOrder = 6
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentRefId))
+                {
+                    paymentSummaryForPrint.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentReference : MessagesAr.PaymentReference,
+                        Value = orderModel.PaymentRefId,
+                        DisplayOrder = 7
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentTrackId))
+                {
+                    paymentSummaryForPrint.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.TrackId : MessagesAr.TrackId,
+                        Value = orderModel.PaymentTrackId,
+                        DisplayOrder = 8
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentTransId))
+                {
+                    paymentSummaryForPrint.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentTransactionId : MessagesAr.PaymentTransactionId,
+                        Value = orderModel.PaymentTransId,
+                        DisplayOrder = 9
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentAuth))
+                {
+                    paymentSummaryForPrint.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentAuthorizationCode : MessagesAr.PaymentAuthorizationCode,
+                        Value = orderModel.PaymentAuth,
+                        DisplayOrder = 10
+                    });
+                }
+
+                orderModel.PaymentSummaryForPrint = paymentSummaryForPrint.OrderBy(a => a.DisplayOrder).ToList();
+
                 //order details for web
                 List<KeyValuPairModel> orderDetails = new();
                 orderDetails.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.OrderNumber : MessagesAr.OrderNumber,
                     Value = orderModel.OrderNumber,
-                    DisplayOrder = 0
+                    DisplayOrder = 0,
+                    TitleColor = "#6c757d",
+                    TitleBold = false,
+                    ValueColor = "#850b5a",
+                    ValueBold = true
                 });
 
                 orderDetails.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.OrderDate : MessagesAr.OrderDate,
                     Value = orderModel.FormattedDate,
-                    DisplayOrder = 1
+                    DisplayOrder = 1,
+                    TitleColor = "#6c757d",
+                    TitleBold = false,
+                    ValueColor = "#850b5a",
+                    ValueBold = true
                 });
 
                 orderDetails.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.OrderTime : MessagesAr.OrderTime,
                     Value = orderModel.FormattedTime,
-                    DisplayOrder = 2
+                    DisplayOrder = 2,
+                    TitleColor = "#6c757d",
+                    TitleBold = false,
+                    ValueColor = "#850b5a",
+                    ValueBold = true
                 });
 
                 orderDetails.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
                     Value = orderModel.FormattedSubTotal,
-                    DisplayOrder = 3
+                    DisplayOrder = 3,
+                    TitleColor = "#6c757d",
+                    TitleBold = false,
+                    ValueColor = "#850b5a",
+                    ValueBold = true
                 });
 
                 orderDetails.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
                     Value = orderModel.FormattedDeliveryFee,
-                    DisplayOrder = 4
+                    DisplayOrder = 4,
+                    TitleColor = "#6c757d",
+                    TitleBold = false,
+                    ValueColor = "#850b5a",
+                    ValueBold = true
                 });
 
                 if (!string.IsNullOrEmpty(orderModel.FormattedCouponDiscountAmount))
@@ -1414,7 +1659,11 @@ namespace API.Areas.Frontend.Helpers
                     {
                         Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
                         Value = orderModel.FormattedCouponDiscountAmount,
-                        DisplayOrder = 5
+                        DisplayOrder = 5,
+                        TitleColor = "#6c757d",
+                        TitleBold = false,
+                        ValueColor = "#850b5a",
+                        ValueBold = true
                     });
                 }
 
@@ -1424,17 +1673,76 @@ namespace API.Areas.Frontend.Helpers
                     {
                         Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
                         Value = orderModel.FormattedCashbackAmount,
-                        DisplayOrder = 6
+                        DisplayOrder = 6,
+                        TitleColor = "#6c757d",
+                        TitleBold = false,
+                        ValueColor = "#850b5a",
+                        ValueBold = true
                     });
                 }
 
-                if (!string.IsNullOrEmpty(orderModel.FormattedWalletUsedAmount))
+                var grandTotal = order.SubTotal + order.DeliveryFee - order.CouponDiscountAmount - order.CashbackAmount;
+                if (order.WalletUsedAmount > 0)
                 {
                     orderDetails.Add(new KeyValuPairModel
                     {
-                        Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
-                        Value = orderModel.FormattedWalletUsedAmount,
-                        DisplayOrder = 7
+                        Title = isEnglish ? Messages.OrderAmount : MessagesAr.OrderAmount,
+                        Value = await _commonHelper.ConvertDecimalToString(value: grandTotal, isEnglish: isEnglish, includeZero: true),
+                        DisplayOrder = 7,
+                        TitleColor = "#6c757d",
+                        TitleBold = true,
+                        TitleBig = true,
+                        ValueColor = "#850b5a",
+                        ValueBold = true,
+                        ValueBig = true
+                    });
+
+                    if (!string.IsNullOrEmpty(orderModel.FormattedWalletUsedAmount))
+                    {
+                        orderDetails.Add(new KeyValuPairModel
+                        {
+                            Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
+                            Value = orderModel.FormattedWalletUsedAmount,
+                            DisplayOrder = 8,
+                            TitleColor = "#6c757d",
+                            TitleBold = true,
+                            TitleBig = true,
+                            ValueColor = "#850b5a",
+                            ValueBold = true,
+                            ValueBig = true
+                        });
+                    }
+
+                    var balance = grandTotal - order.WalletUsedAmount;
+                    if (balance > 0)
+                    {
+                        orderDetails.Add(new KeyValuPairModel
+                        {
+                            Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                            Value = await _commonHelper.ConvertDecimalToString(value: balance, isEnglish: isEnglish, includeZero: true),
+                            DisplayOrder = 9,
+                            TitleColor = "#6c757d",
+                            TitleBold = true,
+                            TitleBig = true,
+                            ValueColor = "#850b5a",
+                            ValueBold = true,
+                            ValueBig = true
+                        });
+                    }
+                }
+                else
+                {
+                    orderDetails.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                        Value = await _commonHelper.ConvertDecimalToString(value: grandTotal, isEnglish: isEnglish, includeZero: true),
+                        DisplayOrder = 7,
+                        TitleColor = "#6c757d",
+                        TitleBold = true,
+                        TitleBig = true,
+                        ValueColor = "#850b5a",
+                        ValueBold = true,
+                        ValueBig = true
                     });
                 }
 
@@ -1508,21 +1816,22 @@ namespace API.Areas.Frontend.Helpers
 
                 orderModel.PaymentDetails = patmentDetails.OrderBy(a => a.DisplayOrder).ToList();
 
-                var deliveryDays = (order.DeliveryDate.Date - DateTime.Now.Date).TotalDays;
-                if (deliveryDays >= 0)
-                {
-                    //orderModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
-                    //orderModel.EstimatedDeliveryWithoutHeading = (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
-                    orderModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + order.DeliveryDate.Date.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
-                    orderModel.EstimatedDeliveryWithoutHeading = order.DeliveryDate.Date.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
-                }
-                else
-                {
-                    if (orderModel.Address != null)
-                    {
-                        orderModel.EstimatedDelivery = orderModel.Address.Name;
-                    }
-                }
+                //var deliveryDays = (order.DeliveryDate.Date - DateTime.Now.Date).TotalDays;
+                //if (deliveryDays >= 0)
+                //{
+                //    //orderModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
+                //    //orderModel.EstimatedDeliveryWithoutHeading = (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
+                //}
+                //else
+                //{
+                //    if (orderModel.Address != null)
+                //    {
+                //        orderModel.EstimatedDelivery = orderModel.Address.Name;
+                //    }
+                //}
+
+                orderModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + order.DeliveryDate.Date.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
+                orderModel.EstimatedDeliveryWithoutHeading = order.DeliveryDate.Date.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
             }
             else
             {
@@ -1545,7 +1854,7 @@ namespace API.Areas.Frontend.Helpers
             decimal cashbackAmount = 0;
             decimal walletUsedAmount = 0;
             bool b2bCustomer = false;
-            List<KeyValuPairModel> AmountSplitUps = new();
+            List<KeyValuPairModel> amountSplitUps = new();
 
             var subscriptionAttribute = await _cartService.GetSubscriptionAttributeByCustomer(customerId: customer?.Id, customerGuidValue: customerGuidValue);
             if (subscriptionAttribute == null)
@@ -1606,7 +1915,7 @@ namespace API.Areas.Frontend.Helpers
 
             if (app)
             {
-                AmountSplitUps.Add(new KeyValuPairModel
+                amountSplitUps.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.Quantity : MessagesAr.Quantity,
                     Value = subscriptionAttribute.Quantity.ToString(),
@@ -1616,7 +1925,7 @@ namespace API.Areas.Frontend.Helpers
 
             if (app)
             {
-                AmountSplitUps.Add(new KeyValuPairModel
+                amountSplitUps.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.Duration : MessagesAr.Duration,
                     Value = isEnglish ? subscriptionDuration.NameEn : subscriptionDuration.NameAr,
@@ -1626,7 +1935,7 @@ namespace API.Areas.Frontend.Helpers
 
             if (app)
             {
-                AmountSplitUps.Add(new KeyValuPairModel
+                amountSplitUps.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.DeliveryDay : MessagesAr.DeliveryDay,
                     Value = isEnglish ? subscriptionDeliveryDate.NameEn : subscriptionDeliveryDate.NameAr,
@@ -1634,24 +1943,16 @@ namespace API.Areas.Frontend.Helpers
                 });
             }
 
-            if (app)
+            amountSplitUps.Add(new KeyValuPairModel
             {
-                AmountSplitUps.Add(new KeyValuPairModel
-                {
-                    Title = isEnglish ? Messages.SubscriptionPrice : MessagesAr.SubscriptionPrice,
-                    Value = await _commonHelper.ConvertDecimalToString(value: subscriptionPrice, isEnglish: isEnglish, includeZero: true),
-                    DisplayOrder = 3
-                });
-            }
-            else
-            {
-                AmountSplitUps.Add(new KeyValuPairModel
-                {
-                    Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
-                    Value = await _commonHelper.ConvertDecimalToString(value: subscriptionPrice, isEnglish: isEnglish, includeZero: true),
-                    DisplayOrder = 3
-                });
-            }
+                Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
+                Value = await _commonHelper.ConvertDecimalToString(value: subscriptionPrice, isEnglish: isEnglish, includeZero: true),
+                DisplayOrder = 3,
+                TitleColor = "#18181d",
+                TitleBold = true,
+                ValueColor = "#18181d",
+                ValueBold = true
+            });
 
             if (subscriptionAttribute.AddressId.HasValue)
             {
@@ -1665,11 +1966,15 @@ namespace API.Areas.Frontend.Helpers
                         if (fullPayment)
                             deliveryFee *= subscriptionDuration.NumberOfMonths;
 
-                        AmountSplitUps.Add(new KeyValuPairModel
+                        amountSplitUps.Add(new KeyValuPairModel
                         {
                             Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
                             Value = await _commonHelper.ConvertDecimalToString(value: deliveryFee, isEnglish: isEnglish, includeZero: true),
-                            DisplayOrder = 4
+                            DisplayOrder = 4,
+                            TitleColor = "#6c757d",
+                            TitleBold = false,
+                            ValueColor = "#18181d",
+                            ValueBold = false
                         });
                     }
                 }
@@ -1683,11 +1988,15 @@ namespace API.Areas.Frontend.Helpers
                     discountAmount = coupon.ApplyCouponDiscount2(subscriptionPrice);
                     subscriptionSummaryModel.CouponCode = coupon.CouponCode;
 
-                    AmountSplitUps.Add(new KeyValuPairModel
+                    amountSplitUps.Add(new KeyValuPairModel
                     {
                         Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
                         Value = "-" + await _commonHelper.ConvertDecimalToString(value: discountAmount, isEnglish: isEnglish),
-                        DisplayOrder = 5
+                        DisplayOrder = 5,
+                        TitleColor = "#6c757d",
+                        TitleBold = false,
+                        ValueColor = "#ff0000",
+                        ValueBold = false
                     });
                 }
                 else
@@ -1702,17 +2011,36 @@ namespace API.Areas.Frontend.Helpers
                 cashbackAmount = await _commonHelper.GetCashbackAmount(customerId: customer.Id, amount: subscriptionPrice - discountAmount);
                 if (cashbackAmount > 0)
                 {
-                    AmountSplitUps.Add(new KeyValuPairModel
+                    amountSplitUps.Add(new KeyValuPairModel
                     {
                         Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
                         Value = "-" + await _commonHelper.ConvertDecimalToString(value: cashbackAmount, isEnglish: isEnglish),
-                        DisplayOrder = 6
+                        DisplayOrder = 6,
+                        TitleColor = "#6c757d",
+                        TitleBold = false,
+                        ValueColor = "#ff0000",
+                        ValueBold = false
                     });
                 }
             }
 
+            var total = subscriptionPrice + deliveryFee - discountAmount - cashbackAmount;
+
             if (subscriptionAttribute.UseWalletAmount && walletBalance > 0)
             {
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.OrderAmount : MessagesAr.OrderAmount,
+                    Value = await _commonHelper.ConvertDecimalToString(value: total, isEnglish: isEnglish, includeZero: true),
+                    DisplayOrder = 7,
+                    TitleColor = "#18181d",
+                    TitleBold = true,
+                    TitleBig = true,
+                    ValueColor = "#18181d",
+                    ValueBold = true,
+                    ValueBig = true
+                });
+
                 walletUsedAmount = walletBalance;
 
                 decimal grossTotal = subscriptionPrice - discountAmount + deliveryFee - cashbackAmount;
@@ -1737,21 +2065,62 @@ namespace API.Areas.Frontend.Helpers
                     }
                 }
 
-                AmountSplitUps.Add(new KeyValuPairModel
+                amountSplitUps.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
                     Value = "-" + await _commonHelper.ConvertDecimalToString(value: walletUsedAmount, isEnglish: isEnglish),
-                    DisplayOrder = 7
+                    DisplayOrder = 8,
+                    TitleColor = "#6c757d",
+                    TitleBold = false,
+                    TitleBig = true,
+                    ValueColor = "#00aeef",
+                    ValueBold = true,
+                    ValueBig = true
+                });
+
+                var balance = total - walletUsedAmount;
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                    Value = await _commonHelper.ConvertDecimalToString(value: balance, isEnglish: isEnglish, includeZero: true),
+                    DisplayOrder = 9,
+                    TitleColor = "#850b5a",
+                    TitleBold = true,
+                    TitleBig = true,
+                    ValueColor = "#850b5a",
+                    ValueBold = true,
+                    ValueBig = true
                 });
 
                 subscriptionSummaryModel.WalletUsedAmount = walletUsedAmount;
                 subscriptionSummaryModel.FormattedWalletUsedAmount = await _commonHelper.ConvertDecimalToString(subscriptionSummaryModel.WalletUsedAmount, isEnglish);
             }
+            else
+            {
+                if (subscriptionAttribute.UseWalletAmount)
+                {
+                    subscriptionAttribute.UseWalletAmount = false;
+                    await _cartService.UpdateSubscriptionAttribute(subscriptionAttribute);
+                }
+
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                    Value = await _commonHelper.ConvertDecimalToString(value: total, isEnglish: isEnglish, includeZero: true),
+                    DisplayOrder = 7,
+                    TitleColor = "#850b5a",
+                    TitleBold = true,
+                    TitleBig = true,
+                    ValueColor = "#850b5a",
+                    ValueBold = true,
+                    ValueBig = true
+                });
+            }
 
             subscriptionSummaryModel.Total = subscriptionPrice + deliveryFee - discountAmount - cashbackAmount - walletUsedAmount;
             subscriptionSummaryModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(subscriptionSummaryModel.Total, isEnglish, includeZero: true);
             subscriptionSummaryModel.Notes = subscriptionAttribute.Notes;
-            subscriptionSummaryModel.AmountSplitUps = AmountSplitUps.OrderBy(a => a.DisplayOrder).ToList();
+            subscriptionSummaryModel.AmountSplitUps = amountSplitUps.OrderBy(a => a.DisplayOrder).ToList();
 
             return subscriptionSummaryModel;
         }
@@ -1928,7 +2297,7 @@ namespace API.Areas.Frontend.Helpers
                 patmentSummary.Add(new KeyValuPairModel
                 {
                     Title = isEnglish ? Messages.OrderAmount : MessagesAr.OrderAmount,
-                    Value = await _commonHelper.ConvertDecimalToString(subscription.Total, isEnglish, includeZero: true),
+                    Value = await _commonHelper.ConvertDecimalToString(subscription.GrandTotal, isEnglish, includeZero: true),
                     DisplayOrder = 3
                 });
 
@@ -2136,7 +2505,7 @@ namespace API.Areas.Frontend.Helpers
                 #endregion
 
                 var product = await _productService.GetById(subscription.ProductId);
-                subscriptionModel.Product = await PrepareProductModel(product, isEnglish);
+                subscriptionModel.Product = await PrepareProductModel(product, isEnglish, loadDescription: true);
 
                 #region Subscription payments
                 var paidDeliveries = subscription.SubscriptionOrders.Where(a => a.PaymentStatusId == PaymentStatus.Captured).OrderBy(a => a.Id).ToList();
@@ -2149,7 +2518,11 @@ namespace API.Areas.Frontend.Helpers
                     {
                         Title = isEnglish ? Messages.DeliveryDate : MessagesAr.DeliveryDate,
                         Value = paidDelivery.DeliveryDate.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW")),
-                        DisplayOrder = 0
+                        DisplayOrder = 0,
+                        TitleColor = "#6c757d",
+                        TitleBold = false,
+                        ValueColor = "#850b5a",
+                        ValueBold = true
                     });
 
                     subscriptionPayment.Add(new KeyValuPairModel
@@ -2157,7 +2530,11 @@ namespace API.Areas.Frontend.Helpers
                         Title = isEnglish ? Messages.DeliveryStatus : MessagesAr.DeliveryStatus,
                         Value = paidDelivery.Delivered ? (isEnglish ? Messages.Delivered : MessagesAr.Delivered) :
                                       (isEnglish ? Messages.Pending : MessagesAr.Pending),
-                        DisplayOrder = 1
+                        DisplayOrder = 1,
+                        TitleColor = "#6c757d",
+                        TitleBold = false,
+                        ValueColor = "#850b5a",
+                        ValueBold = true
                     });
 
                     if (paidDelivery.PaymentMethodId.HasValue)
@@ -2165,11 +2542,25 @@ namespace API.Areas.Frontend.Helpers
                         var orderPaymentMethod = await _paymentMethodService.GetPaymentMethodById(paidDelivery.PaymentMethodId.Value);
                         if (orderPaymentMethod != null)
                         {
+                            var paymentMethodName = isEnglish ? orderPaymentMethod.NameEn : orderPaymentMethod.NameAr;
+                            if (counter == 1)
+                            {
+                                if (paidDelivery.PaymentMethodId != (int)Utility.Enum.PaymentMethod.Wallet && subscription.WalletUsedAmount > 0)
+                                {
+                                    paymentMethodName = paymentMethodName + " " + (isEnglish ? Messages.And : MessagesAr.And) + " " +
+                                        (isEnglish ? Messages.Wallet : MessagesAr.Wallet);
+                                }
+                            }
+
                             subscriptionPayment.Add(new KeyValuPairModel
                             {
                                 Title = isEnglish ? Messages.PaymentMethod : MessagesAr.PaymentMethod,
-                                Value = isEnglish ? orderPaymentMethod.NameEn : orderPaymentMethod.NameAr,
-                                DisplayOrder = 2
+                                Value = paymentMethodName,
+                                DisplayOrder = 2,
+                                TitleColor = "#6c757d",
+                                TitleBold = false,
+                                ValueColor = "#850b5a",
+                                ValueBold = true
                             });
                         }
                     }
@@ -2180,7 +2571,11 @@ namespace API.Areas.Frontend.Helpers
                         {
                             Title = isEnglish ? Messages.PaymentDate : MessagesAr.PaymentDate,
                             Value = paidDelivery.PaymentDateTime.Value.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW")),
-                            DisplayOrder = 3
+                            DisplayOrder = 3,
+                            TitleColor = "#6c757d",
+                            TitleBold = false,
+                            ValueColor = "#850b5a",
+                            ValueBold = true
                         });
                     }
 
@@ -2190,7 +2585,11 @@ namespace API.Areas.Frontend.Helpers
                         {
                             Title = isEnglish ? Messages.PaymentResult : MessagesAr.PaymentResult,
                             Value = _commonHelper.GetPaymentResultTitle(paidDelivery.PaymentStatusId.Value, isEnglish: isEnglish),
-                            DisplayOrder = 4
+                            DisplayOrder = 4,
+                            TitleColor = "#6c757d",
+                            TitleBold = false,
+                            ValueColor = "#850b5a",
+                            ValueBold = true
                         });
                     }
 
@@ -2200,14 +2599,22 @@ namespace API.Areas.Frontend.Helpers
                         {
                             Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
                             Value = subscriptionModel.FormattedSubTotal,
-                            DisplayOrder = 5
+                            DisplayOrder = 5,
+                            TitleColor = "#6c757d",
+                            TitleBold = false,
+                            ValueColor = "#850b5a",
+                            ValueBold = true
                         });
 
                         subscriptionPayment.Add(new KeyValuPairModel
                         {
                             Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
                             Value = subscriptionModel.FormattedDeliveryFee,
-                            DisplayOrder = 6
+                            DisplayOrder = 6,
+                            TitleColor = "#6c757d",
+                            TitleBold = false,
+                            ValueColor = "#850b5a",
+                            ValueBold = true
                         });
 
                         if (!string.IsNullOrEmpty(subscriptionModel.FormattedCouponDiscountAmount))
@@ -2216,7 +2623,11 @@ namespace API.Areas.Frontend.Helpers
                             {
                                 Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
                                 Value = subscriptionModel.FormattedCouponDiscountAmount,
-                                DisplayOrder = 7
+                                DisplayOrder = 7,
+                                TitleColor = "#6c757d",
+                                TitleBold = false,
+                                ValueColor = "#850b5a",
+                                ValueBold = true
                             });
                         }
 
@@ -2226,26 +2637,78 @@ namespace API.Areas.Frontend.Helpers
                             {
                                 Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
                                 Value = subscriptionModel.FormattedCashbackAmount,
-                                DisplayOrder = 8
+                                DisplayOrder = 8,
+                                TitleColor = "#6c757d",
+                                TitleBold = false,
+                                ValueColor = "#850b5a",
+                                ValueBold = true
                             });
                         }
 
-                        if (!string.IsNullOrEmpty(subscriptionModel.FormattedWalletUsedAmount))
+                        var grandTotal = subscription.SubTotal + subscription.DeliveryFee - subscription.CouponDiscountAmount - subscription.CashbackAmount;
+                        if (subscription.WalletUsedAmount > 0)
                         {
                             subscriptionPayment.Add(new KeyValuPairModel
                             {
-                                Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
-                                Value = subscriptionModel.FormattedWalletUsedAmount,
-                                DisplayOrder = 9
+                                Title = isEnglish ? Messages.OrderAmount : MessagesAr.OrderAmount,
+                                Value = await _commonHelper.ConvertDecimalToString(value: grandTotal, isEnglish: isEnglish, includeZero: true),
+                                DisplayOrder = 9,
+                                TitleColor = "#6c757d",
+                                TitleBold = true,
+                                TitleBig = true,
+                                ValueColor = "#850b5a",
+                                ValueBold = true,
+                                ValueBig = true
+                            });
+
+                            if (!string.IsNullOrEmpty(subscriptionModel.FormattedWalletUsedAmount))
+                            {
+                                subscriptionPayment.Add(new KeyValuPairModel
+                                {
+                                    Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
+                                    Value = subscriptionModel.FormattedWalletUsedAmount,
+                                    DisplayOrder = 10,
+                                    TitleColor = "#6c757d",
+                                    TitleBold = true,
+                                    TitleBig = true,
+                                    ValueColor = "#850b5a",
+                                    ValueBold = true,
+                                    ValueBig = true
+                                });
+                            }
+
+                            var balance = grandTotal - subscription.WalletUsedAmount;
+                            if (balance > 0)
+                            {
+                                subscriptionPayment.Add(new KeyValuPairModel
+                                {
+                                    Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                                    Value = await _commonHelper.ConvertDecimalToString(value: balance, isEnglish: isEnglish, includeZero: true),
+                                    DisplayOrder = 11,
+                                    TitleColor = "#6c757d",
+                                    TitleBold = true,
+                                    TitleBig = true,
+                                    ValueColor = "#850b5a",
+                                    ValueBold = true,
+                                    ValueBig = true
+                                });
+                            }
+                        }
+                        else
+                        {
+                            subscriptionPayment.Add(new KeyValuPairModel
+                            {
+                                Title = isEnglish ? Messages.Total : MessagesAr.Total,
+                                Value = await _commonHelper.ConvertDecimalToString(value: grandTotal, isEnglish: isEnglish, includeZero: true),
+                                DisplayOrder = 9,
+                                TitleColor = "#6c757d",
+                                TitleBold = true,
+                                TitleBig = true,
+                                ValueColor = "#850b5a",
+                                ValueBold = true,
+                                ValueBig = true
                             });
                         }
-
-                        subscriptionPayment.Add(new KeyValuPairModel
-                        {
-                            Title = isEnglish ? Messages.Total : MessagesAr.Total,
-                            Value = await _commonHelper.ConvertDecimalToString(subscription.Total, isEnglish, includeZero: true),
-                            DisplayOrder = 9
-                        });
                     }
                     else
                     {
@@ -2259,21 +2722,35 @@ namespace API.Areas.Frontend.Helpers
                             {
                                 Title = isEnglish ? Messages.SubTotal : MessagesAr.SubTotal,
                                 Value = formattedOrderSubTotal,
-                                DisplayOrder = 5
+                                DisplayOrder = 5,
+                                TitleColor = "#6c757d",
+                                TitleBold = false,
+                                ValueColor = "#850b5a",
+                                ValueBold = true
                             });
 
                             subscriptionPayment.Add(new KeyValuPairModel
                             {
                                 Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
                                 Value = formattedOrderDeliveryFee,
-                                DisplayOrder = 6
+                                DisplayOrder = 6,
+                                TitleColor = "#6c757d",
+                                TitleBold = false,
+                                ValueColor = "#850b5a",
+                                ValueBold = true
                             });
 
                             subscriptionPayment.Add(new KeyValuPairModel
                             {
                                 Title = isEnglish ? Messages.Total : MessagesAr.Total,
                                 Value = formattedOrderTotal,
-                                DisplayOrder = 7
+                                DisplayOrder = 7,
+                                TitleColor = "#6c757d",
+                                TitleBold = true,
+                                TitleBig = true,
+                                ValueColor = "#850b5a",
+                                ValueBold = true,
+                                ValueBig = true
                             });
                         }
                     }
@@ -2304,11 +2781,22 @@ namespace API.Areas.Frontend.Helpers
                             (isEnglish ? Messages.To : MessagesAr.To) + " " + nextToDate.ToString("dd-MMM", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"))
                             + " " + nextFromDate.ToString("yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
 
+                        decimal orderTotal;
+                        if (subscription.FullPayment)
+                        {
+                            orderTotal = 0;
+                        }
+                        else
+                        {
+                            var orderSubTotal = subscription.SubTotal - subscription.CouponDiscountAmount;
+                            var orderDeliveryFee = subscription.DeliveryFee;
+                            orderTotal = orderSubTotal + orderDeliveryFee;
+                        }
+
                         subscriptionModel.UpcomingDeliveries.Add(new KeyValuPairModel
                         {
                             Title = deliveryDate,
-                            Value = subscription.FullPayment ? await _commonHelper.ConvertDecimalToString(0, isEnglish, includeZero: true)
-                            : await _commonHelper.ConvertDecimalToString(subscriptionOrder.Total, isEnglish, includeZero: true)
+                            Value = await _commonHelper.ConvertDecimalToString(orderTotal, isEnglish, includeZero: true)
                         });
                     }
                 }

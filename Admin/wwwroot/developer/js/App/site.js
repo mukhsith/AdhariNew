@@ -450,11 +450,52 @@ fillDropDownList = (divId, apiName, keyToMatch, KeyId, optionId, optionName, cal
         type: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": 'Bearer ' + getToken()
+            "Authorization": 'Bearer ' + getToken(),
+            "lang": $('html')[0].lang
         },
         success: function (data) {
             showLog(data);
             myDropDownList.append($("<option></option>").val(null).html('--Select--'));
+
+            $.each(data.data, function (a, b) {
+                if (keyToMatch) {
+                    if (b.id == KeyId) {
+                        myDropDownList.append($("<option selected></option>").val(b[optionId]).html(b[optionName]));
+                    } else {
+                        myDropDownList.append($("<option></option>").val(b[optionId]).html(b[optionName]));
+                    }
+                } else {
+                    myDropDownList.append($("<option></option>").val(b[optionId]).html(b[optionName]));
+                }
+
+            });
+            //after execution, call callbackfunction
+            if (callbackFunction) {
+                callbackFunction(data);
+            };
+        },
+        failure: function (response) {
+            alert(response.d);
+        }
+    });
+}
+
+
+
+
+fillDropDownMultiList = (divId, apiName, keyToMatch, KeyId, optionId, optionName, callbackFunction = undefined) => {
+    var myDropDownList = $('#' + divId).empty();
+    $.ajax({
+        url: getAPIUrl() + apiName,
+        type: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": 'Bearer ' + getToken(),
+            "lang": $('html')[0].lang
+        },
+        success: function (data) {
+            showLog(data);
+           // myDropDownList.append($("<option></option>").val(null).html('--Select--'));
 
             $.each(data.data, function (a, b) {
                 if (keyToMatch) {
@@ -791,54 +832,112 @@ maxlength =(event) => {
 
 getOrderTypeHtml = (row) => {
         if (row.orderTypeId == 1) {
-            return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>Online</span>`;
+            return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>` + Resources.Online+`</span>`;
         } else {
-            return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>Offline</span>`;
+            return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>` + Resources.Offline+ `</span>`;
         }
 }
 getOrderStatusHtml = (row) => {
     if (row.orderStatusId == 1) {
-        return `<span class='px-2 fw-bold text-secondary'>Pending</span>`;
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.Pending +`</span>`;
     } else if (row.orderStatusId == 2) {
-        return `<span class='px-2 fw-bold text-primary'>Confirmed</span>`;
+        return `<span class='px-2 fw-bold text-primary'>` + Resources.Confirmed +`</span>`;
     } else if (row.orderStatusId == 3) {
-        return `<span class='px-2 fw-bold text-danger'>Cancelled</span>`;
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.Cancelled +`</span>`;
     } else if (row.orderStatusId == 4) {
-        return `<span class='px-2 fw-bold text-secondary'>Delivered</span>`;
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.Confirmed + `</span>`;
+      //  return `<span class='px-2 fw-bold text-secondary'>` + Resources.Delivered +`</span>`;
     } else if (row.orderStatusId == 5) {
-        return `<span class='px-2 fw-bold text-secondary'>Received</span>`;
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.Received +`</span>`;
     } else if (row.orderStatusId == 6) {
-        return `<span class='px-2 fw-bold text-secondary'>OnTheWay</span>`;
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.OnTheWay +`</span>`;
     } else if (row.orderStatusId == 7) {
-        return `<span class='px-2 fw-bold text-secondary'>Returned</span>`;
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.Returned +`</span>`;
     } else if (row.orderStatusId == 8) {
-        return `<span class='px-2 fw-bold text-mute'>Discarded</span>`;
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.Discarded +`</span>`;
     } else if (row.orderStatusId == 9) {
-        return `<span class='px-2 fw-bold text-danger'>Failed</span>`;
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.Failed +`</span>`;
     }
 else if (row.orderStatusId == 10) {
-        return `<span class='px-2 fw-bold text-danger'>Cancelled By Customer</span>`;
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.CancelledByCustomer +`</span>`;
     } else if (row.orderStatusId == 11) {
-        return `<span class='px-2 fw-bold text-danger'>Returned By Driver</span>`;
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.ReturnedByDriver +`</span>`;
     }   else {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning' title='Cancelled by customer'>Cancelled</span>`;
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning' title='` + Resources.CancelledByCustomer +`'>` + Resources.Cancelled +`</span>`;
     }
 
    
 }
 
 
+getOrderDeliveryStatusHtml = (row) => {
+    if (row.orderStatusId == 1) {
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.Pending + `</span>`;
+    } else if (row.orderStatusId == 2) {
+        return `<span class='px-2 fw-bold text-primary'>` + Resources.Confirmed + `</span>`;
+    } else if (row.orderStatusId == 3) {
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.Cancelled + `</span>`;
+    } else if (row.orderStatusId == 4) {
+       return `<span class='px-2 fw-bold text-secondary'>` + Resources.Delivered +`</span>`;
+    } else if (row.orderStatusId == 5) {
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.Received + `</span>`;
+    } else if (row.orderStatusId == 6) {
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.OnTheWay + `</span>`;
+    } else if (row.orderStatusId == 7) {
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.Returned + `</span>`;
+    } else if (row.orderStatusId == 8) {
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.Discarded + `</span>`;
+    } else if (row.orderStatusId == 9) {
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.Failed + `</span>`;
+    }
+    else if (row.orderStatusId == 10) {
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.CancelledByCustomer + `</span>`;
+    } else if (row.orderStatusId == 11) {
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.ReturnedByDriver + `</span>`;
+    } else {
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning' title='` + Resources.CancelledByCustomer + `'>` + Resources.Cancelled + `</span>`;
+    }
+
+
+}
+
+
+getDeliveryStatusHtml = (row) => {
+    if (row.orderStatusId == 4) /*Pending*/ {
+        return `<span class='px-2 rounded-pill fw-bold text-success'>` + Resources.Delivered + `</span>`;
+    } else {
+        return `<span class='px-2 rounded-pill fw-bold text-danger'>` + Resources.Pending + `</span>`;
+    }
+}
+
+
+
+
+getDeviceTypeHtml = (row) => {
+    if (row.deviceTypeId == 0) {
+        return `<span class='px-2 fw-bold text-warning'>WEB</span>`;
+    } else if (row.deviceTypeId == 1) {
+        return `<span class='px-2 fw-bold text-secondary'>Android</span>`;
+    } else if (row.deviceTypeId == 2) {
+        return `<span class='px-2 fw-bold text-primary'>IOS</span>`;
+    } else if (row.deviceTypeId == 3) {
+        return `<span class='px-2 fw-bold text-warning'>WEB</span>`;
+    }
+}
+
+
+
 getOrderPaidStatusHtml = (row) => {
     if (row.paymentStatusId == 1) /*Pending*/ {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>Unpaid</span>`;
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>` + Resources.Unpaid +`</span>`;
     } else if (row.paymentStatusId == 2) /*Captured*/ {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>Paid</span>`;
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>` + Resources.Paid +`</span>`;
     } else if (row.paymentStatusId == 3) /*NotCaptured*/ {
-        return `<span class='px-2 fw-bold text-secondary'>NotCaptured</span>`;
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.NotCaptured +`</span>`;
     } else if (row.paymentStatusId == 4) /*Canceled*/ {
-        return `<span class='px-2 fw-bold text-secondary'>Canceled</span>`;
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.Cancelled +`</span>`;
     } else if (row.paymentStatusId == 5) /*PendingCash*/ {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>Unpaid</span>`;
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>` + Resources.Unpaid +`</span>`;
     }
 }
 
@@ -855,48 +954,58 @@ getOrderDeliveryStatusHtml = (row) => {
 
 getPaymentMethodHtml = (row) => {
     if (row.paymentMethodId == 1) {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-info'>KNET</span>`;
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-info'>` + Resources.KNET +`</span>`;
     } else if (row.paymentMethodId == 2) {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>Visa/Mastercard</span>`;
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>` + Resources.VISA_Master +`</span>`;
     } else if (row.paymentMethodId == 3) {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-danger' title='Tabby'>Tabby</span>`;
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-danger'>` + Resources.Tabby +`</span>`;
     } else if (row.paymentMethodId == 4) {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-primary' title='Cash on Delivery'>COD</span>`;
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-primary'>` + Resources.COD +`</span>`;
     }  else if (row.paymentMethodId == 5) {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>Wallet</span>`;
-    }  
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>` + Resources.Wallet +`</span>`;
+    } else {
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-info'>` + Resources.QPAY +`</span>`;
+    }
 }
 
 getOrderDeliveryHtml = (row) => {
     if (row.orderTypeId == 1) {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>Online</span>`;
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-success'>` + Resources.Online +`</span>`;
     } else {
-        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>Offline</span>`;
+        return `<span class='px-2 rounded-pill fw-bold text-light bg-warning'>` + Resources.Offline + `</span>`;
     }
 }
 
 getPaymentStatusHtml = (row) => {
     if (row.paymentStatusId == 1) /*Pending*/ {
-        return `<span class='px-2 fw-bold text-secondary'>Pending</span>`;
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.Pending +`</span>`;
     } else if (row.paymentStatusId == 2) /*Captured*/ {
-        return `<span class='px-2 fw-bold text-primary'>Captured</span>`;
+        return `<span class='px-2 fw-bold text-primary'>` + Resources.Captured +`</span>`;
     } else if (row.paymentStatusId == 3) /*NotCaptured*/ {
-        return `<span class='px-2 fw-bold text-secondary'>NotCaptured</span>`;
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.NotCaptured +`</span>`;
     } else if (row.paymentStatusId == 4) /*Canceled*/ {
-        return `<span class='px-2 fw-bold text-secondary'>Canceled</span>`;
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.Cancelled +`</span>`;
     } else if (row.paymentStatusId == 5) /*PendingCash*/ {
-        return `<span class='px-2 fw-bold text-secondary'>Pending Cash</span>`;
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.PendingCash +`</span>`;
     }
 }
 
 getSubscriptionStatusHtml = (row) => {
     if (row.subscriptionStatusId == 1) {
-        return `<span class='px-2 fw-bold text-secondary'>Pending</span>`;
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.Pending +`</span>`;
     } else if (row.subscriptionStatusId == 2) {
-        return `<span class='px-2 fw-bold text-primary'>Confirmed</span>`;
+        return `<span class='px-2 fw-bold text-primary'>` + Resources.Confirmed +`</span>`;
     } else if (row.subscriptionStatusId == 3) {
-        return `<span class='px-2 fw-bold text-danger'>Expired</span>`;
+        return `<span class='px-2 fw-bold text-danger'>` + Resources.Expired +`</span>`;
     } else if (row.subscriptionStatusId == 4) {
-        return `<span class='px-2 fw-bold text-secondary'>Cancelled</span>`;
+        return `<span class='px-2 fw-bold text-secondary'>` + Resources.Cancelled +`</span>`;
     }
+}
+
+
+function getFormatedSearchDate(_date) {
+    var _split = _date.split('/');
+    var _date = _split[1] + '/' + _split[0] + '/' + _split[2];
+    return _date;
+
 }

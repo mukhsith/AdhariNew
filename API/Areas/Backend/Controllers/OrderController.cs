@@ -73,6 +73,27 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
         }
 
+
+        [HttpGet, Route("api/Order/OrderSalesFilterSummary")]
+        public async Task<IActionResult> OrderSalesFilterSummary(DateTime? startDate = null, DateTime? endDate = null)
+        {
+            DailyOrderSummaryModel response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+                response = await _orderModelFactory.GetFilterSalesSummary(IsEnglish, startDate, endDate);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                //response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
+            return Ok(response);
+        }
+
         [HttpGet, Route("api/Order/SubscriptionTodaySales")]
         public async Task<IActionResult> SubscriptionTodaySales()
         {
@@ -96,13 +117,14 @@ namespace API.Areas.Backend.Controllers
 
 
         [HttpGet, Route("api/Order/OrderSalesSummary")]
-        public async Task<IActionResult> OrderSalesSummary(int CustomerID)
+        public async Task<IActionResult> OrderSalesSummary(int? CustomerID)
         {
-            DailySubscriptionSummaryModel response = new();
+            DailyOrderSummaryModel response = new();
             try
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
-                response = await _orderModelFactory.GetTodaySubscriptionSales(IsEnglish);
+                //    response = await _orderModelFactory.GetTodaySubscriptionSales(IsEnglish);
+                response = await _orderModelFactory.GetTodaySales(IsEnglish);
                 return Ok(response);
 
             }
@@ -222,6 +244,48 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
         }
 
+
+
+        [HttpPost, Route("api/Order/GetDeliveriedForDataTableReturned")]
+        public async Task<IActionResult> GetDeliveriedReturnedDataTable()
+        {
+            DataTableResult<List<DeliveriesDashboard>> response = new();
+            try
+            {
+                AdminOrderDeliveriesParam param = new();
+
+                if (!await Allowed()) { return Ok(accessResponse); }
+                param.IsEnglish = IsEnglish;
+                param.DatatableParam = base.GetDataTableParameters;
+                param.SelectedTab = Utility.Helpers.Common.ConvertTextToInt(HttpContext.Request.Form["selectedTab"].FirstOrDefault());
+                param.OrderNumber = HttpContext.Request.Form["orderNumber"].FirstOrDefault();
+                var deliveryDate = HttpContext.Request.Form["deliveryDate"].FirstOrDefault();
+                var orderModeId = HttpContext.Request.Form["orderModeId"].FirstOrDefault();
+                var orderTypeId = HttpContext.Request.Form["orderTypeId"].FirstOrDefault();
+                var areaId = HttpContext.Request.Form["areaId"].FirstOrDefault();
+                var driverId = HttpContext.Request.Form["driverId"].FirstOrDefault();
+
+                param.DeliveryDate = Utility.Helpers.Common.ConvertYYYYMMDDTextToDate(deliveryDate);
+                param.OrderModeId = Utility.Helpers.Common.ConvertTextToIntOptional(orderModeId);
+                param.OrderTypeId = Utility.Helpers.Common.ConvertTextToIntOptional(orderTypeId);
+                param.AreaId = Utility.Helpers.Common.ConvertTextToIntOptional(areaId);
+                param.DriverId = Utility.Helpers.Common.ConvertTextToIntOptional(driverId);
+                param.OrderStatusID = OrderStatus.Delivered;
+                response = await _orderModelFactory.GetDeliveriesForDataTable(param);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                //response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
+
+
+
+
         [HttpPost, Route("api/Order/GetSalesOrderForDataTable")]
         public async Task<IActionResult> GetSalesOrderForDataTable()
         { 
@@ -264,7 +328,48 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
         }
 
-         
+
+
+
+        [HttpPost, Route("api/Order/GetSalesOrderedItemsForDataTable")]
+        public async Task<IActionResult> GetSalesOrderedItemsForDataTable()
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+                AdminOrderedItemParam param = new();
+
+                param.SelectedTab = Utility.Helpers.Common.ConvertTextToInt(HttpContext.Request.Form["selectedTab"].FirstOrDefault());
+                param.DatatableParam = base.GetDataTableParameters;
+               // param.CustomerId = Utility.Helpers.Common.ConvertTextToIntOptional(HttpContext.Request.Form["customerId"].FirstOrDefault());
+
+                var startDate = HttpContext.Request.Form["startDate"].FirstOrDefault();
+                var endDate = HttpContext.Request.Form["endDate"].FirstOrDefault();
+
+
+                param.startDate = Utility.Helpers.Common.ConvertYYYYMMDDTextToDate(startDate);
+                param.endDate = Utility.Helpers.Common.ConvertYYYYMMDDTextToDate(endDate);
+
+                
+                //var items = await _get.GetAllSalesOrders(param);
+                var items = await _orderModelFactory.GetSalesOrderedItems(IsEnglish, param);
+                // response.GetAll(items);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
+
+
+
+     
+
+
         [HttpPost, Route("api/Order/GetTodayDeliveryDataTable")]
         public async Task<IActionResult> GetTodayDeliveryDataTable()
         {
@@ -465,6 +570,46 @@ namespace API.Areas.Backend.Controllers
 
         }
 
+
+        /// <summary>
+        /// To get order in pdf
+        /// </summary>
+        /// <returns>Order pdf</returns>
+        [HttpGet, Route("api/order/GetDotMatrixOrderPDF")]
+        public async Task<IActionResult> GetDotMatrixOrderPDF(int? id)
+        {
+
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                if (id.HasValue)
+                {
+                    var orderItem = await _orderModelFactory.PrepareMatrixOrder(true, id.Value);
+                    var url = _commonHelper.GetOrderDotMatrixUrl(orderItem, base.AppSettings.APIBaseUrl, true);
+                    response.GetById(url);
+                }
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogInformation(ex.Message);
+            }
+            return Ok(response);
+
+        }
+
+
+        /// <summary>
+        /// To get order in pdf
+        /// </summary>
+        /// <returns>Order pdf</returns>
+        [HttpGet, Route("api/order/getorderpdfNew")]
+        public async Task<APIResponseModel<object>> GetOrdernewPdf(int id,int customerId)
+        {
+            return await _orderModelFactory.GetOrderPdf(isEnglish: true, customerId: customerId, id: id);
+        }
 
         /// <summary>
         /// Create order

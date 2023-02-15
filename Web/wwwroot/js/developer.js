@@ -68,4 +68,4 @@ removeStorage = (key) => {
 
 clearStorage = () => {
     localStorage.clear();
-} 
+}

@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Localization
+@{
+    var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures.Select(c => new SelectListItem { Value = c.Name, Text = localizer.GetString(c.Name) })
+                                                           .Where(i => i.Value != requestCultureFeature).ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
+}
+<div class="col-12 text-center">
+    <a href="@Url.RouteUrl("websiteurl")"><img src="/assets/img/Adhari-Logo.svg" class="img-fluid mb-4" alt="" width="100"></a>
+    <h1 class="text-primary fw-bold mb-2">@SharedHtmlLocalizer["QuickPay"]</h1>
+    <form id="selectLanguage"
+          asp-controller="Culture"
+          asp-action="SetCulture"
+          asp-route-returnUrl="@returnUrl"
+          method="post"
+          role="form" class="form-mobile-language">
+        @foreach (var culture in cultureItems)
+        {
+            <input id="culture" name="culture" value="@culture.Value" type="hidden" />
+            <a href="#" class="btn btn-outline-primary fw-bold rounded-pill mb-4 border-2 language-switch" onclick="document.getElementById('selectLanguage').submit();">@SharedHtmlLocalizer["LanguageText"]</a>
+        }
+    </form>
+</div>

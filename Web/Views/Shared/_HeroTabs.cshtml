@@ -165,14 +165,12 @@
 
         // On before slide change
         $('.et-hero-tabs-container').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-            // console.log(nextSlide);
+            
         });
         $('.et-hero-tabs-container').on('afterChange', function (event, slick, currentSlide) {
-            // console.log("Changed Slide to :" + currentSlide);
             // if(CurrentSlideValue != currentSlide)
         });
         if ($('html').attr('dir') == 'rtl') {
-            console.log("RTL enabled");
             $('.et-hero-tabs-container').slick('slickSetOption', 'rtl', true, false);
         }
     });

@@ -32,12 +32,29 @@ namespace Admin.Controllers
         {
             return View(new BaseEntityId { Id = customerId });
         }
+
+
+        [Route("customer/CustomerDetails")]
+        public IActionResult CustomerDetails(int customerId)
+        {
+            return View(new BaseEntityId { Id = customerId });
+        }
+
+
         public IActionResult CustomerList()
         {
             return View();
         }
-        
-         
+
+
+
+        [Route("customer/CustomerAddress")]
+        public IActionResult CustomerAddress(int customerId)
+        {
+            return View(new BaseEntityId { Id = customerId });
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

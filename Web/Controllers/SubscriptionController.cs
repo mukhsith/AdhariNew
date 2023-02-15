@@ -29,24 +29,7 @@ namespace Web.Controllers
         {
             _apiHelper = apiHelper;
             _logger = logger.CreateLogger(typeof(SubscriptionController).Name);
-        }
-
-        [HttpGet]
-        public virtual async Task<JsonResult> ValidateSubscription(int productId, int quantity)
-        {
-            var responseModel = new APIResponseModel<bool>();
-            try
-            {
-                responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/subscription/validatesubscription?productId=" + productId + "&quantity=" + quantity);
-            }
-            catch (Exception ex)
-            {
-                responseModel.Message = ex.Message;
-                _logger.LogInformation(ex.Message);
-            }
-
-            return Json(responseModel);
-        }
+        }       
 
         [HttpPost]
         public virtual async Task<JsonResult> SaveSubscriptionAttributes(SubscriptionAttributeModel subscriptionAttributeModel)
@@ -170,6 +153,8 @@ namespace Web.Controllers
 
             return Json(responseModel);
         }
+
+        [Authorize]
         public async Task<IActionResult> SubscriptionResult(string subscriptionNumber)
         {
             var subscriptionModel = new SubscriptionModel();
@@ -192,6 +177,79 @@ namespace Web.Controllers
             }
 
             return View(subscriptionModel);
+        }       
+
+        [Authorize]
+        public async Task<IActionResult> Subscriptions()
+        {
+            var subscriptionModels = new List<SubscriptionModel>();
+            try
+            {
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<SubscriptionModel>>>("webapi/subscription/subscriptions");
+                if (responseModel.MessageCode == 401)
+                {
+                    return RedirectToRoute("login");
+                }
+
+                if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
+                {
+                    subscriptionModels = responseModel.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(subscriptionModels);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> SubscriptionDetails(string subscriptionNumber)
+        {
+            var subscriptionModel = new SubscriptionModel();
+            try
+            {
+                if (string.IsNullOrEmpty(subscriptionNumber))
+                {
+                    return View(subscriptionModel);
+                }
+
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<SubscriptionModel>>>("webapi/subscription/subscriptions?subscriptionNumber=" + subscriptionNumber);
+                if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
+                {
+                    subscriptionModel = responseModel.Data[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(subscriptionModel);
+        }
+
+        /// <summary>
+        /// print subscription
+        /// </summary>
+        public virtual async Task<JsonResult> PrintSubscription(int id)
+        {
+            var responseModel = new APIResponseModel<object>();
+            try
+            {
+                responseModel = await _apiHelper.GetAsync<APIResponseModel<object>>("webapi/subscription/getsubscriptionpdf?id=" + id);
+                if (responseModel.MessageCode == 401)
+                {
+                    responseModel.MessageCode = 401;
+                    return Json(responseModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message;
+            }
+
+            return Json(responseModel);
         }
         public async Task<IActionResult> SubscriptionResultSMS(string subscriptionNumber)
         {
@@ -203,7 +261,7 @@ namespace Web.Controllers
                     return View(subscriptionModel);
                 }
 
-                var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<SubscriptionModel>>>("webapi/subscription/subscriptions?subscriptionNumber=" + subscriptionNumber);
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<SubscriptionModel>>>("webapi/subscription/subscriptionbysubscriptionnumber?subscriptionNumber=" + subscriptionNumber);
                 if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
                 {
                     subscriptionModel = responseModel.Data[0];
@@ -240,76 +298,6 @@ namespace Web.Controllers
             }
 
             return View(subscriptionModel);
-        }
-
-        [Authorize]
-        public async Task<IActionResult> Subscriptions()
-        {
-            var subscriptionModels = new List<SubscriptionModel>();
-            try
-            {
-                var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<SubscriptionModel>>>("webapi/subscription/subscriptions");
-                if (responseModel.MessageCode == 401)
-                {
-                    return RedirectToRoute("login");
-                }
-
-                if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
-                {
-                    subscriptionModels = responseModel.Data;
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation(ex.Message);
-            }
-
-            return View(subscriptionModels);
-        }
-        public async Task<IActionResult> SubscriptionDetails(string subscriptionNumber)
-        {
-            var subscriptionModel = new SubscriptionModel();
-            try
-            {
-                if (string.IsNullOrEmpty(subscriptionNumber))
-                {
-                    return View(subscriptionModel);
-                }
-
-                var responseModel = await _apiHelper.GetAsync<APIResponseModel<List<SubscriptionModel>>>("webapi/subscription/subscriptions?subscriptionNumber=" + subscriptionNumber);
-                if (responseModel.Success && responseModel.Data != null && responseModel.Data.Count > 0)
-                {
-                    subscriptionModel = responseModel.Data[0];
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation(ex.Message);
-            }
-
-            return View(subscriptionModel);
-        }
-        /// <summary>
-        /// print subscription
-        /// </summary>
-        public virtual async Task<JsonResult> PrintSubscription(int id)
-        {
-            var responseModel = new APIResponseModel<object>();
-            try
-            {
-                responseModel = await _apiHelper.GetAsync<APIResponseModel<object>>("webapi/subscription/getsubscriptionpdf?id=" + id);
-                if (responseModel.MessageCode == 401)
-                {
-                    responseModel.MessageCode = 401;
-                    return Json(responseModel);
-                }
-            }
-            catch (Exception ex)
-            {
-                responseModel.Message = ex.Message;
-            }
-
-            return Json(responseModel);
         }
     }
 }

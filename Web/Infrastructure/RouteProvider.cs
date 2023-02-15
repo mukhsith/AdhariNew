@@ -24,6 +24,11 @@ namespace Web.Infrastructure
                    pattern: "",
                    defaults: new { controller = "Home", action = "Index" });
 
+            //apple pay
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "applepaytest",
+                   pattern: "applepaytest",
+                   defaults: new { controller = "Home", action = "ApplePayTest" });
 
             //About Us 
             endpointRouteBuilder.MapControllerRoute(
@@ -43,6 +48,11 @@ namespace Web.Infrastructure
                    pattern: "paymentresult",
                    defaults: new { controller = "Common", action = "PaymentResult" });
 
+            //Download app
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "downloadapp",
+                   pattern: "downloadapp",
+                   defaults: new { controller = "Common", action = "DownloadApp" });
 
             #region Customer
             //login
@@ -50,7 +60,7 @@ namespace Web.Infrastructure
                    name: "login",
                    pattern: "login",
                    defaults: new { controller = "Customer", action = "Login" });
-            
+
             //register
             endpointRouteBuilder.MapControllerRoute(
                    name: "register",
@@ -128,6 +138,12 @@ namespace Web.Infrastructure
                    pattern: "updateaddress",
                    defaults: new { controller = "Customer", action = "UpdateAddress" });
 
+            //get address details
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "getaddress",
+                   pattern: "getaddress/{addressId?}",
+                   defaults: new { controller = "Customer", action = "GetAddress" });
+
             //my wallet
             endpointRouteBuilder.MapControllerRoute(
                    name: "mywallet",
@@ -202,11 +218,6 @@ namespace Web.Infrastructure
                    name: "mysubscriptions",
                    pattern: "mysubscriptions",
                    defaults: new { controller = "Subscription", action = "Subscriptions" });
-
-            endpointRouteBuilder.MapControllerRoute(
-             name: "validatesubscription",
-             pattern: "validatesubscription",
-             defaults: new { controller = "Subscription", action = "ValidateSubscription" });
 
             endpointRouteBuilder.MapControllerRoute(
                    name: "savesubscriptionattributes",
@@ -319,6 +330,12 @@ namespace Web.Infrastructure
                    name: "deletecartitem",
                    pattern: "deletecartitem",
                    defaults: new { controller = "Cart", action = "DeleteCartItem" });
+
+            //validate cart
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "validatecart",
+                   pattern: "validatecart",
+                   defaults: new { controller = "Cart", action = "ValidateCart" });
 
             #endregion
 
@@ -453,6 +470,11 @@ namespace Web.Infrastructure
                    pattern: "addaddress",
                    defaults: new { controller = "Customer", action = "AddAddress" });
 
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "deleteaddress",
+                   pattern: "deleteaddress",
+                   defaults: new { controller = "Customer", action = "DeleteAddress" });
+
             //get payment methods
             endpointRouteBuilder.MapControllerRoute(
                    name: "paymentmethod",
@@ -488,6 +510,12 @@ namespace Web.Infrastructure
                    name: "refundpolicy",
                    pattern: "refundpolicy",
                    defaults: new { controller = "Common", action = "RefundPolicy" });
+
+            //Site content mobile
+            endpointRouteBuilder.MapControllerRoute(
+                   name: "sitecontentmobile",
+                   pattern: "sitecontentmobile/{appContentTypeId?}/{isEnglish?}",
+                   defaults: new { controller = "Common", action = "SiteContentMobile" });
         }
     }
 }

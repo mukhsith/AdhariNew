@@ -9,26 +9,33 @@ $(document).ready(function () {
     //fillDropDownListData('roleList', 'SystemUser/GetAllRoles', true, r.roleId, 'id', 'name');
 });
 
+
+//mobileNumber: { required: true, maxlength: 8 },
+//emailAddress: { required: true, },
+//mobileNumber: { required: '', },
+//emailAddress: { required: '', },
+
+
 setUpFormValidation = () => {
     $.validator.addMethod('lettersonlyRule', function (value, element) {
         return this.optional(element) || /^[^-\s][a-zA-Z\s-]+$/.test(value);
     });
 
     $("#dataForm").validate({
+        errorPlacement:
+            function (error, element) { },
         rules: {
+            userName: { required: true, minlength: 3, maxlength: 150, },
             fullName: { required: true, minlength: 3, maxlength: 50, },
-            mobileNumber: { required: true, maxlength: 8 },
-            emailAddress: { required: true, },
             password: { required: true, minlength: 5, maxlength: 10, },
             confirmPassword: { required: true, minlength: 5, maxlength: 10, equalTo: "#password", },
             roleList: { required: true,  }
         },
         messages: {
-            fullName: { required: 'Required' },
-            mobileNumber: { required: 'Required', },
-            emailAddress: { required: 'Required', },
-            password: { required: 'Required', },
-            confirmPassword: { required: 'Required', },
+            userName: { required: '' },
+            fullName: { required: '' },
+            password: { required: '', },
+            confirmPassword: { required: '', },
             roleList: { required: 'Please select a Role' }
         },
         submitHandler: function (form, event) {
@@ -51,13 +58,14 @@ callbackGetDataSuccess = (data) => {
         return;
     }
     var r = data.data;
+    setTextValue('userName', r.userName);
     setTextValue('fullName', r.fullName);
     setTextValue('mobileNumber', r.mobileNumber);
 
     setTextValue('emailAddress', r.emailAddress);
     $('#emailAddress').prop('readonly', true);
 
-    setSelectedItemByValueAndTriggerChangeEvent('genderList', r.genderTypeId); 
+  //  setSelectedItemByValueAndTriggerChangeEvent('genderList', r.genderTypeId); 
     setTextValue('password', r.password);
     setTextValue('confirmPassword', r.password);
     setSelectedItemByValueAndTriggerChangeEvent('roleList', r.roleId);
@@ -73,11 +81,12 @@ saveData = () => {
     showLoader();
     let submitData = new FormData();
     submitData.append("Id", id);
+    submitData.append('userName', getTextValue('userName'));
     submitData.append('fullName', getTextValue('fullName'));
     submitData.append('mobileNumber', getTextValue('mobileNumber'));
     submitData.append('emailAddress', getTextValue('emailAddress'));
     submitData.append('password', getTextValue('password'));
-    submitData.append('genderTypeId', getSelectedItemValue('genderList'));
+    submitData.append('genderTypeId', 1);
     submitData.append('RoleId', getSelectedItemValue('roleList'));
     submitHiddenData(submitData);
     //showFormData(submitData); 

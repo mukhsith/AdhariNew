@@ -312,7 +312,7 @@
         $(".btn-minus-subscription-product-details").click(function () {
             var quantity = $(this).closest(".product-details-spinner").find("input").val();
             var finalQuantity = parseInt(quantity) - 1;
-            debugger;
+            
             var minQuantity = $(this).closest(".product-details-spinner").find("input").attr("data-minquantity");
             if (finalQuantity < minQuantity) {
                 var productType =@((int)Model.ProductType);
@@ -370,6 +370,12 @@
                     window.location = "@Url.RouteUrl("subscriptioncheckout")";
                 }
                 else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
                     if (result.message != "")
                         ToastAlert('error', '', result.message);
                 }
@@ -428,6 +434,12 @@
                 }
             }
             else {
+                if (result.messageCode == 401) {
+                    var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                    window.location.href = "/login?returnUrl=" + returnUrl;
+                    return;
+                }
+
                 if (result.message != "")
                     ToastAlert("error", "", result.message);
             }
@@ -438,7 +450,6 @@
 
     function mobileCheck() {
         const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-        console.log(vw);
         if (vw < 480)
             return 1;
         else

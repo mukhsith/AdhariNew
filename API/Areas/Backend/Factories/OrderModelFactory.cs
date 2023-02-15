@@ -69,7 +69,7 @@ namespace API.Areas.Backend.Factories
             ICategoryService categoryService,
             ICouponService couponService,
             IOrderService orderService,
-            ISubscriptionService  subscriptionService,
+            ISubscriptionService subscriptionService,
             IPromotionService promotionService,
             IPaymentMethodService paymentMethodService,
             IQuickPaymentService quickPaymentService,
@@ -99,18 +99,33 @@ namespace API.Areas.Backend.Factories
             _apiHelper = apiHelper;
         }
 
-        public async Task<OrderModel> PrepareOrder(bool isEnglish, int  id)
+        public async Task<OrderModel> PrepareOrder(bool isEnglish, int id)
         {
             var orderModel = new OrderModel();
             var order = await _orderService.GetOrderById(id);
 
             if (order != null)
             {
-                orderModel = await _modelHelper.PrepareOrderModel(order: order, isEnglish: isEnglish, loadDetails : true);
+                orderModel = await _modelHelper.PrepareOrderModel(order: order, isEnglish: isEnglish, loadDetails: true);
 
             }
             return orderModel;
         }
+
+        
+            public async Task<OrderModel> PrepareMatrixOrder(bool isEnglish, int id)
+        {
+            var orderModel = new OrderModel();
+            var order = await _orderService.GetOrderById(id);
+
+            if (order != null)
+            {
+                orderModel = await _modelHelper.PrepareMatrixOrderModel(order: order, isEnglish: isEnglish, loadDetails: true);
+
+            }
+            return orderModel;
+        }
+
 
         public async Task<DailyOrderSummaryModel> GetTodaySales(bool isEnglish)
         {
@@ -119,23 +134,97 @@ namespace API.Areas.Backend.Factories
             {
                 model.FormattedItemsSoldToday = model.ItemsSoldToday.ToString();
                 model.FormattedOrderReceivedToday = model.OrderReceivedToday.ToString();
+                model.FailedOrderReceived = model.FailedOrderReceived;
                 model.FormattedSalesAmountToday = await _commonHelper.ConvertDecimalToString(model.SalesAmountToday, isEnglish, 1, true);
             }
             return model;
         }
 
+
+        public async Task<DailyOrderSummaryModel> GetTodaySalesInfo(bool isEnglish, int? customerId)
+        {
+            var model = await _orderService.GetTodaySales();
+            if (model is not null)
+            {
+                model.FormattedItemsSoldToday = model.ItemsSoldToday.ToString();
+                model.FormattedOrderReceivedToday = model.OrderReceivedToday.ToString();
+                model.FailedOrderReceived = model.FailedOrderReceived;
+                model.FormattedSalesAmountToday = await _commonHelper.ConvertDecimalToString(model.SalesAmountToday, isEnglish, 1, true);
+            }
+            return model;
+        }
+
+
+
+        public async Task<DailyOrderSummaryModel> GetFilterSalesSummary(bool isEnglish, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            var model = await _orderService.GetFilterSalesSummary(startDate, endDate);
+            if (model is not null)
+            {
+                model.FormattedItemsSoldToday = model.ItemsSoldToday.ToString();
+                model.FormattedOrderReceivedToday = model.OrderReceivedToday.ToString();
+                model.FailedOrderReceived = model.FailedOrderReceived;
+                model.FormattedSalesAmountToday = await _commonHelper.ConvertDecimalToString(model.SalesAmountToday, isEnglish, 1, true);
+            }
+            return model;
+        }
+
+
+
+        public async Task<DataTableResult<List<AdminOrderedItemModel>>> GetSalesOrderedItems(bool isEnglish, AdminOrderedItemParam param)
+        {
+           
+            DataTableResult<List<AdminOrderedItemModel>> result = new() { Draw = param.DatatableParam.Draw };
+            try
+            {
+                result = await _orderService.GetAllForOrderedItemDataTable(param);
+                //foreach (var item in result.Data)
+                //{
+                //    item.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(item.DeliveryFee, param.IsEnglish, 1, true);
+                //    item.FormattedTotal = await _commonHelper.ConvertDecimalToString(item.Total, param.IsEnglish, 1, true);
+                //    item.OrderStatus = _commonHelper.GetOrderStatusName(item.OrderStatusId, param.IsEnglish);
+                //}
+
+                return result;
+            }
+            catch (Exception exp)
+            {
+                _logger.LogError("OrderModelFactor:", exp.Message);
+            }
+
+            return result;
+        }
+
+
+        //public async Task<DailyOrderSummaryModel> GetSalesOrderedItems(bool isEnglish, DateTime? startDate = null, DateTime? endDate = null)
+        //{
+        //    var model = await _orderService.GetFilterSalesSummary(startDate, endDate);
+        //    if (model is not null)
+        //    {
+        //        model.FormattedItemsSoldToday = model.ItemsSoldToday.ToString();
+        //        model.FormattedOrderReceivedToday = model.OrderReceivedToday.ToString();
+        //        model.FailedOrderReceived = model.FailedOrderReceived;
+        //        model.FormattedSalesAmountToday = await _commonHelper.ConvertDecimalToString(model.SalesAmountToday, isEnglish, 1, true);
+        //    }
+        //    return model;
+        //}
+
+
+
         public async Task<DailySubscriptionSummaryModel> GetTodaySubscriptionSales(bool isEnglish)
         {
             var model = await _subscriptionService.GetSubscriptionTodaySales();
+
+
             if (model is not null)
-            { 
+            {
                 model.FormattedSubscriptionOrdersReceivedToday = model.SubscriptionOrdersReceivedToday.ToString();
                 model.FormattedSubscriptionSalesAmountToday = await _commonHelper.ConvertDecimalToString(model.SubscriptionSalesAmountToday, isEnglish, 1, true);
             }
             return model;
         }
 
-        
+
         public async Task<DailySubscriptionSummaryModel> GetCustomerSales(bool isEnglish, int customerId)
         {
             var model = await _subscriptionService.GetSubscriptionTodaySales();
@@ -1076,7 +1165,7 @@ namespace API.Areas.Backend.Factories
 
                     await _cartService.HoldAndReleaseCartItem(customerId: customer.Id, isHold: true);
 
-                     if (order.PaymentMethodId == (int)PaymentMethod.Cash)
+                    if (order.PaymentMethodId == (int)PaymentMethod.Cash)
                     {
                         var paymentResponseModel = new PaymentResponseModel()
                         {
@@ -1127,7 +1216,7 @@ namespace API.Areas.Backend.Factories
                         var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(NotificationType.QPay);
                         if (notificationTemplate != null)
                         {
-                            var Qlink = _appSettings.QuickPayUrl + qpayNumber;
+                            var Qlink = _appSettings.QuickPayUrl + "pay/" + qpayNumber;
                             if (customer.LanguageId == 1)
                             {
                                 Message = notificationTemplate.SMSMessageEn.Replace("{link}", Qlink).Replace("{ordernumber}", orderNumber);
@@ -1206,7 +1295,7 @@ namespace API.Areas.Backend.Factories
                     response.DataRecordCount = 1;
 
 
-                   // response.Data = await _modelHelper.PrepareOrderModelAdmin(order, isEnglish, true);
+                    // response.Data = await _modelHelper.PrepareOrderModelAdmin(order, isEnglish, true);
                     response.Data = await _modelHelper.PrepareOrderModel(order, isEnglish, true);
 
 
@@ -1395,7 +1484,7 @@ namespace API.Areas.Backend.Factories
 
         public async Task<bool> UpdateDriverOrderStatus(int orderId, int orderType, OrderStatus orderStatusId, bool refundDeliveryFee = false, string notes = "")
         {
-            if(orderStatusId== OrderStatus.Delivered)
+            if (orderStatusId == OrderStatus.Delivered)
             {
                 if (orderType == 1)
                 {
@@ -1415,13 +1504,15 @@ namespace API.Areas.Backend.Factories
                 }
 
             }
-            else if(orderStatusId == OrderStatus.Confirmed) // driver dashbord cancel
+            else if (orderStatusId == OrderStatus.Confirmed) // driver dashbord cancel
             {
                 if (orderType == 1)
                 {
                     var order = await _orderService.GetOrderById(orderId);
                     if (order is not null)
                     {
+
+                        order.Notes = notes;
                         return await _orderService.UpdateDriverdetails(order, (int)OrderStatus.ReturnedByDriver, (int)order.PaymentStatusId);
                     }
                 }
@@ -1430,11 +1521,12 @@ namespace API.Areas.Backend.Factories
                     var order = await _subscriptionService.GetSubscriptionOrderById(orderId);
                     if (order is not null)
                     {
+                        order.Notes = notes;
                         return await _subscriptionService.UpdateDriverdetails(order);
                     }
                 }
             }
-           
+
             return false;
         }
 
@@ -1456,7 +1548,7 @@ namespace API.Areas.Backend.Factories
             var order = await _orderService.GetOrderById(orderId);
             if (order is not null)
             {
-                 return await _commonHelper.RescheduleOrderDelivery(order,  dateTime);
+                return await _commonHelper.RescheduleOrderDelivery(order, dateTime);
             }
             return false;
         }
@@ -1491,7 +1583,7 @@ namespace API.Areas.Backend.Factories
             try
             {
                 result = await _orderService.GetAllOrdersForDeliveries(param);
-               foreach (var item in result.Data)
+                foreach (var item in result.Data)
                 {
                     item.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(item.DeliveryFee, param.IsEnglish, 1, true);
                     item.FormattedTotal = await _commonHelper.ConvertDecimalToString(item.Total, param.IsEnglish, 1, true);
@@ -1512,17 +1604,17 @@ namespace API.Areas.Backend.Factories
 
         public async Task<DailySubscriptionSummaryModel> GetCustomerSummary(AdminOrderDeliveriesParam param)
         {
-         
-                var  resultData = await _orderService.GetCustomerOrdersSummary(param);
-                resultData.FormattedSubscriptionSalesAmountToday = await _commonHelper.ConvertDecimalToString(resultData.SubscriptionSalesAmountToday, param.IsEnglish, 1, true);
 
-              
+            var resultData = await _orderService.GetCustomerOrdersSummary(param);
+            resultData.FormattedSubscriptionSalesAmountToday = await _commonHelper.ConvertDecimalToString(resultData.SubscriptionSalesAmountToday, param.IsEnglish, 1, true);
 
-                return resultData;
-           
+
+
+            return resultData;
+
         }
 
-        public async Task<APIResponseModel<bool>> AddQPay(int CustomerId, int orderID, string OrderNumber,decimal Ordertotal,int OrderType)
+        public async Task<APIResponseModel<bool>> AddQPay(int CustomerId, int orderID, string OrderNumber, decimal Ordertotal, int OrderType)
         {
             var response = new APIResponseModel<bool>();
             try
@@ -1560,7 +1652,7 @@ namespace API.Areas.Backend.Factories
                 var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(NotificationType.QPay);
                 if (notificationTemplate != null)
                 {
-                    var Qlink = _appSettings.QuickPayUrl + qpayNumber;
+                    var Qlink = _appSettings.QuickPayUrl + "pay/" + qpayNumber;
                     if (customer.LanguageId == 1)
                     {
                         Message = notificationTemplate.SMSMessageEn.Replace("{link}", Qlink).Replace("{ordernumber}", qpayNumber);
@@ -1582,6 +1674,61 @@ namespace API.Areas.Backend.Factories
 
             return response;
         }
+
+
+
+        public async Task<APIResponseModel<object>> GetOrderPdf(bool isEnglish, int customerId, int id)
+        {
+            var response = new APIResponseModel<object>();
+
+            try
+            {
+                var customer = await _customerService.GetCustomerById(customerId);
+                if (customer == null || customer.Deleted)
+                {
+                    response.MessageCode = 401;
+                    response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                    return response;
+                }
+
+                if (!customer.Active)
+                {
+                    response.MessageCode = 401;
+                    response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                    return response;
+                }
+
+                var order = await _orderService.GetOrderById(id);
+                if (order != null && !order.Deleted)
+                {
+                    if (order.CustomerId != customer.Id)
+                    {
+                        response.Message = isEnglish ? Messages.InvalidCustomer : MessagesAr.InvalidCustomer;
+                        return response;
+                    }
+
+                    var orderModel = await _modelHelper.PrepareOrderModel(order, isEnglish, true);
+                    if (orderModel != null)
+                    {
+                        var url = await _commonHelper.GetOrderBackendPdfUrl(orderModel, isEnglish);
+                        if (!string.IsNullOrEmpty(url))
+                        {
+                            response.Data = url;
+                            response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                            response.Success = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
+
 
 
         //public async Task<DataTableResult<List<DeliveriesDashboard>>> GetNotDispatchedDataTable(DataTableParam param,

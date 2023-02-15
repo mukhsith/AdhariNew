@@ -55,12 +55,12 @@
                                     <p class="text-primary mb-0">
                                         @Model.AddressText
                                     </p>
-                                </div>
-                                <div class="col-12">
+                                </div>                                
+                                <div class="col-12 text-center">
                                     <div class="order-notes">
                                         <div class="bg-grey rounded-4 mx-0">
-                                            <label for="inputNotes" class="fw-bold">@SharedHtmlLocalizer["Notes"]</label>
-                                            <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field" id="txt-notes" rows="3"></textarea>
+                                            <a href="javascript:;" class="notes-field-btn text-secondary mb-0 fw-bold w-100 my-2">@SharedHtmlLocalizer["Notes"]</a>
+                                            <textarea class="form-control rounded-4 border-secondary body-bg-secondary pb-0 address-field notes-field" id="txt-notes" rows="3" style="display: none;"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -163,7 +163,7 @@
                                             </div>
                                             <div class="col-6 col-md-3">
                                                 <div class="w-auto py-1 me-2 mb-2">
-                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["Total"]</label>
+                                                    <label class="text-muted" for="">@SharedHtmlLocalizer["MonthlyPrice"]</label>
                                                     <p class="text-primary fw-bold fs-51 mb-0">@Model.FormattedTotal</p>
                                                 </div>
                                             </div>
@@ -204,13 +204,12 @@
 <script>
     jQuery(document).ready(function () {
         $("#hdnCheckout").val("1");
-
         var appliedCouponCode = '@Model.SubscriptionSummary.CouponCode';
         if (appliedCouponCode == null || appliedCouponCode == "") {
             hidePromotionCodeField();
         }
         else {
-            showPromotionCodeField();
+            $('.promotion-input-field').show();
             applyCouponAddedClass();
         }
 
@@ -223,6 +222,12 @@
                     $(".payment-summary").append(result.data.formattedSubscriptionSummary);
                 }
                 else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
                     if (result.message != "")
                         ToastAlert('error', '', result.message);
                 }
@@ -252,6 +257,12 @@
                     $(".payment-summary").append(result.data.formattedSubscriptionSummary);
                 }
                 else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
                     if (result.message != "")
                         ToastAlert('error', '', result.message);
                 }
@@ -354,11 +365,11 @@
     });
 
     function showPromotionCodeField() {
-        $('.promotion-input-field').show("fast");
+        $('.promotion-input-field').toggle();
     }
 
     function hidePromotionCodeField() {
-        $('.promotion-input-field').hide("fast");
+        $('.promotion-input-field').hide();
     }
 
     function applyCouponCode() {
@@ -382,6 +393,14 @@
 
         $.post("@Url.RouteUrl("savesubscriptionattributes")", { CouponCode: couponCode, AttributeTypeId: attributeTypeId }, function (result) {
             if (result.success) {
+                $("#hdn-skip-payment-method-selection").val(result.data.skipPaymentMethodSelection == true ? true : false);
+                if (result.data.skipPaymentMethodSelection) {
+                    $("#dv-payment-methods").hide();
+                }
+                else {
+                    $("#dv-payment-methods").show();
+                }
+
                 $(".payment-summary").empty();
                 $(".payment-summary").append(result.data.formattedSubscriptionSummary);
 
@@ -396,6 +415,12 @@
                 }
             }
             else {
+                if (result.messageCode == 401) {
+                    var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                    window.location.href = "/login?returnUrl=" + returnUrl;
+                    return;
+                }
+
                 if (result.message != "")
                     ToastAlert('error', '', result.message);
             }
@@ -432,4 +457,8 @@
         $(".promotion-input-field").removeClass("promocode-applied");
         $("#txt-coupon-code").val('');
     }
+
+    $(".notes-field-btn").click(function () {
+        $(".notes-field").toggle();
+    });
 </script>

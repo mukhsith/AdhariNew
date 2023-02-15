@@ -20,9 +20,89 @@
     </div>
 </header>
 <div class="row">
+
+
     <div class="col-12">
         <!-- ========== Start Card Block ========== -->
         <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["CustomerDetails"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="">@SharedHtmlLocalizer["CustomerName"]</label>
+                        <div class="fw-bold">@Model.Data.Customer.Name</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">@SharedHtmlLocalizer["CustomerEmail"]</label>
+                        <div class="fw-bold">@Model.Data.Customer.EmailAddress</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">@SharedHtmlLocalizer["CustomerMobile"]</label>
+                        <div class="fw-bold">@Model.Data.Customer.FormattedMobile</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+
+
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["OrderDetails"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    @foreach (var pay in @Model.Data.PaymentSummary)
+                    {
+                    <div class="col-md-3 mb-3">
+                        <label for="">@pay.Title</label>
+                        <div class="fw-bold">@pay.Value</div>
+                    </div>
+
+                    }
+
+                    <div class="col-md-3 mb-3">
+                        <label for="">@SharedHtmlLocalizer["OrderMode"]</label>
+                        <div class="fw-bold">@Model.Data.OrderSummary.OrderModeText</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">@SharedHtmlLocalizer["InitiatedFrom"]</label>
+                        <div class="fw-bold">@Model.Data.OrderSummary.SalesmanName</div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">@SharedHtmlLocalizer["Driver"]</label>
+                        <div class="fw-bold">@Model.Data.OrderSummary.DriverName</div>
+                    </div>
+
+
+                    <div class="col-md-3 mb-3">
+                        <label for="">@SharedHtmlLocalizer["OrderStatus"]</label>
+                        <div class="text-success fw-bold">@Model.Data.OrderSummary.OrderStatusText</div>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+
+
+
+    <!--<div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <!--<section class="card mb-3 border border-secondary">
             <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
                 <h2 class="card-title text-primary">@SharedHtmlLocalizer["OrderSummary"]</h2>
                 <div class="card-actions d-flex position-static top-0 end-0">
@@ -43,16 +123,21 @@
                     <div class="col-md-3 mb-3">
                         <label for="">@SharedHtmlLocalizer["Driver"]</label>
                         <div class="fw-bold">@Model.Data.OrderSummary.DriverName</div>
-                    </div>
-                    <div class="col-md-3 mb-3">
+                    </div>-->
+
+                    @*<div class="col-md-3 mb-3">
+                            <label for="">@SharedHtmlLocalizer["DeliveryDate"]</label>
+                            <div class="fw-bold">@Model.Data.</div>
+                        </div>*@
+                    @*<div class="col-md-3 mb-3">
                         <label for="">@SharedHtmlLocalizer["OrderStatus"]</label>
                         <div class="text-success fw-bold">@Model.Data.OrderSummary.OrderStatusText</div>
                     </div>
                 </div>
             </div>
-        </section>
+        </section>-->*@
         <!-- ========== End Card Block ========== -->
-    </div>
+    <!--</div>-->
     <div class="col-12">
         <!-- ========== Start Card Block ========== -->
         <section class="card mb-3 border border-secondary">
@@ -98,34 +183,6 @@
         <!-- ========== End Card Block ========== -->
     </div>
 
-    <div class="col-12">
-        <!-- ========== Start Card Block ========== -->
-        <section class="card mb-3 border border-secondary">
-            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
-                <h2 class="card-title text-primary">@SharedHtmlLocalizer["CustomerDetails"]</h2>
-                <div class="card-actions d-flex position-static top-0 end-0">
-
-                </div>
-            </header>
-            <div class="card-body ">
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label for="">@SharedHtmlLocalizer["CustomerName"]</label>
-                        <div class="fw-bold">@Model.Data.Customer.Name</div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="">@SharedHtmlLocalizer["CustomerEmail"]</label>
-                        <div class="fw-bold">@Model.Data.Customer.EmailAddress</div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="">@SharedHtmlLocalizer["CustomerMobile"]</label>
-                        <div class="fw-bold">@Model.Data.Customer.FormattedMobile</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ========== End Card Block ========== -->
-    </div>
 
     <div class="col-12">
         <!-- ========== Start Card Block ========== -->
@@ -200,15 +257,15 @@
                             <tbody class="border-secondary">
                                 @foreach (var item in Model.Data.OrderItems)
                                 {
-                                    <tr class="">
-                                        <td class="" data-th="No.">@item.ProductId</td>
-                                        <td class="" data-th="Image"><img src='@item.Product.ImageUrl' class='img-fluid' width='100px'></td>
-                                        <td class="" data-th="Product Name">@item.Product.Title</td>
-                                        <td class="" data-th="Product ID">@item.ProductId</td>
-                                        <td class="" data-th="Price Paid">@item.FormattedUnitPrice</td>
-                                        <td class="" data-th="Quantity">@item.Quantity</td>
-                                        <td class="" data-th="Total Amount">@item.FormattedTotal</td>
-                                    </tr>
+                                <tr class="">
+                                    <td class="" data-th="No.">@item.ProductId</td>
+                                    <td class="" data-th="Image"><img src='@item.Product.ImageUrl' class='img-fluid' width='100px'></td>
+                                    <td class="" data-th="Product Name">@item.Product.Title</td>
+                                    <td class="" data-th="Product ID">@item.ProductId</td>
+                                    <td class="" data-th="Price Paid">@item.FormattedUnitPrice</td>
+                                    <td class="" data-th="Quantity">@item.Quantity</td>
+                                    <td class="" data-th="Total Amount">@item.FormattedTotal</td>
+                                </tr>
                                 }
 
                             </tbody>
@@ -222,54 +279,7 @@
         <!-- ========== End Card Block ========== -->
     </div>
 
-    <div class="col-12">
-        <!-- ========== Start Card Block ========== -->
-        <section class="card mb-3 border border-secondary">
-            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
-                <h2 class="card-title text-primary">@SharedHtmlLocalizer["PaymentSummary"]</h2>
-                <div class="card-actions d-flex position-static top-0 end-0">
 
-                </div>
-            </header>
-            <div class="card-body ">
-                <div class="row">
-                    @foreach (var pay in @Model.Data.PaymentSummary)
-                    {
-                        <div class="col-md-3 mb-3">
-                            <label for="">@pay.Title</label>
-                            <div class="fw-bold">@pay.Value</div>
-                        </div>
-
-                    }
-                    @*<div class="col-md-3 mb-3">
-                            <label for="">Delivery Fee</label>
-                            <div class="fw-bold">@Model.Data.EstimatedDelivery</div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="">Cashback Discount</label>
-                            <div class="fw-bold text-secondary">- @Model.Data.Customer</div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="">Wallet Amount</label>
-                            <div class="fw-bold text-secondary">- KWD 2.250</div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="">Promotion Code Use</label>
-                            <div class="fw-bold text-secondary">WELCOME22</div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="">Discount Amount</label>
-                            <div class="fw-bold text-secondary">- KWD 2.250</div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="">Grand Total</label>
-                            <div class="fw-bold">KWD 12.350</div>
-                        </div>*@
-                </div>
-            </div>
-        </section>
-        <!-- ========== End Card Block ========== -->
-    </div>
     <div class="col-12 d-flex justify-content-between">
         <a href="javascript:;" onclick="downloadPDF(@Model.Data.Id)" class="btn btn-primary btn-lg fw-bold print-page">Print Order Details</a>
         @*<a href="javascript:;" class="btn btn-primary btn-lg fw-bold btn-danger">Cancel Order</a>*@

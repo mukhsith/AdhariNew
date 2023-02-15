@@ -1,0 +1,839 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="modal fade" id="editAddressModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editAddressModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content border-secondary">
+
+            <div class="modal-header border-secondary body-bg-secondary">
+                <h5 class="modal-title fw-bold text-primary" id="addNewAddressModalLabel">@SharedHtmlLocalizer["EditAddress"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <input type="hidden" id="dialogAddressId" value="" />
+                <input type="hidden" id="dialogCustomerId" value="" />
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-6 col-md-4 mb-3">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["AddressName"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressName" name="" id="" aria-describedby="@SharedHtmlLocalizer["AddressName"]" placeholder="@SharedHtmlLocalizer["AddressName"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["AddressNameIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col-6 col-md-4 mb-3">
+                        <!-- ========== Start Simple Select Field Block ========== -->
+                        <label for="" class="form-label">@SharedHtmlLocalizer["Governorate"]<span class=" text-danger">*</span></label>
+                        <select class="form-select form-select-lg rounded-4 border-secondary editaddressGovernorates"
+                                name="editgovernorateList" id="editgovernorateList" aria-describedby="@SharedHtmlLocalizer["Governorate"]" onChange="GetCityeditDropDownData(this.options[this.selectedIndex].value)" required >
+                        </select>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["GovernorateIsRequired"]</div>
+                        <!-- ========== End Simple Select Field Block ========== -->
+                    </div>
+                    <div class="col-6 col-md-4 mb-3">
+                        <!-- ========== Start Simple Select Field Block ========== -->
+                        <label for="" class="form-label">@SharedHtmlLocalizer["City"]<span class=" text-danger">*</span></label>
+                        <select class="form-select form-select-lg rounded-4 border-secondary editaddressCities"
+                                name="editareaList" id="editareaList" aria-describedby="@SharedHtmlLocalizer["City"]" required>
+                            <option value="0">Please Select...</option>
+                           
+                        </select>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["CityIsRequired"]</div>
+                        <!-- ========== End Simple Select Field Block ========== -->
+                    </div>
+                </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills editdelivery-addresses mb-3 row col-12 col-lg-10 mx-auto justify-content-center" id="myTab" role="tablist">
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 active" id="editHome-tab" data-bs-toggle="tab" data-bs-target="#editHome" role="tab" aria-controls="editHome" aria-selected="true"><img src="/assets/img/icons/address-icons/house-line.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">@SharedHtmlLocalizer["Home"]</span></a>
+                    </li>
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 " id="editApartment-tab" data-bs-toggle="tab" data-bs-target="#editApartment" role="tab" aria-controls="editApartment" aria-selected="true"><img src="/assets/img/icons/address-icons/building.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">@SharedHtmlLocalizer["Apartment"]</span></a>
+                    </li>
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 " id="editOffice-tab" data-bs-toggle="tab" data-bs-target="#editOffice" role="tab" aria-controls="editOffice" aria-selected="true"><img src="/assets/img/icons/address-icons/office.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">@SharedHtmlLocalizer["Office"]</span></a>
+                    </li>
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 " id="editSchool-tab" data-bs-toggle="tab" data-bs-target="#editSchool" role="tab" aria-controls="editSchool" aria-selected="true"><img src="/assets/img/icons/address-icons/school.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">@SharedHtmlLocalizer["School"]</span></a>
+                    </li>
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 " id="editMosque-tab" data-bs-toggle="tab" data-bs-target="#editMosque" role="tab" aria-controls="editMosque" aria-selected="true"><img src="/assets/img/icons/address-icons/mosque.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">@SharedHtmlLocalizer["Mosque"]</span></a>
+                    </li>
+                    <li class="nav-item col-4 px-1 px-lg-2 px-xl-3" role="presentation">
+                        <a href="javascript:;" class="nav-link d-flex flex-column flex-md-row align-items-center justify-content-center p-1 px-lg-3 py-lg-2 body-bg-secondary border border-primary fw-normal rounded-3 mb-2 " id="editGovernment-tab" data-bs-toggle="tab" data-bs-target="#editGovernment" role="tab" aria-controls="editGovernment" aria-selected="true"><img src="/assets/img/icons/address-icons/government.svg" class="img-fluid me-0 me-md-2"><span class="text-muted">@SharedHtmlLocalizer["Government"]</span></a>
+                    </li>
+                </ul>
+                <div class="row row-cols-2 row-cols-md-3 editaddressParentRow">
+                    <div class="col mb-3 editaddressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["Block"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressBlock" name="" id="" aria-describedby="@SharedHtmlLocalizer["Block"]" placeholder="@SharedHtmlLocalizer["Block"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["BlockIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 editaddressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["Street"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressStreet" name="" id="" aria-describedby="@SharedHtmlLocalizer["Street"]" placeholder="@SharedHtmlLocalizer["StreetNameOrNumber"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["StreetNameOrNumberIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 editaddressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["Avenue"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressAvenue" name="" id="" aria-describedby="@SharedHtmlLocalizer["Avenue"]" placeholder="@SharedHtmlLocalizer["AvenueNameOrNumber"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["AvenueNameOrNumberIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 editaddressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["BuildingNo"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressBuilding" name="" id="" aria-describedby="@SharedHtmlLocalizer["BuildingNo"]" placeholder="@SharedHtmlLocalizer["BuildingNumber"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["BuildingNumberIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 editaddressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["HouseNo"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressHouse" name="" id="" aria-describedby="@SharedHtmlLocalizer["HouseNo"]" placeholder="@SharedHtmlLocalizer["HouseNumber"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["HouseNumberIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 editaddressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["FloorNo"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressFloor" name="" id="" aria-describedby="@SharedHtmlLocalizer["FloorNo"]" placeholder="@SharedHtmlLocalizer["FloorNumber"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["FloorNumberIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 editaddressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["FlatNo"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressFlat" name="" id="" aria-describedby="@SharedHtmlLocalizer["FlatNo"]" placeholder="@SharedHtmlLocalizer["FlatNumber"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["FlatNumberIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 editaddressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["SchoolName"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressSchool" name="" id="" aria-describedby="@SharedHtmlLocalizer["SchoolName"]" placeholder="@SharedHtmlLocalizer["SchoolName"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["SchoolNameIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 editaddressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["MosqueName"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressMosque" name="" id="" aria-describedby="@SharedHtmlLocalizer["MosqueName"]" placeholder="@SharedHtmlLocalizer["MosqueName"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["MosqueNameIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col mb-3 editaddressParentCol">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["GovermentEntity"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary editaddressGovernment" name="" id="" aria-describedby="@SharedHtmlLocalizer["GovermentEntity"]" placeholder="@SharedHtmlLocalizer["GovermentEntity"]" value="" required>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["GovermentEntityIsRequired"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <!-- ========== Start Simple Text Area ========== -->
+                        <label for="" class="form-label ">@SharedHtmlLocalizer["Notes"]</label>
+                        <textarea class="form-control form-control-lg rounded-4 border-secondary  editaddressNotes" name="" id="" aria-describedby="@SharedHtmlLocalizer["Notes"]" placeholder="" rows="3"></textarea>
+
+
+                        <!-- ========== End Simple Text Area ========== -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success validation-btn">@SharedHtmlLocalizer["Save"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+  
+    var addata;
+    $(document).ready(function () {
+
+        //var selectedAddressId = $('input[type=radio][name=address]:checked').val();
+
+      
+         setupAddressFields();
+        switchAddressFields();
+        updateAddress();
+     
+    });
+
+
+    geteditGovernorateList = (data) => {
+      //  console.log(data);
+        fillDropDownListData("editgovernorateList", data.data, false, null, "id", "name", filladd);
+
+        
+    }
+    filladd = (data) => {
+        ajaxGet('customer/getAllAddressByID?id=' + getTextValue('dialogAddressId') + '&customerID=' + getTextValue('dialogCustomerId'), filleditaddress);
+    }
+    
+    
+    GetCityeditDropDownData = (id) => {
+        ajaxGet('Area/ForDropDownListByCity?governorateId=' + id, geteditAreaList);
+
+    }
+
+    filleditaddress = (data) => {
+        addata = data.data[0];
+        //console.log("filleditaddress");
+      //  alert(data.data.governorateId);
+      //  console.log(data);
+        //debugger;
+        setTextValue("dialogCustomerId", getTextValue('customerId'));
+        console.log(addata);
+        
+
+        setSelectedItemByValue("editgovernorateList", data.data[0].governorateId);
+
+        ajaxGet('Area/ForDropDownListByCity?governorateId=' + data.data[0].governorateId, geteditAreaList);
+    }
+
+    geteditAreaList = (data) => {
+       // console.log(data);
+        fillDropDownListData("editareaList", data.data, false, null, "id", "name",filarr);
+
+    }
+
+    filarr = (data) => {
+
+        ajaxGet('customer/getAllAddressByID?id=' + getTextValue('dialogAddressId') + '&customerID=' + getTextValue('dialogCustomerId'), fillinfo);
+        
+    }
+
+    fillinfo = (data) => {
+       // alert(data.data[0].areaId);
+        setSelectedItemByValue("editareaList", data.data[0].areaId);
+        $(".editaddressName").val(data.data[0].name);
+
+        $(".editaddressBlock").val(data.data[0].block);
+        $(".editaddressStreet").val(data.data[0].street);
+        $(".editaddressAvenue").val(data.data[0].avenue);
+        $(".editaddressBuilding").val(data.data[0].buildingNumber);
+        $(".editaddressHouse").val(data.data[0].houseNumber);
+        $(".editaddressFloor").val(data.data[0].floorNumber);
+        $(".editaddressFlat").val(data.data[0].flatNumber);
+        $(".editaddressSchool").val(data.data[0].schoolName);
+        $(".editaddressMosque").val(data.data[0].mosqueName);
+        $(".editaddressGovernment").val(data.data[0].governmentEntity);
+        $(".editaddressNotes").val(data.data[0].notes);
+        
+
+
+
+
+
+
+    }
+
+    setupAddressFields = () => {
+        var DefaultTypeSelected = $(".editdelivery-addresses .active").attr("id");
+
+        switch (DefaultTypeSelected) {
+            case "editHome-tab":
+                $(".editaddressParentRow .editaddressParentCol").hide();
+
+                // Show Block
+                $(".editaddressBlock").closest(".editaddressParentCol").show();
+                // Require Block
+                $(".editaddressBlock").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressBlock").attr("Required", 1);
+
+                // Show Street
+                $(".editaddressStreet").closest(".editaddressParentCol").show();
+                // Require Street
+                $(".editaddressStreet").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressStreet").attr("Required", 1);
+
+                // Show Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                // Require Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressAvenue").removeAttr("required");
+
+                // Show House No.
+                $(".editaddressHouse").closest(".editaddressParentCol").show();
+                // Require House No.
+                $(".editaddressHouse").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressHouse").attr("Required", 1);
+
+                $(".addressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                break;
+
+            case "editApartment-tab":
+                $(".editaddressParentRow .editaddressParentCol").hide();
+
+                // Show Block
+                $(".editaddressBlock").closest(".editaddressParentCol").show();
+                // Require Block
+                $(".editaddressBlock").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressBlock").attr("Required", 1);
+
+                // Show Street
+                $(".editaddressStreet").closest(".editaddressParentCol").show();
+                // Require Street
+                $(".editaddressStreet").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressStreet").attr("Required", 1);
+
+                // Show Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                // Require Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressAvenue").removeAttr("required");
+
+                // Show Building No.
+                $(".editaddressBuilding").closest(".editaddressParentCol").show();
+                // Require Building No.
+                $(".editaddressBuilding").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressBuilding").attr("Required", 1);
+
+                // Show Floor No.
+                $(".editaddressFloor").closest(".editaddressParentCol").show();
+                // Require Floor No.
+                $(".editaddressFloor").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressFloor").removeAttr("required");
+
+                // Show Flat No.
+                $(".editaddressFlat").closest(".editaddressParentCol").show();
+                // Require Flat No.
+                $(".editaddressFlat").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressFlat").attr("Required", 1);
+
+                $(".editaddressParentRow").removeClass("row-cols-md-4").addClass("row-cols-md-3");
+                break;
+
+            case "editOffice-tab":
+                $(".editaddressParentRow .editaddressParentCol").hide();
+
+                // Show Block
+                $(".editaddressBlock").closest(".editaddressParentCol").show();
+                // Require Block
+                $(".editaddressBlock").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressBlock").attr("Required", 1);
+
+                // Show Street
+                $(".editaddressStreet").closest(".editaddressParentCol").show();
+                // Require Street
+                $(".editaddressStreet").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressStreet").attr("Required", 1);
+
+                // Show Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                // Require Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressAvenue").removeAttr("required");
+
+                // Show Building No.
+                $(".editaddressBuilding").closest(".editaddressParentCol").show();
+                // Require Building No.
+                $(".editaddressBuilding").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressBuilding").attr("Required", 1);
+
+                // Show Floor No.
+                $(".editaddressFloor").closest(".editaddressParentCol").show();
+                // Require Floor No.
+                $(".editaddressFloor").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressFloor").removeAttr("required");
+
+                // Show Flat No.
+                $(".editaddressFlat").closest(".editaddressParentCol").show();
+                // Require Flat No.
+                $(".editaddressFlat").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressFlat").attr("Required", 1);
+
+                $(".editaddressParentRow").removeClass("row-cols-md-4").addClass("row-cols-md-3");
+                break;
+
+            case "editSchool-tab":
+                $(".editaddressParentRow .editaddressParentCol").hide();
+
+                // Show Block
+                $(".editaddressBlock").closest(".editaddressParentCol").show();
+                // Require Block
+                $(".editaddressBlock").closest(".vaddressParentCol").find("label span").hide();
+                $(".editaddressBlock").removeAttr("required");
+
+                // Show Street
+                $(".editaddressStreet").closest(".editaddressParentCol").show();
+                // Require Street
+                $(".editaddressStreet").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressStreet").removeAttr("required");
+
+                // Show Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                // Require Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressAvenue").removeAttr("required");
+
+                // Show School Name
+                $(".editaddressSchool").closest(".editaddressParentCol").show();
+                // Require School Name
+                $(".editaddressSchool").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressSchool").attr("Required", 1);
+
+                $(".addressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                break;
+
+            case "editMosque-tab":
+                $(".editaddressParentRow .editaddressParentCol").hide();
+
+                // Show Block
+                $(".editaddressBlock").closest(".editaddressParentCol").show();
+                // Require Block
+                $(".editaddressBlock").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressBlock").removeAttr("required");
+
+                // Show Street
+                $(".editaddressStreet").closest(".editaddressParentCol").show();
+                // Require Street
+                $(".editaddressStreet").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressStreet").removeAttr("required");
+
+                // Show Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                // Require Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressAvenue").removeAttr("required");
+
+                // Show Mosque Name
+                $(".editaddressMosque").closest(".editaddressParentCol").show();
+                // Require Mosque Name
+                $(".editaddressMosque").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressMosque").attr("Required", 1);
+
+                $(".editaddressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                break;
+
+            case "editGovernment-tab":
+                $(".editaddressParentRow .editaddressParentCol").hide();
+
+                // Show Block
+                $(".editaddressBlock").closest(".editaddressParentCol").show();
+                // Require Block
+                $(".editaddressBlock").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressBlock").removeAttr("required");
+
+                // Show Street
+                $(".editaddressStreet").closest(".editaddressParentCol").show();
+                // Require Street
+                $(".editaddressStreet").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressStreet").removeAttr("required");
+
+                // Show Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                // Require Avenue
+                $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                $(".editaddressAvenue").removeAttr("required");
+
+                // Show Government Name
+                $(".editaddressGovernment").closest(".editaddressParentCol").show();
+                // Require Government Name
+                $(".editaddressGovernment").closest(".editaddressParentCol").find("label span").show();
+                $(".editaddressGovernment").attr("Required", 1);
+
+                $(".editaddressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    switchAddressFields = () => {
+        $(".editdelivery-addresses .nav-link").click(function () {
+            var TypeSelected = $(this).attr("id");
+
+            switch (TypeSelected) {
+                case "editHome-tab":
+                    $(".editaddressParentRow .editaddressParentCol").hide();
+
+                    // Show Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").show();
+                    // Require Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressBlock").attr("Required", 1);
+
+                    // Show Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").show();
+                    // Require Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressStreet").attr("Required", 1);
+
+                    // Show Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                    // Require Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressAvenue").removeAttr("required");
+
+                    // Show House No.
+                    $(".editaddressHouse").closest(".editaddressParentCol").show();
+                    // Require House No.
+                    $(".editaddressHouse").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressHouse").attr("Required", 1);
+
+                    $(".editaddressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                    break;
+
+                case "editApartment-tab":
+                    $(".editaddressParentRow .editaddressParentCol").hide();
+
+                    // Show Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").show();
+                    // Require Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressBlock").attr("Required", 1);
+
+                    // Show Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").show();
+                    // Require Street
+                    $(".editaddressStreet").closest(".addressParentCol").find("label span").show();
+                    $(".editaddressStreet").attr("Required", 1);
+
+                    // Show Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                    // Require Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressAvenue").removeAttr("required");
+
+                    // Show Building No.
+                    $(".editaddressBuilding").closest(".editaddressParentCol").show();
+                    // Require Building No.
+                    $(".editaddressBuilding").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressBuilding").attr("Required", 1);
+
+                    // Show Floor No.
+                    $(".editaddressFloor").closest(".editaddressParentCol").show();
+                    // Require Floor No.
+                    $(".editaddressFloor").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressFloor").removeAttr("required");
+
+                    // Show Flat No.
+                    $(".editaddressFlat").closest(".editaddressParentCol").show();
+                    // Require Flat No.
+                    $(".editaddressFlat").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressFlat").attr("Required", 1);
+
+                    $(".editaddressParentRow").removeClass("row-cols-md-4").addClass("row-cols-md-3");
+                    break;
+
+                case "editOffice-tab":
+                    $(".editaddressParentRow .editaddressParentCol").hide();
+
+                    // Show Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").show();
+                    // Require Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressBlock").attr("Required", 1);
+
+                    // Show Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").show();
+                    // Require Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressStreet").attr("Required", 1);
+
+                    // Show Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                    // Require Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressAvenue").removeAttr("required");
+
+                    // Show Building No.
+                    $(".editaddressBuilding").closest(".editaddressParentCol").show();
+                    // Require Building No.
+                    $(".editaddressBuilding").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressBuilding").attr("Required", 1);
+
+                    // Show Floor No.
+                    $(".editaddressFloor").closest(".editaddressParentCol").show();
+                    // Require Floor No.
+                    $(".editaddressFloor").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressFloor").removeAttr("required");
+
+                    // Show Flat No.
+                    $(".editaddressFlat").closest(".editaddressParentCol").show();
+                    // Require Flat No.
+                    $(".editaddressFlat").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressFlat").attr("Required", 1);
+
+                    $(".editaddressParentRow").removeClass("row-cols-md-4").addClass("row-cols-md-3");
+                    break;
+
+                case "editSchool-tab":
+                    $(".editaddressParentRow .editaddressParentCol").hide();
+
+                    // Show Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").show();
+                    // Require Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressBlock").removeAttr("required");
+
+                    // Show Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").show();
+                    // Require Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressStreet").removeAttr("required");
+
+                    // Show Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                    // Require Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressAvenue").removeAttr("required");
+
+                    // Show School Name
+                    $(".editaddressSchool").closest(".editaddressParentCol").show();
+                    // Require School Name
+                    $(".editaddressSchool").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressSchool").attr("Required", 1);
+
+                    $(".editaddressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                    break;
+
+                case "editMosque-tab":
+                    $(".editaddressParentRow .editaddressParentCol").hide();
+
+                    // Show Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").show();
+                    // Require Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressBlock").removeAttr("required");
+
+                    // Show Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").show();
+                    // Require Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressStreet").removeAttr("required");
+
+                    // Show Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                    // Require Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressAvenue").removeAttr("required");
+
+                    // Show Mosque Name
+                    $(".editaddressMosque").closest(".editaddressParentCol").show();
+                    // Require Mosque Name
+                    $(".editaddressMosque").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressMosque").attr("Required", 1);
+
+                    $(".editaddressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                    break;
+
+                case "editGovernment-tab":
+                    $(".editaddressParentRow .editaddressParentCol").hide();
+
+                    // Show Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").show();
+                    // Require Block
+                    $(".editaddressBlock").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressBlock").removeAttr("required");
+
+                    // Show Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").show();
+                    // Require Street
+                    $(".editaddressStreet").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressStreet").removeAttr("required");
+
+                    // Show Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").show();
+                    // Require Avenue
+                    $(".editaddressAvenue").closest(".editaddressParentCol").find("label span").hide();
+                    $(".editaddressAvenue").removeAttr("required");
+
+                    // Show Government Name
+                    $(".editaddressGovernment").closest(".editaddressParentCol").show();
+                    // Require Government Name
+                    $(".editaddressGovernment").closest(".editaddressParentCol").find("label span").show();
+                    $(".editaddressGovernment").attr("Required", 1);
+
+                    $(".editaddressParentRow").removeClass("row-cols-md-3").addClass("row-cols-md-4");
+                    break;
+
+                default:
+                    break;
+            }
+        });
+    }
+
+    updateAddress = () => {
+        $(".validation-btn").click(function () {
+
+            $(".modal-body [required]").each(function () {
+                if ($(this).prop("tagName") == "SELECT") {
+                    if ($(this).val() == "0") {
+                        $(this).addClass("is-invalid");
+                    } else {
+                        $(this).removeClass("is-invalid");
+                        $(this).addClass("is-valid");
+                    }
+                } else {
+                    if ($(this).val() == "" || $(this).val() == undefined || $(this).val() == null) {
+                        $(this).addClass("is-invalid");
+                    } else {
+                        $(this).removeClass("is-invalid");
+                        $(this).addClass("is-valid");
+                    }
+                }
+
+            })
+
+             
+            const address = {
+                id: getIntegerValue('dialogAddressId'),
+                typeId: 1,
+                customerId: getIntegerValue('customerId'),
+                mobileNumber: getTextValue('customerMobile'),
+                emailAddress: getTextValue('customerEmail'),
+                name: "name",
+                governorateId: 1,
+                areaId: 1,
+                block: 1,
+                street: 1,
+                avenue: 1,
+                houseNumber: 1,
+                floorNumber: 1,
+                flatNumber: 1,
+                schoolName: "x",
+                mosqueName: "x",  
+                notes: "notes"
+            }; 
+            var addressType = $(".editdelivery-addresses .nav-link.active").attr("aria-controls"); // Can be changed to whatever ID method
+            if (addressType == "editHome-tab") {
+                address.typeId = 1;
+            } else if (addressType == "editApartment-tab") {
+                address.typeId = 2;
+            } else if (addressType == "editOffice-tab") {
+                address.typeId =  3;
+            } else if (addressType == "editSchool-tab") {
+                address.typeId =  4;
+            } else if (addressType == "editMosque-tab") {
+                address.typeId =  5;
+            } else if (addressType == "editGovernment-tab") {
+                address.typeId =  6;
+            }
+             
+            if ($(".editaddressName").val() != "" && $(".editaddressName").val() != null && $(".editaddressName").val() != undefined)
+                address.name = $(".editaddressName").val();
+
+            if ($(".editddressGovernorates").val() != "Please Select..." && $(".editaddressGovernorates").val() != null && $(".editaddressGovernorates").val() != undefined)
+                address.governorateId = $(".editaddressGovernorates").val();
+
+            if ($(".editaddressCities").val() != "Please Select..." && $(".editaddressCities").val() != null && $(".editaddressCities").val() != undefined)
+                address.areaId = $(".editaddressCities").val();
+
+            if ($(".editaddressStreet").closest(".editaddressParentCol").is(":visible") && $(".editaddressStreet").val() != "" && $(".editaddressStreet").val() != null && $(".editaddressStreet").val() != undefined)
+                address.block = $(".editaddressBlock").val();
+
+            if ($(".editaddressStreet").closest(".editaddressParentCol").is(":visible") && $(".editaddressStreet").val() != "" && $(".editaddressStreet").val() != null && $(".editaddressStreet").val() != undefined)
+                address.street = $(".editaddressStreet").val();
+              
+            if ($(".editaddressAvenue").closest(".editaddressParentCol").is(":visible") && $(".editaddressAvenue").val() != "" && $(".editaddressAvenue").val() != null && $(".editaddressAvenue").val() != undefined)
+                address.avenue = $(".editaddressAvenue").val();
+
+            if ($(".editaddressHouse").closest(".editaddressParentCol").is(":visible") && $(".editaddressHouse").val() != "" && $(".editaddressHouse").val() != null && $(".editaddressHouse").val() != undefined)
+                address.houseNumber = $(".editaddressHouse").val();
+
+            if ($(".editaddressBuilding").closest(".editaddressParentCol").is(":visible") && $(".editaddressBuilding").val() != "" && $(".editaddressBuilding").val() != null && $(".editaddressBuilding").val() != undefined)
+                address.buildingNumber = $(".editaddressBuilding").val();
+
+            if ($(".editaddressFloor").closest(".editaddressParentCol").is(":visible") && $(".editaddressFloor").val() != "" && $(".editaddressFloor").val() != null && $(".editaddressFloor").val() != undefined)
+                address.floorNumber = $(".editaddressFloor").val();
+
+            if ($(".editaddressFlat").closest(".editaddressParentCol").is(":visible") && $(".editaddressFlat").val() != "" && $(".editaddressFlat").val() != null && $(".editaddressFlat").val() != undefined)
+                address.flatNumber = $(".editaddressFlat").val();
+
+            if ($(".editaddressMosque").closest(".editaddressParentCol").is(":visible") && $(".editaddressMosque").val() != "" && $(".editaddressMosque").val() != null && $(".editaddressMosque").val() != undefined)
+                address.mosqueName = $(".editaddressMosque").val();
+             
+
+            if ($(".editaddressNotes").val() != "" && $(".editaddressNotes").val() != null && $(".editaddressNotes").val() != undefined)
+                address.notes = $(".editaddressNotes").val();
+             
+            console.log(address);
+
+            ajaxPostCart("customer/updateaddress", address,
+                function (data) {
+                    console.log(data);
+                    if (data.success) {
+                        //load existing customer addresses, check in "create_order"
+                        //  loadCustomerAddress();
+                        loadCustomerAddress();
+                        $("display-addresses").hide();
+                        //setTimeout(getCartItems(), 500);
+                    } else {
+                        console.log(data);
+                    }
+                    //hideLoader();
+                });
+        });
+
+
+
+    }
+
+    //updateCustomerAddress = (cartId, productId, input) => {
+    //    var qty = $(input).val();
+    //    var fromBody = {
+    //        'customerId': getTextValue('customerId'),
+    //        'typeId': AddressObject["typeId"],
+    //        'name': AddressObject["Name"],
+    //        'mobileNumber': cartId,
+    //        'emailAddress': productId,
+    //        'governorateId': AddressObject["Governorate"],
+    //        'areaId': AddressObject["Governorate"],
+    //        'block': AddressObject["Governorate"],
+    //        'street': AddressObject["Governorate"],
+    //        'avenue': AddressObject["Governorate"],
+    //        'houseNumber': AddressObject["Governorate"],
+    //        'buildingNumber': AddressObject["Governorate"],
+    //        'floorNumber': AddressObject["Governorate"],
+    //        'flatNumber': AddressObject["Governorate"],
+    //        'schoolName': AddressObject["Governorate"],
+    //        'notes': AddressObject["Governorate"], 
+    //    };
+    //    ajaxPostCart("customer/addaddress", fromBody,
+    //        function (data) {
+    //            if (data.success) {
+    //                setTimeout(getCartItems(), 500);
+    //            } else {
+    //                console.log(data);
+    //            }
+    //            //hideLoader();
+    //        });
+    //} 
+</script>

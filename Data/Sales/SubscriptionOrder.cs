@@ -66,6 +66,8 @@ namespace Data.Sales
         public bool Delivered { get; set; }
         public bool FirstOrder { get; set; }
         public bool Returned { get; set; }
+        public bool NotificationTunePlayed { get; set; }
+        public bool DotMatrixPrinted { get; set; }
         public virtual Subscription Subscription { get; set; }
         public virtual Data.Content.PaymentMethod PaymentMethod { get; set; }
         public virtual DeliveryTimeSlot DeliveryTimeSlot { get; set; }

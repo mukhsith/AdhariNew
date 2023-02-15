@@ -26,14 +26,7 @@
                         <!-- ========== Start Simple Select Field Block ========== -->
                         <label for="" class="form-label">@SharedHtmlLocalizer["Governorate"]<span class=" text-danger">*</span></label>
                         <select class="form-select form-select-lg rounded-4 border-secondary addressGovernorates"
-                                name="governorateList" id="governorateList" aria-describedby="@SharedHtmlLocalizer["Governorate"]" required>
-                            <option value="0">Please Select...</option>
-                            <option value="1">Al-Asimah</option>
-                            <option value="2">Hawalli</option>
-                            <option value="3">Farwaniya</option>
-                            <option value="4">Mubarak Al-Kabeer</option>
-                            <option value="5">Ahmadi</option>
-                            <option value="6">Jahra</option>
+                                name="governorateList" id="governorateList" aria-describedby="@SharedHtmlLocalizer["Governorate"]" onChange="GetCityDropDownData(this.options[this.selectedIndex].value)" required >
                         </select>
 
                         <div class="invalid-feedback">@SharedHtmlLocalizer["GovernorateIsRequired"]</div>
@@ -45,91 +38,7 @@
                         <select class="form-select form-select-lg rounded-4 border-secondary addressCities"
                                 name="areaList" id="areaList" aria-describedby="@SharedHtmlLocalizer["City"]" required>
                             <option value="0">Please Select...</option>
-                            <option value="1">Abdullah Al Mubarak</option>
-                            <option value="2">Abu Al Hasaniya</option>
-                            <option value="3">Abou Halifa</option>
-                            <option value="4">Adailiya</option>
-                            <option value="5">Adan</option>
-                            <option value="6">Ahmadi</option>
-                            <option value="7">Nahda</option>
-                            <option value="8">Qurain</option>
-                            <option value="9">Qusour</option>
-                            <option value="10">Andalous</option>
-                            <option value="11">Ardiya</option>
-                            <option value="12">Ishbiliya</option>
-                            <option value="13">Bayan</option>
-                            <option value="14">Al Bidea</option>
-                            <option value="15">Daiya</option>
-                            <option value="16">Dasman</option>
-                            <option value="17">Dhajeej</option>
-                            <option value="18">Doha</option>
-                            <option value="19">Fahad Al Ahmad</option>
-                            <option value="20">Fahaheel</option>
-                            <option value="21">Faiha</option>
-                            <option value="22">Farwaniya</option>
-                            <option value="23">Fintas</option>
-                            <option value="24">Hadiya</option>
-                            <option value="25">Hawally</option>
-                            <option value="26">Jaber Al Ahmad</option>
-                            <option value="27">Jaber Al Ali</option>
-                            <option value="28">Jabriya</option>
-                            <option value="29">Jahra</option>
-                            <option value="30">Qibla</option>
-                            <option value="31">Kaifan</option>
-                            <option value="32">Khaitan</option>
-                            <option value="33">Khaldiya</option>
-                            <option value="34">Mahboula</option>
-                            <option value="35">Mangaf</option>
-                            <option value="36">Mirqab</option>
-                            <option value="37">Messila</option>
-                            <option value="38">Mubarak Al Kabeer</option>
-                            <option value="39">Nuzha</option>
-                            <option value="40">Omariya</option>
-                            <option value="41">Qadsiya</option>
-                            <option value="42">Qasr</option>
-                            <option value="43">Rabia</option>
-                            <option value="44">Rai</option>
-                            <option value="45">Rawda</option>
-                            <option value="46">Rehab</option>
-                            <option value="47">Riqai</option>
-                            <option value="48">Rumaithiya</option>
-                            <option value="49">Saad Al Abdullah</option>
-                            <option value="50">Sabah Al Nasser</option>
-                            <option value="51">Sabah Al Salem</option>
-                            <option value="52">Sabahiya</option>
-                            <option value="53">Sabhan</option>
-                            <option value="54">Salam</option>
-                            <option value="55">Salmiya</option>
-                            <option value="56">Salwa</option>
-                            <option value="57">Shamiya</option>
-                            <option value="58">Sharq</option>
-                            <option value="59">Shuhada</option>
-                            <option value="60">Siddiq</option>
-                            <option value="61">Al Qairawan</option>
-                            <option value="62">Sulaibikhat</option>
-                            <option value="63">Surra</option>
-                            <option value="64">Yarmouk</option>
-                            <option value="65">Zahra</option>
-                            <option value="66">Dasma</option>
-                            <option value="67">Sawaber</option>
-                            <option value="68">Salhiya</option>
-                            <option value="69">Shuwaikh Educational</option>
-                            <option value="70">Shuwaikh Residential</option>
-                            <option value="71">Shaab</option>
-                            <option value="72">Mubarak AlAbdullah ( West Mishrif ) </option>
-                            <option value="73">Garnata</option>
-                            <option value="74">Al Masayel</option>
-                            <option value="75">Fnaitees</option>
-                            <option value="76">Abdullah AlSalem</option>
-                            <option value="77">Mansouriya</option>
-                            <option value="78">Bneid Al Qar</option>
-                            <option value="79">Qortouba</option>
-                            <option value="80">Hitten</option>
-                            <option value="81">Mishrif</option>
-                            <option value="82">Shouth Khaitan</option>
-                            <option value="83">Abu Fatira</option>
-                            <option value="84">Eqaila</option>
-                            <option value="85">Al Riqqa</option>
+                           
                         </select>
 
                         <div class="invalid-feedback">@SharedHtmlLocalizer["CityIsRequired"]</div>
@@ -729,7 +638,7 @@
             })
 
              
-            const address = { 
+            const address = {
                 typeId: 1,
                 customerId: getIntegerValue('customerId'),
                 mobileNumber: getTextValue('customerMobile'),
@@ -801,12 +710,16 @@
              
             console.log(address);
 
+            
+
+
             ajaxPostCart("customer/addaddress", address,
                 function (data) {
                     console.log(data);
                     if (data.success) {
                         //load existing customer addresses, check in "create_order"
-                        loadCustomerAddress();
+                        //  loadCustomerAddress();
+                        $("display-addresses").hide();
                         //setTimeout(getCartItems(), 500);
                     } else {
                         console.log(data);

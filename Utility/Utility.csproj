@@ -23,11 +23,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Models\Admin\ProductManagement\AdminProductSearchParam.cs" />
     <Compile Include="Models\Admin\ProductManagement\CategoryAndItemSizeModel.cs" />
     <Compile Include="Models\Admin\ProductManagement\ProductAndCategoryModel.cs" />
     <Compile Include="Models\Admin\ProductManagement\ProductSmallModel.cs" />
     <Compile Include="Models\Admin\ProductManagement\ProductStockHistoryModel.cs" />
+    <Compile Include="Models\Admin\ProductManagement\SubscriptionDeliveryDateModel.cs" />
+    <Compile Include="Models\Admin\ProductManagement\SubscriptionDurationModel.cs" />
     <Compile Include="Models\Admin\Sales\AdminOrderDeliveriesParam.cs" />
+    <Compile Include="Models\Admin\Sales\AdminOrderedItemModel.cs" />
     <Compile Include="Models\Admin\Sales\AdminOrderModel.cs" />
     <Compile Include="Models\Admin\Sales\AdminCreateOrderModel.cs" />
     <Compile Include="Models\Admin\Sales\AdminOrderSummaryModel.cs" />

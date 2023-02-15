@@ -80,6 +80,15 @@ namespace Utility.Models.MasterCard
         public string number { get; set; }
         public string scheme { get; set; }
         public string storedOnFile { get; set; }
+
+
+
+
+       
+        public MasterCardDevicePayment devicePayment { get; set; }
+        public MasterCardDeviceSpecificExpiry deviceSpecificExpiry { get; set; }
+        public string deviceSpecificNumber { get; set; }
+        public string encryption { get; set; }
     }
     public class MasterCardCardholderVerification
     {
@@ -130,6 +139,8 @@ namespace Utility.Models.MasterCard
         public double totalRefundedAmount { get; set; }
         public MasterCardValueTransfer valueTransfer { get; set; }
         public string description { get; set; }
+        public string certainty { get; set; }
+        public string walletProvider { get; set; }
     }
     public class MasterCardProvided
     {
@@ -216,5 +227,14 @@ namespace Utility.Models.MasterCard
     public class MasterCardValueTransfer
     {
         public string accountType { get; set; }
+    }
+    public class MasterCardDevicePayment
+    {
+        public string cryptogramFormat { get; set; }
+    }
+    public class MasterCardDeviceSpecificExpiry
+    {
+        public string month { get; set; }
+        public string year { get; set; }
     }
 }

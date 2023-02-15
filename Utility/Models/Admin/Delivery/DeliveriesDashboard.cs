@@ -17,6 +17,7 @@ namespace Utility.Models.Admin.Delivery
         public DateTime CreatedOn { get; set; }
         public DateTime DeliveryDate { get; set; }
         public PaymentStatus PaymentStatusId { get; set; }
+
         public OrderType OrderTypeId { get; set; }
 
         public OrderMode OrderModeID { get; set; }
@@ -28,7 +29,7 @@ namespace Utility.Models.Admin.Delivery
         public bool Deleted { get; set; }
         public int AddressAreadId { get; set; }
         public string OrderTypeName { get; set; }
-
+        public DeviceType DeviceTypeId { get; set; }
         public string OrderModeName { get; set; }
         public string DriverName{ get; set; }
         public string AreaName{ get; set; }
@@ -42,9 +43,10 @@ namespace Utility.Models.Admin.Delivery
         public string PaymentStatus { get; set; }
         public string DeliveryStatus { get; set; }
         public bool Delivered { get; set; }
+        public string Notes { get; set; }
+        public int? Quantity { get; set; }
 
+        public int? PaymentMethodId { get; set; }
     }
-
-
 
 }

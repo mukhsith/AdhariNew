@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Logs\**" />
-    <Content Remove="Logs\**" />
-    <EmbeddedResource Remove="Logs\**" />
-    <None Remove="Logs\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="Areas\Backend\Controllers\AboutUsController.cs" />
     <Compile Remove="Extensions\BackendAutoMapperProfile.cs" />
   </ItemGroup>
@@ -55,7 +48,6 @@
     <Folder Include="EmailTemplates\" />
     <Folder Include="Images\Common\ResizedImage\" />
     <Folder Include="Images\PaymentMethod\ResizedImage\" />
-    <Folder Include="Log\" />
     <Folder Include="Pdfs\OrderPdfs\" />
     <Folder Include="Pdfs\SubscriptionPdfs\" />
   </ItemGroup>

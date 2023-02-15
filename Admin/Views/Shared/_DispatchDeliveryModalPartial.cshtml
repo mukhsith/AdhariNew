@@ -6,7 +6,7 @@
                 <h5 class="modal-title fw-bold text-primary" id="dispatch-delivery-modalLabel">@SharedHtmlLocalizer["DispatchDelivery"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <input type="hidden" id="dialogOrderId" value="" />
-                <input type="hidden" id="dialogOrderTypeId" value="1" />
+                <input type="hidden" id="dialogOrderTypeID" value="" />
             </div>
             <div class="modal-body">
                 <label for="AssignDriver" class="form-label">@SharedHtmlLocalizer["AssignDriver"]</label>
@@ -29,7 +29,9 @@
 
         assignDriver = () => {
             let orderId = $("#dispatch-delivery-modal .modal-header #dialogOrderId").val();
-            let dialogOrderTypeId = $("#dispatch-delivery-modal .modal-header #dialogOrderTypeId").val();
+            //let dialogOrderTypeId = $("#dispatch-delivery-modal .modal-header #dialogOrderTypeId").val();
+
+            var OrderTypeID = getTextValue("dialogOrderTypeID");
              
             let driverId = getSelectedItemValue('popupDriverList');
             if (driverId == "") {
@@ -37,7 +39,7 @@
              } else {
                 let submitData = new FormData();
                 submitData.append("orderId", orderId);
-                submitData.append("orderTypeId", dialogOrderTypeId);
+                submitData.append("orderTypeId", OrderTypeID);
                 submitData.append("driverId", driverId);
                 ajaxPost("order/AssignDriver", submitData, cbDriverSuccess);
             }

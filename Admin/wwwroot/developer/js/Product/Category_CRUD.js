@@ -19,15 +19,15 @@ setup = () => {
             imageFileMobileAr: { required: true },
         },
         messages: {
-            nameEn: { required: 'Required' },
-            nameAr: { required: 'Required' },
-            imageFile: { required: 'Required', },
-            imageFileNormalIcon: { required: 'Required', },
-            imageFileSelectedIcon: { required: 'Required', },
-            imageFileDesktop: { required: 'Required', },
-            imageFileMobile: { required: 'Required', },
-            imageFileDesktopAr: { required: 'Required', },
-            imageFileMobileAr: { required: 'Required', },
+            nameEn: { required: '' },
+            nameAr: { required: '' },
+            imageFile: { required: '', },
+            imageFileNormalIcon: { required: '', },
+            imageFileSelectedIcon: { required: '', },
+            imageFileDesktop: { required: '', },
+            imageFileMobile: { required: '', },
+            imageFileDesktopAr: { required: '', },
+            imageFileMobileAr: { required: '', },
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -133,16 +133,16 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) { 
-        ToastAlert('success', 'Category', 'Saved Successfully');
-        setTimeout(() => location.href = "/Product/CategoryList", 200);
+        ToastAlert('success', Resources.Category, Resources.SavedSuccessfully);
+        setTimeout(() => location.href = "/Product/CategoryList", 1500);
     } else {
         showLog(data);
-        ToastAlert('error', 'Category', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.Category, Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => { 
-    ToastAlert('error', 'Category', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.Category, Resources.UnableTosave);
 }
 
  

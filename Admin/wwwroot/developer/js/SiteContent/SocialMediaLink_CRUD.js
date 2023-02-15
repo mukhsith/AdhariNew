@@ -55,15 +55,15 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) {
-        ToastAlert('success', 'Social Media Link', 'Saved Successfully'); 
+        ToastAlert('success', Resources.SocialMediaLinks, Resources.SavedSuccessfully);
     } else {
         showLog(data);
-        ToastAlert('error', 'Social Media Link', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.SocialMediaLinks, Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => {
-    ToastAlert('error', 'Social Media Link', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.SocialMediaLinks, Resources.UnableTosave);
 }
 
 

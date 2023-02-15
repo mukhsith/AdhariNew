@@ -1,97 +1,126 @@
-﻿@using Microsoft.AspNetCore.Localization
-@using Microsoft.AspNetCore.Mvc.Localization
-@inject IHtmlLocalizer<SharedResource> SharedHtmlLocalizer
-@model Utility.Models.Frontend.CustomizedModel.QuickPaymentModel
+﻿@model Utility.Models.Frontend.CustomizedModel.QuickPaymentModel
+@using Microsoft.AspNetCore.Localization
 @{
     var requestCultureFeature = System.Globalization.CultureInfo.CurrentCulture.Name;
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var cultureItems = LocOptions.Value.SupportedUICultures.Select(c => new SelectListItem { Value = c.Name, Text = localizer.GetString(c.Name) })
                                                            .Where(i => i.Value != requestCultureFeature).ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
 }
 <section class="py-5 mb-5">
     <div class="container">
         <div class="row">
-            <div class="col-12 text-center">
-                <a href="@Url.RouteUrl("websiteurl")"><img src="/assets/img/Adhari-Logo.svg" class="img-fluid mb-4" alt="" width="100"></a>
-                <h1 class="text-primary fw-bold">@SharedHtmlLocalizer["QuickPay"]</h1>
-            </div>
-            <div class="col-12 offset-lg-2 col-lg-8">
-                <div class="customer-details mb-4">
-                    <h4 class="text-primary text-center fw-bold mb-3">@SharedHtmlLocalizer["CustomerDetails"]</h4>
-                    <div class="bg-grey row rounded-4 p-3 mx-0">
-                        <div class="col-6 col-md-4 mb-3 mb-md-0">
-                            <label for="name" class="fw-bold">@SharedHtmlLocalizer["Name"]</label>
-                            <p class="text-primary mb-0">@Model.Customer.Name</p>
-                        </div>
-                        <div class="col-6 col-md-4 mb-3 mb-md-0">
-                            <label for="number" class="fw-bold">@SharedHtmlLocalizer["MobileNumber"]</label>
-                            <p class="text-primary mb-0">@Model.Customer.MobileNumber</p>
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label for="number" class="fw-bold">@SharedHtmlLocalizer["AmountPayable"]</label>
-                            <p class="text-primary mb-0">@Model.FormattedAmount</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 offset-lg-2 col-lg-8">
-                <div class="payment-method mb-4">
-                    <h4 class="text-primary text-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentMethod"]</h4>
-                    <div class="bg-grey rounded-4 p-3 mx-0">
-                        <ul class="list-group list-group-flush">
-                            @foreach (var paymentMethod in Model.PaymentMethods)
+            <div class="col-12">
+                <div class="row text-center">
+                    <div class="col-lg-4 mx-auto">
+                        <a href="@Url.RouteUrl("websiteurl")"><img src="/assets/img/Adhari-Logo.svg" class="img-fluid mb-4" alt="" width="100"></a>
+                        <h1 class="text-primary fw-bold mb-2">@SharedHtmlLocalizer["QuickPay"]</h1>
+                        <form id="selectLanguage"
+                              asp-controller="Culture"
+                              asp-action="SetCulture"
+                              asp-route-returnUrl="@returnUrl"
+                              method="post"
+                              role="form" class="form-mobile-language">
+                            @foreach (var culture in cultureItems)
                             {
-                                var paymentMethodNames = paymentMethod.Name.Split("\r\n");
-                                <div class="inputGroup border-secondary list-group-item d-flex justify-content-between align-items-center px-0">
-                                    <div class="d-flex align-items-center">
-                                        <input id="payment-method-@paymentMethod.Id" name="payment-method-radio" type="radio"
-                                               value="@paymentMethod.Id" @(paymentMethod.Selected ? "checked" : "")>
-                                        <div class="ms-3">
-                                            <label for="payment-method-@paymentMethod.Id">
-                                                @paymentMethodNames[0]
-                                                @if (paymentMethodNames.Count() == 2)
-                                                {
-                                                    <br />
-                                                    @paymentMethodNames[1]
-                                                }
-                                            </label>
-                                        </div>
-
-                                    </div>
-                                    <label for="payment-method-@paymentMethod.Id" class="">
-                                        <img src="@paymentMethod.ImageUrl" class="" alt="product-image" height="25">
-                                    </label>
-                                </div>
+                                <input id="culture" name="culture" value="@culture.Value" type="hidden" />
+                                <a href="#" class="btn btn-outline-primary fw-bold rounded-pill mb-4 border-2 language-switch" onclick="document.getElementById('selectLanguage').submit();">@SharedHtmlLocalizer["LanguageText"]</a>
                             }
-                        </ul>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4 mx-auto">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="inputName2" class="text-primary fw-bold mb-1">@SharedHtmlLocalizer["MobileNumber"]<span class="ms-1 text-danger">*</span></label>
+                                <div class="input-group mobile-field" id="dv-mobile">
+                                    <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0">
+                                        <img src="/assets/img/Kuwait_flag.svg" width="25">
+                                    </span>
+                                    <span class="input-group-text border border-secondary border-start-0 p-1" id="basic-addon1">
+                                        <bdi>+965</bdi>
+                                    </span>
+                                    <input type="tel" id="MobileNumber" name="MobileNumber"
+                                           class="form-control border-start-0 rounded-pill rounded-start border-secondary body-bg-secondary mobile-number-field"
+                                           maxlength="8" onkeypress="return validateMobileNumber(event);" />
+                                </div>
+                                <div id="dvMobileNumber">
+                                </div>
+                                <div class="mt-0 otp-sent text-start text-success" style="display: none;"></div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="inputAmount" class="text-primary fw-bold mb-1">@SharedHtmlLocalizer["Amount"] (@SharedHtmlLocalizer["KWD"])<span class="ms-1 text-danger">*</span></label>
+                                <input type="number" class="form-control body-bg-secondary rounded-pill border-secondary" id="Amount" name="Amount" placeholder="0">
+                                <div id="dvAmount">
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="inputName1" class="text-primary fw-bold mb-1">@SharedHtmlLocalizer["Name"]</label>
+                                <input type="text" class="form-control rounded-5 border-secondary body-bg-secondary" id="Name" name="Name" placeholder="">
+                            </div>
+                            <div class="col-12 mmb-3">
+                                <div class="payment-method mb-4">
+                                    <h4 class="text-primary text-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentMethod"]</h4>
+                                    <div class="bg-grey rounded-4 p-3 mx-0">
+                                        @await Html.PartialAsync("_PaymentMethod", Model.PaymentMethods)
+                                    </div>
+                                    <div id="dvErrorPaymentMethod">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-12 text-center">
-                <a id="a-proceed-payment" class="btn btn-primary rounded-pill px-5">@SharedHtmlLocalizer["ProceedToPayment"]</a>
+                <a id="a-proceed-payment" class="btn btn-primary rounded-pill px-5">@SharedHtmlLocalizer["PayNow"]</a>
             </div>
         </div>
     </div>
 </section>
 <script>
     $(document).ready(function () {
-        $('input[type=radio][name=payment-method-radio]').change(function () {
-            $("#a-proceed-payment").attr('disabled', false);
-        });
-
         $("#a-proceed-payment").click(function () {
+            var valid = true;
+
             var paymentMethodId = $('input[name="payment-method-radio"]:checked').val();
-            if (paymentMethodId == "") {
+            if (paymentMethodId == "" || paymentMethodId == null || paymentMethodId == undefined) {
+                valid = false;
+                $("#dvErrorPaymentMethod").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["PleaseChoosePaymentMethod"]</span></div>");
+            }
+            else {
+                $("#dvErrorPaymentMethod").hide();
+            }
+
+            var amount = $('#Amount').val();
+            if (amount == "") {
+                valid = false;
+                $("#dvAmount").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["PleaseEnterAmount"]</span></div>");
+            }
+            else {
+                $("#dvAmount").hide();
+            }
+
+            if (!valid) {
                 return false;
             }
 
             showCoverSpin();
             $.post("@Url.RouteUrl("createqpay")", {
-                QuickPayNumber: "@Model.QuickPayNumber",
-                PaymentMethodId: parseInt(paymentMethodId)
+                Amount: amount,
+                PaymentMethodId: paymentMethodId,
+                MobileNumber: $("#MobileNumber").val(),
+                Name: $("#Name").val()
             }, function (result) {
                 hideCoverSpin();
                 if (result.success && result.data != null) {
+                    $("#MobileNumber").val('');
+                    $("#Name").val('');
+                    $("#Amount").val('');
+
                     if (result.data.redirectToPaymentPage) {
                         window.location.href = result.data.paymentUrl;
                     }
@@ -100,6 +129,12 @@
                     }
                 }
                 else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
                     if (result.message != "")
                         ToastAlert('error', '', result.message);
                 }

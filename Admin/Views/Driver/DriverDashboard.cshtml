@@ -35,7 +35,7 @@
             <div class="card-body ">
                 <div class="row g-0">
                     <div class="col-12 text-center">
-                        <h2 class="text-center m-0 fw-bold" id="deliveriesDueToday">@Model.Pending</h2>
+                        <h2 class="text-center m-0 fw-bold" id="deliveriesDueToday">@Model.Total</h2>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
             <div class="card-body ">
                 <div class="row g-0">
                     <div class="col-12 text-center">
-                        <h2 class="text-center m-0 fw-bold" id="orderDeliveriesToday">@Model.Completed</h2>
+                        <h2 class="text-center m-0 fw-bold" id="orderDeliveriesToday">@Model.Normal</h2>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
         <!-- ========== End Card Block ========== -->
     </div>
 
-    <div class="col-12 col-lg-4" style="display:none">
+    <div class="col-12 col-lg-4" >
         <!-- ========== Start Card Block ========== -->
         <section class="card mb-3 border border-secondary">
             <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-warning">
@@ -75,7 +75,7 @@
             <div class="card-body ">
                 <div class="row g-0">
                     <div class="col-12 text-center">
-                        <h2 class="text-center m-0 fw-bold" id="subscriptionDeliveriesToday">8</h2>
+                        <h2 class="text-center m-0 fw-bold" id="subscriptionDeliveriesToday">@Model.Subscription</h2>
                     </div>
                 </div>
             </div>

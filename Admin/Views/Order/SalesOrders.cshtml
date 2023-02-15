@@ -18,7 +18,7 @@
     </div>
 </header>
 <div class="row">
-    <div class="col-12 col-lg-4">
+    <div class="col">
         <section class="card mb-3 border border-secondary">
             <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-info">
                 <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-cube me-2'></i>@SharedHtmlLocalizer["OrdersReceivedToday"]</h2>
@@ -34,7 +34,23 @@
             </div>
         </section>
     </div>
-    <div class="col-12 col-lg-4">
+    <div class="col">
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-success">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-cube me-2'></i>@SharedHtmlLocalizer["Completed_Order"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="CompletedOrder">@Model.OrderCompleted</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col">
         <section class="card mb-3 border border-secondary">
             <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-primary">
                 <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-money-bill me-2'></i>@SharedHtmlLocalizer["SalesAmountToday"]</h2>
@@ -51,7 +67,7 @@
             </div>
         </section>
     </div>
-    <div class="col-12 col-lg-4">
+    <div class="col">
         <section class="card mb-3 border border-secondary">
             <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-warning">
                 <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-boxes me-2'></i>@SharedHtmlLocalizer["ItemsSoldToday"]</h2>
@@ -68,7 +84,129 @@
             </div>
         </section>
     </div>
+    <div class="col">
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-danger">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-boxes me-2'></i>@SharedHtmlLocalizer["FailedOrderCount"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="FailedCount">@Model.FailedOrderReceived</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 </div>
+
+<div class="row pt-3">
+    <div class="col">
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-info">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-money-bill me-2'></i>@SharedHtmlLocalizer["KNET"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="KNET">@Model.KNET</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col">
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-warning">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-money-bill me-2'></i>@SharedHtmlLocalizer["VISA_Master"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="VISA_Master">@Model.VISA_Master</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col">
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-danger">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-money-bill me-2'></i>@SharedHtmlLocalizer["Tabby"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="Tabby">@Model.Tabby</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col">
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-primary">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-money-bill me-2'></i>@SharedHtmlLocalizer["COD"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="COD">@Model.COD</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col">
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-success">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-wallet me-2'></i>@SharedHtmlLocalizer["Wallet"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="Wallet">@Model.Wallet</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col">
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-info">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-money-bill me-2'></i>@SharedHtmlLocalizer["QPAY"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold" id="QPay">@Model.QPay</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
 <div class="row" style="padding-top: 0px">
     <div class="col">
         <!-- ========== Start Card Block ========== -->
@@ -82,14 +220,24 @@
                 <div class="row">
                     <div class="col-12 col-lg-3 mb-3">
                         <label for="OrderID" class="form-label">@SharedHtmlLocalizer["OrderID"]</label>
-                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="orderNumber" id="orderNumber" aria-describedby="@SharedHtmlLocalizer["OrderID"]" placeholder="@SharedHtmlLocalizer["EnterOrderID"]" value="">
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="orderNumber" id="orderNumber" aria-describedby="@SharedHtmlLocalizer["OrderID"]" value="">
 
                     </div>
+
+
+
+
                     <div class="col-12 col-lg-3 mb-3">
-                        <label for="" class="form-label">@SharedHtmlLocalizer["OrderDateRange"]</label>
+                        <div class="d-flex justify-content-between">
+                            <label for="" class="form-label">@SharedHtmlLocalizer["OrderDateRange"]</label>
+                            <a id="btnclear" class="fw-bold text-danger pe-3 " style="cursor: pointer; text-decoration: none;">Clear</a>
+                        </div>
                         <div class="input-daterange input-group rounded-4" data-plugin-datepicker>
+                            @*<span class="input-group-text rounded-4 border border-secondary">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </span>*@
                             <span class="input-group-text rounded-4 border border-secondary">
-                                <i class="fas fa-calendar-alt"></i>
+                                @SharedHtmlLocalizer["From"]
                             </span>
                             <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary " name="startDate" id="startDate" aria-describedby="" placeholder="" value="">
                             <span class="input-group-text border-start-0 border-end-0 border-secondary rounded-0">
@@ -103,19 +251,19 @@
                     <div class="col-12 col-lg-3 mb-3">
 
                         <label for="CustomerName" class="form-label">@SharedHtmlLocalizer["CustomerName"]</label>
-                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="customerName" id="customerName" aria-describedby="@SharedHtmlLocalizer["CustomerName"]" placeholder="@SharedHtmlLocalizer["EnterName"]" value="">
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="customerName" id="customerName" aria-describedby="@SharedHtmlLocalizer["CustomerName"]" placeholder="" value="">
 
                     </div>
                     <div class="col-12 col-lg-3 mb-3">
 
                         <label for="MobileNumber" class="form-label">@SharedHtmlLocalizer["MobileNumber"]</label>
-                        <input type="tel" class="form-control form-control-lg rounded-4 border-secondary " name="customerMobile" id="customerMobile" aria-describedby="@SharedHtmlLocalizer["MobileNumber"]" placeholder="@SharedHtmlLocalizer["EnterMobileNumber"]" value="">
+                        <input type="tel" class="form-control form-control-lg rounded-4 border-secondary " name="customerMobile" id="customerMobile" aria-describedby="@SharedHtmlLocalizer["MobileNumber"]" placeholder="" value="">
 
                     </div>
                     <div class="col-12 col-lg-3 mb-3">
 
                         <label for="CustomerEmail" class="form-label">@SharedHtmlLocalizer["CustomerEmail"]</label>
-                        <input type="email" class="form-control form-control-lg rounded-4 border-secondary " name="customerEmail" id="customerEmail" aria-describedby="@SharedHtmlLocalizer["CustomerEmail"]" placeholder="@SharedHtmlLocalizer["EnterEmail"]" value="">
+                        <input type="email" class="form-control form-control-lg rounded-4 border-secondary " name="customerEmail" id="customerEmail" aria-describedby="@SharedHtmlLocalizer["CustomerEmail"]" placeholder="" value="">
 
                     </div>
                     <div class="col-12 col-lg-3 mb-3">
@@ -133,7 +281,7 @@
                     <div class="col-12 col-lg-3 mb-3">
                         <label for="OrderMode" class="form-label">@SharedHtmlLocalizer["OrderMode"]</label>
                         <select class="form-select form-select-lg rounded-4 border-secondary" name="orderTypeList" id="orderTypeList" aria-describedby="@SharedHtmlLocalizer["OrderMode"]">
-                            <option value="" selected>All</option>
+                            <option value="" selected>@SharedHtmlLocalizer["All"]</option>
                             <option value="@((Int32)OrderType.Online)">@SharedHtmlLocalizer["Online"]</option>
                             <option value="@((Int32)OrderType.Offline)">@SharedHtmlLocalizer["Offline"]</option>
                         </select>
@@ -147,13 +295,13 @@
                         <label for="OrderStatus" class="form-label">@SharedHtmlLocalizer["OrderStatus"]</label>
                         <select class="form-select form-select-lg rounded-4 border-secondary" name="orderStatusList" id="orderStatusList" aria-describedby="@SharedHtmlLocalizer["OrderStatus"]">
                             <option value="" selected>@SharedHtmlLocalizer["All"]</option>
-                            <option value="@((Int32)OrderStatus.Pending)">@SharedHtmlLocalizer["Pending"]</option>
+                            @* <option value="@((Int32)OrderStatus.Pending)">@SharedHtmlLocalizer["Pending"]</option>*@
                             <option value="@((Int32)OrderStatus.Confirmed)">@SharedHtmlLocalizer["Confirmed"]</option>
                             <option value="@((Int32)OrderStatus.Cancelled)">@SharedHtmlLocalizer["Cancelled"]</option>
                             <option value="@((Int32)OrderStatus.Delivered)">@SharedHtmlLocalizer["Delivered"]</option>
-                            <option value="@((Int32)OrderStatus.OnTheWay)">@SharedHtmlLocalizer["OnTheWay"]</option>
+                            @* <option value="@((Int32)OrderStatus.OnTheWay)">@SharedHtmlLocalizer["OnTheWay"]</option>*@
                             <option value="@((Int32)OrderStatus.Returned)">@SharedHtmlLocalizer["Returned"]</option>
-                            <option value="@((Int32)OrderStatus.Discarded)">@SharedHtmlLocalizer["Discarded"]</option>
+                            @* <option value="@((Int32)OrderStatus.Discarded)">@SharedHtmlLocalizer["Discarded"]</option>*@
                             <option value="@((Int32)OrderStatus.Failed)">@SharedHtmlLocalizer["Failed"]</option>
                         </select>
 
@@ -161,7 +309,7 @@
                         <!-- ========== End Simple Select Field Block ========== -->
                     </div>
                     <div class="col-12 mt-3">
-                        <a href="#" class="btn btn-lg btn-primary" onclick="searchDataTable()">@SharedHtmlLocalizer["Search"]</a>
+                        <a href="#" class="btn btn-lg btn-primary" onclick="searchOrder()">@SharedHtmlLocalizer["Search"]</a>
                     </div>
                 </div>
             </div>
@@ -172,10 +320,10 @@
 
             <ul class="nav nav-tabs border-secondary">
                 <li class="nav-item active">
-                    <a class="nav-link" data-bs-target="#paid" href="#paid" data-bs-toggle="tab">@SharedHtmlLocalizer["Paid"]</a>
+                    <a class="nav-link" data-bs-target="#paid" href="#paid" data-bs-toggle="tab">@SharedHtmlLocalizer["Confirmed"]</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-target="#unpaid" href="#unpaid" data-bs-toggle="tab">@SharedHtmlLocalizer["Unpaid"]</a>
+                    <a class="nav-link" data-bs-target="#unpaid" href="#unpaid" data-bs-toggle="tab">@SharedHtmlLocalizer["Cancelled"]</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-target="#failed" href="#failed" data-bs-toggle="tab">@SharedHtmlLocalizer["Failed"]</a>
@@ -195,10 +343,13 @@
                                         <th data-priority="8" class="">@SharedHtmlLocalizer["OrderMode"]</th>
                                         <th data-priority="6" class="">@SharedHtmlLocalizer["CustomerName"]</th>
                                         <th data-priority="7" class="">@SharedHtmlLocalizer["MobileNumber"]</th>
+                                        <th data-priority="7" class="">@SharedHtmlLocalizer["DeviceType"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentMethod"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentStatus"]</th>
                                         <th data-priority="3" class="">@SharedHtmlLocalizer["OrderStatus"]</th>
+                                        <th data-priority="4" class="">@SharedHtmlLocalizer["DeliveryDate"]</th>
+                                        <th data-priority="3" class="">@SharedHtmlLocalizer["DeliveryStatus"]</th>
                                         <th data-priority="2" class="">@SharedHtmlLocalizer["Actions"]</th>
                                     </tr>
                                 </thead>
@@ -213,7 +364,7 @@
                 <div id="unpaid" class="tab-pane">
                     <div class="row">
                         <div class="col-12">
-                            <!-- ========== Start Table Block ========== -->
+
                             <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="unpaid-datatable-default-">
                                 <thead>
                                     <tr>
@@ -223,10 +374,13 @@
                                         <th data-priority="8" class="">@SharedHtmlLocalizer["OrderMode"]</th>
                                         <th data-priority="6" class="">@SharedHtmlLocalizer["CustomerName"]</th>
                                         <th data-priority="7" class="">@SharedHtmlLocalizer["MobileNumber"]</th>
+                                        <th data-priority="7" class="">@SharedHtmlLocalizer["DeviceType"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentMethod"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentStatus"]</th>
                                         <th data-priority="3" class="">@SharedHtmlLocalizer["OrderStatus"]</th>
+                                        <th data-priority="4" class="">@SharedHtmlLocalizer["DeliveryDate"]</th>
+                                        <th data-priority="3" class="">@SharedHtmlLocalizer["DeliveryStatus"]</th>
                                         <th data-priority="2" class="">@SharedHtmlLocalizer["Actions"]</th>
 
                                     </tr>
@@ -235,7 +389,7 @@
                                 </tbody>
                             </table>
 
-                            <!-- ========== End Table Block ========== -->
+
                         </div>
                     </div>
                 </div>
@@ -252,6 +406,7 @@
                                         <th data-priority="8" class="">@SharedHtmlLocalizer["OrderMode"]</th>
                                         <th data-priority="6" class="">@SharedHtmlLocalizer["CustomerName"]</th>
                                         <th data-priority="7" class="">@SharedHtmlLocalizer["MobileNumber"]</th>
+                                        <th data-priority="7" class="">@SharedHtmlLocalizer["DeviceType"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentMethod"]</th>
                                         <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentStatus"]</th>
@@ -271,7 +426,15 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
 @await Html.PartialAsync("_OrderCancelModalPartial")
 @await Html.PartialAsync("_UpdateOrderModalPartial")
+@await Html.PartialAsync("_SendPaymentLinkModalPartial")
 <script src="~/developer/js/Order/SalesOrders_Datatable.js" asp-append-version="true"></script>
- 

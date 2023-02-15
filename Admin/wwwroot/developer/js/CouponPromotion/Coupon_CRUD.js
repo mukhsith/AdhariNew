@@ -13,9 +13,9 @@ setup = () => {
             endDate: { required: true }
         },
         messages: {
-            couponCode: { required: 'Required' },
-            startDate: { required: 'Required' },
-            endDate: {required: 'Required'},
+            couponCode: { required: '' },
+            startDate: { required: '' },
+            endDate: {required: ''},
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -75,24 +75,24 @@ isFormValid = () => {
 
     if ($("input[type=radio]")[0].checked == false &&
         $("input[type=radio]")[1].checked == false) {
-        ToastAlert('error', 'Coupon', 'Please select Discount Type');
+        ToastAlert('error', Resources.Coupons, Resources.PleaseSelectDiscountType);
         return false;
     }
 
     if ($("input[type=radio]")[0].checked && getFloatValue('discountPercentage') <=0 ) {
-        ToastAlert('error', 'Coupon', 'Please enter discount percentage value');
+        ToastAlert('error', Resources.Coupons, Resources.PleaseEnterDiscountPercentageValue);
         $("#discountPercentage").focus();
         return false;
     }
 
     if ($("input[type=radio]")[1].checked && getFloatValue('discountAmount') <= 0) {
-        ToastAlert('error', 'Coupon', 'Please enter discount Amount value');
+        ToastAlert('error', Resources.Coupons, Resources.PleaseEnterDiscountAmountValue );
         $("#discountAmount").focus();
         return false;
     }
 
     if (getCheckValue("limitUsageEnabled") && getIntegerValue('quantity') <= 0) {
-        ToastAlert('error', 'Coupon', 'Please enter quantity value');
+        ToastAlert('error', Resources.Coupons, Resources.PleaseEnterQuantity);
         $("#quantity").focus();
         return false;
     }
@@ -133,16 +133,16 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) { 
-        ToastAlert('success', 'Coupon', 'Saved Successfully');
-        setTimeout(() => location.href = "/CouponPromotion/CouponList", 100);
+        ToastAlert('success', Resources.Coupons, Resources.SavedSuccessfully);
+        setTimeout(() => location.href = "/CouponPromotion/CouponList", 1500);
     } else {
         //showLog(data);
-        ToastAlert('error', 'Coupon', data.message);
+        ToastAlert('error', Resources.Coupons, data.message);
     }
 }
 
 cbPostError = (error) => { 
-    ToastAlert('error', 'Coupon', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.Coupons, Resources.UnableTosave);
 }
 
   

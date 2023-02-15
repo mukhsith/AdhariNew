@@ -128,12 +128,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -189,12 +191,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }

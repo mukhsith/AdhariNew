@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Utility.API;
@@ -139,7 +143,6 @@ namespace Web.Controllers
 
             return Json(reponse);
         }
-
         public async Task<JsonResult> GetPaymentMehods(PaymentRequestType paymentRequestType)
         {
             var reponse = new APIResponseModel<List<PaymentMethodModel>>();
@@ -223,6 +226,72 @@ namespace Web.Controllers
                 if (responseSiteContentModels.Success && responseSiteContentModels.Data != null)
                 {
                     siteContentModel = responseSiteContentModels.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(siteContentModel);
+        }
+
+        /// <summary>
+        /// Site content mobile
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> SiteContentMobile(int appContentTypeId, bool isEnglish)
+        {
+            var siteContentModel = new SiteContentModel();
+            try
+            {
+                var responseSiteContentModels = await _apiHelper.GetAsync<APIResponseModel<SiteContentModel>>("webapi/common/sitecontent?appContentTypeId=" + appContentTypeId);
+                if (responseSiteContentModels.Success && responseSiteContentModels.Data != null)
+                {
+                    siteContentModel = responseSiteContentModels.Data;
+
+                    var currentLanguage = string.Empty;
+                    var customerLanguage = isEnglish ? "en" : "ar";
+                    if (!string.IsNullOrEmpty(CultureInfo.CurrentCulture.Name))
+                    {
+                        currentLanguage = CultureInfo.CurrentCulture.Name.ToLower();
+                    }
+
+                    if (currentLanguage != customerLanguage)
+                    {
+                        var cultureInfo = new CultureInfo(customerLanguage);
+                        Thread.CurrentThread.CurrentUICulture = cultureInfo;
+                        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureInfo.Name);
+
+                        Response.Cookies.Append(
+                        CookieRequestCultureProvider.DefaultCookieName,
+                        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(customerLanguage == "en" ? "en-US" : "ar-KW")),
+                        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+
+                        return RedirectToRoute("sitecontentmobile", new { appContentTypeId = appContentTypeId, isEnglish= isEnglish });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return View(siteContentModel);
+        }
+
+        /// <summary>
+        /// Download app
+        /// </summary>
+        public async Task<IActionResult> DownloadApp()
+        {
+            var siteContentModel = new CompanySettingModel();
+            try
+            {
+                var responseCompanySettingModel = await _apiHelper.GetAsync<APIResponseModel<CompanySettingModel>>("webapi/common/companysetting");
+                if (responseCompanySettingModel.Success && responseCompanySettingModel.Data != null)
+                {
+                    siteContentModel = responseCompanySettingModel.Data;
                 }
             }
             catch (Exception ex)

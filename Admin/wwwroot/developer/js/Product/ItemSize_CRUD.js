@@ -12,8 +12,8 @@ setup = () => {
             nameAr: { required: true },
         },
         messages: {
-            nameEn: { required: 'Required' },
-            nameAr: { required: 'Required' },
+            nameEn: { required: '' },
+            nameAr: { required: '' },
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -57,16 +57,16 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) { 
-        ToastAlert('success', 'Item Size', 'Saved Successfully');
+        ToastAlert('success', Resources.ItemSize, Resources.SavedSuccessfully);
         setTimeout(() => location.href = "/Product/ItemSizeList", 100);
     } else {
         //showLog(data);
-        ToastAlert('error', 'Item Size', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.ItemSize, Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => { 
-    ToastAlert('error', 'Item Size', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.ItemSize, Resources.UnableTosave);
 }
 
  

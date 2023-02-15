@@ -217,6 +217,28 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
         }
 
+
+        [HttpGet, Route("api/Subscription/ForDropDownList")]
+        public async Task<IActionResult> ForDropDownList()
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                var items = await _get.GetAllSubscriptionDurations();
+                response.GetAll(items.Select(x => new { x.Id, Name = IsEnglish ? x.NameEn : x.NameAr }).ToList());
+
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
+
+
         [HttpPost, Route("api/Subscription/GetAllForDataTable")]
         public async Task<IActionResult> GetAllForDataTable()
         { 
@@ -225,7 +247,16 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                var items = await _get.GetAllForDataTableByProductType(base.GetDataTableParameters, GetBaseImageUrl(AppSettings.ImageProduct), ProductType.SubscriptionProduct);
+                AdminProductSearchParam param = new();
+
+                var productName = HttpContext.Request.Form["productName"].FirstOrDefault();
+                var categoryID = HttpContext.Request.Form["categoryID"].FirstOrDefault();
+
+                param.productName = productName;
+                param.categoryID = Utility.Helpers.Common.ConvertTextToIntOptional(categoryID);
+
+
+                var items = await _get.GetAllForDataTableByProductType(base.GetDataTableParameters, GetBaseImageUrl(AppSettings.ImageProduct), ProductType.SubscriptionProduct,param);
                // response.GetAll(items);
                 return Ok(items);
             }

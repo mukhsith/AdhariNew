@@ -31,7 +31,6 @@ namespace Data.Sales
 
         [Column(TypeName = Constants.AmountDataType)]
         public decimal CouponDiscountAmount { get; set; }
-
         public bool FreeDelivery { get; set; }
 
         [Column(TypeName = Constants.AmountDataType)]
@@ -45,6 +44,9 @@ namespace Data.Sales
 
         [Column(TypeName = Constants.AmountDataType)]
         public decimal Total { get; set; }
+
+        [Column(TypeName = Constants.AmountDataType)]
+        public decimal GrandTotal { get; set; }
 
         [Column(TypeName = Constants.AmountDataType)]
         public decimal ReceivedCashbackAmount { get; set; }
@@ -93,7 +95,9 @@ namespace Data.Sales
         public string TabbySessionId { get; set; }
         public string TabbyPaymentId { get; set; }
         public DeviceType DeviceTypeId { get; set; }
-        public OrderType OrderTypeId { get; set; }       
+        public OrderType OrderTypeId { get; set; }
+        public bool NotificationTunePlayed { get; set; }
+        public bool DotMatrixPrinted { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Address Address { get; set; }
         public virtual Coupon Coupon { get; set; }

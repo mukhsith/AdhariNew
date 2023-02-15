@@ -746,6 +746,188 @@ namespace API.Areas.Backend.Helpers
 
             return productModel;
         }
+
+        
+        public async Task<ProductModel> PrepareMatrixProductModel(Product product, bool isEnglish, string customerGuidValue = "", Customer customer = null,
+            bool loadDescription = false, bool loadPrice = false, bool calculateStock = false, bool loadCategory = false, bool loadSubscriptionAttributes = false,
+            bool loadSubscriptionPackTitle = false, bool loadCartQuantity = false)
+        {
+            var productModel = _mapper.Map<ProductModel>(product);
+
+            var title = isEnglish ? product.NameEn : product.NameAr;
+
+            productModel.Title = product.NameEn + "<br>" + product.DescriptionEn + "<br>"+ product.NameAr + "<br>" + product.DescriptionAr;
+
+            if (loadDescription)
+            {
+                productModel.Description = isEnglish ? product.DescriptionEn : product.DescriptionAr;
+            }
+
+            if (loadCategory)
+            {
+                var categoryModel = PrepareCategoryModel(model: product.Category, isEnglish: isEnglish);
+                productModel.CategoryName = categoryModel.Title;
+            }
+
+            if (product.ItemSize != null)
+            {
+                productModel.ItemSize.Id = product.ItemSize.Id;
+                productModel.ItemSize.Title = isEnglish ? product.ItemSize.NameEn : product.ItemSize.NameAr;
+            }
+
+            bool b2bCustomer = false;
+            if (customer != null)
+            {
+                var favorite = (await _productService.GetAllFavorite(customerId: customer.Id, productId: product.Id)).FirstOrDefault();
+                if (favorite != null)
+                {
+                    productModel.Favorite = true;
+                }
+
+                var productAvailabilityNotifyRequest = await _productService.GetProductAvailabilityNotifyRequest(customerId: customer.Id, productId: product.Id);
+                if (productAvailabilityNotifyRequest != null)
+                {
+                    productModel.Notified = true;
+                }
+
+                if (product.B2BPriceEnabled && customer.B2B)
+                {
+                    b2bCustomer = true;
+                }
+            }
+
+            decimal price = product.Price;
+            decimal discountedPrice = 0;
+
+            if (loadPrice)
+            {
+                price = product.GetPriceFrontend(b2bCustomer);
+                discountedPrice = product.GetDiscountedPriceFrontend(b2bCustomer);
+            }
+
+            productModel.Price = price;
+            productModel.DiscountedPrice = discountedPrice;
+            productModel.FormattedPrice = await _commonHelper.ConvertDecimalToString(productModel.Price, isEnglish, 0);
+            productModel.FormattedDiscountedPrice = await _commonHelper.ConvertDecimalToString(productModel.DiscountedPrice, isEnglish, 0);
+
+            if (string.IsNullOrEmpty(product.ImageName))
+                productModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageProductDefault;
+            else
+                productModel.ImageUrl = _appSettings.APIBaseUrl + _appSettings.ImageProductResized + product.ImageName;
+
+            if (calculateStock)
+            {
+                if (product.ProductType == ProductType.BaseProduct)
+                {
+                    var productStockQuantity = await _productService.GetAvailableStockQuantity(productId: product.Id,
+                    customerId: customer?.Id, customerGuidValue: customerGuidValue);
+                    if (productStockQuantity < 0)
+                        productStockQuantity = 0;
+
+                    productModel.StockQuantity = productStockQuantity;
+                }
+                else if (product.ProductType == ProductType.BundledProduct)
+                {
+                    int lowStockProduct = 0;
+                    List<int> childProductStocks = new();
+                    var productDetails = product.ProductDetails.ToList();
+                    foreach (var productDetail in productDetails)
+                    {
+                        var productStockQuantity = await _productService.GetAvailableStockQuantity(productId: productDetail.ChildProductId,
+                    customerId: customer?.Id, customerGuidValue: customerGuidValue);
+                        if (productStockQuantity <= 0)
+                            lowStockProduct++;
+
+                        childProductStocks.Add(productStockQuantity / productDetail.Quantity);
+                    }
+
+                    if (lowStockProduct > 0)
+                        productModel.StockQuantity = 0;
+                    else
+                        productModel.StockQuantity = childProductStocks.Min();
+                }
+                else if (product.ProductType == ProductType.SubscriptionProduct)
+                {
+                    int lowStockProduct = 0;
+                    List<int> childProductStocks = new();
+                    var productDetails = product.ProductDetails.ToList();
+                    foreach (var productDetail in productDetails)
+                    {
+                        var productStockQuantity = await _productService.GetAvailableStockQuantity(productId: productDetail.ChildProductId,
+                    customerId: customer?.Id, customerGuidValue: customerGuidValue);
+                        if (productStockQuantity <= 0)
+                            lowStockProduct++;
+
+                        childProductStocks.Add(productStockQuantity / productDetail.Quantity);
+                    }
+
+                    if (lowStockProduct > 0)
+                        productModel.StockQuantity = 0;
+                    else
+                        productModel.StockQuantity = childProductStocks.Min();
+                }
+            }
+
+            productModel.DetailsUrl = _appSettings.WebsiteUrl + "product/" + productModel.CategoryName + "/" + product.SeoName;
+
+            if (loadCartQuantity)
+            {
+                var existingCart = (await _cartService.GetAllCartItem(productDetailId: product.Id, customerId: customer?.Id, customerGuidValue: customerGuidValue)).FirstOrDefault();
+                productModel.CartQuantity = existingCart != null ? existingCart.Quantity : 0;
+
+                int availableQuantity = productModel.StockQuantity - productModel.CartQuantity;
+                if (availableQuantity < 0)
+                    availableQuantity = 0;
+
+                productModel.StockQuantity = availableQuantity;
+            }
+
+            if (product.ProductType == ProductType.SubscriptionProduct)
+            {
+                if (loadSubscriptionAttributes)
+                {
+                    var subscriptionDurations = await _productService.GetAllSubscriptionDuration();
+                    foreach (var subscriptionDuration in subscriptionDurations)
+                    {
+                        productModel.SubscriptionDurations.Add(new SubscriptionDurationModel
+                        {
+                            Id = subscriptionDuration.Id,
+                            Title = isEnglish ? subscriptionDuration.NameEn : subscriptionDuration.NameAr
+                        });
+                    }
+
+                    var subscriptionDeliveryDates = await _productService.GetAllSubscriptionDeliveryDate();
+                    foreach (var subscriptionDeliveryDate in subscriptionDeliveryDates)
+                    {
+                        productModel.SubscriptionDeliveryDates.Add(new SubscriptionDeliveryDateModel
+                        {
+                            Id = subscriptionDeliveryDate.Id,
+                            Title = isEnglish ? subscriptionDeliveryDate.NameEn : subscriptionDeliveryDate.NameAr
+                        });
+                    }
+                }
+
+                if (loadSubscriptionPackTitle)
+                {
+                    var productDetails = product.ProductDetails.ToList();
+                    foreach (var productDetail in productDetails)
+                    {
+                        var childProduct = await _productService.GetById(productDetail.ChildProductId);
+                        if (childProduct != null)
+                        {
+                            productModel.SubscriptionPackTitles.Add(new KeyValuPairModel
+                            {
+                                Title = (isEnglish ? childProduct.NameEn : childProduct.NameAr) + " x " + productDetail.Quantity,
+                                Value = childProduct.Id.ToString()
+                            });
+                        }
+                    }
+                }
+            }
+
+            return productModel;
+        }
+
         #endregion
 
         #region Cart
@@ -1145,6 +1327,26 @@ namespace API.Areas.Backend.Helpers
 
             return orderItemModel;
         }
+
+
+        
+      public async Task<OrderItemModel> PrepareMatrixOrderItemModel(OrderItem orderItem, bool isEnglish)
+        {
+            var orderItemModel = _mapper.Map<OrderItemModel>(orderItem);
+
+            decimal finalUnitPrice = orderItem.UnitPrice - orderItem.DiscountAmount;
+            orderItemModel.UnitPrice = finalUnitPrice;
+            orderItemModel.FormattedUnitPrice = await _commonHelper.ConvertDecimalToString(orderItemModel.UnitPrice, isEnglish);
+            orderItemModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(orderItem.Total, isEnglish);
+
+            if (orderItem.Product != null)
+            {
+                orderItemModel.Product = await PrepareMatrixProductModel(product: orderItem.Product, isEnglish: isEnglish);
+            }
+
+            return orderItemModel;
+        }
+
         public async Task<OrderModel> PrepareOrderModel(Order order, bool isEnglish, bool loadDetails = false)
         {
             var orderModel = _mapper.Map<OrderModel>(order);
@@ -1158,6 +1360,8 @@ namespace API.Areas.Backend.Helpers
             var OrderStatusDetails = _commonHelper.GetOrderStatusNameAndColorCode(order.OrderStatusId, isEnglish);
             orderModel.OrderStatusName = OrderStatusDetails.Item1;
             orderModel.OrderStatusColor = OrderStatusDetails.Item2;
+            orderModel.OrderNotes = order.Notes;
+
 
             var paymentMethod = await _paymentMethodService.GetPaymentMethodById(order.PaymentMethodId);
             if (paymentMethod != null)
@@ -1338,6 +1542,213 @@ namespace API.Areas.Backend.Helpers
                     orderModel.OrderSummary = await PrepareOrderSummary(order, isEnglish);
             return orderModel;
         }
+
+        public async Task<OrderModel> PrepareMatrixOrderModel(Order order, bool isEnglish, bool loadDetails = false)
+        {
+            var orderModel = _mapper.Map<OrderModel>(order);
+
+            orderModel.FormattedTotal = await _commonHelper.ConvertDecimalToString(order.Total, isEnglish, includeZero: true);
+            orderModel.FormattedDate = order.CreatedOn.ToString("dd MMM yyyy", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
+            orderModel.FormattedTime = order.CreatedOn.ToString("hh:mm tt", isEnglish ? new CultureInfo("en-US") : new CultureInfo("ar-KW"));
+
+            orderModel.PaymentResult = _commonHelper.GetPaymentResultTitle(order.PaymentStatusId, isEnglish: isEnglish);
+
+            var OrderStatusDetails = _commonHelper.GetOrderStatusNameAndColorCode(order.OrderStatusId, isEnglish);
+            orderModel.OrderStatusName = OrderStatusDetails.Item1;
+            orderModel.OrderStatusColor = OrderStatusDetails.Item2;
+            orderModel.OrderNotes = order.Notes;
+
+
+            var paymentMethod = await _paymentMethodService.GetPaymentMethodById(order.PaymentMethodId);
+            if (paymentMethod != null)
+            {
+                orderModel.PaymentMethod = PreparePaymentMethodModel(isEnglish: isEnglish, paymentMethod: paymentMethod);
+            }
+
+            //order summary
+            List<KeyValuPairModel> amountSplitUps = new();
+            orderModel.FormattedSubTotal = await _commonHelper.ConvertDecimalToString(value: order.SubTotal, isEnglish: isEnglish, includeZero: true);
+            amountSplitUps.Add(new KeyValuPairModel
+            {
+                Title = isEnglish ? Messages.Items : MessagesAr.Items,
+                Value = orderModel.FormattedSubTotal,
+                DisplayOrder = 0
+            });
+
+            if (order.DeliveryFee > 0)
+            {
+                orderModel.FormattedDeliveryFee = await _commonHelper.ConvertDecimalToString(value: order.DeliveryFee, isEnglish: isEnglish);
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.DeliveryAmount : MessagesAr.DeliveryAmount,
+                    Value = orderModel.FormattedDeliveryFee,
+                    DisplayOrder = 1
+                });
+            }
+
+            if (order.CouponDiscountAmount > 0)
+            {
+                orderModel.FormattedCouponDiscountAmount = "-" + await _commonHelper.ConvertDecimalToString(value: order.CouponDiscountAmount, isEnglish: isEnglish);
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.DiscountAmount : MessagesAr.DiscountAmount,
+                    Value = orderModel.FormattedCouponDiscountAmount,
+                    DisplayOrder = 2
+                });
+            }
+
+            if (order.CashbackAmount > 0)
+            {
+                orderModel.FormattedCashbackAmount = "-" + await _commonHelper.ConvertDecimalToString(value: order.CashbackAmount, isEnglish: isEnglish);
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.Cashback : MessagesAr.Cashback,
+                    Value = orderModel.FormattedCashbackAmount,
+                    DisplayOrder = 3
+                });
+            }
+
+            if (order.WalletUsedAmount > 0)
+            {
+                orderModel.FormattedWalletUsedAmount = "-" + await _commonHelper.ConvertDecimalToString(value: order.WalletUsedAmount, isEnglish: isEnglish);
+                amountSplitUps.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.WalletAmount : MessagesAr.WalletAmount,
+                    Value = orderModel.FormattedWalletUsedAmount,
+                    DisplayOrder = 4
+                });
+            }
+
+            orderModel.AmountSplitUps = amountSplitUps.OrderBy(a => a.DisplayOrder).ToList();
+
+            if (loadDetails)
+            {
+                orderModel.FormattedItemCount = order.OrderItems.Count + " " + (isEnglish ? Messages.Items : MessagesAr.Items);
+
+                if (order.Address != null)
+                    orderModel.Address = await PrepareAddressModel(isEnglish: isEnglish, address: order.Address);
+
+                var orderItems = order.OrderItems;
+                foreach (var orderItem in orderItems)
+                {
+                    var orderItemModel = await PrepareMatrixOrderItemModel(orderItem: orderItem, isEnglish: isEnglish);
+                    orderModel.OrderItems.Add(orderItemModel);
+                }
+
+                if (order.Customer != null)
+                {
+                    orderModel.Customer = PrepareCustomerModel(customer: order.Customer, isEnglish: isEnglish);
+                }
+
+                //payment summary
+                List<KeyValuPairModel> patmentSummary = new();
+                patmentSummary.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.OrderNumber : MessagesAr.OrderNumber,
+                    Value = orderModel.OrderNumber,
+                    DisplayOrder = 0
+                });
+
+                patmentSummary.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.OrderDate : MessagesAr.OrderDate,
+                    Value = orderModel.FormattedDate,
+                    DisplayOrder = 1
+                });
+
+                patmentSummary.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.OrderTime : MessagesAr.OrderTime,
+                    Value = orderModel.FormattedTime,
+                    DisplayOrder = 2
+                });
+
+                patmentSummary.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.OrderAmount : MessagesAr.OrderAmount,
+                    Value = orderModel.FormattedTotal,
+                    DisplayOrder = 3
+                });
+
+                patmentSummary.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.PaymentMethod : MessagesAr.PaymentMethod,
+                    Value = orderModel.PaymentMethod.Name,
+                    DisplayOrder = 4
+                });
+
+                patmentSummary.Add(new KeyValuPairModel
+                {
+                    Title = isEnglish ? Messages.PaymentResult : MessagesAr.PaymentResult,
+                    Value = orderModel.PaymentResult,
+                    DisplayOrder = 5
+                });
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentId))
+                {
+                    patmentSummary.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentId : MessagesAr.PaymentId,
+                        Value = orderModel.PaymentId,
+                        DisplayOrder = 6
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentRefId))
+                {
+                    patmentSummary.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.PaymentReference : MessagesAr.PaymentReference,
+                        Value = orderModel.PaymentRefId,
+                        DisplayOrder = 7
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(orderModel.PaymentTrackId))
+                {
+                    patmentSummary.Add(new KeyValuPairModel
+                    {
+                        Title = isEnglish ? Messages.TrackId : MessagesAr.TrackId,
+                        Value = orderModel.PaymentTrackId,
+                        DisplayOrder = 8
+                    });
+                }
+
+                orderModel.PaymentSummary = patmentSummary.OrderBy(a => a.DisplayOrder).ToList();
+
+                var deliveryDays = (order.DeliveryDate.Date - DateTime.Now.Date).TotalDays;
+                if (deliveryDays >= 0)
+                {
+                    orderModel.EstimatedDelivery = (isEnglish ? Messages.EstimatedDelivery : MessagesAr.EstimatedDelivery) + ": " + (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
+                    orderModel.EstimatedDeliveryWithoutHeading = (deliveryDays + 1) + " - " + (deliveryDays + 2) + " " + (isEnglish ? Messages.Days : MessagesAr.Days);
+                }
+                else
+                {
+                    if (orderModel.Address != null)
+                    {
+                        orderModel.EstimatedDelivery = orderModel.Address.Name;
+                    }
+                }
+            }
+            else
+            {
+                var orderItems = await _orderService.GetAllOrderItem(order.Id);
+                orderModel.FormattedItemCount = orderItems.Count + " " + (isEnglish ? Messages.Items : MessagesAr.Items);
+            }
+            orderModel.OrderSummary = await PrepareOrderSummary(order, isEnglish);
+            return orderModel;
+        }
+
+        
+
+
+
+
+
+
+
+
+
         #endregion
 
         #region Subscription

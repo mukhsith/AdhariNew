@@ -46,12 +46,16 @@ namespace Admin.Controllers
             //today sales statistics
             DailyOrderSummaryModel responseModel = new();
 
-            responseModel = await _apiHelper.GetAsync<DailyOrderSummaryModel>("Order/TodaySales", "");
+            responseModel = await _apiHelper.GetAsync<DailyOrderSummaryModel>("Order/OrderSalesSummary?CustomerID="+ customerId, "");
+            //APIResponseModel<Utility.Models.Frontend.Sales.OrderModel> responseModel = await _apiHelper.GetAsync<APIResponseModel<Utility.Models.Frontend.Sales.OrderModel>>("order/orderDetails?id=" + id + "&customerId=" + customerId, "");
             responseModel.CustomerId = customerId;
             return View(responseModel);
         }
 
-
+        public IActionResult OrderedItems()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> OrderDetails(int id, int customerId)
         {

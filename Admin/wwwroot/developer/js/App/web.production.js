@@ -1,5 +1,5 @@
 ﻿ 
 const isDebug = false;
 getAPIUrl = () => {
-    return "https://apiadhari.mpp.com.kw/api/";
+    return "https://apiad.adhari.com.kw/api/";
 }

@@ -84,12 +84,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -97,40 +99,6 @@ namespace API.Areas.Frontend.Factories
                 var cartSummaryModel = await _modelHelper.PrepareSubscriptionSummaryModel(isEnglish: isEnglish, customer: customer);
 
                 response.Data = cartSummaryModel;
-                response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
-            }
-
-            return response;
-        }
-        public async Task<APIResponseModel<bool>> ValidateSubscription(bool isEnglish, int customerId,
-            int productId, int quantity)
-        {
-            var response = new APIResponseModel<bool>();
-            try
-            {
-                var b2bCustomer = false;
-                var product = await _productService.GetById(productId);
-                if (product == null)
-                {
-                    response.Message = isEnglish ? Messages.ProductNotExists : MessagesAr.ProductNotExists;
-                    return response;
-                }
-
-                var productValidationResponse = await ValidateSubscriptionProduct(product: product, isEnglish: isEnglish, quantity: quantity,
-                     b2bCustomer: b2bCustomer, customerId: 0);
-                if (!productValidationResponse.Success)
-                {
-                    response.Message = productValidationResponse.Message;
-                    return response;
-                }
-
-                response.Data = true;
                 response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
                 response.Success = true;
             }
@@ -161,12 +129,14 @@ namespace API.Areas.Frontend.Factories
                     customer = await _customerService.GetCustomerById(subscriptionAttributeModel.CustomerId.Value);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -388,12 +358,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -422,14 +394,26 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
+                }
+
+                var lastSubscription = await _subscriptionService.GetLastSubscriptionByCustomer(customerId: customer.Id);
+                if (lastSubscription != null)
+                {
+                    var totalSeconds = (DateTime.Now - lastSubscription.CreatedOn).TotalSeconds;
+                    if (totalSeconds <= _appSettings.RequestIntervalInSec)
+                    {
+                        return response;
+                    }
                 }
 
                 bool b2bCustomer = customer != null && customer.B2B;
@@ -880,13 +864,15 @@ namespace API.Areas.Frontend.Factories
                     }
                 }
 
+                subscription.GrandTotal = subscription.Total + subscription.WalletUsedAmount;
+
                 var dateAndSlot = await _commonHelper.GetAvailableSubscriptionOrderDeliveryDateAndSlot(subscriptionDeliveryDate);
                 decimal orderSubTotal;
                 decimal orderDeliveryFee;
                 decimal orderTotal;
                 if (subscription.FullPayment)
                 {
-                    decimal monthlyAmount = subscription.Total / subscription.NumberOfMonths;
+                    decimal monthlyAmount = (subscription.GrandTotal) / subscription.NumberOfMonths;
                     orderSubTotal = monthlyAmount;
                     orderDeliveryFee = 0;
                     orderTotal = monthlyAmount;
@@ -1065,12 +1051,14 @@ namespace API.Areas.Frontend.Factories
                     var customer = await _customerService.GetCustomerById(customerId);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -1117,6 +1105,36 @@ namespace API.Areas.Frontend.Factories
                 foreach (var subscription in subscriptions)
                 {
                     var subscriptionModel = await _modelHelper.PrepareSubscriptionModel(subscription, isEnglish, loadDetails: loadDetails);
+                    subscriptionModels.Add(subscriptionModel);
+                }
+
+                response.Data = subscriptionModels;
+                response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
+        public async Task<APIResponseModel<List<SubscriptionModel>>> GetSubscriptionBySubscriptionNumber(bool isEnglish, string subscriptionNumber = "")
+        {
+            var response = new APIResponseModel<List<SubscriptionModel>>();
+            try
+            {
+                if (string.IsNullOrEmpty(subscriptionNumber))
+                {
+                    return response;
+                }
+
+                var subscriptionModels = new List<SubscriptionModel>();
+                var subscription = await _subscriptionService.GetSubscriptionBySubscriptionNumber(subscriptionNumber);
+                if (subscription != null && !subscription.Deleted)
+                {
+                    var subscriptionModel = await _modelHelper.PrepareSubscriptionModel(subscription, isEnglish, loadDetails: true);
                     subscriptionModels.Add(subscriptionModel);
                 }
 
@@ -1216,7 +1234,7 @@ namespace API.Areas.Frontend.Factories
                             decimal orderTotal;
                             if (subscription.FullPayment)
                             {
-                                decimal monthlyAmount = subscription.Total / subscription.NumberOfMonths;
+                                decimal monthlyAmount = subscription.GrandTotal / subscription.NumberOfMonths;
                                 orderSubTotal = monthlyAmount;
                                 orderDeliveryFee = 0;
                                 orderTotal = monthlyAmount;
@@ -1286,12 +1304,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }

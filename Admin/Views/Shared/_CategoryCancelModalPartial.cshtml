@@ -1,0 +1,56 @@
+﻿
+<div class="modal fade" id="category-cancel" data-bs-keyboard="false" tabindex="-1" aria-labelledby="category-cancelLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content border-secondary">
+
+            <div class="modal-header border-secondary body-bg-secondary">
+                <h5 class="modal-title fw-bold text-primary" id="category-cancelLabel">@SharedHtmlLocalizer["DeleteCategory"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <input type="hidden" id="dialogCategoryId" value="" />
+         
+            </div>
+            <div class="modal-body">
+
+                <div class="form-check form-check-inline">
+                   
+                    <label class="form-check-label" for="">@SharedHtmlLocalizer["DeleteCategoryConfirm"]</label>
+                </div>
+               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success save-btn" onclick="cancelcategory()">@SharedHtmlLocalizer["Confirm"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+       
+    });
+
+
+
+    cancelcategory = () => {
+        var categoryId = $("#category-cancel .modal-header #dialogCategoryId").val();
+      //  alert(categoryId);
+
+        let submitData = new FormData();
+        submitData.append("categoryId", categoryId);
+
+        ajaxPost("category/ToggleDelete?id=" + categoryId, submitData, cbCancelOrderSuccess);
+
+    }
+
+
+    cbCancelOrderSuccess = (data) => {
+        if (data.success) {
+            ToastAlert('success', 'category', 'category deleted successfully');
+            setTimeout(() => location.href = "/product/categoryList", 2500);
+
+        } else { 
+            ToastAlert('error', 'category', data.message);
+        }
+    }
+</script>

@@ -220,7 +220,7 @@ namespace Utility
 
                 //converter.Options.WebPageHeight = 1050;
                 converter.Options.WebPageWidth = 1200;
-                converter.Options.MarginTop = 10;
+                converter.Options.MarginTop = 20;
                 converter.Options.MarginBottom = 10;
 
                 if (!string.IsNullOrEmpty(header))
@@ -230,7 +230,7 @@ namespace Utility
                     converter.Header.DisplayOnFirstPage = true;
                     converter.Header.DisplayOnOddPages = true;
                     converter.Header.DisplayOnEvenPages = true;
-                    converter.Header.Height = 50;
+                    converter.Header.Height = 60;
 
                     // add some html content to the header
                     PdfHtmlSection headerHtml = new PdfHtmlSection(header, "");
@@ -254,6 +254,25 @@ namespace Utility
             catch (Exception ex)
             {
             }
+
+            return url;
+        }
+        public static string StringToHtml(string htmlContent, string filepath)
+        {
+            var url = string.Empty;
+            try
+            {
+                // save pdf document
+                var pdfFileName = Guid.NewGuid() + ".html";
+
+                var pdfPath = Path.Combine(Directory.GetCurrentDirectory(), filepath);
+                pdfPath = pdfPath + "/" + pdfFileName;
+
+                File.WriteAllText(pdfPath, htmlContent);
+
+                url = filepath + "/" + pdfFileName;
+            }
+            catch { }
 
             return url;
         }

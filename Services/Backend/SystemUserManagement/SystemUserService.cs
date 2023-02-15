@@ -13,16 +13,24 @@ using Utility.Models.Base;
 using Utility.Enum;
 using System.Drawing;
 using Utility.Models.Admin.SystemUserManagement;
+using Services.Backend.Sales;
 
 namespace Services.Backend.SystemUserManagement
 {
     public class SystemUserService : ISystemUserService
     {
         protected readonly ApplicationDbContext _dbcontext;
+        protected readonly IOrderService _orderService;
+
+
         protected string ErrorMessage = string.Empty;
-        public SystemUserService(ApplicationDbContext dbcontext)
+        public SystemUserService(ApplicationDbContext dbcontext,
+            IOrderService orderService)
         {
             _dbcontext = dbcontext;
+            _orderService = orderService;
+
+
         }
 
         #region System user
@@ -90,6 +98,7 @@ namespace Services.Backend.SystemUserManagement
                 {
                     var SearchValue = param.SearchValue.ToLower();
                     items = items.Where(obj =>
+                     obj.UserName.ToLower().Contains(SearchValue) ||
                      obj.FullName.ToLower().Contains(SearchValue) ||
                      obj.MobileNumber.ToLower().Contains(SearchValue) ||
                      obj.EmailAddress.ToString().Contains(SearchValue)
@@ -157,6 +166,7 @@ namespace Services.Backend.SystemUserManagement
             if(data is not null)
             {
                 user.Id = data.Id;
+                user.UserName = data.UserName.ToString();
                 user.FullName = data.FullName.ToString();
                 user.EmailAddress = data.EmailAddress.ToString();
                 user.MobileNumber = data.MobileNumber.ToString();
@@ -172,12 +182,13 @@ namespace Services.Backend.SystemUserManagement
             UserModel user = new();
             var data = await _dbcontext
                             .SystemUsers
-                            .Where(a => a.FullName.ToLower() == fullName.ToLower())
+                            .Where(a => a.FullName.ToLower() == fullName.ToLower() && a.Active==true)
                             .Include(a => a.Role)
                             .FirstOrDefaultAsync();
             if (data is not null)
             {
                 user.Id = data.Id;
+                user.UserName = data.UserName.ToString();
                 user.FullName = data.FullName.ToString();
                 user.EmailAddress = data.EmailAddress.ToString();
                 user.MobileNumber = data.MobileNumber.ToString();
@@ -228,8 +239,8 @@ namespace Services.Backend.SystemUserManagement
                 if(existingPassword != model.Password)
                 {  // if not match update
                     data.EncryptedPassword = PasswordHasher.EncryptPlainTextToCipherText(model.Password);
-                } 
-                
+                }
+                data.UserName = model.UserName;
                 data.FullName = model.FullName;
                 data.MobileNumber = model.MobileNumber;
                 data.RoleId = model.RoleId;
@@ -290,8 +301,19 @@ namespace Services.Backend.SystemUserManagement
         public async Task<List<SystemUserPermission>> GetMenuPermissionsById(int roleId, bool isEnglish)
         {
             var PendingCustomerFeedbackCount = (await _dbcontext.CustomerFeedbacks.Where(x => x.Status == 0).AsNoTracking().ToListAsync()).Count;
+            var SalesOrderBadgeCount = 0;
+            var model = await _orderService.GetTodaySales();
+            if (model is not null)
+            {
 
-            var permissions = await (from role in _dbcontext.SystemUserRolePermissions
+                SalesOrderBadgeCount = (int)model.OrderReceivedToday;
+
+            }
+
+
+
+
+                var permissions = await (from role in _dbcontext.SystemUserRolePermissions
                                      join permission in _dbcontext.SystemUserPermissions
                                      on role.PermissionId equals permission.Id
                                      where role.RoleId == roleId
@@ -331,6 +353,16 @@ namespace Services.Backend.SystemUserManagement
                         item.NotificationBadgeCount = PendingCustomerFeedbackCount;
 
                     }
+
+
+                    var foundOrder = item.ChildPermissions.FirstOrDefault(x => x.Id == (int)PermissionTypes.Orders);
+                    if (foundOrder != null)
+                    {
+                        item.ChildPermissions.First(x => x.Id == (int)PermissionTypes.Orders).SalesOrderBadgeCount = SalesOrderBadgeCount;
+                        item.SalesOrderBadgeCount = SalesOrderBadgeCount;
+
+                    }
+
                 }
             }
             //for(var index=0; index < menuItems.Count; index++)

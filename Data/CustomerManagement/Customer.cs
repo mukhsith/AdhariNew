@@ -2,6 +2,7 @@
 using Data.Locations;
 using System;
 using System.ComponentModel.DataAnnotations;
+using Utility.Enum;
 using Utility.Helpers;
 
 namespace Data.CustomerManagement
@@ -30,6 +31,7 @@ namespace Data.CustomerManagement
         public string RequestPasswordChangeGuid { get; set; }
         public DateTime? NotificationFromDate { get; set; }
         public int CountryId { get; set; }
+        public DeviceType DeviceTypeId { get; set; }
         public virtual Country Country { get; set; }
     }
 }

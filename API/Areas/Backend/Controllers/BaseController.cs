@@ -104,6 +104,10 @@ namespace API.Areas.Backend.Controllers
                     {
                         return true;
                     }
+                    else
+                    {
+                        return false;
+                    }
                 } else
                 {
                     return true;

@@ -48,6 +48,8 @@ namespace API.Helpers
         #region Order 
         string GetOrderPdfUrl(OrderModel order, string apiBaseUrl, bool isEnglish);
         Task<string> GetOrderFrontPdfUrl(OrderModel orderModel, bool isEnglish);
+        Task<string> GetOrderBackendPdfUrl(OrderModel orderModel, bool isEnglish);
+        string GetOrderDotMatrixUrl(OrderModel order, string apiBaseUrl, bool isEnglish);
         Task<bool> UpdateOrderStatus(Order order, OrderStatus orderStatusId, bool refundDeliveryFee = false, string notes = "");
         Task<bool> RescheduleOrderDelivery(Order order, DateTime? newDeliveryDate = null);
         #endregion

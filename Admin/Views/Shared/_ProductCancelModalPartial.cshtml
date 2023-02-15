@@ -1,0 +1,47 @@
+﻿
+<div class="modal fade" id="product-cancel" data-bs-keyboard="false" tabindex="-1" aria-labelledby="product-cancelLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content border-secondary">
+
+            <div class="modal-header border-secondary body-bg-secondary">
+                <h5 class="modal-title fw-bold text-primary" id="category-cancelLabel">@SharedHtmlLocalizer["DeleteProduct"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <input type="hidden" id="dialogProductId" value="" />
+         
+            </div>
+            <div class="modal-body">
+
+                <div class="form-check form-check-inline">
+                   
+                    <label class="form-check-label" for="">@SharedHtmlLocalizer["DeleteProductConfirm"]</label>
+                </div>
+               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success save-btn" onclick="cancelcategory()">@SharedHtmlLocalizer["Confirm"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+       
+    });
+
+
+
+    cancelcategory = () => {
+        var categoryId = $("#product-cancel .modal-header #dialogProductId").val();
+      //  alert(categoryId);
+
+        let submitData = new FormData();
+        submitData.append("dialogProductId", categoryId);
+
+        ajaxPost("product/ToggleDelete?id=" + categoryId, submitData, cbCancelOrderSuccess);
+
+    }
+
+
+</script>

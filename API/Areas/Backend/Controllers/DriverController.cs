@@ -153,7 +153,7 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                var item = await _orderModelFactory.UpdateDriverOrderStatus(order.OrderId,order.OrderTypeId, order.OrderStatusId, order.RefundDeliveryFee,order.Notes);
+                var item = await _orderModelFactory.UpdateDriverOrderStatus(order.OrderId,order.OrderTypeId, order.OrderStatusId, order.RefundDeliveryFee, order.Notes);
                 response.Update(item);
             }
             catch (Exception ex)

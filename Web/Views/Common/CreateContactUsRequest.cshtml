@@ -4,7 +4,6 @@
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["ContactUs"].Value });
 }
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
-
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row">
@@ -37,10 +36,24 @@
                                                         <i class="fa-solid fa-phone fa-stack-1x fa-inverse"></i>
                                                     </span>
                                                     <div class="content">
-                                                        <h6 class="mb-2"><bdi><a href="tel:+@Model.MobileNumber">@Model.MobileNumber</a></bdi></h6>
+                                                        <h6 class="mb-2"><bdi><a href="tel:@("+965" + Model.MobileNumber)">@Model.MobileNumber</a></bdi></h6>
                                                     </div>
                                                 </div>
                                             </div>
+                                            @if (!string.IsNullOrEmpty(Model.WhatsAppNumber))
+                                            {
+                                                <div class="col-12">
+                                                    <div class="d-flex mb-3">
+                                                        <span class="fa-stack me-2">
+                                                            <i class="fa-solid fa-circle fa-stack-2x text-primary"></i>
+                                                            <i class="fab fa-whatsapp fa-stack-1x text-white"></i>
+                                                        </span>
+                                                        <div class="content">
+                                                            <h6 class="mb-2"><bdi><a target="_blank" href="https://wa.me/@("+965" + Model.WhatsAppNumber)">@Model.WhatsAppNumber</a></bdi></h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                             <div class="col-12">
                                                 <div class="d-flex mb-3">
                                                     <span class="fa-stack me-2">

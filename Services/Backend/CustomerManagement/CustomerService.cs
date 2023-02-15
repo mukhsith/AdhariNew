@@ -27,7 +27,7 @@ namespace Services.Backend.CustomerManagement
         #region Customer
 
 
-        public async Task<Customer> GetCustomerById(int id)
+        public async Task<Customer> GetCustomerById(int? id)
         {
             var data = await _dbcontext.Customers.Where(a => a.Id == id).Include(a => a.Country).AsNoTracking().FirstOrDefaultAsync();
             return data;
@@ -61,21 +61,52 @@ namespace Services.Backend.CustomerManagement
             return customer;
         }
 
+
+        public async Task<AdminCustomerModel> GetById(int Id)
+        {
+            AdminCustomerModel customer = new();
+            var data = await _dbcontext.Customers.Where(a => !a.Deleted && a.Id== Id).AsNoTracking().FirstOrDefaultAsync();
+            if (data is not null)
+            {
+                customer.Id = data.Id;
+                customer.Name = data.Name;
+                customer.MobileNumber = data.MobileNumber;
+                customer.EmailAddress = data.EmailAddress;
+                customer.B2B = data.B2B;
+                //customer.Wallet = await GetWalletByCustomerId(customer.Id);
+                var addresses = await _dbcontext.Addresses.Where(x => x.CustomerId == data.Id).AsNoTracking().ToListAsync();
+                //foreach(var ad in addresses)
+                //{
+                //    customer.Addresses.Add(ad.Name + ad.Block + ad.Street + ad.Avenue + ad.Avenue);
+                //}
+
+            }
+            return customer;
+        }
+
         public async Task<AdminCustomerModel> CreateCustomer(string name, string MobileNumber, string EmailAddress, bool b2b, int userId, int isEnglish)
         {
-            var newCustomer = new Customer()
+            var existingCustomer = await GetByMobileNumber(MobileNumber);
+            if (existingCustomer == null)
             {
-                Name = name,
-                MobileNumber = MobileNumber,
-                EmailAddress = EmailAddress,
-                B2B = b2b,
-                LanguageId = isEnglish,
-                CreatedBy = userId,
-                CreatedOn = DateTime.Now,
-                Active = true
-            };
-            await CreateCustomer(newCustomer);
-            return await GetByMobileNumber(newCustomer.MobileNumber);
+                var newCustomer = new Customer()
+                {
+                    Name = name,
+                    MobileNumber = MobileNumber,
+                    EmailAddress = EmailAddress,
+                    B2B = b2b,
+                    LanguageId = isEnglish,
+                    CreatedBy = userId,
+                    CreatedOn = DateTime.Now,
+                    Active = true
+                };
+                await CreateCustomer(newCustomer);
+                return await GetByMobileNumber(newCustomer.MobileNumber);
+            }
+            else
+            {
+                return existingCustomer;
+            }
         }
         public async Task<Customer> CreateCustomer(Customer model)
         {
@@ -118,16 +149,16 @@ namespace Services.Backend.CustomerManagement
                 {
                     items = items.Where(x => x.EmailAddress == customerEmail);
                 }
-                if (customerType=="1")
+                if (customerType == "1")
                 {
 
-                        items = items.Where(x => x.B2B == true);
-                    }
+                    items = items.Where(x => x.B2B == true);
+                }
                 else if (customerType == "0")
                 {
-                        items = items.Where(x => x.B2B == false);
-                    }
-              
+                    items = items.Where(x => x.B2B == false);
+                }
+
                 //Sorting
                 if (!string.IsNullOrEmpty(param.SortColumn) && !string.IsNullOrEmpty(param.SortColumnDirection))
                 {
@@ -193,9 +224,23 @@ namespace Services.Backend.CustomerManagement
         {
             var data = await _dbcontext.Addresses
                      .Include(a => a.Area).ThenInclude(a => a.Governorate)
-                .Where(x=> x.Id==id).AsNoTracking().FirstOrDefaultAsync();
+                .Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
             return data;
         }
+
+
+        public async Task<bool> ToggleActive(int id)
+        {
+            var data = await _dbcontext.Customers.FindAsync(id);
+            if (data is not null)
+            {
+                data.ModifiedOn = DateTime.Now;
+                data.Active = !data.Active;
+                return await _dbcontext.SaveChangesAsync() > 0;
+            }
+            return false;
+        }
+
 
         public async Task<Address> CreateAddress(Address model)
         {

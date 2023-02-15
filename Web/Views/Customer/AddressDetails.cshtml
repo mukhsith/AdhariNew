@@ -18,9 +18,16 @@
                             @await Html.PartialAsync("_AddNewAddress")
                         </div>
                         <div class="col-12 text-center">
-                            <a href="javascript:;" class="btn btn-primary rounded-pill px-5 fw-bold edit-address">@SharedHtmlLocalizer["EditAddress"]</a>
-                            <a href="javascript:;" id="btn-save-address" class="btn btn-secondary rounded-pill px-5 fw-bold text-light d-none">
+                            @*<a href="javascript:;" class="btn btn-primary rounded-pill px-5 fw-bold edit-address">@SharedHtmlLocalizer["EditAddress"]</a>
+                                <a href="javascript:;" id="btn-save-address" class="btn btn-secondary rounded-pill px-5 fw-bold text-light d-none">
+                                    @SharedHtmlLocalizer["SaveAddress"]
+                                </a>*@
+                            <a href="javascript:;" class="btn btn-primary rounded-pill px-5 fw-bold edit-address me-1">@SharedHtmlLocalizer["EditAddress"]</a>
+                            <a href="javascript:;" id="btn-save-address" class="btn btn-secondary rounded-pill px-5 fw-bold text-light d-none me-1">
                                 @SharedHtmlLocalizer["SaveAddress"]
+                            </a>
+                            <a href="javascript:;" id="btn-delete-address" class="btn btn-danger rounded-pill px-5 fw-bold text-light ms-1">
+                                @SharedHtmlLocalizer["DeleteAddress"]
                             </a>
                         </div>
                     </div>
@@ -29,6 +36,24 @@
         </div>
     </div>
 </section>
+
+<div class="modal fade show" id="address-deletion-model-popup" tabindex="-1" aria-labelledby="common-model-title" aria-modal="true" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content text-center">
+            <div class="mt-3">
+                <h5 class="modal-title text-primary" id="address-deletion-model-popup-title"></h5>
+            </div>
+            <div class="modal-body" id="address-deletion-model-popup-description">
+                @SharedHtmlLocalizer["AreYouSureYouWantToDelete"]
+            </div>
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary text-light rounded-pill me-2 px-3" id="btn-confirm-delete-address">@SharedHtmlLocalizer["Yes"]</button>
+                <button type="button" class="btn btn-secondary text-light rounded-pill px-3" data-bs-dismiss="modal">@SharedHtmlLocalizer["No"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         disableAllElement("#frm-address input");
@@ -184,7 +209,36 @@
             updateAddress();
             return false;
         });
+
+        $("#btn-delete-address").click(function (e) {
+            e.preventDefault();
+            $('#address-deletion-model-popup').modal('show');
+
+            return false;
+        });
+
+        $("#btn-confirm-delete-address").click(function (e) {
+            e.preventDefault();
+            $.get("@Url.RouteUrl("deleteaddress")", { id:@Model.Id }, function (result) {
+                if (result.success) {
+                    window.location.href = "@Url.RouteUrl("myaddresses")";
+                }
+                else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? " / " : $"{ Context.Request.Path.Value }{ Context.Request.QueryString }")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+
+            return false;
+        });
     });
+
     function updateAddress() {
         $("#frm-address").validate();
         if ($("#frm-address").valid()) {

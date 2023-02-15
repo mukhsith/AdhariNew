@@ -407,12 +407,17 @@
         public static string Amount = "مبلغ";
         public static string DeliveryStatus = "حالة التوصيل";
         public static string EstimatedDeliveryDetails = "خلال {0} ساعة";
-        public static string DeliveryDate = "تاريخ التسليم";
+        public static string DeliveryDate = "تاريخ الاستلام";
         public static string ForNumberOfMonths = "لمدة {0} شهور";
         public static string Total = "اجمالي المبلغ";
         public static string MinimumOrderAmountShouldBeGreaterThan = "الحد الأدنى للطلب يجب أن يكون أكثر من {0}";
         public static string MinimumQuantityAllowed = "الحد الأدنى للشراء : {0}";
         public static string MaximumQuantityAllowed = "الحد الأقصى للشراء : {0}";
+        public static string Governorate = "محافظة";
+        public static string Area = "منطقة";
+        public static string Balance = "Balance";
+        public static string TotalAmount = "اجمالي المبلغ";
+        public static string OTPVerifyLimitExceeded = "OTP verify limit is exceeded";
     }
 
     #region ORDER PRINT PDF For Arabic
@@ -490,6 +495,26 @@
         public static string DueDate = "يوم التوصيل";
         public static string UpcomingDeliveries = "التوصيل القادمة";
         public static string UnitPrice = "سعر الوحدة";
+        public static string MobileNumber = "رقم الهاتف";
+        public static string Email = "البريد الإلكتروني";
+
+        #region Admin DotMatrix
+        public static string ProductNameMatrix = "اسم المنتج";
+        public static string ItemsDetailMatrix = "تفاصيل المنتجات";
+        public static string SubTotalMatrix = "إجمالي";
+        public static string DiscountedAmount = "المبلغ المخصوم";
+        public static string OrderStatus = "حالة الطلب";
+        public static string AddressName = "اسم العنوان";
+        public static string Governorate = "محافظة";
+        public static string Area = "منطقة";
+        public static string Block = "القطعة";
+        public static string Street = "الشارع";
+        public static string Avenue = "الجادة";
+        public static string HouseNo = "رقم المنزل";
+        public static string NameMatrix = "اسم العميل";
+        public static string EmailMatrix = "البريد الإلكتروني";
+        public static string MobileNumberMatrix = "هاتف النقال";
+        #endregion
     }
     #endregion
 }

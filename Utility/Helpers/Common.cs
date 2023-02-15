@@ -18,7 +18,7 @@ namespace Utility.Helpers
             public int RoleId { get; set; }
             public int UserId { get; set; }
             public string ErrorMessage { get; set; }
-        }      
+        }
         public static Guid GenrateActivationKey()
         {
             return Guid.NewGuid();
@@ -179,7 +179,7 @@ namespace Utility.Helpers
                 }
 
                 var arrDate = text.Split("/");
-                int.TryParse(arrDate[0], out int year );
+                int.TryParse(arrDate[0], out int year);
                 int.TryParse(arrDate[1], out int month);
                 int.TryParse(arrDate[2], out int day);
                 var newDate = new DateTime(year, month, day);
@@ -210,6 +210,22 @@ namespace Utility.Helpers
             {
                 return null;
             }
+        }        
+        public static string ArabicNumeraltoEnglish(string Arabictext)
+        {
+            string Englishtext = "";
+            for (int i = 0; i < Arabictext.Length; i++)
+            {
+                if (Char.IsDigit(Arabictext[i]))
+                {
+                    Englishtext += char.GetNumericValue(Arabictext, i);
+                }
+                else
+                {
+                    Englishtext += Arabictext[i].ToString();
+                }
+            }
+            return Englishtext;
         }
         public static string GetRandomNumber()
         {
@@ -273,14 +289,14 @@ namespace Utility.Helpers
             try
             {
                 var line = Environment.NewLine;
-                var filepath = Path.Combine(Directory.GetCurrentDirectory(), "ExceptionLog");
+                var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Logs\\Exception");
 
                 if (!Directory.Exists(filepath))
                 {
                     Directory.CreateDirectory(filepath);
                 }
 
-                filepath = filepath + @"\ExceptionLog_" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + ".txt";
+                filepath = filepath + @"\Log_" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + ".txt";
                 if (!File.Exists(filepath))
                 {
                     File.Create(filepath).Dispose();
@@ -307,14 +323,14 @@ namespace Utility.Helpers
             try
             {
                 var line = Environment.NewLine;
-                var filepath = Path.Combine(Directory.GetCurrentDirectory(), "ExceptionLog");
+                var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Logs\\Exception");
 
                 if (!Directory.Exists(filepath))
                 {
                     Directory.CreateDirectory(filepath);
                 }
 
-                filepath = filepath + @"\ExceptionLog_" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + ".txt";
+                filepath = filepath + @"\Log_" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + ".txt";
                 if (!File.Exists(filepath))
                 {
                     File.Create(filepath).Dispose();
@@ -349,19 +365,52 @@ namespace Utility.Helpers
 
             }
         }
-        public static void SaveMasterCardRequestResponseLog(string log)
+        public static void SaveIPDetails(string message)
         {
             try
             {
                 var line = Environment.NewLine;
-                var filepath = Path.Combine(Directory.GetCurrentDirectory(), "MasterCardRequestResponseLog");
+                var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Logs\\IP");
 
                 if (!Directory.Exists(filepath))
                 {
                     Directory.CreateDirectory(filepath);
                 }
 
-                filepath = filepath + @"\GBRequestResponseLog_" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + ".txt";
+                filepath = filepath + @"\Log_" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + ".txt";
+                if (!File.Exists(filepath))
+                {
+                    File.Create(filepath).Dispose();
+                }
+
+                using (StreamWriter sw = File.AppendText(filepath))
+                {
+                    sw.WriteLine("-----------IP Details on " + " " + DateTime.Now.ToString() + "-----------------");
+                    sw.WriteLine(message);
+                    sw.WriteLine("--------------------------------*End*------------------------------------------");
+                    sw.WriteLine(line);
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+        public static void SaveMasterCardRequestResponseLog(string log)
+        {
+            try
+            {
+                var line = Environment.NewLine;
+                var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Logs\\MasterCardRequestResponse");
+
+                if (!Directory.Exists(filepath))
+                {
+                    Directory.CreateDirectory(filepath);
+                }
+
+                filepath = filepath + @"\Log_" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + ".txt";
                 if (!File.Exists(filepath))
                 {
                     File.Create(filepath).Dispose();

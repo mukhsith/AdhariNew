@@ -69,9 +69,7 @@ namespace API.Helpers
                     currency = _appSettings.TabbyDefaultCurrency,
                     buyer = new BuyerModel
                     {
-                        phone = "500000001",
-                        email = "successful.payment@tabby.ai",
-                        name = "Mukhsith"
+                        name = string.IsNullOrEmpty(order.Customer.Name) ? "" : order.Customer.Name
                     },
                     shipping_address = new ShippingAddressModel
                     {
@@ -85,12 +83,6 @@ namespace API.Helpers
                         items = itemModels,
                         updated_at = DateTime.Now
                     }
-                    //,
-                    //buyer_history = new BuyerHistoryModel
-                    //{
-                    //    registered_since = DateTime.Now,
-                    //    loyalty_level = 0
-                    //}
                 };
                 rootModel.payment = paymentModel;
             }
@@ -147,9 +139,7 @@ namespace API.Helpers
                     currency = _appSettings.TabbyDefaultCurrency,
                     buyer = new BuyerModel
                     {
-                        phone = "500000001",
-                        email = "successful.payment@tabby.ai",
-                        name = "Mukhsith"
+                        name = string.IsNullOrEmpty(subscription.Customer.Name) ? "" : subscription.Customer.Name
                     },
                     shipping_address = new ShippingAddressModel
                     {
@@ -163,12 +153,6 @@ namespace API.Helpers
                         items = itemModels,
                         updated_at = DateTime.Now
                     }
-                    //,
-                    //buyer_history = new BuyerHistoryModel
-                    //{
-                    //    registered_since = DateTime.Now,
-                    //    loyalty_level = 0
-                    //}
                 };
                 rootModel.payment = paymentModel;
             }

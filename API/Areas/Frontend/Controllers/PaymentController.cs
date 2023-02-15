@@ -16,6 +16,7 @@ using Utility.Enum;
 using Utility.Helpers;
 using Utility.Models.Frontend.CustomizedModel;
 using Utility.Models.Tabby;
+using Utility.ResponseMapper;
 
 namespace API.Areas.Frontend.Controllers
 {
@@ -166,13 +167,82 @@ namespace API.Areas.Frontend.Controllers
 
         #region  Master
 
-        [HttpGet, Route("/payment/testapplepay")]
-        public async Task<IActionResult> TestApplePay(string value)
-        {
-            var request = await _masterCardHelper.CreateRequest2(45, "34324234",
-                               PaymentRequestType.Order.ToString(), 654645, "Order for product sale payment");
-            return View();
-        }
+        //[HttpGet, Route("/payment/createapplepayrequest")]
+        //public async Task<APIResponseModel<object>> CreateApplePayRequest(PaymentRequestType requestType, int entityId, string token)
+        //{
+        //    if (requestType == PaymentRequestType.Order)
+        //    {
+        //        var order = await _orderService.GetOrderById(entityId);
+        //        if (order != null)
+        //        {
+        //            decimal minimumLimit = Convert.ToDecimal(0.100);
+        //            if (order.Total < minimumLimit)
+        //            {
+        //                return RedirectToAction("PaymentError");
+        //            }
+
+        //            request = await _masterCardHelper.CreateRequest(order.Total, order.OrderNumber,
+        //                PaymentRequestType.Order.ToString(), entityId, "Order for product sale payment");
+
+        //            referenceNo = order.OrderNumber;
+        //        }
+        //    }
+        //    else if (requestType == PaymentRequestType.SubscriptionOrder)
+        //    {
+        //        var subscriptionOrder = await _subscriptionService.GetSubscriptionOrderById(entityId);
+        //        if (subscriptionOrder != null)
+        //        {
+        //            decimal minimumLimit = Convert.ToDecimal(0.100);
+        //            if (subscriptionOrder.Total < minimumLimit)
+        //            {
+        //                return RedirectToAction("PaymentError");
+        //            }
+
+        //            request = await _masterCardHelper.CreateRequest(subscriptionOrder.Total, subscriptionOrder.OrderNumber,
+        //                PaymentRequestType.SubscriptionOrder.ToString(), entityId, "Order for subscription payment");
+
+        //            referenceNo = subscriptionOrder.OrderNumber;
+        //        }
+        //    }
+        //    else if (requestType == PaymentRequestType.WalletPackageOrder)
+        //    {
+        //        var walletPackageOrder = await _walletPackageService.GetWalletPackageOrderById(entityId);
+        //        if (walletPackageOrder != null)
+        //        {
+        //            decimal minimumLimit = Convert.ToDecimal(0.100);
+        //            if (walletPackageOrder.Amount < minimumLimit)
+        //            {
+        //                return RedirectToAction("PaymentError");
+        //            }
+
+        //            request = await _masterCardHelper.CreateRequest(walletPackageOrder.Amount, walletPackageOrder.OrderNumber,
+        //                PaymentRequestType.WalletPackageOrder.ToString(), entityId, "Order for wallet package payment");
+
+        //            referenceNo = walletPackageOrder.OrderNumber;
+        //        }
+        //    }
+        //    else if (requestType == PaymentRequestType.QuickPay)
+        //    {
+        //        var quickPayment = await _quickPaymentService.GetQuickPaymentById(entityId);
+        //        if (quickPayment != null)
+        //        {
+        //            decimal minimumLimit = Convert.ToDecimal(0.100);
+        //            if (quickPayment.Amount < minimumLimit)
+        //            {
+        //                return RedirectToAction("PaymentError");
+        //            }
+
+        //            request = await _masterCardHelper.CreateRequest(quickPayment.Amount, quickPayment.PaymentNumber,
+        //                PaymentRequestType.QuickPay.ToString(), entityId, "Order for quick payment");
+
+        //            referenceNo = quickPayment.PaymentNumber;
+        //        }
+        //    }
+
+        //    var request = await _masterCardHelper.CreateApplepayRequest(45, "34324234",
+        //                       PaymentRequestType.Order.ToString(), 654645, "Order for product sale payment");
+        //    return View();
+        //}
 
         /// <summary>
         /// Create gulf bank master card payment request
@@ -259,7 +329,7 @@ namespace API.Areas.Frontend.Controllers
                             }
 
                             request = await _masterCardHelper.CreateRequest(quickPayment.Amount, quickPayment.PaymentNumber,
-                                PaymentRequestType.WalletPackageOrder.ToString(), entityId, "Order for wallet package payment");
+                                PaymentRequestType.QuickPay.ToString(), entityId, "Order for quick payment");
 
                             referenceNo = quickPayment.PaymentNumber;
                         }

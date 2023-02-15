@@ -139,6 +139,31 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
         }
 
+
+        [HttpPost, Route("api/Category/ToggleDelete")]
+        public async Task<IActionResult> ToggleDeleteAsync(int Id)
+        {
+            ResponseMapper<Category> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+               
+                var item = await _get.GetById(Id);
+
+                var items = await _get.Delete(item);
+                response.ToggleActive(items);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
+            return Ok(response);
+        }
+
+
+
         [HttpPost, Route("api/Category/UpdateDisplayOrder")]
         public async Task<IActionResult> UpdateDisplayOrder(int Id, int num = 0)
         {
@@ -170,6 +195,26 @@ namespace API.Areas.Backend.Controllers
                 var items = await _get.GetAll();
                 BuildUrls(items.ToList());
                 response.GetAll(items.ToList());
+
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
+
+        [HttpGet, Route("api/Category/ForDropDownList")]
+        public async Task<IActionResult> ForDropDownList()
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                var items = await _get.GetAll();
+                response.GetAll(items.Select(x => new { x.Id, Name = IsEnglish ? x.NameEn : x.NameAr }).ToList());
 
             }
             catch (Exception ex)

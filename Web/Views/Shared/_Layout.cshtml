@@ -8,6 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-site-verification" content="ItWsWKEyujTHcd71FgRhNxvcbiBUzcsLuIIxXwsuSKs" />
     <link rel="apple-touch-icon" sizes="180x180" href="~/assets/img/fav/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="~/assets/img/fav/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="~/assets/img/fav/favicon-16x16.png">
@@ -87,6 +88,7 @@
     <script src="~/js/developer.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Html.PartialAsync("_PixelIntegration")
     <script>
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
@@ -111,6 +113,10 @@
 
             // set copyright year
             $('.year').html((new Date).getFullYear());
+
+            $('input[type=tel]').on('keyup', function (event) {
+                $(this).val($(this).val().replace(/[^0-9٠-٩]+/g, "").replace(/[^\u0030-\u0039\u0660-\u0669]+/g, ""));
+            });
         });
 
         function showCoverSpin() {
@@ -122,13 +128,14 @@
         }
 
         function validateMobileNumber(event) {
-            var key = window.event ? event.keyCode : event.which;
-            if (event.keyCode === 8 || event.keyCode === 46) {
-                return false;
-            } else if (key < 48 || key > 57) {
-                return false;
-            } else {
+            if (event.key == "1" || event.key == "2" || event.key == "3" || event.key == "4" || event.key == "5" || event.key == "6" ||
+                event.key == "7" || event.key == "8" || event.key == "9" || event.key == "0" || event.key == "٠" || event.key == "١" ||
+                event.key == "٢" || event.key == "٣" || event.key == "٤" || event.key == "٥" || event.key == "٦" || event.key == "٧" ||
+                event.key == "٨" || event.key == "٩") {
                 return true;
+            }
+            else {
+                return false;
             }
         }
 
@@ -155,6 +162,12 @@
                     }
                 }
                 else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
                     if (result.message != "")
                         ToastAlert("error", "", result.message);
                 }
@@ -165,7 +178,6 @@
 
         function addToFavourite(productId, productUrl, imgUrl, title, price, isfav, isList) {
             $.get("@Url.RouteUrl("addorremovefavourite")", { productId: productId }, function (result) {
-                console.log(isfav);
                 if (result.success) {
                     if (result.data) {
                         if (isList) {
@@ -222,7 +234,6 @@
                     if (result.data) {
                         var elementId = '#notify-product-' + productId;
                         var currentText = $(elementId).text().trim();
-                        console.log(currentText);
                         var doNotifyText = '@SharedHtmlLocalizer["DoNotNotifyMe"]';
                         var notifyText = '@SharedHtmlLocalizer["NotifyMe"]';
                         if (currentText == notifyText) {

@@ -19,16 +19,16 @@
                                     <div class="col-12 col-lg-8">
                                         <div id="otp" class="row align-items-center " style="direction: ltr;">
                                             <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp1" min="0" max="9" maxlength="1" pattern="[0-9]">
+                                                <input type="tel" onkeypress="return validateMobileNumber(event);" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp1" min="0" max="9" maxlength="4">
                                             </div>
                                             <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp2" min="0" max="9" maxlength="1" pattern="[0-9]" readonly disabled>
+                                                <input type="tel" onkeypress="return validateMobileNumber(event);" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp2" min="0" max="9" maxlength="4" readonly disabled>
                                             </div>
                                             <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp3" min="0" max="9" maxlength="1" pattern="[0-9]" readonly disabled>
+                                                <input type="tel" onkeypress="return validateMobileNumber(event);" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp3" min="0" max="9" maxlength="4" readonly disabled>
                                             </div>
                                             <div class="col-3 my-1">
-                                                <input type="number" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp4" min="0" max="9" maxlength="1" pattern="[0-9]" readonly disabled>
+                                                <input type="tel" onkeypress="return validateMobileNumber(event);" class="form-control rounded-3 text-center fs-4" placeholder="" id="otp4" min="0" max="9" maxlength="4" readonly disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -40,11 +40,11 @@
                         </div>
                         <div class="row">
                             <div class="col-12 text-center">
-                                <div id="timer" class="mb-3">04:59</div>
+                                <div id="timer" class="mb-3"></div>
                             </div>
                             <div class="col-12 text-center">
-                                <button id="resend" type="button" class="btn btn-secondary text-light rounded-pill me-1" style="display:none;">@SharedHtmlLocalizer["ResendOTP"]</button>
-                                <a href="#" class="btn btn-primary rounded-pill ms-1 verify-otp-button" id="otp-button">@SharedHtmlLocalizer["VerifyOTP"]</a>
+                                <a href="#" class="btn btn-primary rounded-pill me-1 verify-otp-button" id="otp-button">@SharedHtmlLocalizer["VerifyOTP"]</a>
+                                <button id="resend" type="button" class="btn btn-secondary text-light rounded-pill ms-1" disabled>@SharedHtmlLocalizer["ResendOTP"]</button>
                                 <input type="hidden" id="requestId" />
                             </div>
                         </div>
@@ -58,23 +58,19 @@
     $(document).ready(function () {
         OTPInput();
 
-        // Timer Scrit
-        document.getElementById('timer').innerHTML = 00 + ":" + 10;
-        startTimer();
         $('#resend').click(function () {
-            document.getElementById('timer').innerHTML =
-                00 + ":" + 05;
-            startTimer();
+            //if (!timerRunning) {
+            //    startTimer();
+            //}
 
-            $("#resend").hide();
-            $("#otp-button").show();
+            $("#resend").prop("disabled", true);
+            $("#otp-button").removeClass("disabled");
         });
-    });
+    });       
 
-    // For OTP Module
     function OTPInput() {
         var inputs = document.querySelectorAll('#otp  *[id]');
-        for (let i = 0; i < inputs.length; i++) {
+        inputs.forEach((tag, i) => {
             inputs[i].addEventListener('keydown', function (event) {
                 if (event.key === "Backspace") {
                     inputs[i].value = '';
@@ -107,12 +103,92 @@
                         //     1].focus();
                         event.preventDefault();
                     }
+                    else if (event.keyCode > 230) {
+                        inputs[i].value = event.key.replace(/٠/g, "0").replace(/١/g, "1").replace(/٢/g, "2").replace(/٣/g, "3").replace(/٤/g, "4").replace(/٥/g, "5").replace(/٦/g, "6").replace(/٧/g, "7").replace(/٨/g, "8").replace(/٩/g, "9");
+                        if (i !== inputs.length - 1) {
+                            inputs[i + 1].focus();
+                            var txtOtp = inputs[i + 1].id;
+                            $("#" + txtOtp).removeAttr("readonly").removeAttr("disabled");
+                            inputs[i + 1].focus();
+                        }
+                        event.preventDefault();
+                    }
+                    else if (event.key == "٠" || event.key == "١" || event.key == "٢" || event.key == "٣" || event.key == "٤" || event.key == "٥" ||
+                        event.key == "٦" || event.key == "٧" || event.key == "٨" || event.key == "٩") {
+                        inputs[i].value = event.key;
+                        if (i !== inputs.length - 1) {
+                            inputs[i + 1].focus();
+                            var txtOtp = inputs[i + 1].id;
+                            $("#" + txtOtp).removeAttr("readonly").removeAttr("disabled");
+                            inputs[i + 1].focus();
+                        }
+                        event.preventDefault();
+                    }
                 }
             });
-        }
-    }   
-    
+
+            // For Smart Paste Events
+            tag.addEventListener('keyup', (event) => {
+                // For Android
+                if ($(inputs[i]).val().trim().length == 4) {
+                    var otp_paste = $(inputs[i]).val().trim().split("");
+                    $(inputs[0]).val(otp_paste[0]).removeAttr("disabled").removeAttr("readonly");
+                    $(inputs[1]).val(otp_paste[1]).removeAttr("disabled").removeAttr("readonly");
+                    $(inputs[2]).val(otp_paste[2]).removeAttr("disabled").removeAttr("readonly");
+                    $(inputs[3]).val(otp_paste[3]).removeAttr("disabled").removeAttr("readonly");
+                }
+
+                //if any input move focus to next or out
+                // For iOS
+                if ($("body").hasClass("isApple")) {
+                    if (tag.value !== "") {
+                        if (i < inputs.length - 1) {
+                            $(inputs[i + 1]).removeAttr("disabled").removeAttr("readonly"); inputs[i +
+                                1].focus();
+                        } else {
+                            tag.blur();
+                        }
+                    }
+                }
+            });
+
+            tag.addEventListener('paste', (event) => {
+                event.preventDefault();
+                clipData = event.clipboardData.getData("text/plain").split('');
+                
+                var pastedData = event.clipboardData.getData('text');
+                var otp_paste = event.clipboardData.getData("text/plain").split('');
+                
+                event.stopPropagation();
+                event.preventDefault();
+                
+                if (pastedData) {
+                    if (pastedData.length == 4) {
+                        $(inputs[0]).removeAttr("disabled").removeAttr("readonly");
+                        $(inputs[1]).removeAttr("disabled").removeAttr("readonly");
+                        $(inputs[2]).removeAttr("disabled").removeAttr("readonly");
+                        $(inputs[3]).removeAttr("disabled").removeAttr("readonly");
+                        $(inputs[0]).val(otp_paste[0]).removeAttr("disabled").removeAttr("readonly");
+                        $(inputs[1]).val(otp_paste[1]).removeAttr("disabled").removeAttr("readonly");
+                        $(inputs[2]).val(otp_paste[2]).removeAttr("disabled").removeAttr("readonly");
+                        $(inputs[3]).val(otp_paste[3]).removeAttr("disabled").removeAttr("readonly");
+                    }
+                    else {
+                        if ($(inputs[i]).val().trim().length == 1) {
+                            var otp_paste = $(inputs[i]).val().trim();
+                            $(inputs[i]).val(otp_paste[0]);
+                        }
+                        else {
+                            $(inputs[i]).val("");
+                        }
+                    }
+                }
+            });
+        });
+    }
+
     function startTimer() {
+        timerRunning = true;
         var presentTime = document.getElementById('timer').innerHTML;
         var timeArray = presentTime.split(/[:]+/);
         var m = timeArray[0];
@@ -126,8 +202,12 @@
 
         document.getElementById('timer').innerHTML = m + ":" + s;
         if (m === '0' && s === '00') {
-            $("#resend").show();
-            $("#otp-button").hide();
+            $("#resend").prop("disabled", false);
+            $("#otp-button").addClass("disabled");
+
+            timerRunning = false;
+
+            return;
         }
         setTimeout(startTimer, 1000);
     }

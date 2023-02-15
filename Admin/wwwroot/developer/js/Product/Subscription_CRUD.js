@@ -5,12 +5,26 @@ var Table = null;
 var productItems = [];
 $(document).ready(function () {
     parentId = getIntegerValue("Id");
-    fillDropDownList("subscriptionDurationsList","Subscription/GetSubscriptionDurations",  false, null, "id", "nameEn" );
+  fillDropDownList("subscriptionDurationsList", "Subscription/GetSubscriptionDurations", false, null, "id", "nameEn", loadsubscriptionDuration );
     ajaxGet('Product/GetAllProductAndCategory', cbGetList);
+    //fillDropDownMultiList("subscriptionDurationsList", 'Subscription/ForDropDownList', false, null, "id", "name", loadsubscriptionDuration);
+    ////loadsubscriptionDuration();
+    //fillDropDownList("productList", 'Product/ForDropDownList', false, null, "id", "nameEn");
+    //prepareDatatable();
+    //loadDataFor();
     setup();
 
+
+ /*   $("#subscriptionDurationsList").multiselect('rebuild');*/
+
 });
- 
+
+loadsubscriptionDuration = () => {
+   
+    $("#subscriptionDurationsList").multiselect('rebuild');
+}
+
+
 cbGetList = (data) => {
     products = data.data.products; //temporary save for filter of selected item from dropdown list
     categories = data.data.categories;
@@ -28,14 +42,18 @@ setup = () => {
             descriptionAr: { required: true },
             imageFile: { required: true },
             price: { required: true },
+            MinCartQuantity: { required: true },
+            MaxCartQuantity: { required: true },
         },
         messages: {
-            nameEn: { required: 'Required' },
-            nameAr: { required: 'Required' },
-            descriptionEn: { required: 'Required' },
-            descriptionAr: { required: 'Required' },
-            imageFile: { required: 'Required' },
-            price: { required: 'Required' },
+            nameEn: { required: '' },
+            nameAr: { required: '' },
+            descriptionEn: { required: '' },
+            descriptionAr: { required: '' },
+            imageFile: { required: '' },
+            price: { required: '' },
+            MinCartQuantity: { required: '' },
+            MaxCartQuantity: { required: '' },
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -45,7 +63,7 @@ setup = () => {
 
     $(document).on('click', '.specialPackage-switch .ios-switch', function () {
          $('.specialPackage').toggle();
-         $('.subscriptionDuration').toggle();
+       //  $('.subscriptionDuration').toggle();
     });
     
 
@@ -92,13 +110,41 @@ cbGetSuccess = (data) => {
 
     
     setCheckValue("specialPackage", r.specialPackage);
-    if (r.specialPackage) {
-        $('.subscriptionDuration').show();
-    } 
+    //if (r.specialPackage) {
+    //    $('.subscriptionDuration').show();
+    //}
+
+
+    var subscriptionDuration = new Array();
+    if (r.subscriptionDurationIds != null) {
+
+        subscriptionDuration = r.subscriptionDurationIds.split(",");
+       
+    }
+    if (subscriptionDuration.length > 0) {
+
+        for (var i = 0; i < subscriptionDuration.length; i++) {
+            var optionVal = subscriptionDuration[i];
+            console.log(optionVal);
+            if (subscriptionDuration[i] != "") {
+                $("#subscriptionDurationsList").find("option[value=" + optionVal + "]").prop("selected", "selected");
+            }
+        }
+        $("#subscriptionDurationsList").multiselect('refresh');
+
+    }
+
+
+
+
     setTextValue("price", r.price);
     setTextValue("discountedPrice", r.discountedPrice);
     setDatePickerValue("discountFromDate", r.discountFromDate);
     setDatePickerValue("discountToDate", r.discountToDate);
+
+    setTextValue("MinCartQuantity", r.minCartQuantity);
+    setTextValue("MaxCartQuantity", r.maxCartQuantity);
+
 
     if (r.b2BPriceEnabled) {
         $('.enablePricingB2B').show(500);
@@ -108,6 +154,10 @@ cbGetSuccess = (data) => {
         setTextValue("b2BDiscountedPrice", r.b2BDiscountedPrice);
         setDatePickerValue("b2BDiscountFromDate", r.b2BDiscountFromDate);
         setDatePickerValue("b2BDiscountToDate", r.b2BDiscountToDate);
+
+        setTextValue("B2BMinCartQuantity", r.b2BMinCartQuantity);
+        setTextValue("B2BMaxCartQuantity", r.b2BMaxCartQuantity);
+
     }
     if (r.productDetails.length > 0) {
         for (var index = 0; index < r.productDetails.length; index++) {
@@ -143,20 +193,48 @@ isValidData = () => {
     if (getCheckValue('specialPackage')) {
         var durationId = getSelectedItemValue("subscriptionDurationsList");
         if (durationId == null || durationId == undefined) {
-            ToastAlert('error', 'Subscription Duration', 'Please select special package Duration');
+            ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseSpecialPackageDuration);
             $("#subscriptionDurationsList").focus();
             return false;
         }
     }
 
+    if (getCheckValue('specialPackage')) {
+        var subscriptionDuration = "";
+        var subDuration = new Array();
+        subscriptionDuration = multiselect_selected(subscriptionDurationsList);
+        subDuration = subscriptionDuration.split(",");
+        if (subDuration.length != 1) {
+            ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseSingleSubscriptionDurations);
+            return false;
+        }
+    }
+
     if (getFloatValue('price') == 0) {
-        ToastAlert('error', 'Subscription Product', 'Please enter Price');
+        ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseEnterPrice);
         $("#price").focus();
         return false;
-    } else {
+    }
+    else if (getIntegerValue('MinCartQuantity') == 0) {
+        ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseMinmumCartQuantity);
+        $("#MinCartQuantity").focus();
+        return false;
+    }
+    else if (getIntegerValue('MaxCartQuantity') == 0) {
+        ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseMaximumCartQuantity);
+        $("#MaxCartQuantity").focus();
+        return false;
+    }
+    else if (getIntegerValue('MaxCartQuantity') <= getIntegerValue('MinCartQuantity')) {
+        ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseValidMaximumCartQuantity);
+        $("#MaxCartQuantity").focus();
+        return false;
+    }
+
+    else {
         if (getDatePickerValue('discountFromDate') != null || getDatePickerValue('discountToDate') != null) {
             if (getFloatValue('discountedPrice') == 0) {
-                ToastAlert('error', 'Subscription Product', 'Please enter Discounted Price');
+                ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseDiscountedPrice);
                 $("#discountedPrice").focus();
                 return false;
             }
@@ -165,15 +243,32 @@ isValidData = () => {
     if (getCheckValue('b2BPriceEnabled')) {
 
         if (getFloatValue('b2BPrice') == 0) {
-            ToastAlert('error', 'Subscription Product', 'Please enter B2B Price');
+            ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseB2BPrice);
             $("#b2BPrice").focus();
             return false;
         }
-        if (getDatePickerValue('b2BDiscountFromDate') != null || getDatePickerValue('b2BDiscountToDate') != null) {
-            if (getFloatValue('b2BDiscountedPrice') == 0) {
-                ToastAlert('error', 'Subscription Product', 'Please enter B2B Discount Price');
-                $("#b2BDiscountedPrice").focus();
-                return false;
+        else if (getIntegerValue('B2BMinCartQuantity') == 0) {
+            ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseB2BMinmumCartQuantity);
+            $("#B2BMinCartQuantity").focus();
+            return false;
+        }
+        else if (getIntegerValue('B2BMaxCartQuantity') == 0) {
+            ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseB2BMaximumCartQuantity);
+            $("#B2BMaxCartQuantity").focus();
+            return false;
+        }
+        else if (getIntegerValue('B2BMaxCartQuantity') <= getIntegerValue('B2BMinCartQuantity')) {
+            ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseValidMaximumCartQuantity);
+            $("#B2BMaxCartQuantity").focus();
+            return false;
+        }
+        else {
+            if (getDatePickerValue('b2BDiscountFromDate') != null || getDatePickerValue('b2BDiscountToDate') != null) {
+                if (getFloatValue('b2BDiscountedPrice') == 0) {
+                    ToastAlert('error', Resources.SubscriptionProduct, Resources.PleaseB2BDiscountPrice);
+                    $("#b2BDiscountedPrice").focus();
+                    return false;
+                }
             }
         }
     }
@@ -205,7 +300,8 @@ saveData = () => {
         submitData.append('discountFromDate', getDatePickerValue('discountFromDate'));
         submitData.append('discountToDate', getDatePickerValue('discountToDate'));
     }
-
+    submitData.append('minCartQuantity', getIntegerValue('MinCartQuantity'));
+    submitData.append('maxCartQuantity', getIntegerValue('MaxCartQuantity'));
 
     if (getCheckValue('b2BPriceEnabled')) {
         submitData.append('b2BPriceEnabled', getCheckValue('b2BPriceEnabled'));
@@ -215,12 +311,21 @@ saveData = () => {
             submitData.append('b2BDiscountFromDate', getDatePickerValue('b2BDiscountFromDate'));
             submitData.append('b2BDiscountToDate', getDatePickerValue('b2BDiscountToDate'));
         }
+        submitData.append('b2BMinCartQuantity', getIntegerValue('B2BMinCartQuantity'));
+        submitData.append('b2BMaxCartQuantity', getIntegerValue('B2BMaxCartQuantity'));
     }
 
     if (imageFile.files[0] != undefined) {
         submitData.append("image", imageFile.files[0]);
     }
 
+
+    var subscriptionDuration = "";
+
+    subscriptionDuration = multiselect_selected(subscriptionDurationsList);
+
+
+    submitData.append('subscriptionDurationIds', subscriptionDuration);
 
     var productDetails = getBundledProducts();
     for (var index = 0; index < productDetails.length; index++) {
@@ -238,16 +343,16 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) {
-        ToastAlert('success', 'Subscription Product', 'Saved Successfully');
-        setTimeout(() => location.href = "/Product/SubscriptionList", 10);
+        ToastAlert('success', Resources.SubscriptionProduct, Resources.SavedSuccessfully);
+        //setTimeout(() => location.href = "/Product/SubscriptionList", 10);
     } else {
         showLog(data);
-        ToastAlert('error', 'Subscription Product', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.SubscriptionProduct, Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => {
-    ToastAlert('error', 'Subscription Product', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.SubscriptionProduct, Resources.UnableTosave);
 }
 
 
@@ -418,4 +523,24 @@ setTotalPrice = (qty, totalPrice) => {
     $('.total-price').html("KWD " + totalPrice);
     $('.total-price').attr("data-price", totalPrice);
     $('.total-qty').html(qty);
+}
+
+
+function multiselect_selected($el) {
+    var selectedVal = "";
+    var ret = true;
+    $('option', $el).each(function (element) {
+        if ($(this).prop('selected')) {
+
+            if (selectedVal != "") {
+                selectedVal = selectedVal + "," + $(this).val();
+            } else {
+                selectedVal =  $(this).val();
+
+            }
+
+            ret = false;
+        }
+    });
+    return selectedVal;
 }

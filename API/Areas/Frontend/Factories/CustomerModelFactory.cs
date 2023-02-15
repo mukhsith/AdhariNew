@@ -82,19 +82,39 @@ namespace API.Areas.Frontend.Factories
         public async Task<APIResponseModel<CustomerModel>> Login(bool isEnglish, CustomerModel customerModel)
         {
             var response = new APIResponseModel<CustomerModel>();
+
             try
             {
+                customerModel.MobileNumber = Common.ArabicNumeraltoEnglish(customerModel.MobileNumber);
                 var customer = await _customerService.GetCustomerByMobileNumber(customerModel.MobileNumber);
                 if (customer == null)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
+                }
+
+                var lastOtpDetail = await _notificationTemplateService.GetLastOTPDetailByCustomer(typeId: (int)NotificationType.Login, mobileNumber: customerModel.MobileNumber);
+                if (lastOtpDetail != null)
+                {
+                    if (DateTime.Now <= lastOtpDetail.OTPValidTo)
+                    {
+                        customerModel.OTPDetailId = lastOtpDetail.Id;
+                        var reminingMillisecondsForExpiry = (lastOtpDetail.OTPValidTo - DateTime.Now).TotalMilliseconds;
+                        customerModel.MillisecondsForExpiry = reminingMillisecondsForExpiry;
+
+                        response.Data = customerModel;
+                        response.Message = isEnglish ? string.Format(Messages.LoginSuccess, lastOtpDetail.Destination) : string.Format(MessagesAr.LoginSuccess, lastOtpDetail.Destination);
+                        response.Success = true;
+                        return response;
+                    }
                 }
 
                 string otpMessage = string.Empty;
@@ -128,14 +148,17 @@ namespace API.Areas.Frontend.Factories
                     OTPValidTo = validTo,
                     Type = NotificationType.Login,
                     CustomerId = customer.Id
-                }, otpMessage);
+                }, otpMessage, isEnglish ? 0 : 1);
 
-                customerModel.OTPDetailId = otpDetail.Id;
-                customerModel.MillisecondsForExpiry = _appSettings.OTPValidMinutes * 60000;
+                if (otpDetail != null)
+                {
+                    customerModel.OTPDetailId = otpDetail.Id;
+                    customerModel.MillisecondsForExpiry = _appSettings.OTPValidMinutes * 60000;
 
-                response.Data = customerModel;
-                response.Message = isEnglish ? string.Format(Messages.LoginSuccess, customer.MobileNumber) : string.Format(MessagesAr.LoginSuccess, customer.MobileNumber);
-                response.Success = true;
+                    response.Data = customerModel;
+                    response.Message = isEnglish ? string.Format(Messages.LoginSuccess, customer.MobileNumber) : string.Format(MessagesAr.LoginSuccess, customer.MobileNumber);
+                    response.Success = true;
+                }
             }
             catch (Exception ex)
             {
@@ -157,6 +180,7 @@ namespace API.Areas.Frontend.Factories
             var response = new APIResponseModel<CustomerModel>();
             try
             {
+                customerRegisterModel.MobileNumber = Common.ArabicNumeraltoEnglish(customerRegisterModel.MobileNumber);
                 if (string.IsNullOrEmpty(customerRegisterModel.MobileNumber))
                 {
                     response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
@@ -166,21 +190,27 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerByMobileNumber(customerRegisterModel.MobileNumber, null);
                 if (!customerRegisterModel.Guest)
                 {
-                    //if (string.IsNullOrEmpty(customerRegisterModel.Name))
-                    //{
-                    //    response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
-                    //    return response;
-                    //}
-
-                    //if (string.IsNullOrEmpty(customerRegisterModel.EmailAddress))
-                    //{
-                    //    response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
-                    //    return response;
-                    //}
-
                     if (customer != null)
                     {
                         response.Message = isEnglish ? Messages.MobileNumberExists : MessagesAr.MobileNumberExists;
+                        return response;
+                    }
+                }
+
+                var type = customerRegisterModel.Guest ? NotificationType.GuestLoginWithRegister : NotificationType.Register;
+                var lastOtpDetail = await _notificationTemplateService.GetLastOTPDetailByCustomer(typeId: (int)type, mobileNumber: customerRegisterModel.MobileNumber);
+                if (lastOtpDetail != null)
+                {
+                    if (DateTime.Now <= lastOtpDetail.OTPValidTo)
+                    {
+                        CustomerModel customerModel = new();
+                        customerModel.OTPDetailId = lastOtpDetail.Id;
+                        var reminingMillisecondsForExpiry = (lastOtpDetail.OTPValidTo - DateTime.Now).TotalMilliseconds;
+                        customerModel.MillisecondsForExpiry = reminingMillisecondsForExpiry;
+
+                        response.Data = customerModel;
+                        response.Message = isEnglish ? string.Format(Messages.LoginSuccess, lastOtpDetail.Destination) : string.Format(MessagesAr.LoginSuccess, lastOtpDetail.Destination);
+                        response.Success = true;
                         return response;
                     }
                 }
@@ -220,18 +250,21 @@ namespace API.Areas.Frontend.Factories
                     OTP = otp,
                     OTPValidFrom = DateTime.Now,
                     OTPValidTo = validTo,
-                    Type = customerRegisterModel.Guest ? NotificationType.GuestLoginWithRegister : NotificationType.Register,
+                    Type = type,
                     CustomerRegisterRequestId = customer == null ? customerRegisterRequest?.Id : null,
                     CustomerId = customer != null ? customer?.Id : null
-                }, otpMessage);
+                }, otpMessage, isEnglish ? 0 : 1);
 
-                CustomerModel customerModel = new();
-                customerModel.OTPDetailId = otpDetail.Id;
-                customerModel.MillisecondsForExpiry = _appSettings.OTPValidMinutes * 60000;
+                if (otpDetail != null)
+                {
+                    CustomerModel customerModel = new();
+                    customerModel.OTPDetailId = otpDetail.Id;
+                    customerModel.MillisecondsForExpiry = _appSettings.OTPValidMinutes * 60000;
 
-                response.Data = customerModel;
-                response.Message = isEnglish ? string.Format(Messages.RegisterSuccess, customerRegisterModel.MobileNumber) : string.Format(MessagesAr.RegisterSuccess, customerRegisterModel.MobileNumber);
-                response.Success = true;
+                    response.Data = customerModel;
+                    response.Message = isEnglish ? string.Format(Messages.RegisterSuccess, customerRegisterModel.MobileNumber) : string.Format(MessagesAr.RegisterSuccess, customerRegisterModel.MobileNumber);
+                    response.Success = true;
+                }
             }
             catch (Exception ex)
             {
@@ -260,6 +293,23 @@ namespace API.Areas.Frontend.Factories
                     return response;
                 }
 
+                var lastOtpDetail = await _notificationTemplateService.GetLastOTPDetailByCustomer(typeId: (int)otpDetail.Type, mobileNumber: otpDetail.Destination);
+                if (lastOtpDetail != null)
+                {
+                    if (DateTime.Now <= lastOtpDetail.OTPValidTo)
+                    {
+                        CustomerModel customerModel = new();
+                        customerModel.OTPDetailId = lastOtpDetail.Id;
+                        var reminingMillisecondsForExpiry = (lastOtpDetail.OTPValidTo - DateTime.Now).TotalMilliseconds;
+                        customerModel.MillisecondsForExpiry = reminingMillisecondsForExpiry;
+
+                        response.Data = customerModel;
+                        response.Message = isEnglish ? string.Format(Messages.LoginSuccess, lastOtpDetail.Destination) : string.Format(MessagesAr.LoginSuccess, lastOtpDetail.Destination);
+                        response.Success = true;
+                        return response;
+                    }
+                }
+
                 string otpMessage = string.Empty;
                 var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(NotificationType.Register);
                 if (notificationTemplate == null)
@@ -286,15 +336,18 @@ namespace API.Areas.Frontend.Factories
                     Type = otpDetail.Type,
                     CustomerId = otpDetail.CustomerId,
                     CustomerRegisterRequestId = otpDetail.CustomerRegisterRequestId
-                }, otpMessage);
+                }, otpMessage, isEnglish ? 0 : 1);
 
-                CustomerModel customerModel = new();
-                customerModel.OTPDetailId = otpDetail1.Id;
-                customerModel.MillisecondsForExpiry = _appSettings.OTPValidMinutes * 60000;
+                if (otpDetail1 != null)
+                {
+                    CustomerModel customerModel = new();
+                    customerModel.OTPDetailId = otpDetail1.Id;
+                    customerModel.MillisecondsForExpiry = _appSettings.OTPValidMinutes * 60000;
 
-                response.Data = customerModel;
-                response.Message = isEnglish ? string.Format(Messages.LoginSuccess, destination) : string.Format(MessagesAr.LoginSuccess, destination);
-                response.Success = true;
+                    response.Data = customerModel;
+                    response.Message = isEnglish ? string.Format(Messages.LoginSuccess, destination) : string.Format(MessagesAr.LoginSuccess, destination);
+                    response.Success = true;
+                }
             }
             catch (Exception ex)
             {
@@ -316,7 +369,7 @@ namespace API.Areas.Frontend.Factories
         /// <param name="deviceToken"></param>
         /// <returns></returns>
         public async Task<APIResponseModel<CustomerModel>> VerifyOTP(bool isEnglish, int otpDetailId, string otp, string customerGuidValue = "",
-            string deviceId = "", string deviceToken = "")
+            string deviceId = "", string deviceToken = "", DeviceType? deviceType = null)
         {
             var response = new APIResponseModel<CustomerModel>();
             try
@@ -325,9 +378,20 @@ namespace API.Areas.Frontend.Factories
                 var otpDetail = await _notificationTemplateService.GetOTPDetailById(otpDetailId);
                 if (otpDetail == null)
                 {
-                    response.Message = isEnglish ? Messages.OTPRequestNotExists : MessagesAr.OTPRequestNotExists;
+                    response.Message = isEnglish ? Messages.OTPExpired : MessagesAr.OTPExpired;
                     return response;
                 }
+
+                otpDetail.NumberOfTries++;
+                await _notificationTemplateService.UpdateOTPDetail(otpDetail);
+
+                if (otpDetail.NumberOfTries > _appSettings.MaxVerifyOTPTries)
+                {
+                    response.Message = isEnglish ? Messages.OTPVerifyLimitExceeded : MessagesAr.OTPVerifyLimitExceeded;
+                    return response;
+                }
+
+                otp = Common.ArabicNumeraltoEnglish(otp);
 
                 if (otpDetail.OTP != otp)
                 {
@@ -354,7 +418,7 @@ namespace API.Areas.Frontend.Factories
                     var customerRegisterRequest = await _customerService.GetCustomerRegisterRequestById(otpDetail.CustomerRegisterRequestId.Value);
                     if (customerRegisterRequest == null)
                     {
-
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
@@ -366,7 +430,7 @@ namespace API.Areas.Frontend.Factories
                         return response;
                     }
 
-                    customer = await _customerService.CreateCustomer(new Customer
+                    customer = new Customer
                     {
                         Name = customerRegisterRequest.Name,
                         EmailAddress = customerRegisterRequest.EmailAddress,
@@ -376,7 +440,14 @@ namespace API.Areas.Frontend.Factories
                         LanguageId = isEnglish ? 1 : 2,
                         Active = true,
                         CreatedOn = DateTime.Now
-                    });
+                    };
+
+                    if (deviceType != null)
+                    {
+                        customer.DeviceTypeId = deviceType.Value;
+                    }
+
+                    customer = await _customerService.CreateCustomer(customer);
 
                     if (!string.IsNullOrEmpty(deviceId) && !string.IsNullOrEmpty(deviceToken))
                     {
@@ -446,6 +517,7 @@ namespace API.Areas.Frontend.Factories
                         customer = await _customerService.GetCustomerById(otpDetail.CustomerId.Value);
                         if (customer == null)
                         {
+                            response.MessageCode = 401;
                             response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                             return response;
                         }
@@ -461,11 +533,12 @@ namespace API.Areas.Frontend.Factories
                         var customerRegisterRequest = await _customerService.GetCustomerRegisterRequestById(otpDetail.CustomerRegisterRequestId.Value);
                         if (customerRegisterRequest == null)
                         {
+                            response.MessageCode = 401;
                             response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                             return response;
                         }
 
-                        customer = await _customerService.CreateCustomer(new Customer
+                        customer = new Customer
                         {
                             Name = customerRegisterRequest.Name,
                             EmailAddress = customerRegisterRequest.EmailAddress,
@@ -475,7 +548,14 @@ namespace API.Areas.Frontend.Factories
                             LanguageId = isEnglish ? 1 : 2,
                             Active = true,
                             CreatedOn = DateTime.Now
-                        });
+                        };
+
+                        if (deviceType != null)
+                        {
+                            customer.DeviceTypeId = deviceType.Value;
+                        }
+
+                        customer = await _customerService.CreateCustomer(customer);
                     }
 
                     if (!string.IsNullOrEmpty(deviceId) && !string.IsNullOrEmpty(deviceToken))
@@ -502,6 +582,7 @@ namespace API.Areas.Frontend.Factories
                     customer = await _customerService.GetCustomerById(otpDetail.CustomerId.Value);
                     if (customer == null)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
@@ -528,6 +609,7 @@ namespace API.Areas.Frontend.Factories
                     customer = await _customerService.GetCustomerById(otpDetail.CustomerId.Value);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
@@ -596,14 +678,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(id);
                 if (customer == null || customer.Deleted)
                 {
-                    _logger.LogInformation(Messages.CustomerNotExists);
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
-                    _logger.LogInformation(Messages.InactiveCustomer);
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -642,14 +724,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(id);
                 if (customer == null || customer.Deleted)
                 {
-                    _logger.LogInformation(Messages.CustomerNotExists);
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
-                    _logger.LogInformation(Messages.InactiveCustomer);
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -694,6 +776,7 @@ namespace API.Areas.Frontend.Factories
                 //    return response;
                 //}
 
+                customerModel.MobileNumber = Common.ArabicNumeraltoEnglish(customerModel.MobileNumber);
                 if (string.IsNullOrEmpty(customerModel.MobileNumber))
                 {
 
@@ -704,14 +787,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerModel.Id);
                 if (customer == null || customer.Deleted)
                 {
-
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
-
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -739,6 +822,22 @@ namespace API.Areas.Frontend.Factories
                 int otpDetailId = 0;
                 if (sendOtp)
                 {
+                    var lastOtpDetail = await _notificationTemplateService.GetLastOTPDetailByCustomer(typeId: (int)NotificationType.UpdateMobileNumber, mobileNumber: customerModel.MobileNumber);
+                    if (lastOtpDetail != null)
+                    {
+                        if (DateTime.Now <= lastOtpDetail.OTPValidTo)
+                        {
+                            customerModel.OTPDetailId = lastOtpDetail.Id;
+                            var reminingMillisecondsForExpiry = (lastOtpDetail.OTPValidTo - DateTime.Now).TotalMilliseconds;
+                            customerModel.MillisecondsForExpiry = reminingMillisecondsForExpiry;
+
+                            response.Data = customerModel;
+                            response.Message = isEnglish ? string.Format(Messages.LoginSuccess, lastOtpDetail.Destination) : string.Format(MessagesAr.LoginSuccess, lastOtpDetail.Destination);
+                            response.Success = true;
+                            return response;
+                        }
+                    }
+
                     string otpMessage = string.Empty;
                     string subject = string.Empty;
                     var notificationTemplate = await _notificationTemplateService.GetNotificationTemplateByTypeId(NotificationType.UpdateMobileNumber);
@@ -769,7 +868,12 @@ namespace API.Areas.Frontend.Factories
                         OTPValidTo = validTo,
                         Type = NotificationType.UpdateMobileNumber,
                         CustomerId = customer.Id
-                    }, otpMessage);
+                    }, otpMessage, isEnglish ? 0 : 1);
+
+                    if (otpDetail == null)
+                    {
+                        return response;
+                    }
 
                     otpDetailId = otpDetail.Id;
                 }
@@ -804,12 +908,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -884,12 +990,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(addressModel.CustomerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -923,12 +1031,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(addressModel.CustomerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -965,12 +1075,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(addressModel.CustomerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -985,6 +1097,56 @@ namespace API.Areas.Frontend.Factories
                 _mapper.Map(addressModel, address);
                 await _customerService.UpdateAddress(address);
 
+                response.Message = isEnglish ? Messages.UpdateAddressSuccess : MessagesAr.UpdateAddressSuccess;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// To update address
+        /// </summary>
+        /// <param name="addressDto">Address dto</param>
+        /// <returns></returns>
+        public async Task<APIResponseModel<AddressModel>> UpdateAddressWeb(bool isEnglish, AddressModel addressModel)
+        {
+            var response = new APIResponseModel<AddressModel>();
+            try
+            {
+                var customer = await _customerService.GetCustomerById(addressModel.CustomerId);
+                if (customer == null || customer.Deleted)
+                {
+                    response.MessageCode = 401;
+                    response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                    return response;
+                }
+
+                if (!customer.Active)
+                {
+                    response.MessageCode = 401;
+                    response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                    return response;
+                }
+
+                var address = await _customerService.GetAddressById(addressModel.Id);
+                if (address == null)
+                {
+                    response.Message = isEnglish ? Messages.AddressNotExists : MessagesAr.AddressNotExists;
+                    return response;
+                }
+
+                _mapper.Map(addressModel, address);
+                await _customerService.UpdateAddress(address);
+
+                addressModel = await _modelHelper.PrepareAddressModel(address, isEnglish);
+
+                response.Data = addressModel;
                 response.Message = isEnglish ? Messages.UpdateAddressSuccess : MessagesAr.UpdateAddressSuccess;
                 response.Success = true;
             }
@@ -1023,12 +1185,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(address.CustomerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -1063,12 +1227,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -1116,12 +1282,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -1188,12 +1356,14 @@ namespace API.Areas.Frontend.Factories
                     var customer = await _customerService.GetCustomerById(customerId);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -1273,12 +1443,14 @@ namespace API.Areas.Frontend.Factories
                     var customer = await _customerService.GetCustomerById(customerId);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -1319,12 +1491,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -1461,12 +1635,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }

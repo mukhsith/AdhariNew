@@ -1,75 +1,150 @@
 ﻿
 $(document).ready(function () {
-    searchDataTable(); 
+   // alert("test");
+    searchDataTable();
 });
 
-searchDataTable = () => {
+//searchDataTable = () => {
    
+//    if ($.fn.dataTable.isDataTable("#datatable-default-")) {
+//        $("#datatable-default-").DataTable().destroy();
+//    }
+
+
+//    $("#datatable-default-").DataTable({
+//        searching: true, 
+//        "ajax": {
+//            url: getAPIUrl() + "CustomerFeedback/GetAllForDataTable",
+//            type: "POST",
+//            headers: { "Authorization" : 'Bearer ' + getToken()},
+//            data: function (d) {
+//                //showLoader();
+//            },
+//            "datatype": "json",
+//            "dataSrc": function (json) {
+//               showLog(json);
+//               // hideLoader();
+//                return json.data;
+//            },
+//            //success: function (html) {
+//            //    alert('successful : ' + html);
+//            //    //$("#result").html("Successful");
+//            //},
+//            error: function (error) {
+//                showLog(error);
+//                //alert('error; ' + eval(error));    
+//            }
+//        }, 
+          
+//        "columns": [
+//            {
+//                "data": "id", "name": "id", render: function (data, type, row) {
+//                    return `<td data-rowid='${row.id}'"> ${row.id}</td>`;
+//                },
+//            },
+//            {"data": "name", "name": "name",  render: function (data, type, row) {return row.name;}},
+//            {"data": "emailAddress", render: function (data, type, row) { return row.emailAddress;}}, 
+//            {"data": "mobileNumber", render: function (data, type, row) {return row.mobileNumber;}},
+//            {"data": "subject", render: function (data, type, row) {return row.subject;}}, 
+//            {"data": "message", render: function (data, type, row) {return row.message;}},
+//            {"data": "createdOn", render: function (data, type, row) {return getFormatedDateTime(row.createdOn);}},
+//            {"data": "status", render: function (data, type, row) {return `<td data-status='${row.id}'> ${feedbackStatus(row)}</td>`;}},
+//            {"data": null, "name":"Actions", render: function (data, type, row) {return feedbackActions(row);}},  
+//        ],
+         
+//        createdRow: function (row, data, index) {
+//            //change display order value, to avoid page refresh
+//             $(row).attr('rowid', data.id);
+//          //  $(row).find('td:eq(1)').attr('data-displayorder', row.id);  
+//        },
+       
+//        columnDefs: [
+//            { "targets": -1, "orderable": false },
+//            { "className": "text-wrap", "targets": "_all" },
+//        ],
+        
+//    });
+    
+//}
+
+searchDataTable = () => {
+
     if ($.fn.dataTable.isDataTable("#datatable-default-")) {
         $("#datatable-default-").DataTable().destroy();
     }
-    
-    $("#datatable-default-").DataTable({
-        searching: true, 
-        "ajax": {
-            url: getAPIUrl() + "CustomerFeedback/GetAllForDataTable",
-            type: "POST",
-            headers: { "Authorization" : 'Bearer ' + getToken()},
-            data: function (d) {
-                //showLoader();
-            },
-            "datatype": "json",
-            "dataSrc": function (json) {
-               showLog(json);
-               // hideLoader();
-                return json.data;
-            },
-            //success: function (html) {
-            //    alert('successful : ' + html);
-            //    //$("#result").html("Successful");
-            //},
-            error: function (error) {
-                showLog(error);
-                //alert('error; ' + eval(error));    
-            }
-        }, 
-          
-        "columns": [
-            {
-                "data": "id", "name": "id", render: function (data, type, row) {
-                    return `<td data-rowid='${row.id}'"> ${row.id}</td>`;
+
+        $("#datatable-default-").DataTable({
+            responsive: true,
+            searching: true,
+            serverSide: true,
+            "ajax": {
+                url: getAPIUrl() + "CustomerFeedback/GetAllFeedbackForDataTable",
+                type: "POST",
+                headers: { "Authorization": 'Bearer ' + getToken() },
+                data: function (d) {
+                    //showLoader();
+                },
+                //data: function (d) {
+                //    console.log('query');
+                //    var search = $(":input[type=search]").val();
+                //    if (search.length <= 0) { showLoader(); }
+                //    d.selectedTab = selectedTab;
+                //    d.customerId = getTextValue("customerId"); //from customerList to show specific customer details
+                //    d.subscriptionId = getTextValue("subscriptionId");
+                //    d.startDate = getDatePickerValue("startDate");
+                //    d.endDate = getDatePickerValue("endDate");
+                //    d.customerName = getTextValue("customerName");
+                //    d.customerMobile = getTextValue("customerMobile");
+                //    d.customerEmail = getTextValue("customerEmail");
+                //    d.paymentMethodId = getSelectedItemValue("paymentMethodList");
+                //    d.orderStatusId = getSelectedItemValue("subscriptionStatusList");
+                //},
+                "datatype": "json",
+                "dataSrc": function (json) {
+                    showLog(json);
+                    checkAPIResponse(json);
+                    hideLoader();
+                    return json.data;
+                },
+                error: function (error) {
+                    console.log('error');
+                    showLog('error' + error);
                 },
             },
-            {"data": "name", "name": "name",  render: function (data, type, row) {return row.name;}},
-            {"data": "emailAddress", render: function (data, type, row) { return row.emailAddress;}}, 
-            {"data": "mobileNumber", render: function (data, type, row) {return row.mobileNumber;}},
-            {"data": "subject", render: function (data, type, row) {return row.subject;}}, 
-            {"data": "message", render: function (data, type, row) {return row.message;}},
-            {"data": "createdOn", render: function (data, type, row) {return getFormatedDateTime(row.createdOn);}},
-            {"data": "status", render: function (data, type, row) {return `<td data-status='${row.id}'> ${feedbackStatus(row)}</td>`;}},
-            {"data": null, "name":"Actions", render: function (data, type, row) {return feedbackActions(row);}},  
-        ],
-         
-        createdRow: function (row, data, index) {
-            //change display order value, to avoid page refresh
-             $(row).attr('rowid', data.id);
-          //  $(row).find('td:eq(1)').attr('data-displayorder', row.id);  
-        },
-       
-        columnDefs: [
-            { "targets": -1, "orderable": false },
-            { "className": "text-wrap", "targets": "_all" },
-        ],
-        
-    });
-    
+
+            "columns": [
+                {
+                    "data": "id", "name": "id", render: function (data, type, row) {
+                        return `<td data-rowid='${row.id}'"> ${row.id}</td>`;
+                    },
+                },
+                { "data": "name", "name": "name", render: function (data, type, row) { return row.name; } },
+                { "data": "emailAddress", render: function (data, type, row) { return row.emailAddress; } },
+                { "data": "mobileNumber", render: function (data, type, row) { return row.mobileNumber; } },
+                { "data": "subject", render: function (data, type, row) { return row.subject; } },
+                { "data": "message", render: function (data, type, row) { return row.message; } },
+                { "data": "createdOn", render: function (data, type, row) { return getFormatedDateTime(row.createdOn); } },
+                { "data": "status", render: function (data, type, row) { return `<td data-status='${row.id}'> ${feedbackStatus(row)}</td>`; } },
+                { "data": null, "name": "Actions", render: function (data, type, row) { return feedbackActions(row); } },
+            ],
+            columnDefs: [{
+                'targets': 7,
+                'width': "13.5%"
+            }],
+        });
+   
+
+
+
 }
+
+
 
 feedbackStatus = (row) => {
     if (row.status == 0) {
-        return `<span class="px-2 rounded-pill fw-bold text-light bg-warning" >Unread</span >`;
+        return `<span class="px-2 rounded-pill fw-bold text-light bg-warning" >`+ Resources.StatusUnread +`</span >`;
     } else {
-        return `<span class="px-2 rounded-pill fw-bold text-light bg-success">Completed</span>`;
+        return `<span class="px-2 rounded-pill fw-bold text-light bg-success">`+ Resources.StatusCompleted+`</span>`;
     }
     
 }

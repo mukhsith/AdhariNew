@@ -1,6 +1,11 @@
 ﻿
+
 $(document).ready(function () {
-    searchDataTable();
+
+  
+    
+searchDataTable();
+    
    // ajaxGet('Banner/GetAll', , undefined);
 });
 
@@ -10,7 +15,8 @@ searchDataTable = () => {
         $("#datatable-default-").DataTable().destroy();
     }
     
-    $("#datatable-default-").DataTable({ 
+    $("#datatable-default-").DataTable({
+       
         "ajax": {
             url: getAPIUrl() + "Banner/GetAllForDataTable",
             type: "POST",
@@ -44,12 +50,12 @@ searchDataTable = () => {
             }, 
             {
                 "data": "imageUrlEn", render: function (data, type, row) {
-                    return `<img src='${row.imageUrlEn}' width='50' height='50'>`;
+                    return `<img src='${row.imageUrlEn}' height='50'>`;
                 }
             },
             {
                 "data": "imageUrlAr", render: function (data, type, row) {
-                    return `<img src='${row.imageUrlAr}' width='50' height='50'>`;
+                    return `<img src='${row.imageUrlAr}' height='50'>`;
                 }
             }, 
             {
@@ -67,7 +73,7 @@ searchDataTable = () => {
                 }
             },  
         ],
-         
+        
         createdRow: function (row, data, index) {
             //change display order value, to avoid page refresh
             $(row).attr('data-rowid', data.id);
@@ -83,8 +89,10 @@ searchDataTable = () => {
             { 'width': '10%', 'targets': [2, 3, 4] },
             { "className": "text-wrap", "targets": "_all" },
         ],
-        
+
     });
+
+ 
 }
 
  

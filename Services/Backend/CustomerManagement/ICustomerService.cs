@@ -15,8 +15,10 @@ namespace Services.Backend.CustomerManagement
     public interface ICustomerService
     {
         #region Customer 
-        Task<Customer> GetCustomerById(int id);
+        Task<Customer> GetCustomerById(int? id);
         Task<List<AdminSmallCustomerModel>> GetAllForSMSNotification();
+
+        Task<AdminCustomerModel> GetById(int Id);
         Task<AdminCustomerModel> GetByMobileNumber(string mobileNumber);
         Task<AdminCustomerModel> CreateCustomer(string name, string mobile, string email, bool b2b, int userid, int isEnglish);
         Task<Customer> CreateCustomer(Customer model);
@@ -35,6 +37,8 @@ namespace Services.Backend.CustomerManagement
         Task<IList<Address>> GetAllAddress(int customerId);
         
         Task<Address> GetAddressById(int id);
+
+        Task<bool> ToggleActive(int id);
         Task<Address> CreateAddress(Address model);
         Task<bool> UpdateAddress(Address model);
         Task<bool> DeleteAddress(Address model);

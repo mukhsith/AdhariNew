@@ -3,7 +3,12 @@
 $(document).ready(function () {
   // showLoader();
   advancedExpandMenuItem();
-  sidebarLeftCollapse(); // To be removed by the developers!
+    sidebarLeftCollapse(); // To be removed by the developers!
+
+    if ($("html").attr("dir") == "rtl") {
+        $(".nano-content").css("left", $(".nano-content").css("right"));
+        $(".nano-content").css("right", "");
+    }
 
   setTimeout(function () {
     hideLoader();

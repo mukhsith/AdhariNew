@@ -14,5 +14,8 @@ namespace Data.Content
         public decimal AndroidVersion { get; set; }
         public string PlayStoreLink { get; set; }
         public int EstimatedDeliveryHours { get; set; }
+
+        [Column(TypeName = Constants.AmountDataType)]
+        public decimal MinOrderAmount { get; set; }
     }
 }

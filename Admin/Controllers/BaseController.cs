@@ -26,6 +26,13 @@ namespace Admin.Controllers
         protected int UserId = 0;
         protected int RoleId = 0;
         protected string ImagePath = "";
+
+
+
+
+
+
+
         public BaseController(  IHttpContextAccessor httpContextAccessor,
                                 IOptions<AppSettingsModel> options, 
                                 ILogger  logger)

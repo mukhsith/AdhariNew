@@ -110,6 +110,12 @@ namespace Services.Frontend.Sales
 
             return data;
         }
+        public async Task<Order> GetLastOrderByCustomer(int customerId)
+        {
+            var data = await _dbcontext.Orders.OrderByDescending(a => a.Id).
+                FirstOrDefaultAsync(x => x.CustomerId == customerId);
+            return data;
+        }
         #endregion
 
         #region Order items

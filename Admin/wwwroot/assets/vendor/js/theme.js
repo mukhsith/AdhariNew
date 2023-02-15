@@ -4369,20 +4369,21 @@ window.theme.fn = {
 
 	});
 
-	$('.nav-main').on('touchend', function(e){
-		var $target = $( e.target );
+	//Commented out for mobile issues.
+	//$('.nav-main').on('touchend', function(e){
+	//	var $target = $( e.target );
 
-		if( $target.closest('li').hasClass( 'nav-parent' ) ) {
-			setTimeout(function(){
-				$('html').removeClass('sidebar-left-collapsed');
-				$('.content-body').trigger('click');
-			}, 100); 
-		} else {
-			if( $target.closest('a').attr('href') ) {
-		        window.location.href = $target.closest('a').attr('href');
-		    }
-		}
-	});
+	//	if( $target.closest('li').hasClass( 'nav-parent' ) ) {
+	//		setTimeout(function(){
+	//			$('html').removeClass('sidebar-left-collapsed');
+	//			$('.content-body').trigger('click');
+	//		}, 100); 
+	//	} else {
+	//		if( $target.closest('a').attr('href') ) {
+	//	        window.location.href = $target.closest('a').attr('href');
+	//	    }
+	//	}
+	//});
 
 	// Chrome Fix
 	$.browser.chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase());

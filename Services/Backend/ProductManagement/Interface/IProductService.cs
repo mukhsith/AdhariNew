@@ -18,8 +18,8 @@ namespace Services.Backend.ProductManagement.Interface
 
         Task<IEnumerable<Product>> GetAll(ProductType? productType=null);
         Task<IEnumerable<SubscriptionDuration>> GetAllSubscriptionDurations();
-        Task<dynamic> GetAllForDataTable(DataTableParam param, string baseImageUrl);
-        Task<dynamic> GetAllForDataTableByProductType(DataTableParam param, string baseImageUrl, ProductType productType);
+        Task<dynamic> GetAllForDataTable(DataTableParam param, string baseImageUrl, AdminProductSearchParam Searchparam);
+        Task<dynamic> GetAllForDataTableByProductType(DataTableParam param, string baseImageUrl, ProductType productType, AdminProductSearchParam Searchparam);
         Task<dynamic> GetById(int id, string baseImageUrl, ProductType productType);
          
         Task<Product> GetByIdOnlyProduct(int id);//only for product NOT ( bundle product, subscription) 

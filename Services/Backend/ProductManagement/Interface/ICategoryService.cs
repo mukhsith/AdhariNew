@@ -21,6 +21,7 @@ namespace Services.Backend.ProductManagement.Interface
         Task<Category> Create(Category model);
         Task<bool> Update(Category model);
         Task<bool> Delete(Category model);
+
         Task<bool> ToggleActive(int id);
         Task<Category> UpdateDisplayOrder(int id, int num = 0);
         #endregion

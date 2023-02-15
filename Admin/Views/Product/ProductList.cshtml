@@ -12,6 +12,43 @@
 </header>
 <div class="row">
     <div class="col">
+
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Filter By</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-12 col-lg-4 mb-3">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="PaymentLinkID" class="form-label">@SharedHtmlLocalizer["ProductName"]</label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary "
+                               name="productName" id="productName" aria-describedby="Product Name" placeholder="" value="">
+
+
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                   
+
+                    <div class="col-12 col-lg-4 mb-3">
+                        <!-- ========== Start Simple Select Field Block ========== -->
+                        <label for="PaymentMethod" class="form-label">@SharedHtmlLocalizer["Category"]</label>
+                        <select data-plugin-selectTwo class="form-select form-select-lg rounded-4 border-secondary" name="categoryList" id="categoryList" data-plugin-options='{ "placeholder": "@SharedHtmlLocalizer["SelectCategory"]", "allowClear": true}'>
+                        </select>
+
+                        <!-- ========== End Simple Select Field Block ========== -->
+                    </div>
+                    <div class="col-12 mt-3">
+                        <a href="#" class="btn btn-lg btn-primary" onclick="searchDataTable()">Search</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ========== Start Card Block ========== -->
         <section class="card mb-3 border border-secondary">
             <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
@@ -28,8 +65,10 @@
                             <th data-priority="12" class="">@SharedHtmlLocalizer["DisplayOrder"]</th>
                             <th data-priority="2" class="">@SharedHtmlLocalizer["Status"]</th>
                             <th data-priority="3" class="">@SharedHtmlLocalizer["Image"]</th>
-                            <th data-priority="4" class="">@SharedHtmlLocalizer["TitleEn"]</th>
-                            <th data-priority="11" class="">@SharedHtmlLocalizer["TitleAr"]</th>
+                            <th data-priority="4" class="">@SharedHtmlLocalizer["CategoryNameEn"]</th>
+                            <th data-priority="7" class="">@SharedHtmlLocalizer["CategoryNameAr"]</th>
+                            <th data-priority="4" class="">@SharedHtmlLocalizer["ProductNameEn"]</th>
+                            <th data-priority="11" class="">@SharedHtmlLocalizer["ProductNameAr"]</th>
                             <th data-priority="5" class="">@SharedHtmlLocalizer["Stock"]</th>
                             <th data-priority="7" class="">@SharedHtmlLocalizer["Actions"]</th>
                         </tr>
@@ -42,7 +81,7 @@
         <!-- ========== End Card Block ========== -->
     </div>
 </div>
- 
+@await Html.PartialAsync("_ProductCancelModalPartial")
 <!-- end: page -->
 <script src="~/developer/js/Product/Product_Datatable.js" asp-append-version="true"></script>
 
@@ -52,7 +91,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">@SharedHtmlLocalizer["Restock"]</h5>
                 <input type="hidden" id="productId" name="productId" />
-                <input type="hidden" id="productType" name="productType" /> 
+                <input type="hidden" id="productType" name="productType" />
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -65,11 +104,11 @@
                         <div class="col-8">
                             <label class="form-label fw-bold">@SharedHtmlLocalizer["Action"]</label>
                             <div class="input-group mb-3">
-                                <!-- ========== Start Simple Input Field ========== --> 
+                                <!-- ========== Start Simple Input Field ========== -->
                                 <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="stockInput" id="stockInput" aria-describedby="" placeholder="0" value="" min="1">
 
 
-                                <!-- ========== End Simple Input Field ========== --> 
+                                <!-- ========== End Simple Input Field ========== -->
                                 <button class="btn btn-secondary text-light fw-bold dropdown-toggle rounded-4 stock-action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">@SharedHtmlLocalizer["AddToStock"]</button>
                                 <ul class="dropdown-menu dropdown-menu-end stock-action-option">
                                     <li class="active"><a class="dropdown-item" data-action="1" href="#">@SharedHtmlLocalizer["AddToStock"]</a> </li>
@@ -88,8 +127,8 @@
                         <div class="col-12">
                             <!-- ========== Start Simple Text Area ========== -->
                             <label for="" class="form-label fw-bold">@SharedHtmlLocalizer["Notes"]</label>
-                            <textarea class="form-control form-control-lg rounded-4 border-secondary " 
-                                      name="stockNote" id="stockNote" aria-describedby="Notes" 
+                            <textarea class="form-control form-control-lg rounded-4 border-secondary "
+                                      name="stockNote" id="stockNote" aria-describedby="Notes"
                                       placeholder="@SharedHtmlLocalizer["EnterNotesAboutStockUpdate"]" rows="3"></textarea>
 
 
@@ -106,4 +145,3 @@
     </div>
 </div>
 
- 

@@ -88,9 +88,9 @@ searchDataTable = () => {
 getValidity = (row) => {
 
     if (row.validity) {
-        return `<td data-th="Validity"><span class="px-2 rounded-pill fw-bold bg-danger text-light">Expired</span></td>`;
+        return `<td data-th="Validity"><span class="px-2 rounded-pill fw-bold bg-danger text-light">` + Resources.Expired +`</span></td>`;
     } else {
-        return `<td data-th="Validity"><span class="px-2 rounded-pill fw-bold bg-success text-light">Active</span></td>`;
+        return `<td data-th="Validity"><span class="px-2 rounded-pill fw-bold bg-success text-light">` + Resources.Active+`</span></td>`;
     }
 }
 

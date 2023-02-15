@@ -11,6 +11,9 @@ namespace Services.Backend.Sales
     {
         Task<QuickPayment> Create(QuickPayment model);
         Task<dynamic> GetAllForDataTable(QuickPaymentParam param);
+
+        Task<dynamic> GetAllForCustomDataTable(QuickPaymentParam param);
+
         Task<bool> Update(int id);
         Task<List<QuickPayment>> GetPaymentById(PaymentRequestType type, int entityId);
         Task<QuickPayment> GetqpayByNumber(string qpayNumber);

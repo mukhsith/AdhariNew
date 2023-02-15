@@ -37,7 +37,7 @@ searchDataTable = () => {
 
             {
                 "data": "imageUrl", render: function (data, type, row) {
-                    return `<img src='${row.imageUrl}' width='50' height='50'>`;
+                    return `<img src='${row.imageUrl}' height='50'>`;
                 }
             },
             {

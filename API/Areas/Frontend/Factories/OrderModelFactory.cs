@@ -80,14 +80,26 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
+                }
+
+                var lastOrder = await _orderService.GetLastOrderByCustomer(customerId: customer.Id);
+                if (lastOrder != null)
+                {
+                    var totalSeconds = (DateTime.Now - lastOrder.CreatedOn).TotalSeconds;
+                    if (totalSeconds <= _appSettings.RequestIntervalInSec)
+                    {
+                        return response;
+                    }
                 }
 
                 var cartItems = await _cartService.GetAllCartItem(customerId: customerId);
@@ -102,6 +114,11 @@ namespace API.Areas.Frontend.Factories
                 {
                     response.Message = isEnglish ? Messages.ValidationFailed : MessagesAr.ValidationFailed;
                     return response;
+                }
+
+                if (createPaymentModel.PaymentMethodId == (int)PaymentMethod.ApplePay)
+                {
+                    cartAttribute.PaymentMethodId = (int)PaymentMethod.ApplePay;
                 }
 
                 if (!cartAttribute.AddressId.HasValue || !cartAttribute.PaymentMethodId.HasValue)
@@ -498,6 +515,8 @@ namespace API.Areas.Frontend.Factories
                     }
                 }
 
+                order.GrandTotal = order.Total + order.WalletUsedAmount;
+
                 order = await _orderService.CreateOrder(order);
                 if (order != null)
                 {
@@ -589,6 +608,10 @@ namespace API.Areas.Frontend.Factories
                             return response;
                         }
                     }
+                    else if (order.PaymentMethodId == (int)PaymentMethod.ApplePay)
+                    {
+
+                    }
 
                     if (order.DeviceTypeId == DeviceType.Web)
                         createPaymentModel.PaymentReturnUrl = _appSettings.WebsiteUrl + "ORD/" + order.OrderNumber;
@@ -631,12 +654,14 @@ namespace API.Areas.Frontend.Factories
                     var customer = await _customerService.GetCustomerById(customerId);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -698,6 +723,38 @@ namespace API.Areas.Frontend.Factories
 
             return response;
         }
+        public async Task<APIResponseModel<List<OrderModel>>> GetOrderByOrderNumber(bool isEnglish, string orderNumber = "")
+        {
+            var response = new APIResponseModel<List<OrderModel>>();
+            try
+            {
+                var orders = new List<Order>();
+
+                if (string.IsNullOrEmpty(orderNumber))
+                {
+                    return response;
+                }
+
+                var orderModels = new List<OrderModel>();
+                var order = await _orderService.GetOrderByOrderNumber(orderNumber);
+                if (order != null && !order.Deleted)
+                {
+                    var orderModel = await _modelHelper.PrepareOrderModel(order, isEnglish, loadDetails: true);
+                    orderModels.Add(orderModel);
+                }
+
+                response.Data = orderModels;
+                response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
         public async Task<APIResponseModel<bool>> ReOrder(bool isEnglish, int customerId, int id)
         {
             var response = new APIResponseModel<bool>();
@@ -707,12 +764,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -774,12 +833,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }

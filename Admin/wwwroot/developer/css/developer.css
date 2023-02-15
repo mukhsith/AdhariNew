@@ -2,3 +2,33 @@
     background-color:white;
     z-index:9999;
 }
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    letter-spacing: normal !important;
+}
+html[dir=rtl] .datepicker-dropdown {
+    max-width: 300px;
+}
+
+html[dir=rtl] .datepicker {
+    float: right
+}
+
+html[dir=rtl] .datepicker.dropdown-menu {
+    right: auto
+}
+
+html[dir=rtl] .datepicker {
+    direction: ltr !important;
+}
+
+html[dir=rtl] .summernote.dir-rtl + .note-editor .note-editing-area {
+    direction: rtl !important;
+}
+
+html[dir=rtl] .summernote:not(.dir-rtl) + .note-editor .note-editing-area {
+    direction: ltr !important;
+}
+/*For DotMatrix Print*/
+@page {
+    margin: 1.8in 0.75in 1.5in 0.25in;
+}

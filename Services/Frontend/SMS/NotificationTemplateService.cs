@@ -65,32 +65,45 @@ namespace Services.Frontend.SMS
         #endregion
 
         #region OTP details
-        public async Task<OTPDetail> CreateOTPDetail(OTPDetail otpDetail, string message)
+        public async Task<OTPDetail> CreateOTPDetail(OTPDetail otpDetail, string message, int languageId = 0)
         {
-            SMS_Push sms_Push = new SMS_Push();
-            sms_Push.Push_ID = 0;
-            sms_Push.Push_MessageID = 1;
-            sms_Push.Push_Message = message.Replace("{OTP}", otpDetail.OTP);
-            sms_Push.Push_ANI = otpDetail.Destination;
-            sms_Push.Push_DNIS = _dbcontext.Company_SenderIDs.FirstOrDefault().SenderID_Text.Trim();
-            sms_Push.Push_OperatorID = 2;
-            sms_Push.Push_Lang = 0;
-            sms_Push.Push_ScheduleDate = DateTime.Now;
-            sms_Push.Push_Date = DateTime.Now;
-            sms_Push.Push_Status = 0;
+            using (var dbContextTransaction = _dbcontext.Database.BeginTransaction())
+            {
+                try
+                {
+                    SMS_Push sms_Push = new SMS_Push();
+                    sms_Push.Push_ID = 0;
+                    sms_Push.Push_MessageID = 1;
+                    sms_Push.Push_Message = message.Replace("{OTP}", otpDetail.OTP);
+                    sms_Push.Push_ANI = otpDetail.Destination;
+                    sms_Push.Push_DNIS = _dbcontext.Company_SenderIDs.FirstOrDefault().SenderID_Text.Trim();
+                    sms_Push.Push_OperatorID = 2;
+                    sms_Push.Push_Lang = (byte)languageId;
+                    sms_Push.Push_ScheduleDate = DateTime.Now;
+                    sms_Push.Push_Date = DateTime.Now;
+                    sms_Push.Push_Status = 0;
 
-            await _dbcontext.SMS_Pushes.AddAsync(sms_Push);
-            await _dbcontext.SaveChangesAsync();
+                    await _dbcontext.SMS_Pushes.AddAsync(sms_Push);
+                    await _dbcontext.SaveChangesAsync();
 
-            var sMS_Push = await _dbcontext.SMS_Pushes.FirstOrDefaultAsync(x => x.Id == sms_Push.Id);
-            sms_Push.Push_ID = sms_Push.Id;
-            _dbcontext.SMS_Pushes.Update(sms_Push);
-            await _dbcontext.SaveChangesAsync();
+                    var sMS_Push = await _dbcontext.SMS_Pushes.FirstOrDefaultAsync(x => x.Id == sms_Push.Id);
+                    sms_Push.Push_ID = sms_Push.Id;
+                    _dbcontext.SMS_Pushes.Update(sms_Push);
+                    await _dbcontext.SaveChangesAsync();
 
-            await _dbcontext.OTPDetails.AddAsync(otpDetail);
-            await _dbcontext.SaveChangesAsync();
+                    await _dbcontext.OTPDetails.AddAsync(otpDetail);
+                    await _dbcontext.SaveChangesAsync();
 
-            return otpDetail;
+                    await dbContextTransaction.CommitAsync();
+                    return otpDetail;
+                }
+                catch
+                {
+                    await dbContextTransaction.RollbackAsync();
+                }
+            }
+
+            return null;
         }
         public async Task<OTPDetail> GetOTPDetailByIdAndType(int id, int typeId)
         {
@@ -104,7 +117,18 @@ namespace Services.Frontend.SMS
         }
         public async Task<OTPDetail> GetOTPDetailById(int id)
         {
-            var data = await _dbcontext.OTPDetails.FindAsync(id);
+            var data = await _dbcontext.OTPDetails.Where(a => !a.Deleted && a.Id == id).FirstOrDefaultAsync();
+            return data;
+        }
+        public async Task<bool> UpdateOTPDetail(OTPDetail model)
+        {
+            _dbcontext.Update(model);
+            return await _dbcontext.SaveChangesAsync() > 0;
+        }
+        public async Task<OTPDetail> GetLastOTPDetailByCustomer(int typeId, string mobileNumber)
+        {
+            var data = await _dbcontext.OTPDetails.OrderByDescending(a => a.Id).
+                FirstOrDefaultAsync(x => x.Type == (NotificationType)typeId && x.Destination == mobileNumber);
             return data;
         }
         #endregion

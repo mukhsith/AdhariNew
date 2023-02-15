@@ -16,11 +16,11 @@ setup = () => {
             
         },
         messages: {
-            lowStockThreshold: { required: 'Required' },
-            lowStockToEmail: { required: 'Required' },
-            lowStockCCEmail: { required: 'Required' },
-            newOrderToEmail: { required: 'Required' },
-            newOrderCCEmail: { required: 'Required' },
+            lowStockThreshold: { required: '' },
+            lowStockToEmail: { required: '' },
+            lowStockCCEmail: { required: '' },
+            newOrderToEmail: { required: '' },
+            newOrderCCEmail: { required: '' },
            
         },
         submitHandler: function (form, event) {

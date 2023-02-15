@@ -37,13 +37,27 @@
         <div class="spinner d-flex justify-content-center align-items-center">
             <img src="~/assets/img/Adhari-Logo.svg" class="rotate" alt="Loading">
         </div>
-        <h3 class="text-primary mt-3">@SharedHtmlLocalizer["Loading"]</h3>
+        @*<h3 class="text-primary mt-3">@SharedHtmlLocalizer["Loading"]</h3>*@
     </div>
     <main role="main" class="mobile-bottom">
         @RenderBody()
     </main>
     <div class="toast-container position-fixed top-0 end-0 px-2 pb-2 pt-5 p-lg-3 mt-3 mt-lg-0" style="z-index: 100000;">
-    </div>    
+    </div>  
+    <div class="modal fade show" id="validation-model-popup" tabindex="-1" aria-labelledby="common-model-title" aria-modal="true" role="dialog" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-center">
+                <div class="mt-3">
+                    <h5 class="modal-title text-primary" id="validation-model-popup-title"></h5>
+                </div>
+                <div class="modal-body" id="validation-model-popup-description">
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-secondary text-light rounded-pill" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="~/assets/vendor/js/bootstrap.bundle.js"></script>
     <script src="~/assets/js/util/autoPadding.js"></script>
     <script src="~/assets/js/util/crossPlatform.js"></script>
@@ -66,6 +80,18 @@
 
         function hideCoverSpin() {
             $("#cover-spin").hide();
+        }
+
+        function validateMobileNumber(event) {
+            if (event.key == "1" || event.key == "2" || event.key == "3" || event.key == "4" || event.key == "5" || event.key == "6" ||
+                event.key == "7" || event.key == "8" || event.key == "9" || event.key == "0" || event.key == "٠" || event.key == "١" ||
+                event.key == "٢" || event.key == "٣" || event.key == "٤" || event.key == "٥" || event.key == "٦" || event.key == "٧" ||
+                event.key == "٨" || event.key == "٩") {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     </script>
 </body>

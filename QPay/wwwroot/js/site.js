@@ -2,51 +2,59 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-ToastAlert = (type="error", title="Alert", message, imgUrl) => {
-    var imgTag = "";
-    if (imgUrl != null) {
-        imgTag = `<img src="${imgUrl}" class="rounded me-2" alt="..." >`;
+ToastAlert = (type = "error", title = "Alert", message, imgUrl) => {
+
+    if (message != "") {
+        if(title != "")
+            $("#validation-model-popup-title").html(title);
+        $("#validation-model-popup-description").html(message);
+        $('#validation-model-popup').modal('show');
     }
 
-    if (type == 'error') {
-        type = 'danger';
-        // color = 'light'; 
-    }
+    //var imgTag = "";
+    //if (imgUrl != null) {
+    //    imgTag = `<img src="${imgUrl}" class="rounded me-2" alt="..." >`;
+    //}
 
-    var color = 'light';
-    const check_time = (i) => {
-        return (i < 10) ? "0" + i : i;
-    }
+    //if (type == 'error') {
+    //    type = 'danger';
+    //    // color = 'light'; 
+    //}
 
-    var today = new Date(),
-        h = check_time(today.getHours()),
-        m = check_time(today.getMinutes()),
-        s = check_time(today.getSeconds());
-    var time = h + ':' + m + ':' + s;
+    //var color = 'light';
+    //const check_time = (i) => {
+    //    return (i < 10) ? "0" + i : i;
+    //}
 
-    var toast_template_html =
-        `<div aria-atomic="true" aria-live="assertive" class="toast position-fixed top-0 end-0 m-3" role="alert" id="toast_message-${today}">
-            <div class="toast-header bg-${type}"> 
-                ${imgTag}
-                <strong class="me-auto text-${color}">${title}</strong>
-                <small class="text-${color} d-none">${time}</small>
-                <button aria-label="Close" class="btn-close" data-bs-dismiss="toast" type="button"></button>
-            </div>
-            <div class="toast-body">${message}</div>
-        </div>`;
+    //var today = new Date(),
+    //    h = check_time(today.getHours()),
+    //    m = check_time(today.getMinutes()),
+    //    s = check_time(today.getSeconds());
+    //var time = h + ':' + m + ':' + s;
 
-    var toast_wrapper = document.createElement('template');
-    toast_wrapper.innerHTML = toast_template_html.trim();
-    var awesome_toast = toast_wrapper.content.firstChild;
-    document.querySelector('.toast-container').appendChild(awesome_toast);
+    //var toast_template_html =
+    //    `<div aria-atomic="true" aria-live="assertive" class="toast position-fixed top-0 end-0 m-3" role="alert" id="toast_message-${today}">
+    //        <div class="toast-header bg-${type}"> 
+    //            ${imgTag}
+    //            <strong class="me-auto text-${color}">${title}</strong>
+    //            <small class="text-${color} d-none">${time}</small>
+    //            <button aria-label="Close" class="btn-close" data-bs-dismiss="toast" type="button"></button>
+    //        </div>
+    //        <div class="toast-body">${message}</div>
+    //    </div>`;
 
-    new bootstrap.Toast(
-        awesome_toast,
-        {
-            autohide: true, /* set false for demonstration */
-            delay: 6000
-        }
-    ).show();
+    //var toast_wrapper = document.createElement('template');
+    //toast_wrapper.innerHTML = toast_template_html.trim();
+    //var awesome_toast = toast_wrapper.content.firstChild;
+    //document.querySelector('.toast-container').appendChild(awesome_toast);
+
+    //new bootstrap.Toast(
+    //    awesome_toast,
+    //    {
+    //        autohide: true, /* set false for demonstration */
+    //        delay: 6000
+    //    }
+    //).show();
 }
 
 ///// Will continue to make it dynamic

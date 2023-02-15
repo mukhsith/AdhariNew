@@ -12,9 +12,12 @@ namespace Data.SystemUserManagement
     {
         public Guid GUID { get; set; }
 
-        [StringLength(Constants.SmallDataSize)]
+        [StringLength(Constants.NameDataSize)]
         public string FullName { get; set; }
-         
+
+        [StringLength(Constants.NameDataSize)]
+        public string UserName { get; set; }
+
         [StringLength(Constants.MobileDataSize)]
         public string MobileNumber { get; set; }
 

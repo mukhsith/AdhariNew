@@ -19,6 +19,7 @@ namespace Services.Frontend.Sales
         Task UpdateOrderStatus(Order order, int orderStatusId);
         Task<int> GetOrderCountByCouponAndCustomer(int couponId, int? customerId = null, string customerGuidValue = "");
         Task<int> GetOrderCountByDeliveryTimeSlotId(int deliveryTimeSlotId, DateTime dateTime);
+        Task<Order> GetLastOrderByCustomer(int customerId);
         #endregion
 
         #region Order items

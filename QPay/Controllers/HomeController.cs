@@ -14,6 +14,13 @@ using QPay.Models;
 using System.Globalization;
 using System.Threading;
 using Microsoft.AspNetCore.Localization;
+using Utility.Models.Frontend.CustomerManagement;
+using System.Security.Claims;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Utility.Enum;
+using Utility.Models.Frontend.Content;
 
 namespace QPay.Controllers
 {
@@ -37,45 +44,15 @@ namespace QPay.Controllers
         {
             return Redirect(_appSettings.WebsiteUrl);
         }
-        public async Task<IActionResult> Index(string quickPayNumber)
+        public async Task<IActionResult> Index()
         {
-            if (string.IsNullOrEmpty(quickPayNumber))
-            {
-                return Redirect(_appSettings.WebsiteUrl);
-            }
-
+            QuickPaymentModel quickPaymentModel = new();
             try
             {
-                QuickPaymentModel quickPaymentModel = new();
-                var responseModel = await _apiHelper.GetAsync<APIResponseModel<QuickPaymentModel>>("webapi/common/quickpay?quickPayNumber=" + quickPayNumber);
-                if (responseModel.Success && responseModel.Data != null)
+                var paymentMethodResponseModel = await _apiHelper.GetAsync<APIResponseModel<List<PaymentMethodModel>>>("webapi/common/paymentmethods?typeId=" + PaymentRequestType.QuickPay);
+                if (paymentMethodResponseModel.Success && paymentMethodResponseModel.Data != null)
                 {
-                    quickPaymentModel = responseModel.Data;
-
-                    var currentLanguage = string.Empty;
-                    var customerLanguage = quickPaymentModel.CustomerLanguageId == 1 ? "en" : "ar";
-                    if (!string.IsNullOrEmpty(CultureInfo.CurrentCulture.Name))
-                    {
-                        currentLanguage = CultureInfo.CurrentCulture.Name.ToLower();
-                    }
-
-                    if (currentLanguage != customerLanguage)
-                    {
-                        var cultureInfo = new CultureInfo(customerLanguage);
-                        Thread.CurrentThread.CurrentUICulture = cultureInfo;
-                        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureInfo.Name);
-
-                        Response.Cookies.Append(
-                        CookieRequestCultureProvider.DefaultCookieName,
-                        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(customerLanguage == "en" ? "en-US" : "ar-KW")),
-                        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
-
-                        return RedirectToRoute("quickpay", new { quickPayNumber = quickPaymentModel.QuickPayNumber });
-                    }
-                    else
-                    {
-                        return View(quickPaymentModel);
-                    }
+                    quickPaymentModel.PaymentMethods = paymentMethodResponseModel.Data;
                 }
             }
             catch (Exception ex)
@@ -83,17 +60,113 @@ namespace QPay.Controllers
                 _logger.LogInformation(ex.Message);
             }
 
-            return Redirect(_appSettings.WebsiteUrl);
+            return View(quickPaymentModel);
+        }
+        public async Task<IActionResult> Pay(string quickPayNumber = "")
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(quickPayNumber))
+                {
+                    return RedirectToAction("Index");
+                }
+
+                var responseModel = await _apiHelper.GetAsync<APIResponseModel<QuickPaymentModel>>("webapi/common/quickpay?quickPayNumber=" + quickPayNumber);
+                if (responseModel.Success && responseModel.Data != null)
+                {
+                    var quickPaymentModel = responseModel.Data;
+                    return View(quickPaymentModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public virtual async Task<JsonResult> CreateQPay(CreatePaymentModel createPaymentModel)
+        public virtual async Task<JsonResult> Register(CustomerModel customerModel)
+        {
+            APIResponseModel<CustomerModel> response = new();
+            try
+            {
+                response = await _apiHelper.PostAsync<APIResponseModel<CustomerModel>>("webapi/customer/register", customerModel);
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+
+            return Json(response);
+        }
+
+        [HttpGet]
+        public virtual async Task<JsonResult> ResendOTP(int otpDetailId)
+        {
+            APIResponseModel<CustomerModel> response = new();
+            try
+            {
+                response = await _apiHelper.GetAsync<APIResponseModel<CustomerModel>>("webapi/customer/resendotp?otpDetailId=" + otpDetailId);
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+
+            return Json(response);
+        }
+
+        [HttpPost]
+        public virtual async Task<JsonResult> VerifyOTP(VerifyOTPModel verifyOTPModel)
+        {
+            APIResponseModel<CustomerModel> response = new();
+            try
+            {
+                CustomerModel customerModel = new();
+                customerModel.OTPDetailId = verifyOTPModel.RequestId;
+                customerModel.OTP = verifyOTPModel.OTP;
+
+                response = await _apiHelper.PostAsync<APIResponseModel<CustomerModel>>("webapi/customer/verifyotp", customerModel);
+                if (response.Data != null && response.Success)
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+
+            return Json(response);
+        }
+
+        [HttpPost]
+        public virtual async Task<JsonResult> CreateQPay(QuickPaymentModel quickPaymentModel)
+        {
+            var responseModel = new APIResponseModel<CreatePaymentModel>();
+            try
+            {
+                quickPaymentModel.CustomerIp = _apiHelper.GetUserIP();
+                responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/common/createquickpay", quickPaymentModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return Json(responseModel);
+        }
+
+        [HttpPost]
+        public virtual async Task<JsonResult> UpdateQPay(CreatePaymentModel createPaymentModel)
         {
             var responseModel = new APIResponseModel<CreatePaymentModel>();
             try
             {
                 createPaymentModel.CustomerIp = _apiHelper.GetUserIP();
-                responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/common/createquickpay", createPaymentModel);
+                responseModel = await _apiHelper.PostAsync<APIResponseModel<CreatePaymentModel>>("webapi/common/updatequickpay", createPaymentModel);
             }
             catch (Exception ex)
             {

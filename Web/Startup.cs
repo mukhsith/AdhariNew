@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,6 +17,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Utility.API;
 using Web.Infrastructure;
 
 namespace Web
@@ -70,7 +72,7 @@ namespace Web
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.DefaultRequestCulture = new RequestCulture("en");
+                options.DefaultRequestCulture = new RequestCulture("ar");
                 options.SupportedCultures = cultures;
                 options.SupportedUICultures = cultures;
                 options.RequestCultureProviders = new List<IRequestCultureProvider>
@@ -111,6 +113,15 @@ namespace Web
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            var appSettingsModel = Configuration.GetSection("AppSettings").Get<AppSettingsModel>();
+            if (appSettingsModel.EnableRedirectToWwwRule)
+            {
+                var options = new RewriteOptions();
+                options.AddRedirectToHttps();
+                options.Rules.Add(new RedirectToWwwRule());
+                app.UseRewriter(options);
+            }
 
             app.UseEndpoints(endpoints =>
             {

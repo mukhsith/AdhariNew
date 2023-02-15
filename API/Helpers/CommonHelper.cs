@@ -542,10 +542,10 @@ namespace API.Helpers
                     var governorate = await _governorateService.GetById(area.GovernorateId);
                     if (governorate != null)
                     {
-                        addressText = addressText + ", " + (isEnglish ? governorate.NameEn : governorate.NameAr);
+                        addressText = addressText + ", " + (isEnglish ? Messages.Governorate : MessagesAr.Governorate) + ": " + (isEnglish ? governorate.NameEn : governorate.NameAr);
                     }
 
-                    addressText = addressText + ", " + (isEnglish ? area.NameEn : area.NameAr);
+                    addressText = addressText + ", " + (isEnglish ? Messages.Area : MessagesAr.Area) + ": " + (isEnglish ? area.NameEn : area.NameAr);
                 }
             }
 
@@ -936,14 +936,142 @@ namespace API.Helpers
             orderHtml = orderHtml.Replace("{Base-Url}", apiUrl);
             orderHtml = orderHtml.Replace("{web-url}", webUrl);
 
+            orderHtml = orderHtml.Replace("{CustomerDetails}", isEnglish ? OrderPDF.CustomerDetails : OrderPDFAr.CustomerDetails);
+            orderHtml = orderHtml.Replace("{Customer-Name}", isEnglish ? OrderPDF.Name : OrderPDFAr.Name);
+            orderHtml = orderHtml.Replace("{Customer-Name-Value}", orderModel.Customer.Name);
+            orderHtml = orderHtml.Replace("{Customer-MobileNumber}", isEnglish ? OrderPDF.MobileNumber : OrderPDFAr.MobileNumber);
+            orderHtml = orderHtml.Replace("{Customer-MobileNumber-Value}", orderModel.Customer.MobileNumber);
+            orderHtml = orderHtml.Replace("{Customer-Email}", isEnglish ? OrderPDF.Email : OrderPDFAr.Email);
+            orderHtml = orderHtml.Replace("{Customer-Email-Value}", orderModel.Customer.EmailAddress);
+
             orderHtml = orderHtml.Replace("{OrderDetails}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
 
             var orderDetails = string.Empty;
             foreach (var item in orderModel.OrderDetails)
             {
+                item.TitleBold = true;
                 orderDetails += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
-                                    <p class='mb-0 text-muted'>" + item.Title + @"</p>
-                                    <p class='mb-0 text-primary fw-bold text-end'>" + item.Value + @"</p></li>";
+                                    <label class='" + (item.TitleBold ? "fw-bold" : "") + @"' style='font-size:" + (item.TitleBig ? "1.25rem !important" : "1rem !important") + @";'>" + item.Title + @"</label>
+                                    <p class='mb-0 text-primary " + (item.ValueBold ? "fw-bold" : "") + @" text-end'
+                                    style='font-size:" + (item.ValueBig ? "1.25rem !important" : "1rem !important") + @";'>" + item.Value + @"</p></li>";
+
+            }
+            orderHtml = orderHtml.Replace("{OrderDetails-Value}", orderDetails);
+
+            var orderItems = "";
+            foreach (var orderItem in orderModel.OrderItems)
+            {
+                orderItems += @"<li class='list-group-item border-0 px-0 py-2'>
+                                        <div class='d-flex flex-row bg-grey rounded-4 p-2'>
+                                            <img src='" + orderItem.Product.ImageUrl + @"' class='me-3 rounded-3' height='75'>
+                                            <div class='d-flex flex-column me-auto w-100 text-end'>
+                                                <a href='#' class='mb-0 fw-bold'>" + orderItem.Product.Title + @"</a>
+                                                <div class='row'>
+                                                    <div class='col-12 text-end'>
+                                                        <div class='w-auto py-1 me-2'>
+                                                            <p class='mb-0'>" + orderItem.Product.Description + @"</p>
+                                                            <label class='fw-bold' for=''>" + (isEnglish ? OrderPDF.Quantity : OrderPDFAr.Quantity) + @":</label>
+                                                            <span class='text-primary fw-bold fs-51 mb-0'>" + orderItem.Quantity + @"</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>";
+            }
+            orderHtml = orderHtml.Replace("{Order-Item-Details-Value}", orderItems);
+
+            orderHtml = orderHtml.Replace("{PaymentDetails}", isEnglish ? OrderPDF.PaymentDetails : OrderPDFAr.PaymentDetails);
+            var paymentSummaries = string.Empty;
+            foreach (var paymentSummary in orderModel.PaymentSummaryForPrint)
+            {
+                paymentSummaries += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
+                                    <p class='mb-0 fw-bold'>" + paymentSummary.Title + @"</p>
+                                    <p class='mb-0 text-primary fw-bold text-end'>" + paymentSummary.Value + @"</p></li>";
+            }
+            orderHtml = orderHtml.Replace("{PaymentDetails-Value}", paymentSummaries);
+
+            orderHtml = orderHtml.Replace("{DeliveryDetails}", isEnglish ? OrderPDF.DeliveryDetails : OrderPDFAr.DeliveryDetails);
+            orderHtml = orderHtml.Replace("{DeliveryAddress}", isEnglish ? OrderPDF.DeliveryAddress : OrderPDFAr.DeliveryAddress);
+            orderHtml = orderHtml.Replace("{DeliveryAddress-Name}", orderModel.Address.Name);
+            orderHtml = orderHtml.Replace("{DeliveryAddress-Details}", orderModel.Address.AddressText);
+
+            orderHtml = orderHtml.Replace("{DeliveryDate}", isEnglish ? OrderPDF.DeliveryDate : OrderPDFAr.DeliveryDate);
+            orderHtml = orderHtml.Replace("{DeliveryDate-Value}", orderModel.EstimatedDeliveryWithoutHeading);
+
+            string header = string.Empty;
+            var contactDetail = await _contactDetailService.GetDefault();
+            if (contactDetail != null)
+            {
+                string websiteUrl = webUrl.EndsWith("/") ? webUrl.Remove(webUrl.Length - 1, 1) : webUrl;
+                websiteUrl = websiteUrl.Replace("www.", "");
+
+                var headerCss = isEnglish ? "main.css" : "main.rtl.css";
+                header = @"<link rel='stylesheet' href='" + webUrl + @"assets/css/" + headerCss + @"'>
+                              <section>
+                                  <div class='container'>
+                                      <div class='row'>
+                                          <div class='col-12 offset-lg-2 col-lg-8'>
+                                              <div class='row justify-content-between align-items-center'>                                                  
+                                                  <div class='w-auto'>
+                                                      <div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <img src='" + webUrl + @"assets/img/icons/envelope.png' class='img-fluid me-2' style='height: 18px;' alt=''>
+                                                          <a href='" + contactDetail.EmailAddress + @"' class='fw-bold'>" + contactDetail.EmailAddress + @"</a>
+                                                      </div>
+                                                      <div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <img src='" + webUrl + @"assets/img/icons/web.png' class='img-fluid me-2' style='height: 18px;' alt=''>
+                                                          <a href='" + websiteUrl + @"' target='_blank' class='fw-bold'>" + websiteUrl + @"</a>
+                                                      </div>
+                                                      <div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <img src='" + webUrl + @"assets/img/icons/call.png' class='img-fluid me-2' style='height: 18px;' alt=''>
+                                                          <a href='tel:" + contactDetail.MobileNumber + @"' class='fw-bold'>" + contactDetail.MobileNumber + @"</a>
+                                                      </div>";
+
+                if (!string.IsNullOrEmpty(contactDetail.WhatsAppNumber))
+                {
+                    header = header + @"<div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <img src='" + webUrl + @"assets/img/icons/whatsapp.png' class='img-fluid me-2' style='height: 18px;' alt=''>
+                                                          <a href='tel:" + contactDetail.WhatsAppNumber + @"' class='fw-bold'>" + contactDetail.WhatsAppNumber + @"</a>
+                                                      </div>";
+                }
+
+                header = header + @"</div>
+                                                  <div class='col-5 col-md-3 col-lg-2 ms-auto'>
+                                                      <img src='" + webUrl + @"assets/img/Adhari-Logo.png' class='img-fluid' style='height: 75px;'>
+                                                  </div>                                              
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </section>";
+            }
+
+            string path = MediaHelper.HtmlToPdfFront(orderHtml, "Pdfs/OrderPdfs", header);
+            return apiUrl + path;
+        }
+        public async Task<string> GetOrderBackendPdfUrl(OrderModel orderModel, bool isEnglish)
+        {
+            string[] emailTemplatePath = new string[3] { Directory.GetCurrentDirectory(), "Pdfs", "order-front.html" };
+            StreamReader reader = new StreamReader(Path.Combine(emailTemplatePath));
+            string orderHtml = reader.ReadToEnd();
+
+            string apiUrl = _appSettings.APIBaseUrl;
+            string webUrl = _appSettings.WebsiteUrl;
+
+            orderHtml = orderHtml.Replace("{Body-Style}", isEnglish ? "direction: ltr;" : "direction: rtl;");
+            orderHtml = orderHtml.Replace("{Main-Css-Name}", isEnglish ? "main.css" : "main.rtl.css");
+            orderHtml = orderHtml.Replace("{Developer-Css-Name}", isEnglish ? "developer.css" : "developer.rtl.css");
+            orderHtml = orderHtml.Replace("{Base-Url}", apiUrl);
+            orderHtml = orderHtml.Replace("{web-url}", webUrl);
+
+            orderHtml = orderHtml.Replace("{OrderDetails}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
+
+            var orderDetails = string.Empty;
+            foreach (var item in orderModel.OrderItems)
+            {
+                orderDetails += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
+                                    <label class='fw-bold'>" + item.Product.Title + @"</label>
+                                    <p class='mb-0 text-primary fw-bold text-end'>" + item.Quantity + @"</p></li>";
             }
             orderHtml = orderHtml.Replace("{OrderDetails-Value}", orderDetails);
 
@@ -961,7 +1089,8 @@ namespace API.Helpers
                                                 <div class='row'>
                                                     <div class='col-12 text-end'>
                                                         <div class='w-auto py-1 me-2'>
-                                                            <label class='text-muted' for=''>" + (isEnglish ? OrderPDF.Quantity : OrderPDFAr.Quantity) + @":</label>
+                                                            <p class='mb-0'>" + orderItem.Product.Description + @"</p>
+                                                            <label class='fw-bold' for=''>" + (isEnglish ? OrderPDF.Quantity : OrderPDFAr.Quantity) + @":</label>
                                                             <span class='text-primary fw-bold fs-51 mb-0'>" + orderItem.Quantity + @"</span>
                                                         </div>
                                                     </div>
@@ -977,7 +1106,7 @@ namespace API.Helpers
             foreach (var paymentSummary in orderModel.PaymentSummary)
             {
                 paymentSummaries += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
-                                    <p class='mb-0 text-muted'>" + paymentSummary.Title + @"</p>
+                                    <p class='mb-0 fw-bold'>" + paymentSummary.Title + @"</p>
                                     <p class='mb-0 text-primary fw-bold text-end'>" + paymentSummary.Value + @"</p></li>";
             }
             orderHtml = orderHtml.Replace("{PaymentDetails-Value}", paymentSummaries);
@@ -996,29 +1125,165 @@ namespace API.Helpers
             {
                 string websiteUrl = webUrl.EndsWith("/") ? webUrl.Remove(webUrl.Length - 1, 1) : webUrl;
 
+                //header = @"<link rel='stylesheet' href='" + webUrl + @"assets/css/main.css'>
+                //           <div class='desktop-header d-none d-lg-block bg-body-primary'>
+                //              <div class='bottom-bar'>
+                //                  <div class='container'>
+                //                      <div class='row'>
+                //                          <div class='col-6 text-start py-2 ps-3'>
+                //                              <a href='/'>
+                //                                  <img src='" + webUrl + @"assets/img/Adhari-Logo.png' alt='Adhari' class='logo'>
+                //                              </a>
+                //                          </div>
+                //                          <div class='col-6 text-end py-2 pe-3'>
+                //                              <p class='mb-0 fw-bold'>" + contactDetail.EmailAddress + @"</p>
+                //                              <p class='mb-0 fw-bold'>" + websiteUrl + @"</p>
+                //                              <p class='mb-0 fw-bold'>" + contactDetail.MobileNumber + @"</p>
+                //                          </div>
+                //                      </div>
+                //                  </div>
+                //              </div>
+                //           </div>";
+
                 header = @"<link rel='stylesheet' href='" + webUrl + @"assets/css/main.css'>
-                           <div class='desktop-header d-none d-lg-block bg-body-primary'>
-                              <div class='bottom-bar'>
+                              <section>
                                   <div class='container'>
                                       <div class='row'>
-                                          <div class='col-6 text-start py-2 ps-3'>
-                                              <a href='/'>
-                                                  <img src='" + webUrl + @"assets/img/Adhari-Logo.png' alt='Adhari' class='logo'>
-                                              </a>
-                                          </div>
-                                          <div class='col-6 text-end py-2 pe-3'>
-                                              <p class='mb-0 fw-bold'>" + contactDetail.EmailAddress + @"</p>
-                                              <p class='mb-0 fw-bold'>" + websiteUrl + @"</p>
-                                              <p class='mb-0 fw-bold'>" + contactDetail.MobileNumber + @"</p>
+                                          <div class='col-12 offset-lg-2 col-lg-8'>
+                                              <div class='row justify-content-between align-items-center'>
+                                                  <div class='col-5 col-md-3 col-lg-2'>
+                                                      <img src='" + webUrl + @"assets/img/Adhari-Logo.png' class='img-fluid' style='height: 75px;'>
+                                                  </div>
+                                                  <div class='w-auto ms-auto'>
+                                                      <div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <i class='fa-solid fa-envelope text-primary me-2'></i>
+                                                          <a href='" + contactDetail.EmailAddress + @"' class='fw-bold'>" + contactDetail.EmailAddress + @"</a>
+                                                      </div>
+                                                      <div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <i class='fa-solid fa-globe text-primary me-2'></i>
+                                                          <a href='" + websiteUrl + @"' target='_blank' class='fw-bold'>" + websiteUrl + @"</a>
+                                                      </div>
+                                                      <div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <i class='fa-solid fa-phone text-primary me-2'></i>
+                                                          <a href='tel:" + contactDetail.MobileNumber + @"' class='fw-bold'>" + contactDetail.MobileNumber + @"</a>
+                                                      </div>
+                                                      <div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <i class='fa-solid fa-phone text-primary me-2'></i>
+                                                          <a href='tel:+96555504512' class='fw-bold'>+965 55504512</a>
+                                                      </div>
+                                                  </div>
+                                              </div>
                                           </div>
                                       </div>
                                   </div>
-                              </div>
-                           </div>";
+                              </section>";
             }
 
             string path = MediaHelper.HtmlToPdfFront(orderHtml, "Pdfs/OrderPdfs", header);
             return apiUrl + path;
+        }
+        public string GetOrderDotMatrixUrl(OrderModel order, string apiBaseUrl, bool isEnglish)
+        {
+            //  ApplyLicenseKey();
+            string[] emailTemplatePath = new string[3] { Directory.GetCurrentDirectory(), "Pdfs", "order-dotmatrix-print.html" };
+            StreamReader reader = new StreamReader(Path.Combine(emailTemplatePath));
+            string orderHtml = reader.ReadToEnd();
+
+            #region Company Info 
+            orderHtml = orderHtml.Replace("{Body-Style}", isEnglish ? "direction: ltr;" : "direction: rtl;");
+            orderHtml = orderHtml.Replace("{Base-Url}", apiBaseUrl);
+            orderHtml = orderHtml.Replace("{all.min.layout}", isEnglish ? "all.min.layout.admin.css" : "all.min.layout.admin.rtl.css");
+            orderHtml = orderHtml.Replace("{Logo-Text-Align}", isEnglish ? "text-align: left;" : "text-align: right;");
+            orderHtml = orderHtml.Replace("{Company-Details-Text-Align}", isEnglish ? "text-align: right;" : "text-align: left;");
+            orderHtml = orderHtml.Replace("{Company-Name}", OrderPDF.CompanyName);
+            orderHtml = orderHtml.Replace("{Company-Website}", OrderPDF.CompanyWebsite);
+            orderHtml = orderHtml.Replace("{Company-Email}", OrderPDF.CompanyEmail);
+            #endregion
+
+            #region Order Details
+            orderHtml = orderHtml.Replace("{Order-Details}", isEnglish ? OrderPDF.OrderDetails : OrderPDFAr.OrderDetails);
+            orderHtml = orderHtml.Replace("{Order-Type}", isEnglish ? OrderPDF.OrderType : OrderPDFAr.OrderType);
+            orderHtml = orderHtml.Replace("{Order-Type-Value}", order.OrderTypeText != null ? order.OrderTypeText : "");
+            orderHtml = orderHtml.Replace("{Order-Number}", isEnglish ? OrderPDF.OrderNumber : OrderPDFAr.OrderNumber);
+            orderHtml = orderHtml.Replace("{Order-Number-Value}", order.OrderNumber);
+            orderHtml = orderHtml.Replace("{Transaction-Date}", isEnglish ? OrderPDF.TransactionDate : OrderPDFAr.TransactionDate);
+            orderHtml = orderHtml.Replace("{Transaction-Date-Value}", order.FormattedDate);
+            orderHtml = orderHtml.Replace("{Sub-Total}", isEnglish ? OrderPDF.SubTotal : OrderPDFAr.SubTotal);
+            orderHtml = orderHtml.Replace("{Sub-Total-Value}", order.FormattedSubTotal);
+            orderHtml = orderHtml.Replace("{Delivery-Charges}", isEnglish ? OrderPDF.DeliveryCharges : OrderPDFAr.DeliveryCharges);
+            orderHtml = orderHtml.Replace("{Delivery-Charges-Value}", order.FormattedDeliveryFee);
+            orderHtml = orderHtml.Replace("{Coupon-Amount-Style}", !string.IsNullOrEmpty(order.FormattedCouponDiscountAmount) ? "" : "display: none;");
+            orderHtml = orderHtml.Replace("{Coupon-Amount}", isEnglish ? OrderPDF.CouponAmount : OrderPDFAr.CouponAmount);
+            orderHtml = orderHtml.Replace("{Coupon-Amount-Value}", order.FormattedCouponDiscountAmount + "&nbsp;");
+            orderHtml = orderHtml.Replace("{Grand-Total}", isEnglish ? OrderPDF.GrandTotal : OrderPDFAr.GrandTotal);
+            orderHtml = orderHtml.Replace("{Grand-Total-Value}", order.FormattedTotal);
+            orderHtml = orderHtml.Replace("{Status-Style}", "color: " + order.OrderStatusColor + " !important;");
+            orderHtml = orderHtml.Replace("{Status}", isEnglish ? OrderPDF.Status : OrderPDFAr.Status);
+            orderHtml = orderHtml.Replace("{Status-Value}", order.OrderStatusName);
+            #endregion
+
+            #region  Items Detail  
+            //title
+            orderHtml = orderHtml.Replace("{Items-Detail}", isEnglish ? OrderPDF.ItemsDetail : OrderPDFAr.ItemsDetail);
+            //table columns header
+            orderHtml = orderHtml.Replace("{Product-Name}", isEnglish ? OrderPDF.ProductName : OrderPDFAr.ProductName);
+            orderHtml = orderHtml.Replace("{Price}", isEnglish ? OrderPDF.Price : OrderPDFAr.Price);
+            orderHtml = orderHtml.Replace("{Quantity}", isEnglish ? OrderPDF.Quantity : OrderPDFAr.Quantity);
+            orderHtml = orderHtml.Replace("{Total-Amount}", isEnglish ? OrderPDF.TotalAmount : OrderPDFAr.TotalAmount);
+
+            //table items list
+            var items = string.Empty;
+            foreach (var item in order.OrderItems)
+            {
+
+                items = items + @"<tr>
+                                       <td>" + item.Product.Title + @"</td> 
+                                       <td>" + item.FormattedUnitPrice + @"</td> 
+                                       <td>" + item.Quantity + @"</td>
+                                       <td>" + item.FormattedTotal + @"</td>
+                                     </tr>";
+
+            }
+            orderHtml = orderHtml.Replace("{Items-Detail-Value}", items);
+            #endregion Items Details
+
+            #region Payment Details
+            orderHtml = orderHtml.Replace("{Payment-Details}", isEnglish ? OrderPDF.PaymentDetails : OrderPDFAr.PaymentDetails);
+            orderHtml = orderHtml.Replace("{Payment-Method}", isEnglish ? OrderPDF.PaymentMethod : OrderPDFAr.PaymentMethod);
+            orderHtml = orderHtml.Replace("{Payment-Method-Value}", order.PaymentMethod != null ? order.PaymentMethod.Name : "");
+            orderHtml = orderHtml.Replace("{Payment-Status}", isEnglish ? OrderPDF.PaymentStatus : OrderPDFAr.PaymentStatus);
+            orderHtml = orderHtml.Replace("{Payment-Status-Value}", order.PaymentResult != null ? order.PaymentResult : "");
+            orderHtml = orderHtml.Replace("{Payment-ID-Style}", !string.IsNullOrEmpty(order.PaymentId) ? "" : "display: none;");
+            orderHtml = orderHtml.Replace("{Payment-ID}", isEnglish ? OrderPDF.PaymentID : OrderPDFAr.PaymentID);
+            orderHtml = orderHtml.Replace("{Payment-ID-Value}", order.PaymentId);
+            orderHtml = orderHtml.Replace("{Payment-Reference-Id-Style}", !string.IsNullOrEmpty(order.PaymentRefId) ? "" : "display: none;");
+            orderHtml = orderHtml.Replace("{Payment-Reference-Id}", isEnglish ? OrderPDF.PaymentReference : OrderPDFAr.PaymentReference);
+            orderHtml = orderHtml.Replace("{Payment-Reference-Id-Value}", order.PaymentRefId != null ? order.PaymentRefId : "");
+            #endregion
+
+            #region Customer Details 
+            orderHtml = orderHtml.Replace("{Customer-Details}", isEnglish ? OrderPDF.CustomerDetails : OrderPDFAr.CustomerDetails);
+            orderHtml = orderHtml.Replace("{Customer-Name}", isEnglish ? OrderPDF.CustomerName : OrderPDFAr.CustomerName);
+            orderHtml = orderHtml.Replace("{Customer-Name-Value}", order.Customer.Name);
+            orderHtml = orderHtml.Replace("{Customer-Email}", isEnglish ? OrderPDF.CustomerEmail : OrderPDFAr.CustomerEmail);
+            orderHtml = orderHtml.Replace("{Customer-Email-Value}", order.Customer.EmailAddress);
+            orderHtml = orderHtml.Replace("{Customer-Mobile-Style}", "");
+            orderHtml = orderHtml.Replace("{Customer-Mobile}", isEnglish ? OrderPDF.CustomerMobile : OrderPDFAr.CustomerMobile);
+            orderHtml = orderHtml.Replace("{Customer-Mobile-Value}", order.Customer.FormattedMobile);
+            #endregion
+
+            #region Delivery Detail
+            orderHtml = orderHtml.Replace("{Delivery-Detail}", isEnglish ? OrderPDF.DeliveryDetail : OrderPDFAr.DeliveryDetail);
+            orderHtml = orderHtml.Replace("{Delivery-Address}", isEnglish ? OrderPDF.DeliveryAddress : OrderPDFAr.DeliveryAddress);
+            orderHtml = orderHtml.Replace("{Delivery-Address-Value}", order.Address.AddressText != null ? order.Address.AddressText : "");
+            orderHtml = orderHtml.Replace("{Delivery-Notes-Style}", !string.IsNullOrEmpty(order.Address.Notes) ? "" : "display: none;");
+            orderHtml = orderHtml.Replace("{Delivery-Notes}", isEnglish ? OrderPDF.DeliveryNotes : OrderPDFAr.DeliveryNotes);
+            orderHtml = orderHtml.Replace("{Delivery-Notes-Value}", order.Address.Notes);
+            #endregion
+
+            string path = MediaHelper.StringToHtml(orderHtml, "Pdfs/dotmatrixHTML");
+
+            return apiBaseUrl + path;
         }
         public async Task<bool> UpdateOrderStatus(Order order, OrderStatus orderStatusId, bool refundDeliveryFee = false, string notes = "")
         {
@@ -1329,13 +1594,21 @@ namespace API.Helpers
             orderHtml = orderHtml.Replace("{Base-Url}", apiUrl);
             orderHtml = orderHtml.Replace("{web-url}", webUrl);
 
+            orderHtml = orderHtml.Replace("{CustomerDetails}", isEnglish ? OrderPDF.CustomerDetails : OrderPDFAr.CustomerDetails);
+            orderHtml = orderHtml.Replace("{Customer-Name}", isEnglish ? OrderPDF.Name : OrderPDFAr.Name);
+            orderHtml = orderHtml.Replace("{Customer-Name-Value}", subscriptionModel.Customer.Name);
+            orderHtml = orderHtml.Replace("{Customer-MobileNumber}", isEnglish ? OrderPDF.MobileNumber : OrderPDFAr.MobileNumber);
+            orderHtml = orderHtml.Replace("{Customer-MobileNumber-Value}", subscriptionModel.Customer.MobileNumber);
+            orderHtml = orderHtml.Replace("{Customer-Email}", isEnglish ? OrderPDF.Email : OrderPDFAr.Email);
+            orderHtml = orderHtml.Replace("{Customer-Email-Value}", subscriptionModel.Customer.EmailAddress);
+
             orderHtml = orderHtml.Replace("{SubscriptionDetails}", isEnglish ? OrderPDF.SubscriptionDetails : OrderPDFAr.SubscriptionDetails);
 
             var subscriptionDetails = string.Empty;
             foreach (var item in subscriptionModel.SubscriptionDetails)
             {
                 subscriptionDetails += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
-                                    <p class='mb-0 text-muted'>" + item.Title + @"</p>
+                                    <label class='fw-bold'>" + item.Title + @"</label>
                                     <p class='mb-0 text-primary fw-bold text-end'>" + item.Value + @"</p></li>";
             }
             orderHtml = orderHtml.Replace("{SubscriptionDetails-Value}", subscriptionDetails);
@@ -1354,6 +1627,7 @@ namespace API.Helpers
             }
             orderHtml = orderHtml.Replace("{Subscribed-Product-Details-Value}", subscriptionPackTitles);
 
+            orderHtml = orderHtml.Replace("{Description-Value}", subscriptionModel.Product.Description);
             orderHtml = orderHtml.Replace("{Qty}", isEnglish ? OrderPDF.Qty : OrderPDFAr.Qty);
             orderHtml = orderHtml.Replace("{Qty-Value}", subscriptionModel.Quantity.ToString());
             orderHtml = orderHtml.Replace("{UnitPrice}", isEnglish ? OrderPDF.UnitPrice : OrderPDFAr.UnitPrice);
@@ -1374,9 +1648,15 @@ namespace API.Helpers
                             <ul class='list-group list-group-flush list-card rounded-top rounded-bottom'>";
                 foreach (var payment in item.SubscriptionPayment)
                 {
+                    //deliveryDetailsValue += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
+                    //                    <label class='fw-bold'>" + payment.Title + @"</label>
+                    //                    <p class='mb-0 text-primary fw-bold text-end'>" + payment.Value + @"</p></li>";
+
+                    payment.TitleBold = true;
                     deliveryDetailsValue += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
-                                        <p class='mb-0 text-muted'>" + payment.Title + @"</p>
-                                        <p class='mb-0 text-primary fw-bold text-end'>" + payment.Value + @"</p></li>";
+                                    <label class='" + (payment.TitleBold ? "fw-bold" : "") + @"' style='font-size:" + (payment.TitleBig ? "1.25rem !important" : "1rem !important") + @";'>" + payment.Title + @"</label>
+                                    <p class='mb-0 text-primary " + (payment.ValueBold ? "fw-bold" : "") + @" text-end'
+                                    style='font-size:" + (payment.ValueBig ? "1.25rem !important" : "1rem !important") + @";'>" + payment.Value + @"</p></li>";
                 }
                 deliveryDetailsValue += "</ul></div></div>";
             }
@@ -1388,7 +1668,7 @@ namespace API.Helpers
             foreach (var upcomingDelivery in subscriptionModel.UpcomingDeliveries)
             {
                 upcomingDeliveries += @"<li class='list-group-item d-flex justify-content-between border-secondary px-0'>
-                                        <p class='mb-0 text-muted'>" + (isEnglish ? OrderPDF.DueDate : OrderPDFAr.DueDate) + @"</p>
+                                        <label class='fw-bold'>" + (isEnglish ? OrderPDF.DueDate : OrderPDFAr.DueDate) + @"</label>
                                         <p class='mb-0 text-primary fw-bold text-end'>" + upcomingDelivery.Title + @"</p>
                                     </li>";
             }
@@ -1400,26 +1680,46 @@ namespace API.Helpers
             if (contactDetail != null)
             {
                 string websiteUrl = webUrl.EndsWith("/") ? webUrl.Remove(webUrl.Length - 1, 1) : webUrl;
+                websiteUrl = websiteUrl.Replace("www.", "");
 
-                header = @"<link rel='stylesheet' href='" + webUrl + @"assets/css/main.css'>
-                           <div class='desktop-header d-none d-lg-block bg-body-primary'>
-                              <div class='bottom-bar'>
+                var headerCss = isEnglish ? "main.css" : "main.rtl.css";
+                header = @"<link rel='stylesheet' href='" + webUrl + @"assets/css/" + headerCss + @"'>
+                              <section>
                                   <div class='container'>
                                       <div class='row'>
-                                          <div class='col-6 text-start py-2 ps-3'>
-                                              <a href='/'>
-                                                  <img src='" + webUrl + @"assets/img/Adhari-Logo.png' alt='Adhari' class='logo'>
-                                              </a>
-                                          </div>
-                                          <div class='col-6 text-end py-2 pe-3'>
-                                              <p class='mb-0 fw-bold'>" + contactDetail.EmailAddress + @"</p>
-                                              <p class='mb-0 fw-bold'>" + websiteUrl + @"</p>
-                                              <p class='mb-0 fw-bold'>" + contactDetail.MobileNumber + @"</p>
+                                          <div class='col-12 offset-lg-2 col-lg-8'>
+                                              <div class='row justify-content-between align-items-center'>                                                  
+                                                  <div class='w-auto'>
+                                                      <div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <img src='" + webUrl + @"assets/img/icons/envelope.png' class='img-fluid me-2' style='height: 18px;' alt=''>
+                                                          <a href='" + contactDetail.EmailAddress + @"' class='fw-bold'>" + contactDetail.EmailAddress + @"</a>
+                                                      </div>
+                                                      <div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <img src='" + webUrl + @"assets/img/icons/web.png' class='img-fluid me-2' style='height: 18px;' alt=''>
+                                                          <a href='" + websiteUrl + @"' target='_blank' class='fw-bold'>" + websiteUrl + @"</a>
+                                                      </div>
+                                                      <div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <img src='" + webUrl + @"assets/img/icons/call.png' class='img-fluid me-2' style='height: 18px;' alt=''>
+                                                          <a href='tel:" + contactDetail.MobileNumber + @"' class='fw-bold'>" + contactDetail.MobileNumber + @"</a>
+                                                      </div>";
+
+                if (!string.IsNullOrEmpty(contactDetail.WhatsAppNumber))
+                {
+                    header = header + @"<div class='d-flex text-start align-items-center justify-content-start text-primary'>
+                                                          <img src='" + webUrl + @"assets/img/icons/whatsapp.png' class='img-fluid me-2' style='height: 18px;' alt=''>
+                                                          <a href='tel:" + contactDetail.WhatsAppNumber + @"' class='fw-bold'>" + contactDetail.WhatsAppNumber + @"</a>
+                                                      </div>";
+                }
+
+                header = header + @"</div>
+                                                  <div class='col-5 col-md-3 col-lg-2 ms-auto'>
+                                                      <img src='" + webUrl + @"assets/img/Adhari-Logo.png' class='img-fluid' style='height: 75px;'>
+                                                  </div>                                              
+                                              </div>
                                           </div>
                                       </div>
                                   </div>
-                              </div>
-                           </div>";
+                              </section>";
             }
 
 

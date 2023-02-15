@@ -26,16 +26,20 @@
                     @await Html.PartialAsync("_FormHiddenFieldsPartial")
                     <div class="row">
                         <div class="col-12 col-lg-4 mb-3">
-                            <label for="fullName" class="form-label">@SharedHtmlLocalizer["Name"]<span class=" text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="fullName" id="fullName" aria-describedby="@SharedHtmlLocalizer["Name"]" oninput="maxlength(event);" maxlength="25" required >
+                            <label for="fullName" class="form-label">@SharedHtmlLocalizer["UserName"]<span class=" text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="userName" id="userName" aria-describedby="@SharedHtmlLocalizer["UserName"]" oninput="maxlength(event);" maxlength="150" required>
                         </div>
                         <div class="col-12 col-lg-4 mb-3">
-                            <label for="mobileNumber" class="form-label">@SharedHtmlLocalizer["MobileNumber"]<span class=" text-danger">*</span></label>
-                            <input type="tel" class="form-control form-control-lg rounded-4 border-secondary " name="mobileNumber" id="mobileNumber" aria-describedby="@SharedHtmlLocalizer["MobileNumber"]" oninput="maxlength(event);" maxlength="8" required>
+                            <label for="fullName" class="form-label">@SharedHtmlLocalizer["LoginName"]<span class=" text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="fullName" id="fullName" aria-describedby="@SharedHtmlLocalizer["LoginName"]" oninput="maxlength(event);" maxlength="25" required>
                         </div>
                         <div class="col-12 col-lg-4 mb-3">
-                            <label for="emailAddress" class="form-label">@SharedHtmlLocalizer["EmailAddress"]<span class=" text-danger">*</span></label>
-                            <input type="email" class="form-control form-control-lg rounded-4 border-secondary " name="emailAddress" id="emailAddress" aria-describedby="@SharedHtmlLocalizer["EmailAddress"]" placeholder="" required>
+                            <label for="mobileNumber" class="form-label">@SharedHtmlLocalizer["MobileNumber"]</label>
+                            <input type="tel" class="form-control form-control-lg rounded-4 border-secondary " name="mobileNumber" id="mobileNumber" aria-describedby="@SharedHtmlLocalizer["MobileNumber"]" oninput="maxlength(event);" maxlength="8">
+                        </div>
+                        <div class="col-12 col-lg-4 mb-3">
+                            <label for="emailAddress" class="form-label">@SharedHtmlLocalizer["EmailAddress"]</label>
+                            <input type="email" class="form-control form-control-lg rounded-4 border-secondary " name="emailAddress" id="emailAddress" aria-describedby="@SharedHtmlLocalizer["EmailAddress"]" placeholder="">
                         </div>
                         <div class="col-12 col-lg-4 mb-3">
                             <label for="" class="form-label">@SharedHtmlLocalizer["Password"]<span class=" text-danger">*</span></label>
@@ -48,18 +52,18 @@
 
                         </div>
                         <div class="col-12 col-lg-4 mb-3">
-                            <label for="roleList" class="form-label">>@SharedHtmlLocalizer["Role"]<span class=" text-danger">*</span></label>
+                            <label for="roleList" class="form-label">@SharedHtmlLocalizer["Role"]<span class=" text-danger">*</span></label>
                             <select class="form-select form-select-lg rounded-4 border-secondary" name="roleList" id="roleList" required>
                             </select>
                         </div>
-                        <div class="col-12 col-lg-4 mb-3">
-                            <label for="genderList" class="form-label">@SharedHtmlLocalizer["Gender"]<span class=" text-danger">*</span></label>
-                            <select class="form-select form-select-lg rounded-4 border-secondary" name="genderList" id="genderList" required>
-                                <option value="0">---</option>
-                                <option value="1">@SharedHtmlLocalizer["Male"]</option>
-                                <option value="2">@SharedHtmlLocalizer["Female"]</option>
-                            </select>
-                        </div>
+                        @*<div class="col-12 col-lg-4 mb-3">
+            <label for="genderList" class="form-label">@SharedHtmlLocalizer["Gender"]<span class=" text-danger">*</span></label>
+            <select class="form-select form-select-lg rounded-4 border-secondary" name="genderList" id="genderList" required>
+                <option value="0">---</option>
+                <option value="1">@SharedHtmlLocalizer["Male"]</option>
+                <option value="2">@SharedHtmlLocalizer["Female"]</option>
+            </select>
+        </div>*@
                     </div>
                     <div class="row">
                         <div class="col-12">

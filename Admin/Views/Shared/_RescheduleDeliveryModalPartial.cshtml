@@ -12,7 +12,9 @@
                 <h5 class="modal-title fw-bold text-primary" id="reschedule-delivery-modalLabel">@SharedHtmlLocalizer["RescheduleOrder"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <input type="hidden" id="dialogOrderId" value="" />
-                <input type="hidden" id="dialogOrderTypeId" value="1" />
+                <input type="hidden" id="dialogOrderTypeID" value="" />
+                <input type="hidden" id="dialogOrderNumber" value="" />
+                <input type="hidden" id="dialogCustomerId" value="" />
                 <input type="hidden" id="apiUrl" value="driver/rescheduleOrder" />
             </div>
             <div class="modal-body">
@@ -20,7 +22,7 @@
                     <div class="col-12">
                         <p class="text-center">@SharedHtmlLocalizer["AreYouSureToRescheduleOrder"]</p>
                     </div>
-                    <div class="col-12 mb-3" style="display:none">
+                    <div class="col-12 mb-3">
                         <!-- ========== Start Datepicker Field ========== -->
                         <label for="" class="form-label">@SharedHtmlLocalizer["RescheuleDeliveryTo"]<span class=" text-danger">*</span></label>
                         <div class="input-group rounded-4">
@@ -53,17 +55,19 @@
 <script>
     $(document).ready(function () {
         rescheduleDeliveryWithReason = () => {
-            let apiUrl = $("#reschedule-delivery-modal .modal-header #apiUrl").val();
+          //  let apiUrl = $("#reschedule-delivery-modal .modal-header #apiUrl").val();
 
-            let orderId = $("#reschedule-delivery-modal .modal-header #dialogOrderId").val(); 
-            let rescheuleDate = $("#reschedule-delivery-modal .modal-body #rescheuleDate").val();
+            //let orderId = $("#reschedule-delivery-modal .modal-header #dialogOrderId").val(); 
+            let rescheuleDate = getDatePickerValue("rescheuleDate"); //$("#reschedule-delivery-modal .modal-body #rescheuleDate").val();
             let notes = $("#reschedule-delivery-modal .modal-body #dialogReason").val();
-
+       
             let submitData = new FormData();
-            submitData.append("orderId", orderId); 
-            submitData.append("RescheduleDeliveryDate", rescheuleDate); //optional
+            submitData.append("orderId", getTextValue("dialogOrderId"));
+            submitData.append("orderTypeId", getTextValue("dialogOrderTypeID"));
+            
+            submitData.append("rescheduleDeliveryDate", getDatePickerValue("rescheuleDate")); //optional
             submitData.append("notes", notes); //optional
-            ajaxPost(apiUrl, submitData, cbRescheduleDeliverySuccess);
+            ajaxPost("driver/rescheduleOrder", submitData, cbRescheduleDeliverySuccess);
          }
     });
 

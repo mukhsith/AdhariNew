@@ -16,6 +16,7 @@ namespace API.Areas.Frontend.Controllers
     public class SubscriptionController : BaseController
     {
         private readonly ISubscriptionModelFactory _subscriptionModelFactory;
+        private static readonly object controllerLock = new object();
         public SubscriptionController(IOptions<AppSettingsModel> options,
             ISubscriptionModelFactory subscriptionModelFactory) : base(options)
         {
@@ -30,15 +31,6 @@ namespace API.Areas.Frontend.Controllers
         public async Task<APIResponseModel<SubscriptionSummaryModel>> GetSubscriptionSummary()
         {
             return await _subscriptionModelFactory.PrepareSubscriptionSummaryModel(isEnglish: isEnglish, customerId: LoggedInCustomerId);
-        }
-
-        /// <summary>
-        /// Validate subscription
-        /// </summary>
-        [HttpGet, Route("/webapi/subscription/validatesubscription")]
-        public async Task<APIResponseModel<bool>> ValidateSubscription(int productId, int quantity)
-        {
-            return await _subscriptionModelFactory.ValidateSubscription(isEnglish: isEnglish, customerId: LoggedInCustomerId, productId: productId, quantity: quantity);
         }
 
         /// <summary>
@@ -65,9 +57,15 @@ namespace API.Areas.Frontend.Controllers
         /// Create subscription 
         /// </summary>
         [HttpPost, Route("/webapi/subscription/createsubscription")]
-        public async Task<APIResponseModel<CreatePaymentModel>> CreateSubscription([FromBody] CreatePaymentModel createPaymentModel)
+        [Authorize]
+        public APIResponseModel<CreatePaymentModel> CreateSubscription([FromBody] CreatePaymentModel createPaymentModel)
         {
-            return await _subscriptionModelFactory.CreateSubscription(isEnglish: isEnglish, customerId: LoggedInCustomerId, deviceTypeId: HeaderDeviceTypeId, createPaymentModel: createPaymentModel);
+            APIResponseModel<CreatePaymentModel> response = new();
+            lock (controllerLock)
+            {
+                response = _subscriptionModelFactory.CreateSubscription(isEnglish: isEnglish, customerId: LoggedInCustomerId, deviceTypeId: HeaderDeviceTypeId, createPaymentModel: createPaymentModel).Result;
+            }
+            return response;
         }
 
         /// <summary>
@@ -75,6 +73,7 @@ namespace API.Areas.Frontend.Controllers
         /// </summary>
         /// <returns>Subscriptions</returns>
         [HttpGet, Route("/webapi/subscription/subscriptions")]
+        [Authorize]
         public async Task<APIResponseModel<List<SubscriptionModel>>> GetSubscriptions(int id = 0, string subscriptionNumber = "", int limit = 0, int page = 0,
             SubscriptionStatus? subscriptionStatus = null)
         {
@@ -95,6 +94,17 @@ namespace API.Areas.Frontend.Controllers
         }
 
         /// <summary>
+        /// To get subscription in pdf
+        /// </summary>
+        /// <returns>Order pdf</returns>
+        [HttpGet, Route("/webapi/subscription/getsubscriptionpdf")]
+        [Authorize]
+        public async Task<APIResponseModel<object>> GetSubscriptionPdf(int id)
+        {
+            return await _subscriptionModelFactory.GetSubscriptionPdf(isEnglish: isEnglish, customerId: LoggedInCustomerId, id: id);
+        }
+
+        /// <summary>
         /// Create subscription order
         /// </summary>
         [HttpGet, Route("/webapi/subscription/createsubscriptionorders")]
@@ -104,14 +114,23 @@ namespace API.Areas.Frontend.Controllers
         }
 
         /// <summary>
-        /// To get subscription in pdf
+        /// To get subscription in pdf for admin
         /// </summary>
-        /// <returns>Order pdf</returns>
-        [HttpGet, Route("/webapi/subscription/getsubscriptionpdf")]
-        [Authorize]
-        public async Task<APIResponseModel<object>> GetSubscriptionPdf(int id)
+        /// <returns>Order pdf for admin</returns>
+        [HttpGet, Route("/webapi/subscription/getsubscriptionpdfadmin")]
+        public async Task<APIResponseModel<object>> GetSubscriptionPdfAdmin(int id, int customerId, bool isEnglish = false)
         {
-            return await _subscriptionModelFactory.GetSubscriptionPdf(isEnglish: isEnglish, customerId: LoggedInCustomerId, id: id);
+            return await _subscriptionModelFactory.GetSubscriptionPdf(isEnglish: isEnglish, customerId: customerId, id: id);
+        }
+
+        /// <summary>
+        /// To get subscription by subscription number
+        /// </summary>
+        /// <returns>Subscriptions</returns>
+        [HttpGet, Route("/webapi/subscription/subscriptionbysubscriptionnumber")]
+        public async Task<APIResponseModel<List<SubscriptionModel>>> GetSubscriptionBySubscriptionNumber(string subscriptionNumber = "")
+        {
+            return await _subscriptionModelFactory.GetSubscriptionBySubscriptionNumber(isEnglish: isEnglish, subscriptionNumber: subscriptionNumber);
         }
     }
 }

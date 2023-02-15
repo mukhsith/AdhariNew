@@ -2,7 +2,7 @@
 @{
     var breadCrumbItems = new List<BreadcrumbModel>();
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Checkout"].Value });
-    breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("subscriptioncheckout"), Title = SharedHtmlLocalizer["SignIn"].Value });
+    breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("checkout"), Title = SharedHtmlLocalizer["SignIn"].Value });
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Address"].Value });
     int selectedAddressId = 0;
     var selectedAddress = Model.Where(a => a.Selected).FirstOrDefault();
@@ -18,14 +18,13 @@
         <div class="row">
             <div class="col-12 col-xl-8 mx-auto">
                 <div class="delivery-address mb-4">
-                    <h4 class="text-primary text-center fw-bold mb-3">@SharedHtmlLocalizer["SelectDeliveryAddress"]</h4>
-                    @if (Model.Count > 0)
-                    {
+                    <div id="dv-not-empty-address" style="@(Model.Count > 0?"display:block;":"display:none;")">
+                        <h4 class="text-primary text-center fw-bold mb-3">@SharedHtmlLocalizer["SelectDeliveryAddress"]</h4>
                         <div id="dv-addresses" class="row justify-content-center addresses">
                             @foreach (var item in Model)
                             {
-                                <div class="col-12 col-md-4 mb-3">
-                                    <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3 @(item.Selected?"active":"")">
+                                <div class="col-12 col-md-4 mb-3 address-list" id="dv-address-@item.Id">
+                                    <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3 @(item.Selected ? "active" : "")">
                                         <label for="address-@item.Id" class="w-100">
                                             <p class="address-name card-text mb-0 fw-bold">@item.Name</p>
                                             <p class="address-content card-text mb-0">
@@ -37,55 +36,52 @@
                                 </div>
                             }
                         </div>
-                        <div class="modal fade" id="addNewAddressModal" tabindex="-1" aria-labelledby="addNewAddressModalTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title text-primary" id="addNewAddressModalTitle">@SharedHtmlLocalizer["AddNewAddress"]</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        @await Html.PartialAsync("_AddNewAddress")
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary text-light rounded-pill" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
-                                        <button type="button" id="btn-save-address" class="btn btn-primary rounded-pill">@SharedHtmlLocalizer["SaveAddress"]</button>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="row" id="dv-empty-address" style="@(Model.Count > 0?"display:none;":"display:block;")">
+                        <div class="col-12 text-center">
+                            <i class="display-1 fas fa-location-dot text-center text-primary"></i>
                         </div>
-                    }
-                    else
-                    {
-                        @await Html.PartialAsync("_AddNewAddress")
-                    }
+                        <div class="col-12 text-center">
+                            <h5 class="mt-3 text-primary">@SharedHtmlLocalizer["NoSavedAddresses"]</h5>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-12 text-center">
             <div class="row">
-                <div class="col-12 col-md-6 col-lg-4 mx-auto">
-                    <div class="row">
-                        @if (Model.Count > 0)
-                        {
-                            <div class="col-12 col-md-6 mb-3 order-2 order-md-1">
-                                <a href="#" id="a-address-popup" class="btn btn-secondary text-light rounded-pill w-100" data-bs-toggle="modal" data-bs-target="#addNewAddressModal">@SharedHtmlLocalizer["AddNewAddress"]</a>
-                            </div>
-                            <div class="col-12 col-md-6 mb-3 order-1 order-md-2">
-                                <a href="javascript:;" id="btn-continue" class="btn btn-primary color-white rounded-pill fw-bold px-5 continue-btn disabled w-100">
-                                    @SharedHtmlLocalizer["Continue"]
-                                </a>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="col-12 text-center">
-                                <a href="javascript:;" id="btn-continue-with-add" class="btn btn-primary color-white rounded-pill fw-bold px-5 continue-btn">
-                                    @SharedHtmlLocalizer["Continue"]
-                                </a>
-                            </div>
-                        }
+                <div class="col-12 col-md-6 mx-auto">
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-md-4 mb-3 order-2 order-md-1" id="dv-add-new-address">
+                            <a href="#" id="a-address-popup" class="btn btn-secondary text-light rounded-pill w-100" data-bs-toggle="modal" data-bs-target="#addNewAddressModal">@SharedHtmlLocalizer["AddNewAddress"]</a>
+                        </div>
+                        <div class="col-6 col-md-4 mb-3 order-3 order-md-2" id="dv-edit-new-address" style="@(Model.Count > 0?"display:block;":"display:none;")">
+                            <a href="#" id="a-edit-address-popup" class="btn btn-warning text-light rounded-pill w-100 disabled">@SharedHtmlLocalizer["EditAddress"]</a>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3 order-1 order-md-2" id="dv-continue" style="@(Model.Count > 0?"display:block;":"display:none;")">
+                            <a href="javascript:;" id="btn-continue" class="btn btn-primary color-white rounded-pill fw-bold px-5 continue-btn disabled w-100">
+                                @SharedHtmlLocalizer["Continue"]
+                            </a>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addNewAddressModal" tabindex="-1" aria-labelledby="addNewAddressModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="addNewAddressModalTitle">@SharedHtmlLocalizer["AddNewAddress"]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @await Html.PartialAsync("_AddNewAddress")
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger text-light rounded-pill me-auto" id="btn-delete-address">@SharedHtmlLocalizer["Delete"]</button>
+                    <button type="button" class="btn btn-secondary text-light rounded-pill" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                    <button type="button" id="btn-save-address" class="btn btn-primary rounded-pill">@SharedHtmlLocalizer["SaveAddress"]</button>
                 </div>
             </div>
         </div>
@@ -97,37 +93,174 @@
         $("#hdnAddressId").val(@selectedAddressId);
         if (@selectedAddressId> 0) {
             $('.continue-btn').removeClass('disabled');
+            $('#a-edit-address-popup').removeClass('disabled');
         }
 
-        $(document).on("change","input[type=radio][name=address]",function () {
+        $(document).on("change", "input[type=radio][name=address]", function () {
             $(this).closest('.addresses').find('.inputGroup').removeClass('active');
             $(this).closest('.inputGroup').addClass('active');
             $('.continue-btn').removeClass('disabled');
+            $('#a-edit-address-popup').removeClass('disabled');
             var addressId = $(this).attr("data-addressId");
             $("#hdnAddressId").val(addressId);
         });
 
         $("#btn-continue").click(function () {
             var selectedAddressId = $("#hdnAddressId").val();
+            if (selectedAddressId == "0") {
+                return;
+            }
+
             saveSubscriptionAttributes(selectedAddressId);
         });
 
-        $("#btn-continue-with-add").click(function () {
-            addAddress(true);
-        });
+        $("#a-address-popup").click(function (e) {
+            e.preventDefault();
+            $(".address-div").hide();
+            loadGovernorates();
+            $('#Area').find('option:not(:first)').remove();
+            loadHome();
+            $("#hdnAddressTypeId").val(@((int)AddressType.Home));
+            setTextValue('AddressName', '');
+            setTextValue('Block', '');
+            setTextValue('Street', '');
+            setTextValue('Avenue', '');
+            setTextValue('HouseNo', '');
+            setTextValue('BuildingNo', '');
+            setTextValue('FloorNo', '');
+            setTextValue('FlatNo', '');
+            setTextValue('SchoolName', '');
+            setTextValue('MosqueName', '');
+            setTextValue('GovernmentEntity', '');
+            setTextValue('Notes', '');
 
-        $("#a-address-popup").click(function () {
+            $("#btn-delete-address").hide();
+
+            $("#addNewAddressModalTitle").html("@SharedHtmlLocalizer["AddNewAddress"]");
             let myModal = new bootstrap.Modal(document.getElementById('addNewAddressModal'), {});
             myModal.show();
         });
 
+        $("#a-edit-address-popup").click(function (e) {
+            e.preventDefault();
+            var selectedAddressId = $("#hdnAddressId").val();
+
+            if (selectedAddressId == "0") {
+                return;
+            }
+
+            $("#btn-delete-address").show();
+            $("#addNewAddressModalTitle").html("@SharedHtmlLocalizer["EditAddress"]");
+
+            $.get("@Url.RouteUrl("getaddress")", {
+                addressId: selectedAddressId
+            }, function (result) {
+                if (result.success && result.data != null) {
+                    var address = result.data[0];
+                    switch (address.typeId) {
+                        case @((int)AddressType.Home):
+                            $('#Home-tab').trigger('click');
+                            break;
+                        case @((int)AddressType.Appartment):
+                            $('#Apartment-tab').trigger('click');
+                            break;
+                        case @((int)AddressType.Office):
+                            $('#Office-tab').trigger('click');
+                            break;
+                        case @((int)AddressType.School):
+                            $('#School-tab').trigger('click');
+                            break;
+                        case @((int)AddressType.Mosque):
+                            $('#Mosque-tab').trigger('click');
+                            break;
+                        case @((int)AddressType.Government):
+                            $('#Government-tab').trigger('click');
+                            break;
+                        default:
+                            break;
+                    }
+
+                    loadGovernoratesEdit(address.governorateId);
+                    loadAreasEdit(address.governorateId, address.areaId);
+
+                    setIntegerValue('hdnAddressTypeId', address.typeId);
+                    setTextValue('AddressName', address.name);
+                    setTextValue('Block', address.block);
+                    setTextValue('Street', address.street);
+                    setTextValue('Avenue', address.avenue);
+                    setTextValue('HouseNo', address.houseNumber);
+                    setTextValue('BuildingNo', address.buildingNumber);
+                    setTextValue('FloorNo', address.floorNumber);
+                    setTextValue('FlatNo', address.flatNumber);
+                    setTextValue('SchoolName', address.schoolName);
+                    setTextValue('MosqueName', address.mosqueName);
+                    setTextValue('GovernmentEntity', address.governmentEntity);
+                    setTextValue('Notes', address.notes);
+
+                    let myModal = new bootstrap.Modal(document.getElementById('addNewAddressModal'), {});
+                    myModal.show();
+                }
+                else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+        });
+
         $("#btn-save-address").click(function () {
-            addAddress(false);
+            if ($("#addNewAddressModalTitle").html() == "@SharedHtmlLocalizer["AddNewAddress"]") {
+                addAddress();
+            }
+            else {
+                editAddress();
+            }
+
+            return false;
+        });
+
+        $("#btn-delete-address").click(function () {
+            var selectedAddressId = $("#hdnAddressId").val();
+            $.get("@Url.RouteUrl("deleteaddress")", {
+                id: selectedAddressId
+            }, function (result) {
+                if (result.success) {
+                    $("#dv-address-" + selectedAddressId).remove();
+
+                    $('#addNewAddressModal').modal('hide');
+                    $("#hdnAddressId").val(0);
+                    $('.continue-btn').addClass('disabled');
+                    $('#a-edit-address-popup').addClass('disabled');
+
+                    if ($('.address-list').length == 0) {
+                        $('#dv-not-empty-address').hide();
+                        $('#dv-empty-address').css("display","block");
+                        $('#dv-edit-new-address').hide();
+                        $('#dv-continue').hide();
+                    }
+                }
+                else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+
             return false;
         });
     });
 
-    function addAddress(continueWithAdd) {
+    function addAddress() {
         $("#frm-address").validate();
         if ($("#frm-address").valid()) {
             $.post("@Url.RouteUrl("addaddress")", {
@@ -153,26 +286,38 @@
                     $("#Area").empty().append("<option value=''>@SharedHtmlLocalizer["Select"]</option>");
                     $(".address-field").val('');
 
-                    if (continueWithAdd) {
-                        saveSubscriptionAttributes(result.data.id);
+                    $('#dv-not-empty-address').show();
+                    $('#dv-empty-address').hide();
+                    $('#dv-edit-new-address').show();
+                    $('#dv-continue').show();
+
+                    if ($("#hdnAddressId").val() == "0") {
+                        $('.continue-btn').addClass('disabled');
+                        $('#a-edit-address-popup').addClass('disabled');
                     }
                     else {
-                        $('#addNewAddressModal').modal('hide');
-
-                        $("#dv-addresses").prepend("<div class='col-12 col-md-4 mb-3'>" +
-                            "<div class='inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3 active'>" +
-                            "<label for='address-" + result.data.id + "' class='w-100'>" +
-                            "<p class='address-name card-text mb-0 fw-bold'>" + result.data.name + "</p>" +
-                            "<p class='address-content card-text mb-0'>" + result.data.addressText + "<br></p></label>" +
-                            "<input class='d-none' id='address-" + result.data.id + "' data-addressId='" + result.data.id + "' name='address' type='radio' 'checked'>" +
-                            "</div>" +
-                            "</div>");
-
-                        $("#hdnAddressId").val(result.data.id);
                         $('.continue-btn').removeClass('disabled');
+                        $('#a-edit-address-popup').removeClass('disabled');
                     }
+
+                    $('#addNewAddressModal').modal('hide');
+
+                    $("#dv-addresses").prepend("<div class='col-12 col-md-4 mb-3 address-list' id='dv-address-" + result.data.id + "'>" +
+                        "<div class='inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3'>" +
+                        "<label for='address-" + result.data.id + "' class='w-100'>" +
+                        "<p class='address-name card-text mb-0 fw-bold'>" + result.data.name + "</p>" +
+                        "<p class='address-content card-text mb-0'>" + result.data.addressText + "<br></p></label>" +
+                        "<input class='d-none' id='address-" + result.data.id + "' data-addressId='" + result.data.id + "' name='address' type='radio'>" +
+                        "</div>" +
+                        "</div>");
                 }
                 else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
                     if (result.message != "")
                         ToastAlert('error', '', result.message);
                 }
@@ -180,19 +325,341 @@
         }
     }
 
+    function editAddress() {
+        $("#frm-address").validate();
+        if ($("#frm-address").valid()) {
+            var selectedAddressId = $("#hdnAddressId").val();
+            var data = {
+                Id: selectedAddressId,
+                TypeId: $("#hdnAddressTypeId").val(),
+                Name: $("#AddressName").val(),
+                GovernorateId: $("#Governorate").val(),
+                AreaId: $("#Area").val(),
+                Block: $("#Block").val(),
+                Street: $("#Street").val(),
+                Avenue: $("#Avenue").val(),
+                HouseNumber: $("#HouseNo").val(),
+                BuildingNumber: $("#BuildingNo").val(),
+                FloorNumber: $("#FloorNo").val(),
+                FlatNumber: $("#FlatNo").val(),
+                SchoolName: $("#SchoolName").val(),
+                MosqueName: $("#MosqueName").val(),
+                GovernmentEntity: $("#GovernmentEntity").val(),
+                Notes: $("#Notes").val()
+            };
+
+            $.ajax({
+                url: "@Url.RouteUrl("updateaddress")",
+                type: 'PUT',
+                data: data,
+                success: function (result) {
+                    if (result.success) {
+                        $("#dv-address-" + selectedAddressId).empty().html("<div class='inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3 active'>" +
+                            "<label for='address-" + result.data.id + "' class='w-100'>" +
+                            "<p class='address-name card-text mb-0 fw-bold'>" + result.data.name + "</p>" +
+                            "<p class='address-content card-text mb-0'>" + result.data.addressText + "<br></p></label>" +
+                            "<input class='d-none' id='address-" + result.data.id + "' data-addressId='" + result.data.id + "' name='address' type='radio' 'checked'>" +
+                            "</div>");
+
+                        $('#addNewAddressModal').modal('hide');
+                    }
+                    else {
+                        if (result.messageCode == 401) {
+                            var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                            window.location.href = "/login?returnUrl=" + returnUrl;
+                            return;
+                        }
+
+                        if (result.message != "")
+                            ToastAlert('error', '', result.message);
+                    }
+                }
+            });
+        }
+    }
+
     function saveSubscriptionAttributes(addressId) {
-        if (addressId == 0) {
-            return false;
+            if (addressId == 0) {
+                return false;
+            }
+
+            $.post("@Url.RouteUrl("savesubscriptionattributes")", { AddressId: addressId, AttributeTypeId: @((int)AttributeType.SelectAddress) }, function (result) {
+                if (result.success) {
+                    window.location = "@Url.RouteUrl("subscriptioncheckoutsummary")";
+                }
+                else {
+                    if (result.messageCode == 401) {
+                            var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                            window.location.href = "/login?returnUrl=" + returnUrl;
+                            return;
+                    }
+
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
         }
 
-        $.post("@Url.RouteUrl("savesubscriptionattributes")", { AddressId: addressId, AttributeTypeId: @((int)AttributeType.SelectAddress) }, function (result) {
-            if (result.success) {
-                window.location = "@Url.RouteUrl("subscriptioncheckoutsummary")";
+    function loadGovernoratesEdit(id) {
+        $.get("@Url.RouteUrl("getgovernorates")", function (result) {
+            if (result.success && result.data != null) {
+                $('#Governorate').find('option:not(:first)').remove();
+                $.each(result.data, function (i, item) {
+                    if (id == item.id) {
+                        $('#Governorate').append($('<option>', {
+                            value: item.id,
+                            text: item.name,
+                            selected: "selected"
+                        }));
+                    } else {
+                        $('#Governorate').append($('<option>', {
+                            value: item.id,
+                            text: item.name
+                        }));
+                    }
+                });
             }
-            else {
-                if (result.message != "")
-                    ToastAlert('error', '', result.message);
+        });
+    }
+
+    function loadAreasEdit(gid, aid) {
+        var _url = "/Common/GetAreas?governorateId=" + gid;
+        $.get(_url, function (result) {
+            if (result.success && result.data != null) {
+                $('#Area').find('option:not(:first)').remove();
+                $.each(result.data, function (i, item) {
+                    if (aid == item.id) {
+                        $('#Area').append($('<option>', {
+                            value: item.id,
+                            text: item.name,
+                            selected: "selected"
+                        }));
+                    } else {
+                    $('#Area').append($('<option>', {
+                        value: item.id,
+                        text: item.name
+                    }));
+                    }
+                });
             }
         });
     }
 </script>
+
+
+
+
+
+
+
+
+@*@model IList<Utility.Models.Frontend.CustomerManagement.AddressModel>
+    @{
+        var breadCrumbItems = new List<BreadcrumbModel>();
+        breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Checkout"].Value });
+        breadCrumbItems.Add(new BreadcrumbModel() { Url = Url.RouteUrl("subscriptioncheckout"), Title = SharedHtmlLocalizer["SignIn"].Value });
+        breadCrumbItems.Add(new BreadcrumbModel() { Url = "#", Title = SharedHtmlLocalizer["Address"].Value });
+        int selectedAddressId = 0;
+        var selectedAddress = Model.Where(a => a.Selected).FirstOrDefault();
+        if (selectedAddress != null)
+        {
+            selectedAddressId = selectedAddress.Id;
+        }
+    }
+    @await Html.PartialAsync("_PageHeading2", breadCrumbItems)
+    <input type="hidden" id="hdnAddressId" value="0" />
+    <section class="main-content py-5 mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-xl-8 mx-auto">
+                    <div class="delivery-address mb-4">
+                        <h4 class="text-primary text-center fw-bold mb-3">@SharedHtmlLocalizer["SelectDeliveryAddress"]</h4>
+                        @if (Model.Count > 0)
+                        {
+                            <div id="dv-addresses" class="row justify-content-center addresses">
+                                @foreach (var item in Model)
+                                {
+                                    <div class="col-12 col-md-4 mb-3">
+                                        <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3 @(item.Selected?"active":"")">
+                                            <label for="address-@item.Id" class="w-100">
+                                                <p class="address-name card-text mb-0 fw-bold">@item.Name</p>
+                                                <p class="address-content card-text mb-0">
+                                                    @item.AddressText<br>
+                                                </p>
+                                            </label>
+                                            <input class="d-none" id="address-@item.Id" data-addressId="@item.Id" name="address" type="radio" @Html.Raw(item.Selected ? "checked" : "")>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="modal fade" id="addNewAddressModal" tabindex="-1" aria-labelledby="addNewAddressModalTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-primary" id="addNewAddressModalTitle">@SharedHtmlLocalizer["AddNewAddress"]</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @await Html.PartialAsync("_AddNewAddress")
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary text-light rounded-pill" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                                            <button type="button" id="btn-save-address" class="btn btn-primary rounded-pill">@SharedHtmlLocalizer["SaveAddress"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            @await Html.PartialAsync("_AddNewAddress")
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4 mx-auto">
+                        <div class="row">
+                            @if (Model.Count > 0)
+                            {
+                                <div class="col-12 col-md-6 mb-3 order-2 order-md-1">
+                                    <a href="#" id="a-address-popup" class="btn btn-secondary text-light rounded-pill w-100" data-bs-toggle="modal" data-bs-target="#addNewAddressModal">@SharedHtmlLocalizer["AddNewAddress"]</a>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3 order-1 order-md-2">
+                                    <a href="javascript:;" id="btn-continue" class="btn btn-primary color-white rounded-pill fw-bold px-5 continue-btn disabled w-100">
+                                        @SharedHtmlLocalizer["Continue"]
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-12 text-center">
+                                    <a href="javascript:;" id="btn-continue-with-add" class="btn btn-primary color-white rounded-pill fw-bold px-5 continue-btn">
+                                        @SharedHtmlLocalizer["Continue"]
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(document).ready(function () {
+            $(".inputGroup.active").find("input").click();
+            $("#hdnAddressId").val(@selectedAddressId);
+            if (@selectedAddressId> 0) {
+                $('.continue-btn').removeClass('disabled');
+            }
+
+            $(document).on("change","input[type=radio][name=address]",function () {
+                $(this).closest('.addresses').find('.inputGroup').removeClass('active');
+                $(this).closest('.inputGroup').addClass('active');
+                $('.continue-btn').removeClass('disabled');
+                var addressId = $(this).attr("data-addressId");
+                $("#hdnAddressId").val(addressId);
+            });
+
+            $("#btn-continue").click(function () {
+                var selectedAddressId = $("#hdnAddressId").val();
+                saveSubscriptionAttributes(selectedAddressId);
+            });
+
+            $("#btn-continue-with-add").click(function () {
+                addAddress(true);
+            });
+
+            $("#a-address-popup").click(function () {
+                let myModal = new bootstrap.Modal(document.getElementById('addNewAddressModal'), {});
+                myModal.show();
+            });
+
+            $("#btn-save-address").click(function () {
+                addAddress(false);
+                return false;
+            });
+        });
+
+        function addAddress(continueWithAdd) {
+            $("#frm-address").validate();
+            if ($("#frm-address").valid()) {
+                $.post("@Url.RouteUrl("addaddress")", {
+                    TypeId: $("#hdnAddressTypeId").val(),
+                    Name: $("#AddressName").val(),
+                    GovernorateId: $("#Governorate").val(),
+                    AreaId: $("#Area").val(),
+                    Block: $("#Block").val(),
+                    Street: $("#Street").val(),
+                    Avenue: $("#Avenue").val(),
+                    HouseNumber: $("#HouseNo").val(),
+                    BuildingNumber: $("#BuildingNo").val(),
+                    FloorNumber: $("#FloorNo").val(),
+                    FlatNumber: $("#FlatNo").val(),
+                    SchoolName: $("#SchoolName").val(),
+                    MosqueName: $("#MosqueName").val(),
+                    GovernmentEntity: $("#GovernmentEntity").val(),
+                    Notes: $("#Notes").val()
+                }, function (result) {
+                    if (result.success && result.data != null) {
+                        $("#AddressName").val('');
+                        $("#Governorate").val('');
+                        $("#Area").empty().append("<option value=''>@SharedHtmlLocalizer["Select"]</option>");
+                        $(".address-field").val('');
+
+                        if (continueWithAdd) {
+                            saveSubscriptionAttributes(result.data.id);
+                        }
+                        else {
+                            $('#addNewAddressModal').modal('hide');
+
+                            $("#dv-addresses").prepend("<div class='col-12 col-md-4 mb-3'>" +
+                                "<div class='inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3 active'>" +
+                                "<label for='address-" + result.data.id + "' class='w-100'>" +
+                                "<p class='address-name card-text mb-0 fw-bold'>" + result.data.name + "</p>" +
+                                "<p class='address-content card-text mb-0'>" + result.data.addressText + "<br></p></label>" +
+                                "<input class='d-none' id='address-" + result.data.id + "' data-addressId='" + result.data.id + "' name='address' type='radio' 'checked'>" +
+                                "</div>" +
+                                "</div>");
+
+                            $("#hdnAddressId").val(result.data.id);
+                            $('.continue-btn').removeClass('disabled');
+                        }
+                    }
+                    else {
+                        if (result.messageCode == 401) {
+                            var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                            window.location.href = "/login?returnUrl=" + returnUrl;
+                            return;
+                        }
+
+                        if (result.message != "")
+                            ToastAlert('error', '', result.message);
+                    }
+                });
+            }
+        }
+
+        function saveSubscriptionAttributes(addressId) {
+            if (addressId == 0) {
+                return false;
+            }
+
+            $.post("@Url.RouteUrl("savesubscriptionattributes")", { AddressId: addressId, AttributeTypeId: @((int)AttributeType.SelectAddress) }, function (result) {
+                if (result.success) {
+                    window.location = "@Url.RouteUrl("subscriptioncheckoutsummary")";
+                }
+                else {
+                    if (result.messageCode == 401) {
+                            var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                            window.location.href = "/login?returnUrl=" + returnUrl;
+                            return;
+                    }
+
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+        }
+    </script>*@

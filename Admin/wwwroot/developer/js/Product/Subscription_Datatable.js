@@ -1,7 +1,42 @@
 ﻿
 $(document).ready(function () {
-    searchDataTable();
+    configureDialogModels();
+  //  searchDataTable();
+    ajaxGet('Subscription/GetAllProductAndCategory', cbGetList);
 });
+
+
+cbGetList = (data) => {
+
+    fillDropDownListData("categoryList", data.data.categories, false, null, "id", "nameEn",);
+    searchDataTable();
+}
+
+
+configureDialogModels = () => {
+
+    //$(document).on("click", ".open-order-status", function () {
+    //    $("#order-status .modal-header #dialogOrderId").val($(this).data('id'));
+
+    //});
+
+    $(document).on("click", ".open-product-cancel-modal", function () {
+        $("#product-cancel .modal-header #dialogProductId").val($(this).data('id'));
+    });
+
+
+}
+
+
+cbCancelOrderSuccess = (data) => {
+    if (data.success) {
+        ToastAlert('success', 'product', 'product deleted successfully');
+        setTimeout(() => location.href = "/product/subscriptionList", 2500);
+
+    } else {
+        ToastAlert('error', 'product', data.message);
+    }
+}
 
 searchDataTable = () => {
    
@@ -17,7 +52,9 @@ searchDataTable = () => {
             headers: {"Authorization": 'Bearer ' + getToken()},
             data: function (d) {
                 var search = $(":input[type=search]").val();
-                if (search.length <= 0) { showLoader(); }
+               // if (search.length <= 0) { showLoader(); }
+                d.productName = getTextValue("productName");
+                d.categoryID = getSelectedItemValue("categoryList");
             },
             "datatype": "json",
             "dataSrc": function (json) {
@@ -48,6 +85,12 @@ searchDataTable = () => {
                 }
             },
             {
+                "data": "category.nameEn", render: function (data, type, row) { return row.category.nameEn; }
+            },
+            {
+                "data": "category.nameAr", render: function (data, type, row) { return row.category.nameAr; }
+            },
+            {
                 "data": "nameEn", render: function (data, type, row) {return row.nameEn;}
             },
             {
@@ -60,11 +103,12 @@ searchDataTable = () => {
                     return GetProductDetails(row);
                 }
             },
-            {
-                "data": null, "name":"Actions", render: function (data, type, row) {
-                    return `${addEditAction('Subscription','/Product/SubscriptionAddEdit/', row)} ${addPopupAction('Product', row) }`;
-                }
-            },  
+            { "data": null, render: function (data, type, row) { return getActionsHtml(row); }, },
+            //{
+            //    "data": null, "name":"Actions", render: function (data, type, row) {
+            //        return `${addEditAction('Subscription','/Product/SubscriptionAddEdit/', row)} ${addPopupAction('Product', row) }`;
+            //    }
+            //},  
         ],
          
         createdRow: function (row, data, index) {
@@ -85,7 +129,14 @@ searchDataTable = () => {
         
     });
 
-  
+
+    getActionsHtml = (row) => {
+        var html = `${addEditAction('Subscription Product', '/Product/SubscriptionAddEdit/', row)} ${addPopupAction('Product', row)}`;
+
+        html += `<span data-bs-toggle="modal" class="open-product-cancel-modal" data-id="${row.id}" data-bs-target="#product-cancel"><a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-danger"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Product Delete" data-bs-original-title="Product Delete" aria-label="Product Delete" ><i class="fa-solid fa-xmark"></i></a> </span>`;
+
+        return html;
+    }
 
     GetProductDetails = (row) => {
         var html = `<td data-th="Contents">

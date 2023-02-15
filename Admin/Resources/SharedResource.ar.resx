@@ -135,6 +135,9 @@
   <data name="Add" xml:space="preserve">
     <value>يضيف</value>
   </data>
+  <data name="AddItemsToOrder" xml:space="preserve">
+    <value>أضف أصناف للطلب</value>
+  </data>
   <data name="AddNewAddress" xml:space="preserve">
     <value>أضف عنوان جديد</value>
   </data>
@@ -190,7 +193,7 @@
     <value>اسم العنوان</value>
   </data>
   <data name="AddressNameIsRequired" xml:space="preserve">
-    <value>اسم العنوان مطلوب</value>
+    <value>يرجى ادخال اسم العنوان</value>
   </data>
   <data name="AddressTextAr" xml:space="preserve">
     <value>العنوان (بالعربية)</value>
@@ -211,7 +214,7 @@
     <value>شعار عذاري</value>
   </data>
   <data name="All" xml:space="preserve">
-    <value>الجميع</value>
+    <value>جميع</value>
   </data>
   <data name="AlreadyHaveAnAccount" xml:space="preserve">
     <value>هل لديك حساب بالفعل؟</value>
@@ -243,6 +246,9 @@
   <data name="AreaDetails" xml:space="preserve">
     <value>تفاصيل المنطقة</value>
   </data>
+  <data name="AreaIsRequired" xml:space="preserve">
+    <value>يرجى اختار المنطقة</value>
+  </data>
   <data name="Areas" xml:space="preserve">
     <value>المناطق</value>
   </data>
@@ -255,11 +261,17 @@
   <data name="AssignDriver" xml:space="preserve">
     <value>تعيين سائق</value>
   </data>
+  <data name="Assigned" xml:space="preserve">
+    <value>Assigned</value>
+  </data>
   <data name="AutomaticDeduction" xml:space="preserve">
     <value>الخصم التلقائي</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>متوفر</value>
+  </data>
   <data name="Avenue" xml:space="preserve">
-    <value>جادة</value>
+    <value>الجادة</value>
   </data>
   <data name="AvenueNameOrNumber" xml:space="preserve">
     <value>اسم أو الرقم الجادة</value>
@@ -270,11 +282,17 @@
   <data name="AvenueNo" xml:space="preserve">
     <value>الجادة</value>
   </data>
+  <data name="B2B" xml:space="preserve">
+    <value>الجمعيات والجملة</value>
+  </data>
   <data name="B2BPrice" xml:space="preserve">
-    <value>سعر B2B</value>
+    <value>سعر للجمعيات والجملة</value>
+  </data>
+  <data name="B2C" xml:space="preserve">
+    <value>العملاء</value>
   </data>
   <data name="B2CPrice" xml:space="preserve">
-    <value>سعر B2C</value>
+    <value>سعر للعملاء</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>رجوع</value>
@@ -283,19 +301,19 @@
     <value>الرصيد</value>
   </data>
   <data name="BannerDetails" xml:space="preserve">
-    <value>تفاصيل الشعار</value>
+    <value>تفاصيل البنر</value>
   </data>
   <data name="BannerImageAr" xml:space="preserve">
-    <value>صورة الشعار (بالعربية)</value>
+    <value>البنر (بالعربية)</value>
   </data>
   <data name="BannerImageEn" xml:space="preserve">
-    <value>صورة الشعار (بالإنجليزية)</value>
+    <value>البنر (بالإنجليزية)</value>
   </data>
   <data name="Banners" xml:space="preserve">
-    <value>شعارات</value>
+    <value>بنرات</value>
   </data>
   <data name="BannerType" xml:space="preserve">
-    <value>نوع الشعار</value>
+    <value>نوع البنر</value>
   </data>
   <data name="BasePrice" xml:space="preserve">
     <value>السعر الأساسي</value>
@@ -307,7 +325,7 @@
     <value>المنتجات الأساسية</value>
   </data>
   <data name="Block" xml:space="preserve">
-    <value>قطعة</value>
+    <value>القطعة</value>
   </data>
   <data name="BlockDateRange" xml:space="preserve">
     <value>نطاق تاريخ الحظر</value>
@@ -316,7 +334,7 @@
     <value>محظور بواسطة</value>
   </data>
   <data name="BlockedDeliveryDateDetails" xml:space="preserve">
-    <value>تفاصيل تاريخ التسليم المحظور</value>
+    <value>تفاصيل تاريخ التوصيل المحظور</value>
   </data>
   <data name="BlockedDeliveryDates" xml:space="preserve">
     <value>مواعيد التوصيل المحظورة</value>
@@ -328,7 +346,7 @@
     <value>تاريخ انتهاء الحظر</value>
   </data>
   <data name="BlockIsRequired" xml:space="preserve">
-    <value>قطعة مطلوبة</value>
+    <value>يرجى ادخال القطعة</value>
   </data>
   <data name="BlockNo" xml:space="preserve">
     <value>رقم القطعة</value>
@@ -337,7 +355,7 @@
     <value>تاريخ بدء الحظر</value>
   </data>
   <data name="BuildingNameOrNumberIsRequired" xml:space="preserve">
-    <value>مطلوب اسم الشارع أو المبنى</value>
+    <value>يرجى ادخال رقم المبنى</value>
   </data>
   <data name="BuildingNo" xml:space="preserve">
     <value>رقم المبنى</value>
@@ -349,16 +367,25 @@
     <value>الإجراءات المجمعة</value>
   </data>
   <data name="BundledProductDescription" xml:space="preserve">
-    <value>وصف المنتج المجمع</value>
+    <value>وصف المجموعة المنتج</value>
+  </data>
+  <data name="BundledProductDetails" xml:space="preserve">
+    <value>تفاصيل المجموعة المنتج</value>
+  </data>
+  <data name="BundledProductDiscountedPrice" xml:space="preserve">
+    <value>سعر الخصم المجموعة</value>
   </data>
   <data name="BundledProductImage" xml:space="preserve">
-    <value>صورة المنتج المجمعة</value>
+    <value>صورة المجموعة المنتج</value>
   </data>
   <data name="BundledProductName" xml:space="preserve">
-    <value>اسم المنتج المجمع</value>
+    <value>اسم المجموعة المنتج</value>
+  </data>
+  <data name="BundledProductPrice" xml:space="preserve">
+    <value>سعر المجموعة</value>
   </data>
   <data name="BundledProducts" xml:space="preserve">
-    <value>منتجات مجمعة</value>
+    <value>مجموعة</value>
   </data>
   <data name="CalculatePricing" xml:space="preserve">
     <value>احسب التسعير</value>
@@ -369,8 +396,14 @@
   <data name="Cancelled" xml:space="preserve">
     <value>ملغى</value>
   </data>
+  <data name="CancelledByCustomer" xml:space="preserve">
+    <value>ملغاة من العميل</value>
+  </data>
   <data name="CancelOrder" xml:space="preserve">
     <value>الغاء الطلب</value>
+  </data>
+  <data name="Captured" xml:space="preserve">
+    <value>قبول</value>
   </data>
   <data name="CardDetails" xml:space="preserve">
     <value>تفاصيل البطاقة</value>
@@ -382,7 +415,10 @@
     <value>عنوان البطاقة (بالإنجليزية)</value>
   </data>
   <data name="Cart" xml:space="preserve">
-    <value>السلة</value>
+    <value>عربة التسوق</value>
+  </data>
+  <data name="CashBack" xml:space="preserve">
+    <value>الاسترداد النقدي</value>
   </data>
   <data name="CashbackAmount" xml:space="preserve">
     <value>مبلغ الاسترداد النقدي</value>
@@ -408,6 +444,9 @@
   <data name="CashbackValueToDeductKWD" xml:space="preserve">
     <value>قيمة الاسترداد النقدي للخصم (د.ك)</value>
   </data>
+  <data name="CashOnDelivery" xml:space="preserve">
+    <value>كاش</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>فئات</value>
   </data>
@@ -415,10 +454,16 @@
     <value>فئة</value>
   </data>
   <data name="CategoryBannerDesktop" xml:space="preserve">
-    <value>شعار الفئة (سطح المكتب)</value>
+    <value>بنر الفئة (سطح المكتب بالإنجليزية)</value>
+  </data>
+  <data name="CategoryBannerDesktopAr" xml:space="preserve">
+    <value>بنر الفئة (سطح المكتب بالعربية)</value>
   </data>
   <data name="CategoryBannerMobile" xml:space="preserve">
-    <value>شعار الفئة (الهاتف النقال)</value>
+    <value>بنر الفئة (الهاتف بالإنجليزية)</value>
+  </data>
+  <data name="CategoryBannerMobileAr" xml:space="preserve">
+    <value>بنر الفئة (الهاتف بالعربية)</value>
   </data>
   <data name="CategoryDetails" xml:space="preserve">
     <value>تفاصيل الفئة</value>
@@ -430,10 +475,10 @@
     <value>اسم الفئة (بالإنجليزية)</value>
   </data>
   <data name="CategoryNormalIconForMobileApp" xml:space="preserve">
-    <value>رمز الفئة العادي لتطبيق الهاتفية</value>
+    <value>أيقونة الفئة العادي لتطبيق الهاتفية</value>
   </data>
   <data name="CategorySelectedIconForMobileApp" xml:space="preserve">
-    <value>رمز الفئة المختارة لتطبيق الهاتفية</value>
+    <value>أيقونة الفئة المختارة لتطبيق الهاتفية</value>
   </data>
   <data name="ChangeOrderStatus" xml:space="preserve">
     <value>تغيير حالة الطلب</value>
@@ -462,8 +507,14 @@
   <data name="Close" xml:space="preserve">
     <value>أغلق</value>
   </data>
+  <data name="COD" xml:space="preserve">
+    <value>كاش</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>مكتمل</value>
+  </data>
+  <data name="Completed_Order" xml:space="preserve">
+    <value>عدد الطلبات المكتملة</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>يتأكد</value>
@@ -529,16 +580,19 @@
     <value>الرجاء إدخال عنوان URL الصحيح</value>
   </data>
   <data name="CouponCode" xml:space="preserve">
-    <value>رمز الكوبون</value>
+    <value>كود الخصم</value>
   </data>
   <data name="CouponDetails" xml:space="preserve">
-    <value>تفاصيل الكوبون</value>
+    <value>تفاصيل كود الخصم</value>
   </data>
   <data name="Coupons" xml:space="preserve">
     <value>كوبونات</value>
   </data>
   <data name="CouponValidity" xml:space="preserve">
     <value>صلاحية الكوبون</value>
+  </data>
+  <data name="CreateCustomer" xml:space="preserve">
+    <value>إنشاء العميل</value>
   </data>
   <data name="Credit" xml:space="preserve">
     <value>ائتمان</value>
@@ -562,7 +616,7 @@
     <value>هاتف العميل</value>
   </data>
   <data name="CustomerName" xml:space="preserve">
-    <value>اسم الزبون</value>
+    <value>اسم العميل</value>
   </data>
   <data name="Customers" xml:space="preserve">
     <value>عملاء</value>
@@ -572,6 +626,9 @@
   </data>
   <data name="CustomerType" xml:space="preserve">
     <value>نوع العميل</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>لوحة التحكم</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>تاريخ</value>
@@ -591,6 +648,18 @@
   <data name="Debit" xml:space="preserve">
     <value>مدين</value>
   </data>
+  <data name="DeleteCategory" xml:space="preserve">
+    <value>حذف الفئة</value>
+  </data>
+  <data name="DeleteCategoryConfirm" xml:space="preserve">
+    <value>هل تريد حذف الفئة؟</value>
+  </data>
+  <data name="DeleteProduct" xml:space="preserve">
+    <value>حذف المنتج</value>
+  </data>
+  <data name="DeleteProductConfirm" xml:space="preserve">
+    <value>هل تريد حذف المنتج؟</value>
+  </data>
   <data name="Delivered" xml:space="preserve">
     <value>تم التوصيل</value>
   </data>
@@ -606,6 +675,9 @@
   <data name="DeliveryAddress" xml:space="preserve">
     <value>عنوان التوصيل</value>
   </data>
+  <data name="DeliveryBlockedDate" xml:space="preserve">
+    <value>موعد التسليم المحظور</value>
+  </data>
   <data name="DeliveryDate" xml:space="preserve">
     <value>تاريخ التوصيل</value>
   </data>
@@ -616,7 +688,7 @@
     <value>رسوم التوصيل</value>
   </data>
   <data name="DeliveryFeeKWD" xml:space="preserve">
-    <value>أجرة التوصيل (د.ك)</value>
+    <value>رسوم التوصيل (د.ك)</value>
   </data>
   <data name="DeliveryList" xml:space="preserve">
     <value>قائمة التوصيل</value>
@@ -626,6 +698,9 @@
   </data>
   <data name="DeliverySlotStart" xml:space="preserve">
     <value>بدء فتحة التوصيل</value>
+  </data>
+  <data name="DeliveryStatus" xml:space="preserve">
+    <value>حالة التوصيل</value>
   </data>
   <data name="DeliveryTimeslotsManagement" xml:space="preserve">
     <value>إدارة مواعيد التوصيل</value>
@@ -687,32 +762,35 @@
   <data name="Duration" xml:space="preserve">
     <value>مدة</value>
   </data>
+  <data name="EditAddress" xml:space="preserve">
+    <value>تعديل العنوان</value>
+  </data>
   <data name="EditArea" xml:space="preserve">
-    <value>تحرير المنطقة</value>
+    <value>تعديل المنطقة</value>
   </data>
   <data name="EditBanner" xml:space="preserve">
-    <value>تحرير الشعار</value>
+    <value>تعديل الشعار</value>
   </data>
   <data name="EditBaseProduct" xml:space="preserve">
-    <value>تحرير منتج الأساسي</value>
+    <value>تعديل منتج الأساسي</value>
   </data>
   <data name="EditBlockedDeliveryDate" xml:space="preserve">
-    <value>تحرير تاريخ التسليم المحظور</value>
+    <value>تعديل تاريخ التسليم المحظور</value>
   </data>
   <data name="EditBundledProduct" xml:space="preserve">
-    <value>تحرير المنتج المجمع</value>
+    <value>تعديل المنتج المجمع</value>
   </data>
   <data name="EditCard" xml:space="preserve">
-    <value>تحرير البطاقة</value>
+    <value>تعديل البطاقة</value>
   </data>
   <data name="EditCoupon" xml:space="preserve">
-    <value>تحرير الكوبون</value>
+    <value>تعديل الكوبون</value>
   </data>
   <data name="EditGovernorate" xml:space="preserve">
-    <value>تحرير المحافظة</value>
+    <value>تعديل المحافظة</value>
   </data>
   <data name="EditPermission" xml:space="preserve">
-    <value>تحرير إذن</value>
+    <value>تعديل إذن</value>
   </data>
   <data name="EditProfile" xml:space="preserve">
     <value>تعديل الملف الشخصي</value>
@@ -729,6 +807,9 @@
   <data name="Email" xml:space="preserve">
     <value>البريد الإلكتروني</value>
   </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Email</value>
+  </data>
   <data name="EmailIsRequired" xml:space="preserve">
     <value>البريد الالكتروني مطلوب</value>
   </data>
@@ -739,7 +820,7 @@
     <value>تمكين</value>
   </data>
   <data name="EnableB2BPricing" xml:space="preserve">
-    <value>تمكين التسعير B2B</value>
+    <value>تمكين التسعير للجمعيات والجملة</value>
   </data>
   <data name="EnablesCashbackBonus" xml:space="preserve">
     <value>يتيح مكافأة استرداد النقود لكل عملية شراء جديدة خلال النطاق الزمني المحدد</value>
@@ -793,7 +874,7 @@
     <value>يرجى إدخال عنوان صالح</value>
   </data>
   <data name="EnterValidURL" xml:space="preserve">
-    <value>الرجاء إدخال URL صالح</value>
+    <value>الرجاء إدخال عنوان الموقع صالح</value>
   </data>
   <data name="EnterYourEmailAddress" xml:space="preserve">
     <value>أدخل عنوان بريدك الإلكتروني</value>
@@ -810,6 +891,9 @@
   <data name="EnterYourOfficeContactNumber" xml:space="preserve">
     <value>أدخل رقم الاتصال بمكتبك</value>
   </data>
+  <data name="Excel" xml:space="preserve">
+    <value>Excel</value>
+  </data>
   <data name="Expired" xml:space="preserve">
     <value>منتهى الصلاحيه</value>
   </data>
@@ -818,6 +902,9 @@
   </data>
   <data name="Failed" xml:space="preserve">
     <value>فشلت</value>
+  </data>
+  <data name="FailedOrderCount" xml:space="preserve">
+    <value>عدد الطلبات الفاشلة</value>
   </data>
   <data name="Female" xml:space="preserve">
     <value>أنثى</value>
@@ -832,7 +919,7 @@
     <value>رقم الشقة</value>
   </data>
   <data name="FlatNumberIsRequired" xml:space="preserve">
-    <value>مطلوب رقم الشقة</value>
+    <value>يرجى ادخال رقم الشقة</value>
   </data>
   <data name="FloorNo" xml:space="preserve">
     <value>الدور</value>
@@ -841,7 +928,10 @@
     <value>رقم الدور</value>
   </data>
   <data name="FloorNumberIsRequired" xml:space="preserve">
-    <value>رقم الطابق مطلوب</value>
+    <value>يرجى ادخال رقم الدور</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>من</value>
   </data>
   <data name="FromDate" xml:space="preserve">
     <value>من التاريخ</value>
@@ -862,13 +952,13 @@
     <value>رابط Google Play</value>
   </data>
   <data name="GovermentEntity" xml:space="preserve">
-    <value>جهة حكومية</value>
+    <value>اسم الجهه</value>
   </data>
   <data name="GovermentEntityIsRequired" xml:space="preserve">
-    <value>مطلوب جهة حكومية</value>
+    <value>يرجى ادخال اسم الجهه</value>
   </data>
   <data name="Government" xml:space="preserve">
-    <value>حكومة</value>
+    <value>مكتب حكومي</value>
   </data>
   <data name="Governorate" xml:space="preserve">
     <value>محافظة</value>
@@ -877,7 +967,7 @@
     <value>تفاصيل المحافظة</value>
   </data>
   <data name="GovernorateIsRequired" xml:space="preserve">
-    <value>المحافظة مطلوبة</value>
+    <value>يرجى اختار المحافظة</value>
   </data>
   <data name="GovernorateName" xml:space="preserve">
     <value>اسم المحافظة</value>
@@ -898,7 +988,7 @@
     <value>رقم المنزل</value>
   </data>
   <data name="HouseNumberIsRequired" xml:space="preserve">
-    <value>رقم المنزل مطلوب</value>
+    <value>يرجى ادخال رقم المنزل</value>
   </data>
   <data name="HTMLDir" xml:space="preserve">
     <value>rtl</value>
@@ -916,7 +1006,7 @@
     <value>اسم الأيقونة</value>
   </data>
   <data name="ID" xml:space="preserve">
-    <value>معرف</value>
+    <value />
   </data>
   <data name="Image" xml:space="preserve">
     <value>صورة</value>
@@ -948,6 +1038,12 @@
   <data name="ItemSizes" xml:space="preserve">
     <value>أحجام المنتجات</value>
   </data>
+  <data name="ItemsSoldToday" xml:space="preserve">
+    <value>المنتجات المباعة اليوم</value>
+  </data>
+  <data name="KNET" xml:space="preserve">
+    <value>كي نت</value>
+  </data>
   <data name="KWD" xml:space="preserve">
     <value>د.ك</value>
   </data>
@@ -969,6 +1065,9 @@
   <data name="Loading" xml:space="preserve">
     <value>تحميل...</value>
   </data>
+  <data name="LoginName" xml:space="preserve">
+    <value>Login Name</value>
+  </data>
   <data name="MainMenu" xml:space="preserve">
     <value>القائمة الرئيسية</value>
   </data>
@@ -977,6 +1076,9 @@
   </data>
   <data name="ManualAdjustment" xml:space="preserve">
     <value>التعديل اليدوي</value>
+  </data>
+  <data name="MaxCartQuantity" xml:space="preserve">
+    <value>الحد الأقصى للشراء</value>
   </data>
   <data name="MediaPhonePlusLogo" xml:space="preserve">
     <value>شعار ميديا فون بلس</value>
@@ -992,6 +1094,9 @@
   </data>
   <data name="MessageIsRequired" xml:space="preserve">
     <value>الرسالة مطلوبة</value>
+  </data>
+  <data name="MinCartQuantity" xml:space="preserve">
+    <value>الحد الأدنى للشراء</value>
   </data>
   <data name="MinimumOrderAmountKWD" xml:space="preserve">
     <value>الحد الأدنى لمبلغ الطلب (د.ك)</value>
@@ -1012,7 +1117,7 @@
     <value>يجب أن يتكون رقم الهاتف من 8 أرقام</value>
   </data>
   <data name="MobilePUSHNotification" xml:space="preserve">
-    <value>إشعار عبر الهاتف النقال</value>
+    <value>إشعار عبر الهاتف</value>
   </data>
   <data name="ModifiedDate" xml:space="preserve">
     <value>تاريخ التعديل</value>
@@ -1113,6 +1218,9 @@
   <data name="NoFileChosen" xml:space="preserve">
     <value>لم يتم اختيار ملف</value>
   </data>
+  <data name="NoneSelected" xml:space="preserve">
+    <value>اختار</value>
+  </data>
   <data name="NoOrders" xml:space="preserve">
     <value>لا يوجد طلبات</value>
   </data>
@@ -1122,11 +1230,17 @@
   <data name="NormalCheckout" xml:space="preserve">
     <value>الخروج العادي</value>
   </data>
+  <data name="NormalOrder" xml:space="preserve">
+    <value>طلب عادي</value>
+  </data>
   <data name="NoSavedAddresses" xml:space="preserve">
     <value>لا يوجد عناوين محفوظة</value>
   </data>
   <data name="NoSubscriptions" xml:space="preserve">
     <value>لا يوجد اشتراكات</value>
+  </data>
+  <data name="NotCaptured" xml:space="preserve">
+    <value>رفض</value>
   </data>
   <data name="NotDispatched" xml:space="preserve">
     <value>لم يتم إيفادها</value>
@@ -1139,6 +1253,9 @@
   </data>
   <data name="NotificationRemoved" xml:space="preserve">
     <value>تمت إزالة الإشعار</value>
+  </data>
+  <data name="NotificationTemplates" xml:space="preserve">
+    <value>Notification Templates</value>
   </data>
   <data name="NotifyMe" xml:space="preserve">
     <value>أعلمني</value>
@@ -1161,14 +1278,17 @@
   <data name="OR" xml:space="preserve">
     <value>أو</value>
   </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
   <data name="OrderAmount" xml:space="preserve">
-    <value>كمية الطلب</value>
+    <value>مبلغ الطلب</value>
   </data>
   <data name="OrderDate" xml:space="preserve">
     <value>تاريخ الطلب</value>
   </data>
   <data name="OrderDateRange" xml:space="preserve">
-    <value>نطاق تاريخ الطلب</value>
+    <value>تاريخ الطلب</value>
   </data>
   <data name="OrderDeliveriesToday" xml:space="preserve">
     <value>توصيل الطلبات اليوم</value>
@@ -1176,8 +1296,11 @@
   <data name="OrderDetails" xml:space="preserve">
     <value>تفاصيل الطلب</value>
   </data>
+  <data name="OrderedItems" xml:space="preserve">
+    <value>Ordered Items</value>
+  </data>
   <data name="OrderID" xml:space="preserve">
-    <value>معرف الطلب</value>
+    <value>رقم الطلب</value>
   </data>
   <data name="OrderMode" xml:space="preserve">
     <value>وضع الطلب</value>
@@ -1230,6 +1353,12 @@
   <data name="Password" xml:space="preserve">
     <value>كلمة المرور</value>
   </data>
+  <data name="PayFromWallet" xml:space="preserve">
+    <value>ادفع من المحفظة</value>
+  </data>
+  <data name="PaymentAuthorizationCode" xml:space="preserve">
+    <value>رمز تفويض الدفع</value>
+  </data>
   <data name="PaymentDetails" xml:space="preserve">
     <value>تفاصيل الدفع</value>
   </data>
@@ -1257,8 +1386,14 @@
   <data name="PaymentSummary" xml:space="preserve">
     <value>ملخص الدفع</value>
   </data>
+  <data name="PDF" xml:space="preserve">
+    <value>PDF</value>
+  </data>
   <data name="Pending" xml:space="preserve">
     <value>معلق</value>
+  </data>
+  <data name="PendingCash" xml:space="preserve">
+    <value>النقدية المعلقة</value>
   </data>
   <data name="PerformAction" xml:space="preserve">
     <value>تنفيذ الإجراء</value>
@@ -1275,98 +1410,164 @@
   <data name="PiecesPerPacking" xml:space="preserve">
     <value>عدد القطع في التعبئة</value>
   </data>
+  <data name="PleaseB2BDiscountPrice" xml:space="preserve">
+    <value>يرجى إدخال سعر الخصم للجمعيات والجملة</value>
+  </data>
+  <data name="PleaseB2BMaximumCartQuantity" xml:space="preserve">
+    <value>يرجى إدخال الحد الأقصى للشراء للجمعيات والجملة</value>
+  </data>
+  <data name="PleaseB2BMinmumCartQuantity" xml:space="preserve">
+    <value>يرجى إدخال الحد الأدنى للشراء للجمعيات والجملة</value>
+  </data>
+  <data name="PleaseB2BPrice" xml:space="preserve">
+    <value>يرجى إدخال سعر للجمعيات والجملة</value>
+  </data>
+  <data name="PleaseDiscountedPrice" xml:space="preserve">
+    <value>يرجى إدخال سعر الخصم</value>
+  </data>
   <data name="PleaseEnterADisplayOrder" xml:space="preserve">
-    <value>الرجاء إدخال ترتيب العرض</value>
+    <value>يرجى إدخال ترتيب العرض</value>
   </data>
   <data name="PleaseEnterANavigationUrl" xml:space="preserve">
-    <value>الرجاء إدخال رابط التنقل</value>
+    <value>يرجى إدخال رابط التنقل</value>
   </data>
   <data name="PleaseEnterAnIconName" xml:space="preserve">
-    <value>الرجاء إدخال اسم الأيقونة</value>
+    <value>يرجى إدخال اسم الأيقونة</value>
   </data>
   <data name="PleaseEnterAPermissionID" xml:space="preserve">
-    <value>الرجاء إدخال معرف الإذن</value>
+    <value>يرجى إدخال معرف الإذن</value>
   </data>
   <data name="PleaseEnterAPermissionName" xml:space="preserve">
-    <value>الرجاء إدخال اسم الإذن</value>
+    <value>يرجى إدخال اسم الإذن</value>
   </data>
   <data name="PleaseEnterARoleName" xml:space="preserve">
-    <value>الرجاء إدخال اسم الدور</value>
+    <value>يرجى إدخال اسم الدور</value>
   </data>
   <data name="PleaseEnterCategoryName" xml:space="preserve">
-    <value>الرجاء إدخال اسم الفئة</value>
+    <value>يرجى إدخال اسم الفئة</value>
+  </data>
+  <data name="PleaseEnterCustomerEmail" xml:space="preserve">
+    <value>يرجى إدخال البريد الإلكتروني للعميل</value>
+  </data>
+  <data name="PleaseEnterCustomerMobile" xml:space="preserve">
+    <value>يرجى ادخال رقم هاتف العميل</value>
+  </data>
+  <data name="PleaseEnterCustomerMobileNumber" xml:space="preserve">
+    <value>يرجى إدخال رقم هاتف العميل</value>
+  </data>
+  <data name="PleaseEnterCustomerName" xml:space="preserve">
+    <value>يرجى إدخال اسم العميل</value>
   </data>
   <data name="PleaseEnterDeliveryFee" xml:space="preserve">
-    <value>الرجاء إدخال رسوم التوصيل</value>
+    <value>يرجى إدخال رسوم التوصيل</value>
+  </data>
+  <data name="PleaseEnterDiscountAmountValue" xml:space="preserve">
+    <value>يرجى إدخال مبلغ الخصم</value>
+  </data>
+  <data name="PleaseEnterDiscountPercentageValue" xml:space="preserve">
+    <value>يرجى إدخال نسبة الخصم</value>
+  </data>
+  <data name="PleaseEnterMinimumOrderAmountKWD" xml:space="preserve">
+    <value>الرجاء إدخال الحد الأدنى للشراء الصحيح</value>
   </data>
   <data name="PleaseEnterOTPcodeWhichHasBeenSentToMobileNumber" xml:space="preserve">
     <value>إدخل رمز التحقق OTP الذي تم إرساله إلى رقم هاتفك</value>
   </data>
+  <data name="PleaseEnterPrice" xml:space="preserve">
+    <value>يرجى إدخال السعر</value>
+  </data>
   <data name="PleaseEnterProductDescription" xml:space="preserve">
-    <value>الرجاء إدخال وصف المنتج</value>
+    <value>يرجى إدخال وصف المنتج</value>
   </data>
   <data name="PleaseEnterProductName" xml:space="preserve">
-    <value>الرجاء إدخال اسم المنتج</value>
+    <value>يرجى إدخال اسم المنتج</value>
+  </data>
+  <data name="PleaseEnterQuantity" xml:space="preserve">
+    <value>يرجى إدخال الكمية</value>
   </data>
   <data name="PleaseEnterSize" xml:space="preserve">
-    <value>الرجاء إدخال الحجم</value>
+    <value>يرجى إدخال الحجم</value>
   </data>
   <data name="PleaseEnterTextForCouponCode" xml:space="preserve">
-    <value>الرجاء إدخال رمز الكوبون</value>
+    <value>يرجى إدخال كود الخصم</value>
   </data>
   <data name="PleaseEnterTheAreaName" xml:space="preserve">
-    <value>الرجاء إدخال اسم المنطقة</value>
+    <value>يرجى إدخال اسم المنطقة</value>
   </data>
   <data name="PleaseEnterTheBundledProductDescription" xml:space="preserve">
-    <value>الرجاء إدخال وصف المنتج المجمعة</value>
+    <value>يرجى إدخال وصف المنتج المجمعة</value>
   </data>
   <data name="PleaseEnterTheBundledProductName" xml:space="preserve">
-    <value>الرجاء إدخال اسم المنتج المجمع</value>
+    <value>يرجى إدخال اسم المنتج المجمع</value>
   </data>
   <data name="PleaseEnterTheBundledProductPrice" xml:space="preserve">
-    <value>الرجاء إدخال سعر المنتج المجمع</value>
+    <value>يرجى إدخال سعر المنتج المجمع</value>
   </data>
   <data name="PleaseEnterTheCardAmount" xml:space="preserve">
-    <value>الرجاء إدخال مبلغ البطاقة</value>
+    <value>يرجى إدخال مبلغ البطاقة</value>
   </data>
   <data name="PleaseEnterTheCardDescription" xml:space="preserve">
-    <value>الرجاء إدخال وصف البطاقة</value>
+    <value>يرجى إدخال وصف البطاقة</value>
   </data>
   <data name="PleaseEnterTheCardName" xml:space="preserve">
-    <value>الرجاء إدخال اسم البطاقة</value>
+    <value>يرجى إدخال اسم البطاقة</value>
   </data>
   <data name="PleaseEnterTheGovernorateName" xml:space="preserve">
-    <value>الرجاء إدخال اسم المحافظة</value>
+    <value>يرجى إدخال اسم المحافظة</value>
   </data>
   <data name="PleaseEnterTheProductPrice" xml:space="preserve">
-    <value>الرجاء إدخال سعر المنتج</value>
+    <value>يرجى إدخال سعر المنتج</value>
   </data>
   <data name="PleaseEnterTheProductStock" xml:space="preserve">
-    <value>الرجاء إدخال مخزون المنتج</value>
+    <value>يرجى إدخال مخزون المنتج</value>
   </data>
   <data name="PleaseEnterTheSubscriptionDescription" xml:space="preserve">
-    <value>الرجاء إدخال وصف الاشتراك</value>
+    <value>يرجى إدخال وصف الاشتراك</value>
   </data>
   <data name="PleaseEnterTheSubscriptionName" xml:space="preserve">
-    <value>الرجاء إدخال اسم الاشتراك</value>
+    <value>يرجى إدخال اسم الاشتراك</value>
+  </data>
+  <data name="PleaseEnterTheSubscriptionPrice" xml:space="preserve">
+    <value>يرجى إدخال سعر الاشتراك</value>
   </data>
   <data name="PleaseEnterValue" xml:space="preserve">
-    <value>الرجاء إدخال قيمة</value>
+    <value>يرجى إدخال قيمة</value>
   </data>
   <data name="PleaseEnterWalletCreditAmount" xml:space="preserve">
-    <value>الرجاء إدخال مبلغ ائتمان المحفظة</value>
+    <value>يرجى إدخال مبلغ ائتمان المحفظة</value>
+  </data>
+  <data name="PleaseMaximumCartQuantity" xml:space="preserve">
+    <value>يرجى إدخال الحد الأقصى للشراء</value>
+  </data>
+  <data name="PleaseMinmumCartQuantity" xml:space="preserve">
+    <value>يرجى إدخال الحد الأدنى للشراء</value>
   </data>
   <data name="PleaseSelect" xml:space="preserve">
-    <value>الرجاء التحديد</value>
+    <value>يرجى اختيار</value>
   </data>
   <data name="PleaseSelectACategory" xml:space="preserve">
-    <value>الرجاء تحديد الفئة</value>
+    <value>يرجى اختيار الفئة</value>
+  </data>
+  <data name="PleaseselectaLinkType" xml:space="preserve">
+    <value>يرجى اختيار نوع الارتباط</value>
   </data>
   <data name="PleaseSelectCategory" xml:space="preserve">
-    <value>الرجاء تحديد الفئة</value>
+    <value>يرجى اختيار الفئة</value>
+  </data>
+  <data name="PleaseSelectDiscountType" xml:space="preserve">
+    <value>يرجى اختيار نوع الخصم</value>
   </data>
   <data name="PleaseSelectValue" xml:space="preserve">
-    <value>يرجى تحديد القيمة</value>
+    <value>يرجى اختيار القيمة</value>
+  </data>
+  <data name="PleaseSingleSubscriptionDurations" xml:space="preserve">
+    <value>يرجى اختيار مدة الاشتراك</value>
+  </data>
+  <data name="PleaseSpecialPackageDuration" xml:space="preserve">
+    <value>Please select special package Duration</value>
+  </data>
+  <data name="PleaseValidMaximumCartQuantity" xml:space="preserve">
+    <value>يرجى إدخال الحد الأقصى للشراء الصحيح</value>
   </data>
   <data name="PleaseVerifyYourEmailAddress" xml:space="preserve">
     <value>يرجى التحقق من عنوان البريد الإلكتروني الخاص بك</value>
@@ -1381,7 +1582,7 @@
     <value>مبيعات البطاقات مسبقة الدفع</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>المعاينة</value>
+    <value>معاينة</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>السابق</value>
@@ -1443,8 +1644,20 @@
   <data name="ProjectTitle" xml:space="preserve">
     <value>عذاري</value>
   </data>
+  <data name="PromotionCode" xml:space="preserve">
+    <value>PromotionCode</value>
+  </data>
+  <data name="PromotionCodeDiscount" xml:space="preserve">
+    <value>Promotion Code Discount</value>
+  </data>
+  <data name="PromotionCodeUse" xml:space="preserve">
+    <value>Promotion Code Use</value>
+  </data>
   <data name="PromotionDuration" xml:space="preserve">
     <value>مدة الترويج</value>
+  </data>
+  <data name="QPAY" xml:space="preserve">
+    <value>الدفع السريع</value>
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>كمية</value>
@@ -1452,8 +1665,14 @@
   <data name="QuantityAdded" xml:space="preserve">
     <value>الكمية المضافة</value>
   </data>
+  <data name="QuickpayLink" xml:space="preserve">
+    <value>رابط الدفع السريع</value>
+  </data>
   <data name="Reason" xml:space="preserve">
     <value>سبب</value>
+  </data>
+  <data name="Received" xml:space="preserve">
+    <value>تم الاستلام</value>
   </data>
   <data name="RecordsPerPage" xml:space="preserve">
     <value>تسجيلات لكل صفحة</value>
@@ -1497,6 +1716,9 @@
   <data name="Returned" xml:space="preserve">
     <value>مرتجعة</value>
   </data>
+  <data name="ReturnedByDriver" xml:space="preserve">
+    <value>أعادها السائق</value>
+  </data>
   <data name="Role" xml:space="preserve">
     <value>دور</value>
   </data>
@@ -1507,10 +1729,13 @@
     <value>اسم الدور</value>
   </data>
   <data name="SalesAmountToday" xml:space="preserve">
-    <value>مبلغ المبيعات اليوم</value>
+    <value>مبلغ المبيعات</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>احفظ</value>
+  </data>
+  <data name="SavedSuccessfully" xml:space="preserve">
+    <value>تم الحفظ بنجاح</value>
   </data>
   <data name="School" xml:space="preserve">
     <value>مدرسة</value>
@@ -1519,7 +1744,7 @@
     <value>اسم المدرسة</value>
   </data>
   <data name="SchoolNameIsRequired" xml:space="preserve">
-    <value>اسم المدرسة مطلوب</value>
+    <value>يرجى ادخال اسم المدرسة</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>بحث</value>
@@ -1527,8 +1752,14 @@
   <data name="SelectAProduct" xml:space="preserve">
     <value>اختر المنتج...</value>
   </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Select Category</value>
+  </data>
   <data name="SelectDriver" xml:space="preserve">
     <value>اختر سائق</value>
+  </data>
+  <data name="SelectDuration" xml:space="preserve">
+    <value>اختار المدة</value>
   </data>
   <data name="SelectOne" xml:space="preserve">
     <value>اختر واحدة</value>
@@ -1599,6 +1830,12 @@
   <data name="SMSNotification" xml:space="preserve">
     <value>إشعار الرسائل القصيرة</value>
   </data>
+  <data name="SMS_Message_Ar" xml:space="preserve">
+    <value>SMS Message(Ar)</value>
+  </data>
+  <data name="SMS_Message_En" xml:space="preserve">
+    <value>SMS Message(En)</value>
+  </data>
   <data name="Snapchat" xml:space="preserve">
     <value>سناب شات</value>
   </data>
@@ -1611,6 +1848,12 @@
   <data name="Status" xml:space="preserve">
     <value>حالة</value>
   </data>
+  <data name="StatusCompleted" xml:space="preserve">
+    <value>مكتمل</value>
+  </data>
+  <data name="StatusUnread" xml:space="preserve">
+    <value>غير مقروء</value>
+  </data>
   <data name="Stock" xml:space="preserve">
     <value>مخزون</value>
   </data>
@@ -1618,13 +1861,13 @@
     <value>تاريخ المخزون</value>
   </data>
   <data name="Street" xml:space="preserve">
-    <value>شارع</value>
+    <value>الشارع</value>
   </data>
   <data name="StreetNameOrNumber" xml:space="preserve">
     <value>اسم أو الرقم الشارع </value>
   </data>
   <data name="StreetNameOrNumberIsRequired" xml:space="preserve">
-    <value>مطلوب اسم الشارع أو الرقم</value>
+    <value>يرجى ادخال رقم الشارع</value>
   </data>
   <data name="StreetNo" xml:space="preserve">
     <value>رقم الشارع</value>
@@ -1671,6 +1914,9 @@
   <data name="SubscriptionNumber" xml:space="preserve">
     <value>رقم الاشتراك</value>
   </data>
+  <data name="SubscriptionProduct" xml:space="preserve">
+    <value>Subscription Product</value>
+  </data>
   <data name="Subscriptions" xml:space="preserve">
     <value>الاشتراكات</value>
   </data>
@@ -1687,7 +1933,7 @@
     <value>ملخص الاشتراك</value>
   </data>
   <data name="Subtotal" xml:space="preserve">
-    <value>المجموع الفرعي</value>
+    <value>إجمالي</value>
   </data>
   <data name="SystemUserPermission" xml:space="preserve">
     <value>إذن مستخدم النظام</value>
@@ -1697,6 +1943,12 @@
   </data>
   <data name="SystemUsers" xml:space="preserve">
     <value>مستخدمي النظام</value>
+  </data>
+  <data name="Tabby" xml:space="preserve">
+    <value>Tabby</value>
+  </data>
+  <data name="TemplateType" xml:space="preserve">
+    <value>Template Type</value>
   </data>
   <data name="Terms&amp;Conditions" xml:space="preserve">
     <value>الشروط والأحكام</value>
@@ -1732,10 +1984,10 @@
     <value>إلى تاريخ</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>مجموع</value>
+    <value>اجمالي المبلغ</value>
   </data>
   <data name="TotalAmountKWD" xml:space="preserve">
-    <value>المبلغ الإجمالي (د.ك)</value>
+    <value>الإجمالي المبلغ (د.ك)</value>
   </data>
   <data name="TotalOrders" xml:space="preserve">
     <value>إجمالي الطلبات</value>
@@ -1755,11 +2007,17 @@
   <data name="TransactionDateAndTime" xml:space="preserve">
     <value>تاريخ ووقت المعاملة</value>
   </data>
+  <data name="TransactionID" xml:space="preserve">
+    <value>رقم العملية</value>
+  </data>
   <data name="Twitter" xml:space="preserve">
     <value>تويتر</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>نوع</value>
+  </data>
+  <data name="UnableTosave" xml:space="preserve">
+    <value>يتعذر الحفظ ، يرجى المحاولة مرة أخرى أو الاتصال بمسؤول النظام</value>
   </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>سعر الوحدة</value>
@@ -1791,8 +2049,59 @@
   <data name="URL" xml:space="preserve">
     <value>الرابط الصفحة</value>
   </data>
+  <data name="UserName" xml:space="preserve">
+    <value>User Name</value>
+  </data>
   <data name="UserRolePermissions" xml:space="preserve">
     <value>أذونات دور المستخدم</value>
+  </data>
+  <data name="ValidateDate" xml:space="preserve">
+    <value>يرجى إدخال تاريخ صالح ، مثل اليوم / الشهر / السنة</value>
+  </data>
+  <data name="ValidateDateISO" xml:space="preserve">
+    <value>يرجى إدخال تاريخ صالح ، مثل اليوم / الشهر / السنة</value>
+  </data>
+  <data name="ValidateDigits" xml:space="preserve">
+    <value>يرجى إدخال أرقام فقط.</value>
+  </data>
+  <data name="ValidateEmail" xml:space="preserve">
+    <value>يرجى إدخال عنوان بريد إلكتروني صالح.</value>
+  </data>
+  <data name="ValidateEqualTo" xml:space="preserve">
+    <value>يرجى إدخال نفس القيمة مرة أخرى.</value>
+  </data>
+  <data name="ValidateMax" xml:space="preserve">
+    <value>يرجى إدخال قيمة أقل من أو تساوي {{0}}.</value>
+  </data>
+  <data name="ValidateMaxlength" xml:space="preserve">
+    <value>يرجى عدم إدخال أكثر من {{0}} حرفًا.</value>
+  </data>
+  <data name="ValidateMin" xml:space="preserve">
+    <value>يرجى إدخال قيمة أكبر من أو تساوي {{0}}.</value>
+  </data>
+  <data name="ValidateMinlength" xml:space="preserve">
+    <value>يرجى إدخال {{0}} حرف على الأقل.</value>
+  </data>
+  <data name="ValidateNumber" xml:space="preserve">
+    <value>يرجى إدخال رقم صحيح.</value>
+  </data>
+  <data name="ValidateRange" xml:space="preserve">
+    <value>الرجاء إدخال قيمة بين {{0}} و {{1}}.</value>
+  </data>
+  <data name="ValidateRangelength" xml:space="preserve">
+    <value>الرجاء إدخال قيمة يتراوح طولها بين {{0}} و {{1}} من الأحرف.</value>
+  </data>
+  <data name="ValidateRemote" xml:space="preserve">
+    <value>Please fix this field.</value>
+  </data>
+  <data name="ValidateRequired" xml:space="preserve">
+    <value>This field is required.</value>
+  </data>
+  <data name="ValidateStep" xml:space="preserve">
+    <value>الرجاء إدخال مضاعفات {{0}}.</value>
+  </data>
+  <data name="ValidateURL" xml:space="preserve">
+    <value>يرجى إدخال الرابط الصفحة صالح.</value>
   </data>
   <data name="Validity" xml:space="preserve">
     <value>صلاحية</value>
@@ -1804,13 +2113,16 @@
     <value>تحقق من</value>
   </data>
   <data name="VerifyMobileNumber" xml:space="preserve">
-    <value>تحقق من رقم الهاتف المحمول</value>
+    <value>تحقق من رقم الهاتف</value>
   </data>
   <data name="VerifyOTP" xml:space="preserve">
     <value>تحقق من OTP</value>
   </data>
+  <data name="VISA_Master" xml:space="preserve">
+    <value>بطاقة ائتمانية</value>
+  </data>
   <data name="Wallet" xml:space="preserve">
-    <value>محفظة</value>
+    <value>المحفظة</value>
   </data>
   <data name="WalletAmount" xml:space="preserve">
     <value>مبلغ المحفظة</value>
@@ -1827,8 +2139,11 @@
   <data name="WhatsApp" xml:space="preserve">
     <value>واتساب</value>
   </data>
+  <data name="WhatsAppNumber" xml:space="preserve">
+    <value>رقم الواتساب</value>
+  </data>
   <data name="YouCanDefineNewSizesByGoingToProducts" xml:space="preserve">
-    <value>يمكنك تحديد أحجام جديدة بالانتقال إلى المنتجات &gt;</value>
+    <value>يمكنك تحديد أحجام جديدة بالانتقال إلى المنتجات</value>
   </data>
   <data name="YourItems" xml:space="preserve">
     <value>منتجاتك</value>

@@ -64,7 +64,7 @@ namespace API.Areas.Backend.Controllers
                 var authResult = Utility.API.APIHelper.GetJwtToken(user, _appSettings);
                 //var authResult = GetJwtToken(systemUser);// GetAccessToken(systemUser, out string expiration);//CreateJwt(systemUser); 
                 //user.Token = authResult.AccessToken;
-                systemUserHistory.Name = user.FullName;
+                systemUserHistory.Name = user.UserName;
                 systemUserHistory.Description = "Login success";
                 systemUserHistory.UserId = user.Id;
                 response.Login(authResult);
@@ -288,13 +288,13 @@ namespace API.Areas.Backend.Controllers
                     return Ok(accessResponse);
                 }
 
-                if (await SystemUserService.Exists(item))
-                {
-                    accessResponse.Message = item.EmailAddress + " email is already taken";
-                    accessResponse.Success = false;
-                    accessResponse.StatusCode = 300;
-                    return Ok(accessResponse);
-                }
+                //if (await SystemUserService.Exists(item))
+                //{
+                //    accessResponse.Message = item.EmailAddress + " email is already taken";
+                //    accessResponse.Success = false;
+                //    accessResponse.StatusCode = 300;
+                //    return Ok(accessResponse);
+                //}
 
                 if (item.Id > 0)
                 {

@@ -37,9 +37,10 @@
 
                                 <label for="cardNameEn" class="form-label">@SharedHtmlLocalizer["TitleEn"]<span class=" text-danger">*</span></label>
                                 <input type="text" class="form-control form-control-lg rounded-4 border-secondary "
-                                       name="nameEn" id="nameEn" aria-describedby="@SharedHtmlLocalizer["TitleEn"]" placeholder="@SharedHtmlLocalizer["PleaseEnterTheCardName"]"  >
+                                       name="nameEn" id="nameEn" aria-describedby="@SharedHtmlLocalizer["TitleEn"]" placeholder="@SharedHtmlLocalizer["PleaseEnterTheCardName"]">
 
                                 <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterTheCardName"]</div>
+                             
                                 <!-- ========== End Simple Input Field ========== -->
                             </div>
                             <div class="col-12 col-lg-6 mb-3">
@@ -67,7 +68,7 @@
                                 <textarea dir="rtl" class="form-control form-control-lg rounded-4 border-secondary "
                                           name="descriptionAr" id="descriptionAr" aria-describedby="@SharedHtmlLocalizer["DescriptionAr"]" placeholder="@SharedHtmlLocalizer["PleaseEnterTheCardDescription"]" rows="3" ></textarea>
 
-                                <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterTheCardDescription"]</div>
+                                <div class="invalid-feedback is-invalid">@SharedHtmlLocalizer["PleaseEnterTheCardDescription"]</div>
                                 <!-- ========== End Simple Text Area ========== -->
                             </div>
                             <div class="col-12 col-lg-3 mb-3">
@@ -75,7 +76,7 @@
 
                                 <label for="Amount" class="form-label">@SharedHtmlLocalizer["Amount"]<span class=" text-danger">*</span></label>
                                 <input type="number" class="form-control form-control-lg rounded-4 border-secondary "
-                                       name="amount" id="amount" aria-describedby="@SharedHtmlLocalizer["Amount"]" placeholder="@SharedHtmlLocalizer["PleaseEnterTheCardAmount"]" value="0" min="0" required>
+                                       name="amount" id="amount" aria-describedby="@SharedHtmlLocalizer["Amount"]" placeholder="@SharedHtmlLocalizer["PleaseEnterTheCardAmount"]" >
 
                                 <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterTheCardAmount"]</div>
                                 <!-- ========== End Simple Input Field ========== -->
@@ -87,7 +88,7 @@
                                 <label for="Credit" class="form-label">@SharedHtmlLocalizer["Credit"]<span class=" text-danger">*</span></label>
                                 <input type="number" class="form-control form-control-lg rounded-4 border-secondary "
                                        name="walletAmount" id="walletAmount" aria-describedby="@SharedHtmlLocalizer["Credit"]" placeholder="@SharedHtmlLocalizer["PleaseEnterWalletCreditAmount"]" 
-                                       value="0" min="0" required>
+                                      >
 
                                 <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterWalletCreditAmount"]</div>
                                 <!-- ========== End Simple Input Field ========== -->

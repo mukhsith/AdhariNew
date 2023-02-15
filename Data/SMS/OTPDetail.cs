@@ -19,6 +19,7 @@ namespace Data.SMS
         public NotificationType Type { get; set; }
         public int? CustomerId { get; set; }
         public int? CustomerRegisterRequestId { get; set; }
+        public int NumberOfTries { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual CustomerRegisterRequest CustomerRegisterRequest { get; set; }
     }

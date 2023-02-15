@@ -2,6 +2,7 @@
 using System.Threading.Tasks; 
 using Utility.ResponseMapper;
 using Utility.Models.Frontend.CustomerManagement;
+using Utility.Models.Admin;
 
 namespace API.Areas.Backend.Factories
 {
@@ -15,7 +16,10 @@ namespace API.Areas.Backend.Factories
         //Task<APIResponseModel<CustomerModel>> PrepareCustomer(bool isEnglish, int id);
         //Task<APIResponseModel<CustomerModel>> UpdateCustomer(bool isEnglish, CustomerModel customerModel);     
          Task<List<AddressModel>> GetAddress(bool isEnglish, int customerId);
-         Task<APIResponseModel<object>> AddAddress(bool isEnglish, AddressModel addressModel);
+        Task<AdminCustomerModel> GetByCustomerId(bool isEnglish, int id);
+        Task<List<AddressModel>> GetAddressById(bool isEnglish, int id, int customerId);
+
+        Task<APIResponseModel<object>> AddAddress(bool isEnglish, AddressModel addressModel);
          Task<APIResponseModel<object>> UpdateAddress(bool isEnglish, AddressModel addressModel);
          Task<APIResponseModel<object>> DeleteAddress(bool isEnglish, int id, int customerId = 0);
         // Task<APIResponseModel<List<NotificationModel>>> GetNotification(bool isEnglish, int customerId, int limit = 0, int page = 0);

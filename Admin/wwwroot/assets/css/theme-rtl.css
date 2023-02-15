@@ -19463,7 +19463,7 @@ html {
 
 body {
   color: #777;
-  font-family: "Amiri";
+  font-family: "Almarai";
   line-height: 22px;
   margin: 0;
   font-size: 13px;
@@ -20754,6 +20754,7 @@ html.sidebar-left-big-icons .sidebar-left .nano {
   }
   html.sidebar-left-collapsed .sidebar-left .nav-main a span {
     visibility: hidden;
+    display: none;
   }
   html.sidebar-left-collapsed .sidebar-left .sidebar-widget,
 html.sidebar-left-collapsed .sidebar-left .separator {
@@ -20771,6 +20772,7 @@ html.sidebar-left-collapsed .sidebar-left .separator {
   }
   html.sidebar-left-collapsed .sidebar-left .nano:hover .nav-main li a span {
     visibility: visible;
+    display: inline;
   }
   html.sidebar-left-collapsed .sidebar-left .nano:hover .sidebar-widget,
 html.sidebar-left-collapsed .sidebar-left .nano:hover .separator {
@@ -20781,6 +20783,7 @@ html.sidebar-left-collapsed .sidebar-left .nano:hover .separator {
   }
   html.sidebar-left-collapsed .sidebar-left .nano.hovered .nav-main li a span {
     visibility: visible;
+    display: inline;
   }
   html.sidebar-left-collapsed .sidebar-left .nano.hovered .nav-main li.nav-parent a:after {
     display: inline-block;
@@ -20800,6 +20803,7 @@ html.sidebar-left-collapsed .sidebar-left .nano:hover .separator {
   }
   html.sidebar-left-collapsed.sidebar-left-opened .sidebar-left .nano .nav-main li a span {
     visibility: visible;
+    display: inline;
   }
   html.sidebar-left-collapsed.sidebar-left-opened .sidebar-left .nano .sidebar-widget,
 html.sidebar-left-collapsed.sidebar-left-opened .sidebar-left .nano .separator {
@@ -25270,6 +25274,38 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:hover, html.side
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/amiri/v24/J7acnpd8CGxBHp2VkaY_zp4.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-Regular.eot");
+  src: url("../../fonts/Almarai/Almarai-Regular.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Regular.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Regular.woff") format("woff"), url("../../fonts/Almarai/Almarai-Regular.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Regular.svg#Almarai-Regular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-Bold.eot");
+  src: url("../../fonts/Almarai/Almarai-Bold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Bold.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Bold.woff") format("woff"), url("../../fonts/Almarai/Almarai-Bold.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Bold.svg#Almarai-Bold") format("svg");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-Light.eot");
+  src: url("../../fonts/Almarai/Almarai-Light.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Light.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Light.woff") format("woff"), url("../../fonts/Almarai/Almarai-Light.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Light.svg#Almarai-Light") format("svg");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Almarai";
+  src: url("../../fonts/Almarai/Almarai-ExtraBold.eot");
+  src: url("../../fonts/Almarai/Almarai-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-ExtraBold.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-ExtraBold.woff") format("woff"), url("../../fonts/Almarai/Almarai-ExtraBold.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-ExtraBold.svg#Almarai-ExtraBold") format("svg");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
 }
 /*!
  * Bootstrap v5.1.3 (https://getbootstrap.com/)
@@ -39326,7 +39362,21 @@ html.dark .datepicker.datepicker-primary {
   border-color: #282d36;
   background: #282d36;
 }
+.datepicker-dropdown {
+  max-width: 300px;
+}
 
+.datepicker {
+  float: right;
+}
+
+.datepicker.dropdown-menu {
+  right: auto;
+}
+
+.datepicker {
+  direction: ltr !important;
+}
 /* Dividers */
 hr {
   border: 0;
@@ -42211,7 +42261,7 @@ h6.text-shadow,
 /* Lightboxes */
 .mfp-close,
 .mfp-close-btn-in .mfp-close {
-  font-family: "Amiri";
+  font-family: "Almarai";
   font-weight: 600;
   font-size: 22px;
   color: #838383;
@@ -44371,7 +44421,7 @@ html > body > .ui-pnotify .notification .ui-pnotify-text {
   border: 0;
   background: #666;
   color: #FFF;
-  font-family: "Amiri";
+  font-family: "Almarai";
   font-size: 600;
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -45304,7 +45354,7 @@ html.dark .ui-slider.ui-widget-content {
 .note-editor, .note-editor.note-frame {
   border: 1px solid #00AEEF;
   margin-top: 0 !important;
-  font-family: "Amiri";
+  font-family: "Almarai";
 }
 .note-editor h1, .note-editor .h1, .note-editor h2, .note-editor .h2, .note-editor h3, .note-editor .h3, .note-editor h4, .note-editor .h4, .note-editor h5, .note-editor .h5, .note-editor h6, .note-editor .h6, .note-editor.note-frame h1, .note-editor.note-frame h2, .note-editor.note-frame h3, .note-editor.note-frame h4, .note-editor.note-frame h5, .note-editor.note-frame h6 {
   color: #850B5A;
@@ -45364,7 +45414,7 @@ html.dark .ui-slider.ui-widget-content {
   background: #FFF;
   border: none;
   border-radius: 0 0 4px 4px;
-  font-family: "Amiri";
+  font-family: "Almarai";
 }
 .note-editor .note-statusbar {
   background: #f2f9ff;
@@ -46689,13 +46739,13 @@ p.drop-caps.drop-caps-style-2:first-letter {
 
 /* Default Font Style */
 .default-font {
-  font-family: "Amiri";
+  font-family: "Almarai";
 }
 
 /* Alternative Font Style */
 .alternative-font {
   color: #CCC;
-  font-family: "Amiri";
+  font-family: "Almarai";
   font-size: 1.6em;
 }
 
@@ -50240,7 +50290,7 @@ html.dark .mailbox-compose .bootstrap-tagsinput > input {
 /* Add here all your CSS customizations */
 html,
 body {
-  font-family: "Amiri", "Amiri";
+  font-family: "Almarai", "Almarai";
   background: #ecedf0;
   width: 100%;
   color: #33353F;
@@ -50598,14 +50648,12 @@ table {
 .rotate {
   position: relative;
   width: 150px;
-  -webkit-animation: rotation 2s infinite cubic-bezier(0.65, 0.05, 0.36, 1);
-          animation: rotation 2s infinite cubic-bezier(0.65, 0.05, 0.36, 1);
+  -webkit-animation: rotation 2s infinite ease-in-out;
+  animation: rotation 2s infinite ease-in-out;
 }
 
 @-webkit-keyframes rotation {
   0% {
-    -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
     opacity: 1;
   }
   50% {
@@ -50613,15 +50661,11 @@ table {
   }
   100% {
     opacity: 1;
-    -webkit-transform: rotateY(-359deg);
-            transform: rotateY(-359deg);
   }
 }
 
 @keyframes rotation {
   0% {
-    -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
     opacity: 1;
   }
   50% {
@@ -50629,8 +50673,6 @@ table {
   }
   100% {
     opacity: 1;
-    -webkit-transform: rotateY(-359deg);
-            transform: rotateY(-359deg);
   }
 }
 .rounded-1 {
@@ -50691,6 +50733,22 @@ span.select2-selection.select2-selection--multiple .select2-selection__rendered 
 
 .select2-container--bootstrap .select2-selection--multiple {
   padding: 0px 12px 6px 24px !important;
+}
+
+.multiselect.form-select {
+  border-radius: 1rem;
+  border: 1px solid #00AEEF;
+  width: 100%;
+}
+.multiselect.form-select.dropdown-toggle::after {
+  display: none;
+}
+
+.multiselect-native-select .btn-group {
+  width: 100%;
+}
+.multiselect-native-select .btn-group .text-center {
+  text-align: right !important;
 }
 
 .input-daterange.rounded-4 input:last-child {
@@ -50817,4 +50875,8 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role=row] > td:first-child:bef
 
 .was-validated .form-control:invalid, .form-control.is-invalid, .was-validated .form-select:invalid, .form-select.is-invalid {
   border-color: #d2322d !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+  text-align: left !important;
 }

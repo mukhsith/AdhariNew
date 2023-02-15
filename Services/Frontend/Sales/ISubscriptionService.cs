@@ -20,6 +20,7 @@ namespace Services.Frontend.Sales
         Task<int> GetSubscriptionCountByCouponAndCustomer(int couponId, int? customerId = null);
         Task<List<SubscriptionItemDetail>> GetAllSubscriptionItemDetail(int subscriptionId);
         Task<List<Subscription>> GetAllSubscriptionByNextExpectedDelivery(DateTime nextExpectedDelivery);
+        Task<Subscription> GetLastSubscriptionByCustomer(int customerId);
         #endregion
 
         #region Subscription Order

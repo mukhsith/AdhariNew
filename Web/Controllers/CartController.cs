@@ -179,6 +179,32 @@ namespace Web.Controllers
         }
 
         /// <summary>
+        /// Validate cart
+        /// </summary>
+        [HttpGet]
+        public virtual async Task<JsonResult> ValidateCart()
+        {
+            var responseModel = new APIResponseModel<bool>();
+            try
+            {
+                var customerGuidValue = Convert.ToString(Request.Cookies["CustomerGuidValue"]);
+                if (string.IsNullOrEmpty(customerGuidValue))
+                {
+                    customerGuidValue = Guid.NewGuid().ToString();
+                    Response.Cookies.Append("CustomerGuidValue", customerGuidValue, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+                }
+
+                responseModel = await _apiHelper.GetAsync<APIResponseModel<bool>>("webapi/cart/validatecart?customerGuidValue=" + customerGuidValue);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+
+            return Json(responseModel);
+        }
+
+        /// <summary>
         /// delete cart item
         /// </summary>
         [HttpGet]

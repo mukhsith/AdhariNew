@@ -1,0 +1,17 @@
+﻿@model SiteContentModel
+@{
+    Layout = "_ContentLayout";
+}
+<main role="main" class="mobile-bottom">
+    <section class="main-content py-3 mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-12 order-2 order-md-1">
+                    <div class="summernote-content">
+                        @Html.Raw(Model.Content)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

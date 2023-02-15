@@ -2,13 +2,9 @@
 @foreach (var amountSplitUp in Model.AmountSplitUps)
 {
     <li class="list-group-item border-secondary d-flex justify-content-between px-0">
-        <label class="text-muted">@amountSplitUp.Title</label>
-        <p class="text-primary mb-0 fw-bold">@amountSplitUp.Value</p>
-    </li>
-}
-<li class="list-group-item border-secondary d-flex justify-content-between fs-5 px-0">
-    <label class="text-muted fw-bold">@SharedHtmlLocalizer["GrossTotal"]</label>
-    <p class="text-primary mb-0 fw-bold">
-        <span class="crossed-out-price text-decoration-line-through text-muted me-2"></span><span class="to-pay-price">@Model.FormattedTotal</span>
-    </p>
-</li>
+        <label class="text-muted @(amountSplitUp.TitleBold?"fw-bold":"")"
+               style="color:@amountSplitUp.TitleColor !important;font-size:@(amountSplitUp.TitleBig?"1.25rem !important":"1rem !important");">@amountSplitUp.Title</label>
+            <p class="text-primary mb-0 @(amountSplitUp.ValueBold?"fw-bold":"")"
+               style="color: @amountSplitUp.ValueColor !important;font-size:@(amountSplitUp.ValueBig?"1.25rem !important":"1rem !important");">@amountSplitUp.Value</p>
+        </li>
+    }

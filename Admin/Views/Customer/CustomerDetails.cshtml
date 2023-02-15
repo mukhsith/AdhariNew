@@ -1,0 +1,711 @@
+﻿@model Data.Common.BaseEntityId
+
+<header class="page-header">
+    <h2>@SharedHtmlLocalizer["CustomerDetails"]</h2>
+    <input type="hidden" value="@Model.Id" id="customerId" />
+    <div class="right-wrapper text-end me-3">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="bx bx-home-alt"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+<div class="row">
+    <div class="col-12 col-lg mb-0 mb-lg-3">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary mb-lg-0 h-100">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-primary">
+                <h2 class="card-title text-center text-light w-100"><i class='fa fa-box me-2'></i> Total Orders</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-6 text-center">
+                        <label for="" class="form-label mb-0">
+                            Quantity
+                        </label>
+                        <h5 class="fw-bold my-0">32</h5>
+                    </div>
+                    <div class="col-6 text-center">
+                        <label for="" class="form-label mb-0">
+                            Paid Amount
+                        </label>
+                        <h5 class="fw-bold my-0">KWD 800.000</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+    <div class="col-12 col-lg mb-0 mb-lg-3">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary mb-lg-0 h-100">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-secondary">
+                <h2 class="card-title text-center text-light w-100"><i class='fa fa-boxes me-2'></i> Total Subscriptions</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-6 text-center">
+                        <label for="" class="form-label mb-0">
+                            Active
+                        </label>
+                        <h5 class="fw-bold my-0">3</h5>
+                    </div>
+                    <div class="col-6 text-center">
+                        <label for="" class="form-label mb-0">
+                            Paid Amount
+                        </label>
+                        <h5 class="fw-bold my-0">KWD 120.000</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+    <div class="col-12 col-lg mb-0 mb-lg-3">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary mb-lg-0 h-100">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-success">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-wallet me-2'></i> Wallet Amount</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold">KWD 20.500</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+    <div class="col-12 col-lg mb-0 mb-lg-3">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary mb-lg-0 h-100">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary bg-danger">
+                <h2 class="card-title text-center text-light w-100"><i class='fa-solid fa-wallet me-2'></i> Cashback Amount</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row g-0">
+                    <div class="col-12 text-center">
+                        <h2 class="text-center m-0 fw-bold">KWD 8.500</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">Details</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+
+                    <div class="col-12 col-lg-3 mb-3">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["CustomerName"]</label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary customer-details" name="customerName" id="customerName" aria-describedby="Name" placeholder="" value="" disabled>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterCustomerName"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col-12 col-lg-3 mb-3">
+
+                        <label class="form-label">@SharedHtmlLocalizer["CustomerMobile"]</label>
+                        <div class="input-group mobile-field has-validation">
+                            <span class="input-group-text rounded-4 rounded-end border border-end-0 border-secondary body-bg-secondary pe-0">
+                                <img src="assets/img/Kuwait_flag.svg" width="25">
+                            </span>
+                            <span class="input-group-text border border-secondary border-start-0 body-bg-secondary p-1" id="basic-addon1">
+                                <bdi>+965</bdi>
+                            </span>
+                            <!-- ========== Start Simple Input Field ========== -->
+
+
+                            <input type="tel" class="form-control form-control-lg rounded-4 border-secondary customer-details" name="customerMobile" id="customerMobile" aria-describedby="" placeholder="" value="" disabled>
+
+
+                            <!-- ========== End Simple Input Field ========== -->
+                            <div class="invalid-feedback text-start">@SharedHtmlLocalizer["PleaseEnterCustomerMobile"]</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3 mb-3">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="" class="form-label">@SharedHtmlLocalizer["CustomerEmail"]</label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary customer-details" name="customerEmail" id="customerEmail" aria-describedby="email" placeholder="" value="" disabled>
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterCustomerEmail"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+                    <div class="col-12 col-lg-3 mb-3">
+                        <!-- ========== Start Select2 Field Block ========== -->
+                        <label for="CustomerType" class="form-label">Customer Type</label>
+                        <select data-plugin-selectTwo class="form-select form-select-lg rounded-4 border-secondary" name="CustomerType" id="CustomerType" data-plugin-options='{ "placeholder": "", "allowClear": true}' disabled>
+                            <option value="false">@SharedHtmlLocalizer["B2C"]</option>
+                            <option value="true">@SharedHtmlLocalizer["B2B"]</option>
+                        </select>
+
+
+                        <!-- ========== End Select2 Field Block ========== -->
+                    </div>
+                    <div class="col-12">
+                        <a href="#" class="btn btn-lg btn-primary edit-btn">@SharedHtmlLocalizer["Edit"]</a>
+                        <a href="#" class="btn btn-lg btn-secondary text-light fw-bold update-btn" style="display: none;">@SharedHtmlLocalizer["Update"]</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+        <!-- ========== Start Card Block ========== -->
+
+
+            <!-- ========== Start Card Block ========== -->
+            <section class="card mb-3 border border-secondary">
+                <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                    <h2 class="card-title text-primary">@SharedHtmlLocalizer["CustomerAddresses"]</h2>
+                    <div class="card-actions d-flex position-static top-0 end-0">
+
+                    </div>
+                </header>
+                @*<div class="card-body ">
+                    <div class="row addresses">
+                        <div class="col-12 col-md-4 mb-3">
+                            <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3">
+                                <label for="address-0" class="w-100">
+                                    <p class="address-name card-text mb-0 fw-bold">My Chalet</p>
+                                    <p class="address-content card-text mb-0">
+                                        Block No. 2, Street No. 32, Avenue No. 16, House No. 252, Area: Sea City, Governorate: Khairan<br>
+                                    </p>
+                                </label>
+                                <input id="address-0" name="address" type="radio">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3">
+                                <label for="address-1" class="w-100">
+                                    <p class="address-name card-text mb-0 fw-bold">Main Office</p>
+                                    <p class="address-content card-text mb-0">
+                                        Block No. 2, Street No. 32, Avenue No. 16, House No. 252, Area: Sharq, Governorate: Kuwait City<br>
+                                    </p>
+                                </label>
+                                <input id="address-1" name="address" type="radio">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3">
+                                <label for="address-2" class="w-100">
+                                    <p class="address-name card-text mb-0 fw-bold">Home</p>
+                                    <p class="address-content card-text mb-0">
+                                        Block No. 10, Street No. 15, Avenue No. 16, House No. 10, Area: Farwaniyah, Governorate: Khaitan<br>
+                                    </p>
+                                </label>
+                                <input id="address-2" name="address" type="radio">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 ">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#addNewAddressModal" class="btn btn-primary btn-lg fw-bold ">Edit</a>
+                        <a href="#" class="btn btn-primary btn-lg fw-bold btn-warning">Back</a>
+                    </div>
+                </div>*@
+                <div class="row" id="noSavedAddress" style="display:none;">
+                    <div class="col-12 text-center">
+                        <i class="fs-1 fas fa-location-dot text-center text-primary"></i>
+                    </div>
+                    <div class="col-12 text-center">
+                        <h5 class="mt-3 text-primary fw-bold">@SharedHtmlLocalizer["NoSavedAddresses"]</h5>
+                    </div>
+                </div>
+
+                <div class="card-body " id="display-addresses">
+                    <div class="row">
+                        <div class="col-12 mx-auto">
+                            <div class="row addresses justify-content-center">
+
+                            </div>
+                            @*<div class="row justify-content-center my-3">
+                                <div class="col-3 p-0">
+                                    <hr class="dropdown-divider body-bg-secondary border-secondary">
+                                </div>
+                                <div class="col-1 text-center text-secondary p-0">OR</div>
+                                <div class="col-3 p-0">
+                                    <hr class="dropdown-divider body-bg-secondary border-secondary">
+                                </div>
+                            </div>*@
+                            <div class="row">
+                                <div class="text-center">
+                                    <a href='#' onclick='AddAddress()' class="btn btn-secondary text-light btn-lg fw-bold" data-bs-toggle="modal" data-bs-target="#addNewAddressModal">@SharedHtmlLocalizer["AddNewAddress"]</a>
+                                    <a href='#' onclick='EditAddress()' class="btn btn-primary btn-lg fw-bold" data-bs-toggle="modal" data-bs-target="#editAddressModal" id="editAdd">@SharedHtmlLocalizer["EditAddress"]</a>
+                                    <button type="button" class="btn btn-warning btn-lg fw-bold" onclick="history.go(-1)">@SharedHtmlLocalizer["Back"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ========== End Card Block ========== -->
+        
+
+
+
+        <div class="tabs">
+            <ul class="nav nav-tabs border-secondary">
+                <li class="nav-item active">
+                    <a class="nav-link" data-bs-target="#Orders" href="#Orders" data-bs-toggle="tab">@SharedHtmlLocalizer["Orders"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-target="#Subscriptions" href="#Subscriptions" data-bs-toggle="tab">@SharedHtmlLocalizer["Subscription"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-target="#Wallet" href="#Wallet" data-bs-toggle="tab">@SharedHtmlLocalizer["Wallet"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-target="#Cashback" href="#Cashback" data-bs-toggle="tab">@SharedHtmlLocalizer["CashBack"]</a>
+                </li>
+            </ul>
+            <div class="tab-content bg-white">
+                <div id="Orders" class="tab-pane active">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="tabs">
+
+                                <ul class="nav nav-tabs border-secondary">
+                                    <li class="nav-item active">
+                                        <a class="nav-link" data-bs-target="#paid" href="#paid" data-bs-toggle="tab">@SharedHtmlLocalizer["Confirmed"]</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-target="#unpaid" href="#unpaid" data-bs-toggle="tab">@SharedHtmlLocalizer["Completed"]</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-target="#failed" href="#failed" data-bs-toggle="tab">@SharedHtmlLocalizer["Failed"]</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content bg-white">
+                                    <div id="paid" class="tab-pane active">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- ========== Start Table Block ========== -->
+                                                <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="paid-datatable-default-">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-priority="0" class=""></th>
+                                                            <th data-priority="1" class="">@SharedHtmlLocalizer["OrderID"]</th>
+                                                            <th data-priority="5" class="">@SharedHtmlLocalizer["OrderDate"]</th>
+                                                            <th data-priority="8" class="">@SharedHtmlLocalizer["OrderMode"]</th>
+                                                            <th data-priority="6" class="">@SharedHtmlLocalizer["CustomerName"]</th>
+                                                            <th data-priority="7" class="">@SharedHtmlLocalizer["MobileNumber"]</th>
+                                                            <th data-priority="7" class="">@SharedHtmlLocalizer["DeviceType"]</th>
+                                                            <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
+                                                            <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentMethod"]</th>
+                                                            <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentStatus"]</th>
+                                                            <th data-priority="3" class="">@SharedHtmlLocalizer["OrderStatus"]</th>
+                                                            <th data-priority="2" class="">@SharedHtmlLocalizer["Actions"]</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="border-secondary">
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- ========== End Table Block ========== -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="unpaid" class="tab-pane">
+                                        <div class="row">
+                                            <div class="col-12">
+
+                                                <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="unpaid-datatable-default-">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-priority="0" class=""></th>
+                                                            <th data-priority="1" class="">@SharedHtmlLocalizer["OrderID"]</th>
+                                                            <th data-priority="5" class="">@SharedHtmlLocalizer["OrderDate"]</th>
+                                                            <th data-priority="8" class="">@SharedHtmlLocalizer["OrderMode"]</th>
+                                                            <th data-priority="6" class="">@SharedHtmlLocalizer["CustomerName"]</th>
+                                                            <th data-priority="7" class="">@SharedHtmlLocalizer["MobileNumber"]</th>
+                                                            <th data-priority="7" class="">@SharedHtmlLocalizer["DeviceType"]</th>
+                                                            <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
+                                                            <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentMethod"]</th>
+                                                            <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentStatus"]</th>
+                                                            <th data-priority="3" class="">@SharedHtmlLocalizer["OrderStatus"]</th>
+                                                            <th data-priority="2" class="">@SharedHtmlLocalizer["Actions"]</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="border-secondary">
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="failed" class="tab-pane">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- ========== Start Table Block ========== -->
+                                                <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="failed-datatable-default-">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-priority="0" class=""></th>
+                                                            <th data-priority="1" class="">@SharedHtmlLocalizer["OrderID"]</th>
+                                                            <th data-priority="5" class="">@SharedHtmlLocalizer["OrderDate"]</th>
+                                                            <th data-priority="8" class="">@SharedHtmlLocalizer["OrderMode"]</th>
+                                                            <th data-priority="6" class="">@SharedHtmlLocalizer["CustomerName"]</th>
+                                                            <th data-priority="7" class="">@SharedHtmlLocalizer["MobileNumber"]</th>
+                                                            <th data-priority="7" class="">@SharedHtmlLocalizer["DeviceType"]</th>
+                                                            <th data-priority="4" class="">@SharedHtmlLocalizer["TotalAmountKWD"]</th>
+                                                            <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentMethod"]</th>
+                                                            <th data-priority="4" class="">@SharedHtmlLocalizer["PaymentStatus"]</th>
+                                                            <th data-priority="3" class="">@SharedHtmlLocalizer["OrderStatus"]</th>
+                                                            <th data-priority="2" class="">@SharedHtmlLocalizer["Actions"]</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="border-secondary">
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- ========== End Table Block ========== -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="Subscriptions" class="tab-pane">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="tabs">
+                                <ul class="nav nav-tabs border-secondary">
+                                    <li class="nav-item active">
+                                        <a class="nav-link" data-bs-target="#subscriptions-paid" href="#subscriptions-paid" data-bs-toggle="tab">Active</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-target="#subscriptions-expired" href="#subscriptions-expired" data-bs-toggle="tab">Expired</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-target="#subscriptions-failed" href="#subscriptions-failed" data-bs-toggle="tab">Failed</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content bg-white">
+                                    <div id="subscriptions-paid" class="tab-pane active">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- ========== Start Table Block ========== -->
+                                                <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="datatable-default-">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-priority="1" class="">Subscription ID</th>
+                                                            <th data-priority="2" class="">Subscription Date</th>
+                                                            <th data-priority="3" class="">Customer Name</th>
+                                                            <th data-priority="4" class="">Phone Number</th>
+                                                            <th data-priority="4" class="">Total Amount (KWD)</th>
+                                                            <th data-priority="4" class="">Payment Method</th>
+                                                            <th data-priority="4" class="">Payment Status</th>
+                                                            <th data-priority="3" class="">Subscription Status</th>
+                                                            <th data-priority="6" class="">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="border-secondary">
+                                                        <tr class="">
+                                                            <td class="" data-th="Subscription ID">1</td>
+                                                            <td class="" data-th="Subscription Date">16-12-2022</td>
+                                                            <td class="" data-th="Customer Name">Ahmad Abdullah</td>
+                                                            <td class="" data-th="Phone Number">91234567</td>
+                                                            <td class="" data-th="Total Amount (KWD)">20.000</td>
+                                                            <td class="" data-th="Payment Method"><span class='px-2 rounded-pill fw-bold text-light bg-info'>KNET</span></td>
+                                                            <td class="" data-th="Payment Status"><span class='px-2 fw-bold text-primary'>Captured</span></td>
+                                                            <td class="" data-th="Subscription Status"><span class='px-2 fw-bold text-secondary'>Confirmed</span></td>
+                                                            <td class="text-center">
+                                                                <a href="subscription-details.html" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Subscription" data-bs-original-title="View Subscription" aria-label="View Subscription"><i class="fa fa-eye"></i></a>
+                                                                <span data-bs-toggle="modal" data-bs-target="#subscription-cancel"> <a href="javascript:;" class="mb-1 mt-1 me-1 btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cancel Subscription" data-bs-original-title="Cancel Subscription" aria-label="Cancel Subscription"><i class="fas fa-xmark"></i></a> </span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- ========== End Table Block ========== -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="subscriptions-expired" class="tab-pane">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- ========== Start Table Block ========== -->
+                                                <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="datatable-default-">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-priority="1" class="">Subscription ID</th>
+                                                            <th data-priority="2" class="">Subscription Date</th>
+                                                            <th data-priority="3" class="">Customer Name</th>
+                                                            <th data-priority="4" class="">Phone Number</th>
+                                                            <th data-priority="4" class="">Total Amount (KWD)</th>
+                                                            <th data-priority="4" class="">Payment Method</th>
+                                                            <th data-priority="4" class="">Payment Status</th>
+                                                            <th data-priority="3" class="">Subscription Status</th>
+                                                            <th data-priority="6" class="">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="border-secondary">
+                                                        <tr class="">
+                                                            <td class="" data-th="Subscription ID">2</td>
+                                                            <td class="" data-th="Subscription Date">16-12-2022</td>
+                                                            <td class="" data-th="Customer Name">Ahmad Abdullah</td>
+                                                            <td class="" data-th="Phone Number">91234567</td>
+                                                            <td class="" data-th="Total Amount (KWD)">20.000</td>
+                                                            <td class="" data-th="Payment Method"><span class='px-2 rounded-pill fw-bold text-light bg-success'>Tabby</span></td>
+                                                            <td class="" data-th="Payment Status"><span class='px-2 fw-bold text-primary'>Captured</span></td>
+                                                            <td class="" data-th="Subscription Status"><span class='px-2 fw-bold text-danger'>Expired</span></td>
+                                                            <td class="text-center">
+                                                                <a href="subscription-details.html" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Subscription" data-bs-original-title="View Subscription" aria-label="View Subscription"><i class="fa fa-eye"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- ========== End Table Block ========== -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="subscriptions-failed" class="tab-pane">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- ========== Start Table Block ========== -->
+                                                <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="datatable-default-">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-priority="1" class="">Subscription ID</th>
+                                                            <th data-priority="2" class="">Subscription Date</th>
+                                                            <th data-priority="3" class="">Customer Name</th>
+                                                            <th data-priority="4" class="">Phone Number</th>
+                                                            <th data-priority="4" class="">Total Amount (KWD)</th>
+                                                            <th data-priority="4" class="">Payment Method</th>
+                                                            <th data-priority="4" class="">Payment Status</th>
+                                                            <th data-priority="3" class="">Subscription Status</th>
+                                                            <th data-priority="6" class="">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="border-secondary">
+                                                        <tr class="">
+                                                            <td class="" data-th="Subscription ID">1</td>
+                                                            <td class="" data-th="Subscription Date">16-12-2022</td>
+                                                            <td class="" data-th="Customer Name">Ahmad Abdullah</td>
+                                                            <td class="" data-th="Phone Number">91234567</td>
+                                                            <td class="" data-th="Total Amount (KWD)">20.000</td>
+                                                            <td class="" data-th="Payment Method"><span class='px-2 rounded-pill fw-bold text-light bg-info'>KNET</span></td>
+                                                            <td class="" data-th="Payment Status"><span class='px-2 fw-bold text-danger'>Cancelled</span></td>
+                                                            <td class="" data-th="Subscription Status"><span class='px-2 fw-bold text-dark'>Discarded</span></td>
+                                                            <td class="text-center">
+                                                                <a href="subscription-details.html" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Subscription" data-bs-original-title="View Subscription" aria-label="View Subscription"><i class="fa fa-eye"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td class="" data-th="Subscription ID">2</td>
+                                                            <td class="" data-th="Subscription Date">16-12-2022</td>
+                                                            <td class="" data-th="Customer Name">Ahmad Abdullah</td>
+                                                            <td class="" data-th="Phone Number">91234567</td>
+                                                            <td class="" data-th="Total Amount (KWD)">20.000</td>
+                                                            <td class="" data-th="Payment Method"><span class='px-2 rounded-pill fw-bold text-light bg-success'>Tabby</span></td>
+                                                            <td class="" data-th="Payment Status"><span class='px-2 fw-bold text-danger'>Cancelled</span></td>
+                                                            <td class="" data-th="Subscription Status"><span class='px-2 fw-bold text-dark'>Discarded</span></td>
+                                                            <td class="text-center">
+                                                                <a href="subscription-details.html" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Subscription" data-bs-original-title="View Subscription" aria-label="View Subscription"><i class="fa fa-eye"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- ========== End Table Block ========== -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="Wallet" class="tab-pane">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- ========== Start Table Block ========== -->
+                            <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="datatable-default-">
+                                <thead>
+                                    <tr>
+                                        <th data-priority="0" class="text-center">W ID</th>
+                                        <th data-priority="1" class="">Date</th>
+                                        <th data-priority="1" class="">Transaction Number</th>
+                                        <th data-priority="1" class="">Description</th>
+                                        <th data-priority="2" class="">Credit</th>
+                                        <th data-priority="3" class="">Debit</th>
+                                        <th data-priority="4" class="">Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="border-secondary">
+                                    <tr class="">
+                                        <td class="" data-th="W ID">5</td>
+                                        <td class="" data-th="Date">20/03/2022</td>
+                                        <td class="" data-th="Transaction Number">TRN00552</td>
+                                        <td class="" data-th="Description">Paid</td>
+                                        <td class="" data-th="Credit">KD 0.000</td>
+                                        <td class="" data-th="Debit"><span class='text-danger'>KD 90.000</span></td>
+                                        <td class="" data-th="Balance">KD 1.000</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="" data-th="W ID">4</td>
+                                        <td class="" data-th="Date">20/03/2022</td>
+                                        <td class="" data-th="Transaction Number">TRN00552</td>
+                                        <td class="" data-th="Description">Paid</td>
+                                        <td class="" data-th="Credit">KD 0.000</td>
+                                        <td class="" data-th="Debit"><span class='text-danger'>KD 180.000</span></td>
+                                        <td class="" data-th="Balance">KD 91.000</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="" data-th="W ID">3</td>
+                                        <td class="" data-th="Date">22/06/2022</td>
+                                        <td class="" data-th="Transaction Number">TRN03392</td>
+                                        <td class="" data-th="Description">Refund</td>
+                                        <td class="" data-th="Credit"><span class='text-success'>KD 90.000</span></td>
+                                        <td class="" data-th="Debit">KD 0.000</td>
+                                        <td class="" data-th="Balance">KD 271.000</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="" data-th="W ID">2</td>
+                                        <td class="" data-th="Date">22/06/2022</td>
+                                        <td class="" data-th="Transaction Number">TRN03391</td>
+                                        <td class="" data-th="Description">Refund</td>
+                                        <td class="" data-th="Credit"><span class='text-success'>KD 90.000</span></td>
+                                        <td class="" data-th="Debit">KD 0.000</td>
+                                        <td class="" data-th="Balance">KD 120.000</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="" data-th="W ID">1</td>
+                                        <td class="" data-th="Date">20/03/2022</td>
+                                        <td class="" data-th="Transaction Number">TRN00552</td>
+                                        <td class="" data-th="Description">Top Up (WT963022)</td>
+                                        <td class="" data-th="Credit"><span class='text-success'>KD 30.000</span></td>
+                                        <td class="" data-th="Debit">KD 0.000</td>
+                                        <td class="" data-th="Balance">KD 30.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- ========== End Table Block ========== -->
+                        </div>
+                    </div>
+                </div>
+                <div id="Cashback" class="tab-pane">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- ========== Start Table Block ========== -->
+                            <table class="table border-secondary align-middle mobile-optimised datatable-default-" id="datatable-default-">
+                                <thead>
+                                    <tr>
+                                        <th data-priority="0" class="text-center">CB ID</th>
+                                        <th data-priority="1" class="">Date</th>
+                                        <th data-priority="1" class="">Type</th>
+                                        <th data-priority="3" class="">Valid Till</th>
+                                        <th data-priority="4" class="">Order Number</th>
+                                        <th data-priority="4" class="">Order Amount</th>
+                                        <th data-priority="4" class="">Credit</th>
+                                        <th data-priority="4" class="">Debit</th>
+                                        <th data-priority="4" class="">Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="border-secondary">
+                                    <tr class="">
+                                        <td class="" data-th="CB ID">3394</td>
+                                        <td class="" data-th="Date">26/05/2022</td>
+                                        <td class="" data-th="Type">Purchase</td>
+                                        <td class="" data-th="Valid Till">NA</td>
+                                        <td class="" data-th="Order Number"><a class='text-primary' href='order-details.html'>52145</a></td>
+                                        <td class="" data-th="Order Amount">KWD 22.000</td>
+                                        <td class="" data-th="Credit"><span class='text-success'>KWD 1.000</span></td>
+                                        <td class="" data-th="Debit"><span class='text-danger'>KWD 2.000</span></td>
+                                        <td class="" data-th="Balance">KWD 1.000</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="" data-th="CB ID">3393</td>
+                                        <td class="" data-th="Date">26/05/2022</td>
+                                        <td class="" data-th="Type">Purchase</td>
+                                        <td class="" data-th="Valid Till">26/09/2022</td>
+                                        <td class="" data-th="Order Number"><a class='text-primary' href='order-details.html'>14358</a></td>
+                                        <td class="" data-th="Order Amount">KWD 22.000</td>
+                                        <td class="" data-th="Credit"><span class='text-success'>KWD 1.000</span></td>
+                                        <td class="" data-th="Debit">KWD 0.000</td>
+                                        <td class="" data-th="Balance">KWD 2.000</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="" data-th="CB ID">3392</td>
+                                        <td class="" data-th="Date">26/05/2022</td>
+                                        <td class="" data-th="Type">Purchase</td>
+                                        <td class="" data-th="Valid Till">26/09/2022</td>
+                                        <td class="" data-th="Order Number"><a class='text-primary' href='order-details.html'>14858</a></td>
+                                        <td class="" data-th="Order Amount">KWD 22.000</td>
+                                        <td class="" data-th="Credit"><span class='text-success'>KWD 1.000</span></td>
+                                        <td class="" data-th="Debit">KWD 0.000</td>
+                                        <td class="" data-th="Balance">KWD 1.000</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="" data-th="CB ID">3391</td>
+                                        <td class="" data-th="Date">26/05/2022</td>
+                                        <td class="" data-th="Type">Expired</td>
+                                        <td class="" data-th="Valid Till">NA</td>
+                                        <td class="" data-th="Order Number"><a class='text-primary' href='order-details.html'>82858</a></td>
+                                        <td class="" data-th="Order Amount">NA</td>
+                                        <td class="" data-th="Credit">KWD 0.000</td>
+                                        <td class="" data-th="Debit"><span class='text-danger'>KWD 3.000</span></td>
+                                        <td class="" data-th="Balance">KWD 0.000</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="" data-th="CB ID">552</td>
+                                        <td class="" data-th="Date">26/05/2022</td>
+                                        <td class="" data-th="Type">Registration</td>
+                                        <td class="" data-th="Valid Till">26/09/2022</td>
+                                        <td class="" data-th="Order Number"><a class='text-primary' href='order-details.html'>36578</a></td>
+                                        <td class="" data-th="Order Amount">NA</td>
+                                        <td class="" data-th="Credit"><span class='text-success'>KWD 3.000</span></td>
+                                        <td class="" data-th="Debit">KWD 0.000</td>
+                                        <td class="" data-th="Balance">KWD 3.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- ========== End Table Block ========== -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+@await Html.PartialAsync("_AddressModalPartial")
+@await Html.PartialAsync("_EditAddressModalPartial")
+<script src="~/developer/js/Customer/customerDetails.js" asp-append-version="true"></script>

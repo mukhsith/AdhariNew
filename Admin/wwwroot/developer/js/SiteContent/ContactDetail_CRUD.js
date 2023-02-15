@@ -10,19 +10,22 @@ setup = () => {
     //}
 
     $("#dataForm").validate({
+        errorPlacement:
+            function (error, element) { },
         rules: {
             addressEn: { required: true },
             addressAr: { required: true },
             mobileNumber: { required: true },
             emailAddress: { required: true },
-            
+            whatsAppNumber: { required: true },
             
         },
         messages: {
-            addressEn: { required: 'Required' },
-            addressAr: { required: 'Required' },
-            mobileNumber: { required: 'Required' },
-            emailAddress: { required: 'Required' }, 
+            addressEn: { required: '' },
+            addressAr: { required: '' },
+            mobileNumber: { required: '' },
+            emailAddress: { required: '' },
+            whatsAppNumber: { required: '' },
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -45,6 +48,7 @@ cbGetSuccess = (data) => {
     setTextValue('addressAr', r.addressAr);
     setTextValue('mobileNumber', r.mobileNumber);
     setTextValue('emailAddress', r.emailAddress);
+    setTextValue('whatsAppNumber', r.whatsAppNumber);
     setHiddenData(r);
 
 }
@@ -57,6 +61,7 @@ saveData = () => {
     submitData.append("addressAr", getTextValue("addressAr"));
     submitData.append("mobileNumber", getTextValue("mobileNumber"));
     submitData.append("emailAddress", getTextValue("emailAddress"));
+    submitData.append("whatsAppNumber", getTextValue("whatsAppNumber"));
    // submitData.append("active", getCheckValue('active'));
     submitHiddenData(submitData);
     ajaxPost("ContactDetail/Edit", submitData, cbPostSuccess, undefined);
@@ -66,15 +71,15 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) {
-        ToastAlert('success', 'Contact Detail', 'Saved Successfully'); 
+        ToastAlert('success', Resources.ContactDetails, Resources.SavedSuccessfully);
     } else {
         showLog(data);
-        ToastAlert('error', 'Contact Detail', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.ContactDetails, Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => {
-    ToastAlert('error', 'Contact Detail', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.ContactDetails, Resources.UnableTosave);
 }
 
 

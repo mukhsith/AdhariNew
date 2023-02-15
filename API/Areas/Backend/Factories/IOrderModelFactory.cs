@@ -15,7 +15,22 @@ namespace API.Areas.Backend.Factories
     {
         Task<OrderModel> PrepareOrder(bool isEnglish, int id);
 
+
+        Task<OrderModel> PrepareMatrixOrder(bool isEnglish, int id);
+
         Task<DailyOrderSummaryModel> GetTodaySales(bool isEnglish);
+
+
+        Task<DailyOrderSummaryModel> GetTodaySalesInfo(bool isEnglish, int? customerId);
+
+
+        Task<DailyOrderSummaryModel> GetFilterSalesSummary(bool isEnglish, DateTime? startDate = null, DateTime? endDate = null);
+
+        Task<DataTableResult<List<AdminOrderedItemModel>>> GetSalesOrderedItems(bool isEnglish, AdminOrderedItemParam param);
+
+        //Task<DataTableResult<List<AdminOrderedItemModel>>> GetSalesOrderedItems(bool isEnglish, DateTime? startDate = null, DateTime? endDate = null);
+       
+
         Task<DailySubscriptionSummaryModel> GetTodaySubscriptionSales(bool isEnglish);
 
         Task<DailySubscriptionSummaryModel> GetCustomerSales(bool isEnglish, int customerId);
@@ -35,6 +50,8 @@ namespace API.Areas.Backend.Factories
 
         Task<APIResponseModel<bool>> AddQPay(int CustomerId, int orderID, string OrderNumber, decimal Ordertotal, int OrderType);
 
+        Task<APIResponseModel<object>> GetOrderPdf(bool isEnglish, int customerId, int id);
+
 
         Task<bool> RemoveDriver(int orderId);
         Task<bool> RescheduleDelivery(int orderId, DateTime? dateTime = null);
@@ -49,6 +66,8 @@ namespace API.Areas.Backend.Factories
         //Task<DataTableResult<List<DeliveriesDashboard>>> GetDispatchedDataTable(
         //    DataTableParam param, bool isEnglish, string orderNumber = null, DateTime? startDate = null, 
         //    int? orderModeId = null, int? orderTypeId = null, int? areaId = null, int? driverId = null);
+
+
 
         Task<DataTableResult<List<DeliveriesDashboard>>> GetDeliveriesForDataTable(AdminOrderDeliveriesParam param);
 

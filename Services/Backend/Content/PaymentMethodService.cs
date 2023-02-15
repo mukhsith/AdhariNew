@@ -156,7 +156,7 @@ namespace Services.Backend.Content
             if (data is not null)
             {
                 data.ModifiedOn = DateTime.Now;
-                data.NormalCheckoutRegisteredCustomer = !data.Active;
+                data.NormalCheckoutRegisteredCustomer = !data.NormalCheckoutRegisteredCustomer;
                 return await _dbcontext.SaveChangesAsync() > 0;
             }
             return false;
@@ -167,7 +167,7 @@ namespace Services.Backend.Content
             if (data is not null)
             {
                 data.ModifiedOn = DateTime.Now;
-                data.SubscriptionCheckoutRegisteredCustomer = !data.Active;
+                data.SubscriptionCheckoutRegisteredCustomer = !data.SubscriptionCheckoutRegisteredCustomer;
                 return await _dbcontext.SaveChangesAsync() > 0;
             }
             return false;

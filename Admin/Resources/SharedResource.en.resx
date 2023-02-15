@@ -135,6 +135,9 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AddItemsToOrder" xml:space="preserve">
+    <value>Add items to Order</value>
+  </data>
   <data name="AddNewAddress" xml:space="preserve">
     <value>Add New Address</value>
   </data>
@@ -190,7 +193,7 @@
     <value>Address Name</value>
   </data>
   <data name="AddressNameIsRequired" xml:space="preserve">
-    <value>Address name is required</value>
+    <value>Please enter an address name</value>
   </data>
   <data name="AddressTextAr" xml:space="preserve">
     <value>Address (Ar)</value>
@@ -243,6 +246,9 @@
   <data name="AreaDetails" xml:space="preserve">
     <value>Area Details</value>
   </data>
+  <data name="AreaIsRequired" xml:space="preserve">
+    <value>Please select an area</value>
+  </data>
   <data name="Areas" xml:space="preserve">
     <value>Areas</value>
   </data>
@@ -255,8 +261,14 @@
   <data name="AssignDriver" xml:space="preserve">
     <value>Assign Driver</value>
   </data>
+  <data name="Assigned" xml:space="preserve">
+    <value>Assigned</value>
+  </data>
   <data name="AutomaticDeduction" xml:space="preserve">
     <value>Automatic Deduction</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
   </data>
   <data name="Avenue" xml:space="preserve">
     <value>Avenue</value>
@@ -270,8 +282,14 @@
   <data name="AvenueNo" xml:space="preserve">
     <value>Avenue No.</value>
   </data>
+  <data name="B2B" xml:space="preserve">
+    <value>B2B</value>
+  </data>
   <data name="B2BPrice" xml:space="preserve">
     <value>B2B Price</value>
+  </data>
+  <data name="B2C" xml:space="preserve">
+    <value>B2C</value>
   </data>
   <data name="B2CPrice" xml:space="preserve">
     <value>B2C Price</value>
@@ -328,7 +346,7 @@
     <value>Block End Date</value>
   </data>
   <data name="BlockIsRequired" xml:space="preserve">
-    <value>Block is required</value>
+    <value>Please enter block number</value>
   </data>
   <data name="BlockNo" xml:space="preserve">
     <value>Block No.</value>
@@ -337,7 +355,7 @@
     <value>Block Start Date</value>
   </data>
   <data name="BuildingNameOrNumberIsRequired" xml:space="preserve">
-    <value>Building name or number is required</value>
+    <value>Please enter building number</value>
   </data>
   <data name="BuildingNo" xml:space="preserve">
     <value>Building No.</value>
@@ -351,11 +369,20 @@
   <data name="BundledProductDescription" xml:space="preserve">
     <value>Bundled Product Description</value>
   </data>
+  <data name="BundledProductDetails" xml:space="preserve">
+    <value>BundledProductDetails</value>
+  </data>
+  <data name="BundledProductDiscountedPrice" xml:space="preserve">
+    <value>Bundled Product Discounted Price</value>
+  </data>
   <data name="BundledProductImage" xml:space="preserve">
     <value>Bundled Product Image</value>
   </data>
   <data name="BundledProductName" xml:space="preserve">
     <value>Bundled Product Name</value>
+  </data>
+  <data name="BundledProductPrice" xml:space="preserve">
+    <value>Bundled Product Price</value>
   </data>
   <data name="BundledProducts" xml:space="preserve">
     <value>Bundled Products</value>
@@ -369,8 +396,14 @@
   <data name="Cancelled" xml:space="preserve">
     <value>Cancelled</value>
   </data>
+  <data name="CancelledByCustomer" xml:space="preserve">
+    <value>Cancelled By Customer</value>
+  </data>
   <data name="CancelOrder" xml:space="preserve">
     <value>Cancel Order</value>
+  </data>
+  <data name="Captured" xml:space="preserve">
+    <value>Captured</value>
   </data>
   <data name="CardDetails" xml:space="preserve">
     <value>Card Details</value>
@@ -383,6 +416,9 @@
   </data>
   <data name="Cart" xml:space="preserve">
     <value>Cart</value>
+  </data>
+  <data name="CashBack" xml:space="preserve">
+    <value>CashBack</value>
   </data>
   <data name="CashbackAmount" xml:space="preserve">
     <value>Cashback Amount</value>
@@ -408,6 +444,9 @@
   <data name="CashbackValueToDeductKWD" xml:space="preserve">
     <value>Cashback Value To Deduct (KWD)</value>
   </data>
+  <data name="CashOnDelivery" xml:space="preserve">
+    <value>Cash</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
@@ -417,8 +456,14 @@
   <data name="CategoryBannerDesktop" xml:space="preserve">
     <value>Category Banner (Desktop)</value>
   </data>
+  <data name="CategoryBannerDesktopAr" xml:space="preserve">
+    <value>Category Banner Desktop (Ar)</value>
+  </data>
   <data name="CategoryBannerMobile" xml:space="preserve">
     <value>Category Banner (Mobile)</value>
+  </data>
+  <data name="CategoryBannerMobileAr" xml:space="preserve">
+    <value>Category Banner Mobile (Ar)</value>
   </data>
   <data name="CategoryDetails" xml:space="preserve">
     <value>Category Details</value>
@@ -462,8 +507,14 @@
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="COD" xml:space="preserve">
+    <value>Cash</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>Completed</value>
+  </data>
+  <data name="Completed_Order" xml:space="preserve">
+    <value>Orders Completed</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
@@ -540,6 +591,9 @@
   <data name="CouponValidity" xml:space="preserve">
     <value>Coupon Validity</value>
   </data>
+  <data name="CreateCustomer" xml:space="preserve">
+    <value>Create Customer</value>
+  </data>
   <data name="Credit" xml:space="preserve">
     <value>Credit</value>
   </data>
@@ -573,6 +627,9 @@
   <data name="CustomerType" xml:space="preserve">
     <value>Customer Type</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Date</value>
   </data>
@@ -591,6 +648,18 @@
   <data name="Debit" xml:space="preserve">
     <value>Debit</value>
   </data>
+  <data name="DeleteCategory" xml:space="preserve">
+    <value>Delete Category</value>
+  </data>
+  <data name="DeleteCategoryConfirm" xml:space="preserve">
+    <value>Do you really want to Delete Category?</value>
+  </data>
+  <data name="DeleteProduct" xml:space="preserve">
+    <value>Delete Product</value>
+  </data>
+  <data name="DeleteProductConfirm" xml:space="preserve">
+    <value>Do you really want to Delete Product?</value>
+  </data>
   <data name="Delivered" xml:space="preserve">
     <value>Delivered</value>
   </data>
@@ -605,6 +674,9 @@
   </data>
   <data name="DeliveryAddress" xml:space="preserve">
     <value>Delivery Address</value>
+  </data>
+  <data name="DeliveryBlockedDate" xml:space="preserve">
+    <value>Delivery Blocked Date</value>
   </data>
   <data name="DeliveryDate" xml:space="preserve">
     <value>Delivery Date</value>
@@ -626,6 +698,9 @@
   </data>
   <data name="DeliverySlotStart" xml:space="preserve">
     <value>Delivery Slot Start</value>
+  </data>
+  <data name="DeliveryStatus" xml:space="preserve">
+    <value>DeliveryStatus</value>
   </data>
   <data name="DeliveryTimeslotsManagement" xml:space="preserve">
     <value>Delivery Timeslots Management</value>
@@ -687,6 +762,9 @@
   <data name="Duration" xml:space="preserve">
     <value>Duration</value>
   </data>
+  <data name="EditAddress" xml:space="preserve">
+    <value>EditAddress</value>
+  </data>
   <data name="EditArea" xml:space="preserve">
     <value>Edit Area</value>
   </data>
@@ -727,6 +805,9 @@
     <value>Edit System User</value>
   </data>
   <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
     <value>Email</value>
   </data>
   <data name="EmailIsRequired" xml:space="preserve">
@@ -810,6 +891,9 @@
   <data name="EnterYourOfficeContactNumber" xml:space="preserve">
     <value>Enter your office contact number</value>
   </data>
+  <data name="Excel" xml:space="preserve">
+    <value>Excel</value>
+  </data>
   <data name="Expired" xml:space="preserve">
     <value>Expired</value>
   </data>
@@ -818,6 +902,9 @@
   </data>
   <data name="Failed" xml:space="preserve">
     <value>Failed</value>
+  </data>
+  <data name="FailedOrderCount" xml:space="preserve">
+    <value>Failed Order Count</value>
   </data>
   <data name="Female" xml:space="preserve">
     <value>Female</value>
@@ -832,7 +919,7 @@
     <value>Flat Number</value>
   </data>
   <data name="FlatNumberIsRequired" xml:space="preserve">
-    <value>Flat number is required</value>
+    <value>Please enter flat number</value>
   </data>
   <data name="FloorNo" xml:space="preserve">
     <value>Floor No.</value>
@@ -841,7 +928,10 @@
     <value>Floor Number</value>
   </data>
   <data name="FloorNumberIsRequired" xml:space="preserve">
-    <value>Floor number is required</value>
+    <value>Please enter floor number</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
   </data>
   <data name="FromDate" xml:space="preserve">
     <value>From Date</value>
@@ -865,7 +955,7 @@
     <value>Goverment Entity</value>
   </data>
   <data name="GovermentEntityIsRequired" xml:space="preserve">
-    <value>Goverment entity is required</value>
+    <value>Please enter name of the government entity</value>
   </data>
   <data name="Government" xml:space="preserve">
     <value>Government</value>
@@ -877,7 +967,7 @@
     <value>Governorate Details</value>
   </data>
   <data name="GovernorateIsRequired" xml:space="preserve">
-    <value>Governorate is required</value>
+    <value>Please select a governorate</value>
   </data>
   <data name="GovernorateName" xml:space="preserve">
     <value>Governorate Name</value>
@@ -898,7 +988,7 @@
     <value>House Number</value>
   </data>
   <data name="HouseNumberIsRequired" xml:space="preserve">
-    <value>House number is required</value>
+    <value>Please enter house number</value>
   </data>
   <data name="HTMLDir" xml:space="preserve">
     <value>ltr</value>
@@ -948,6 +1038,12 @@
   <data name="ItemSizes" xml:space="preserve">
     <value>Item Sizes</value>
   </data>
+  <data name="ItemsSoldToday" xml:space="preserve">
+    <value>Items Sold</value>
+  </data>
+  <data name="KNET" xml:space="preserve">
+    <value>KNET</value>
+  </data>
   <data name="KWD" xml:space="preserve">
     <value>KWD</value>
   </data>
@@ -969,6 +1065,9 @@
   <data name="Loading" xml:space="preserve">
     <value>Loading ...</value>
   </data>
+  <data name="LoginName" xml:space="preserve">
+    <value>Login Name</value>
+  </data>
   <data name="MainMenu" xml:space="preserve">
     <value>Main Menu</value>
   </data>
@@ -977,6 +1076,9 @@
   </data>
   <data name="ManualAdjustment" xml:space="preserve">
     <value>Manual Adjustment</value>
+  </data>
+  <data name="MaxCartQuantity" xml:space="preserve">
+    <value>Maximum quantity allowed</value>
   </data>
   <data name="MediaPhonePlusLogo" xml:space="preserve">
     <value>Media Phone Plus Logo</value>
@@ -992,6 +1094,9 @@
   </data>
   <data name="MessageIsRequired" xml:space="preserve">
     <value>Message is required</value>
+  </data>
+  <data name="MinCartQuantity" xml:space="preserve">
+    <value>Minimum quantity allowed</value>
   </data>
   <data name="MinimumOrderAmountKWD" xml:space="preserve">
     <value>Minimum Order Amount (KWD)</value>
@@ -1027,7 +1132,7 @@
     <value>Mosque Name</value>
   </data>
   <data name="MosqueNameIsRequired" xml:space="preserve">
-    <value>Mosque name is required</value>
+    <value>Please enter mosque name</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
     <value>My Account</value>
@@ -1113,6 +1218,9 @@
   <data name="NoFileChosen" xml:space="preserve">
     <value>No File Chosen</value>
   </data>
+  <data name="NoneSelected" xml:space="preserve">
+    <value>Select</value>
+  </data>
   <data name="NoOrders" xml:space="preserve">
     <value>No Orders</value>
   </data>
@@ -1122,11 +1230,17 @@
   <data name="NormalCheckout" xml:space="preserve">
     <value>Normal Checkout</value>
   </data>
+  <data name="NormalOrder" xml:space="preserve">
+    <value>Normal Order</value>
+  </data>
   <data name="NoSavedAddresses" xml:space="preserve">
     <value>No Saved Addresses</value>
   </data>
   <data name="NoSubscriptions" xml:space="preserve">
     <value>No Subscriptions</value>
+  </data>
+  <data name="NotCaptured" xml:space="preserve">
+    <value>Not Captured</value>
   </data>
   <data name="NotDispatched" xml:space="preserve">
     <value>Not Dispatched</value>
@@ -1139,6 +1253,9 @@
   </data>
   <data name="NotificationRemoved" xml:space="preserve">
     <value>Notification Removed</value>
+  </data>
+  <data name="NotificationTemplates" xml:space="preserve">
+    <value>Notification Templates</value>
   </data>
   <data name="NotifyMe" xml:space="preserve">
     <value>Notify Me</value>
@@ -1161,6 +1278,9 @@
   <data name="OR" xml:space="preserve">
     <value>OR</value>
   </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
   <data name="OrderAmount" xml:space="preserve">
     <value>Order Amount</value>
   </data>
@@ -1171,10 +1291,13 @@
     <value>Order Date Range</value>
   </data>
   <data name="OrderDeliveriesToday" xml:space="preserve">
-    <value>Order Deliveries Today</value>
+    <value>Order Deliveries</value>
   </data>
   <data name="OrderDetails" xml:space="preserve">
     <value>Order Details</value>
+  </data>
+  <data name="OrderedItems" xml:space="preserve">
+    <value>Ordered Items</value>
   </data>
   <data name="OrderID" xml:space="preserve">
     <value>Order ID</value>
@@ -1230,6 +1353,12 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="PayFromWallet" xml:space="preserve">
+    <value>Pay from Wallet</value>
+  </data>
+  <data name="PaymentAuthorizationCode" xml:space="preserve">
+    <value>Payment Authorization Code</value>
+  </data>
   <data name="PaymentDetails" xml:space="preserve">
     <value>Payment Details</value>
   </data>
@@ -1257,8 +1386,14 @@
   <data name="PaymentSummary" xml:space="preserve">
     <value>Payment Summary</value>
   </data>
+  <data name="PDF" xml:space="preserve">
+    <value>PDF</value>
+  </data>
   <data name="Pending" xml:space="preserve">
     <value>Pending</value>
+  </data>
+  <data name="PendingCash" xml:space="preserve">
+    <value>Pending Cash</value>
   </data>
   <data name="PerformAction" xml:space="preserve">
     <value>Perform Action</value>
@@ -1274,6 +1409,21 @@
   </data>
   <data name="PiecesPerPacking" xml:space="preserve">
     <value>Pieces Per Packing</value>
+  </data>
+  <data name="PleaseB2BDiscountPrice" xml:space="preserve">
+    <value>Please enter B2B Discount Price</value>
+  </data>
+  <data name="PleaseB2BMaximumCartQuantity" xml:space="preserve">
+    <value>Please enter B2B Maximum Cart Quantity</value>
+  </data>
+  <data name="PleaseB2BMinmumCartQuantity" xml:space="preserve">
+    <value>Please enter B2B Minmum Cart Quantity</value>
+  </data>
+  <data name="PleaseB2BPrice" xml:space="preserve">
+    <value>Please enter B2B Price</value>
+  </data>
+  <data name="PleaseDiscountedPrice" xml:space="preserve">
+    <value>Please enter Discounted Price</value>
   </data>
   <data name="PleaseEnterADisplayOrder" xml:space="preserve">
     <value>Please enter a display order</value>
@@ -1296,17 +1446,44 @@
   <data name="PleaseEnterCategoryName" xml:space="preserve">
     <value>Please enter the category name</value>
   </data>
+  <data name="PleaseEnterCustomerEmail" xml:space="preserve">
+    <value>PleaseEnterCustomerEmail</value>
+  </data>
+  <data name="PleaseEnterCustomerMobile" xml:space="preserve">
+    <value>Please Enter Customer Mobile</value>
+  </data>
+  <data name="PleaseEnterCustomerMobileNumber" xml:space="preserve">
+    <value>Please Enter Customer Mobile Number</value>
+  </data>
+  <data name="PleaseEnterCustomerName" xml:space="preserve">
+    <value>PleaseEnterCustomerName</value>
+  </data>
   <data name="PleaseEnterDeliveryFee" xml:space="preserve">
     <value>Please enter the delivery fee</value>
   </data>
+  <data name="PleaseEnterDiscountAmountValue" xml:space="preserve">
+    <value>Please enter discount Amount value</value>
+  </data>
+  <data name="PleaseEnterDiscountPercentageValue" xml:space="preserve">
+    <value>Please enter discount percentage value</value>
+  </data>
+  <data name="PleaseEnterMinimumOrderAmountKWD" xml:space="preserve">
+    <value>Please Enter Minimum Order Amount</value>
+  </data>
   <data name="PleaseEnterOTPcodeWhichHasBeenSentToMobileNumber" xml:space="preserve">
     <value>Please enter OTP code which has been sent to your mobile number</value>
+  </data>
+  <data name="PleaseEnterPrice" xml:space="preserve">
+    <value>Please enter Price</value>
   </data>
   <data name="PleaseEnterProductDescription" xml:space="preserve">
     <value>Please enter the product description</value>
   </data>
   <data name="PleaseEnterProductName" xml:space="preserve">
     <value>Please enter the product name</value>
+  </data>
+  <data name="PleaseEnterQuantity" xml:space="preserve">
+    <value>Please enter quantity value</value>
   </data>
   <data name="PleaseEnterSize" xml:space="preserve">
     <value>Please enter size</value>
@@ -1350,11 +1527,20 @@
   <data name="PleaseEnterTheSubscriptionName" xml:space="preserve">
     <value>Please enter the subscription name</value>
   </data>
+  <data name="PleaseEnterTheSubscriptionPrice" xml:space="preserve">
+    <value>PleaseEnterTheSubscriptionPrice</value>
+  </data>
   <data name="PleaseEnterValue" xml:space="preserve">
     <value>Please enter a value</value>
   </data>
   <data name="PleaseEnterWalletCreditAmount" xml:space="preserve">
     <value>Please enter wallet credit amount</value>
+  </data>
+  <data name="PleaseMaximumCartQuantity" xml:space="preserve">
+    <value>Please enter Maximum Cart Quantity</value>
+  </data>
+  <data name="PleaseMinmumCartQuantity" xml:space="preserve">
+    <value>Please enter Minmum Cart Quantity</value>
   </data>
   <data name="PleaseSelect" xml:space="preserve">
     <value>Please select</value>
@@ -1362,11 +1548,26 @@
   <data name="PleaseSelectACategory" xml:space="preserve">
     <value>Please select a category</value>
   </data>
+  <data name="PleaseselectaLinkType" xml:space="preserve">
+    <value>Please select a Link Type</value>
+  </data>
   <data name="PleaseSelectCategory" xml:space="preserve">
     <value>Please select a category</value>
   </data>
+  <data name="PleaseSelectDiscountType" xml:space="preserve">
+    <value>Please select Discount Type</value>
+  </data>
   <data name="PleaseSelectValue" xml:space="preserve">
     <value>Please Select Value</value>
+  </data>
+  <data name="PleaseSingleSubscriptionDurations" xml:space="preserve">
+    <value>Please select subscription duration</value>
+  </data>
+  <data name="PleaseSpecialPackageDuration" xml:space="preserve">
+    <value>Please select special package Duration</value>
+  </data>
+  <data name="PleaseValidMaximumCartQuantity" xml:space="preserve">
+    <value>Please enter valid Maximum Cart Quantity</value>
   </data>
   <data name="PleaseVerifyYourEmailAddress" xml:space="preserve">
     <value>Please Verify Your Email Address</value>
@@ -1443,8 +1644,20 @@
   <data name="ProjectTitle" xml:space="preserve">
     <value>Adhari</value>
   </data>
+  <data name="PromotionCode" xml:space="preserve">
+    <value>PromotionCode</value>
+  </data>
+  <data name="PromotionCodeDiscount" xml:space="preserve">
+    <value>Promotion Code Discount</value>
+  </data>
+  <data name="PromotionCodeUse" xml:space="preserve">
+    <value>Promotion Code Use</value>
+  </data>
   <data name="PromotionDuration" xml:space="preserve">
     <value>Promotion Duration</value>
+  </data>
+  <data name="QPAY" xml:space="preserve">
+    <value>QPAY</value>
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>Quantity</value>
@@ -1452,8 +1665,14 @@
   <data name="QuantityAdded" xml:space="preserve">
     <value>Quantity Added</value>
   </data>
+  <data name="QuickpayLink" xml:space="preserve">
+    <value>Quick Pay Link</value>
+  </data>
   <data name="Reason" xml:space="preserve">
     <value>Reason</value>
+  </data>
+  <data name="Received" xml:space="preserve">
+    <value>Received</value>
   </data>
   <data name="RecordsPerPage" xml:space="preserve">
     <value>records per page</value>
@@ -1497,6 +1716,9 @@
   <data name="Returned" xml:space="preserve">
     <value>Returned</value>
   </data>
+  <data name="ReturnedByDriver" xml:space="preserve">
+    <value>Returned By Driver</value>
+  </data>
   <data name="Role" xml:space="preserve">
     <value>Role</value>
   </data>
@@ -1507,10 +1729,13 @@
     <value>Role Name</value>
   </data>
   <data name="SalesAmountToday" xml:space="preserve">
-    <value>Sales Amount Today</value>
+    <value>Sales Amount</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="SavedSuccessfully" xml:space="preserve">
+    <value>Saved Successfully</value>
   </data>
   <data name="School" xml:space="preserve">
     <value>School</value>
@@ -1519,7 +1744,7 @@
     <value>School Name</value>
   </data>
   <data name="SchoolNameIsRequired" xml:space="preserve">
-    <value>School name is required</value>
+    <value>Please enter school name</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -1527,8 +1752,14 @@
   <data name="SelectAProduct" xml:space="preserve">
     <value>Select a product...</value>
   </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Select Category</value>
+  </data>
   <data name="SelectDriver" xml:space="preserve">
     <value>Select Driver</value>
+  </data>
+  <data name="SelectDuration" xml:space="preserve">
+    <value>Select Duration</value>
   </data>
   <data name="SelectOne" xml:space="preserve">
     <value>Select One</value>
@@ -1599,6 +1830,12 @@
   <data name="SMSNotification" xml:space="preserve">
     <value>SMS Notification</value>
   </data>
+  <data name="SMS_Message_Ar" xml:space="preserve">
+    <value>SMS Message(Ar)</value>
+  </data>
+  <data name="SMS_Message_En" xml:space="preserve">
+    <value>SMS Message(En)</value>
+  </data>
   <data name="Snapchat" xml:space="preserve">
     <value>Snapchat</value>
   </data>
@@ -1610,6 +1847,12 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="StatusCompleted" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="StatusUnread" xml:space="preserve">
+    <value>Unread</value>
   </data>
   <data name="Stock" xml:space="preserve">
     <value>Stock</value>
@@ -1624,7 +1867,7 @@
     <value>Street name or number</value>
   </data>
   <data name="StreetNameOrNumberIsRequired" xml:space="preserve">
-    <value>Street name or number is required</value>
+    <value>Please enter street number</value>
   </data>
   <data name="StreetNo" xml:space="preserve">
     <value>Street No.</value>
@@ -1671,6 +1914,9 @@
   <data name="SubscriptionNumber" xml:space="preserve">
     <value>Subscription Number</value>
   </data>
+  <data name="SubscriptionProduct" xml:space="preserve">
+    <value>Subscription Product</value>
+  </data>
   <data name="Subscriptions" xml:space="preserve">
     <value>Subscriptions</value>
   </data>
@@ -1697,6 +1943,12 @@
   </data>
   <data name="SystemUsers" xml:space="preserve">
     <value>System Users</value>
+  </data>
+  <data name="Tabby" xml:space="preserve">
+    <value>Tabby</value>
+  </data>
+  <data name="TemplateType" xml:space="preserve">
+    <value>Template Type</value>
   </data>
   <data name="Terms&amp;Conditions" xml:space="preserve">
     <value>Terms &amp; Conditions</value>
@@ -1755,11 +2007,17 @@
   <data name="TransactionDateAndTime" xml:space="preserve">
     <value>Transaction Date &amp; Time</value>
   </data>
+  <data name="TransactionID" xml:space="preserve">
+    <value>Transaction ID</value>
+  </data>
   <data name="Twitter" xml:space="preserve">
     <value>Twitter</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="UnableTosave" xml:space="preserve">
+    <value>Unable to save, please try again or contact to system admin</value>
   </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>Unit Price</value>
@@ -1791,8 +2049,59 @@
   <data name="URL" xml:space="preserve">
     <value>URL</value>
   </data>
+  <data name="UserName" xml:space="preserve">
+    <value>User Name</value>
+  </data>
   <data name="UserRolePermissions" xml:space="preserve">
     <value>User Role Permissions</value>
+  </data>
+  <data name="ValidateDate" xml:space="preserve">
+    <value>Please enter a valid date e.g. DD/MM/YYYY</value>
+  </data>
+  <data name="ValidateDateISO" xml:space="preserve">
+    <value>Please enter a valid date e.g. DD/MM/YYYY</value>
+  </data>
+  <data name="ValidateDigits" xml:space="preserve">
+    <value>Please enter only digits.</value>
+  </data>
+  <data name="ValidateEmail" xml:space="preserve">
+    <value>Please enter a valid email address.</value>
+  </data>
+  <data name="ValidateEqualTo" xml:space="preserve">
+    <value>Please enter the same value again.</value>
+  </data>
+  <data name="ValidateMax" xml:space="preserve">
+    <value>Please enter a value less than or equal to {{0}}.</value>
+  </data>
+  <data name="ValidateMaxlength" xml:space="preserve">
+    <value>Please enter no more than {{0}} characters.</value>
+  </data>
+  <data name="ValidateMin" xml:space="preserve">
+    <value>Please enter a value greater than or equal to {{0}}.</value>
+  </data>
+  <data name="ValidateMinlength" xml:space="preserve">
+    <value>Please enter at least {{0}} characters.</value>
+  </data>
+  <data name="ValidateNumber" xml:space="preserve">
+    <value>Please enter a valid number.</value>
+  </data>
+  <data name="ValidateRange" xml:space="preserve">
+    <value>Please enter a value between {{0}} and {{1}}.</value>
+  </data>
+  <data name="ValidateRangelength" xml:space="preserve">
+    <value>Please enter a value between {{0}} and {{1}} characters long.</value>
+  </data>
+  <data name="ValidateRemote" xml:space="preserve">
+    <value>Please fix this field.</value>
+  </data>
+  <data name="ValidateRequired" xml:space="preserve">
+    <value>This field is required.</value>
+  </data>
+  <data name="ValidateStep" xml:space="preserve">
+    <value>Please enter a multiple of {{0}}.</value>
+  </data>
+  <data name="ValidateURL" xml:space="preserve">
+    <value>Please enter a valid URL.</value>
   </data>
   <data name="Validity" xml:space="preserve">
     <value>Validity</value>
@@ -1808,6 +2117,9 @@
   </data>
   <data name="VerifyOTP" xml:space="preserve">
     <value>Verify OTP</value>
+  </data>
+  <data name="VISA_Master" xml:space="preserve">
+    <value>VISA Master</value>
   </data>
   <data name="Wallet" xml:space="preserve">
     <value>Wallet</value>
@@ -1826,6 +2138,9 @@
   </data>
   <data name="WhatsApp" xml:space="preserve">
     <value>WhatsApp</value>
+  </data>
+  <data name="WhatsAppNumber" xml:space="preserve">
+    <value>WhatsApp Number</value>
   </data>
   <data name="YouCanDefineNewSizesByGoingToProducts" xml:space="preserve">
     <value>You can define new sizes by going to products &gt;</value>

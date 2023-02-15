@@ -484,7 +484,7 @@ template {
   --bs-secondary: #00AEEF;
   --bs-success: #02c402;
   --bs-info: #7164ff;
-  --bs-warning: #ffd500;
+  --bs-warning: #ed9c28;
   --bs-danger: red;
   --bs-light: #f7f7f7;
   --bs-dark: #18181d;
@@ -492,7 +492,7 @@ template {
   --bs-secondary-rgb: 0, 174, 239;
   --bs-success-rgb: 2, 196, 2;
   --bs-info-rgb: 113, 100, 255;
-  --bs-warning-rgb: 255, 213, 0;
+  --bs-warning-rgb: 237, 156, 40;
   --bs-danger-rgb: 255, 0, 0;
   --bs-light-rgb: 247, 247, 247;
   --bs-dark-rgb: 24, 24, 29;
@@ -2776,15 +2776,15 @@ progress {
 }
 
 .table-warning {
-  --bs-table-bg: #fff7cc;
-  --bs-table-striped-bg: #f2ebc2;
+  --bs-table-bg: #fbebd4;
+  --bs-table-striped-bg: #eedfc9;
   --bs-table-striped-color: #000000;
-  --bs-table-active-bg: #e6deb8;
+  --bs-table-active-bg: #e2d4bf;
   --bs-table-active-color: #000000;
-  --bs-table-hover-bg: #ece4bd;
+  --bs-table-hover-bg: #e8d9c4;
   --bs-table-hover-color: #000000;
   color: #000000;
-  border-color: #e6deb8;
+  border-color: #e2d4bf;
 }
 
 .table-danger {
@@ -3931,34 +3931,34 @@ textarea.form-control-lg {
 
 .btn-warning {
   color: #000000;
-  background-color: #ffd500;
-  border-color: #ffd500;
+  background-color: #ed9c28;
+  border-color: #ed9c28;
 }
 .btn-warning:hover {
   color: #000000;
-  background-color: #ffdb26;
-  border-color: #ffd91a;
+  background-color: #f0ab48;
+  border-color: #efa63e;
 }
 .btn-check:focus + .btn-warning, .btn-warning:focus {
   color: #000000;
-  background-color: #ffdb26;
-  border-color: #ffd91a;
-  -webkit-box-shadow: 0 0 0 0.25rem rgba(217, 181, 0, 0.5);
-          box-shadow: 0 0 0 0.25rem rgba(217, 181, 0, 0.5);
+  background-color: #f0ab48;
+  border-color: #efa63e;
+  -webkit-box-shadow: 0 0 0 0.25rem rgba(201, 133, 34, 0.5);
+          box-shadow: 0 0 0 0.25rem rgba(201, 133, 34, 0.5);
 }
 .btn-check:checked + .btn-warning, .btn-check:active + .btn-warning, .btn-warning:active, .btn-warning.active, .show > .btn-warning.dropdown-toggle {
   color: #000000;
-  background-color: #ffdd33;
-  border-color: #ffd91a;
+  background-color: #f1b053;
+  border-color: #efa63e;
 }
 .btn-check:checked + .btn-warning:focus, .btn-check:active + .btn-warning:focus, .btn-warning:active:focus, .btn-warning.active:focus, .show > .btn-warning.dropdown-toggle:focus {
-  -webkit-box-shadow: 0 0 0 0.25rem rgba(217, 181, 0, 0.5);
-          box-shadow: 0 0 0 0.25rem rgba(217, 181, 0, 0.5);
+  -webkit-box-shadow: 0 0 0 0.25rem rgba(201, 133, 34, 0.5);
+          box-shadow: 0 0 0 0.25rem rgba(201, 133, 34, 0.5);
 }
 .btn-warning:disabled, .btn-warning.disabled {
   color: #000000;
-  background-color: #ffd500;
-  border-color: #ffd500;
+  background-color: #ed9c28;
+  border-color: #ed9c28;
 }
 
 .btn-danger {
@@ -4166,29 +4166,29 @@ textarea.form-control-lg {
 }
 
 .btn-outline-warning {
-  color: #ffd500;
-  border-color: #ffd500;
+  color: #ed9c28;
+  border-color: #ed9c28;
 }
 .btn-outline-warning:hover {
   color: #000000;
-  background-color: #ffd500;
-  border-color: #ffd500;
+  background-color: #ed9c28;
+  border-color: #ed9c28;
 }
 .btn-check:focus + .btn-outline-warning, .btn-outline-warning:focus {
-  -webkit-box-shadow: 0 0 0 0.25rem rgba(255, 213, 0, 0.5);
-          box-shadow: 0 0 0 0.25rem rgba(255, 213, 0, 0.5);
+  -webkit-box-shadow: 0 0 0 0.25rem rgba(237, 156, 40, 0.5);
+          box-shadow: 0 0 0 0.25rem rgba(237, 156, 40, 0.5);
 }
 .btn-check:checked + .btn-outline-warning, .btn-check:active + .btn-outline-warning, .btn-outline-warning:active, .btn-outline-warning.active, .btn-outline-warning.dropdown-toggle.show {
   color: #000000;
-  background-color: #ffd500;
-  border-color: #ffd500;
+  background-color: #ed9c28;
+  border-color: #ed9c28;
 }
 .btn-check:checked + .btn-outline-warning:focus, .btn-check:active + .btn-outline-warning:focus, .btn-outline-warning:active:focus, .btn-outline-warning.active:focus, .btn-outline-warning.dropdown-toggle.show:focus {
-  -webkit-box-shadow: 0 0 0 0.25rem rgba(255, 213, 0, 0.5);
-          box-shadow: 0 0 0 0.25rem rgba(255, 213, 0, 0.5);
+  -webkit-box-shadow: 0 0 0 0.25rem rgba(237, 156, 40, 0.5);
+          box-shadow: 0 0 0 0.25rem rgba(237, 156, 40, 0.5);
 }
 .btn-outline-warning:disabled, .btn-outline-warning.disabled {
-  color: #ffd500;
+  color: #ed9c28;
   background-color: transparent;
 }
 
@@ -5976,12 +5976,12 @@ textarea.form-control-lg {
 }
 
 .alert-warning {
-  color: #665500;
-  background-color: #fff7cc;
-  border-color: #fff2b3;
+  color: #8e5e18;
+  background-color: #fbebd4;
+  border-color: #fae1bf;
 }
 .alert-warning .alert-link {
-  color: #524400;
+  color: #724b13;
 }
 
 .alert-danger {
@@ -6377,17 +6377,17 @@ textarea.form-control-lg {
 }
 
 .list-group-item-warning {
-  color: #665500;
-  background-color: #fff7cc;
+  color: #8e5e18;
+  background-color: #fbebd4;
 }
 .list-group-item-warning.list-group-item-action:hover, .list-group-item-warning.list-group-item-action:focus {
-  color: #665500;
-  background-color: #e6deb8;
+  color: #8e5e18;
+  background-color: #e2d4bf;
 }
 .list-group-item-warning.list-group-item-action.active {
   color: #FFF;
-  background-color: #665500;
-  border-color: #665500;
+  background-color: #8e5e18;
+  border-color: #8e5e18;
 }
 
 .list-group-item-danger {
@@ -7588,10 +7588,10 @@ textarea.form-control-lg {
 }
 
 .link-warning {
-  color: #ffd500;
+  color: #ed9c28;
 }
 .link-warning:hover, .link-warning:focus {
-  color: #ffdd33;
+  color: #f1b053;
 }
 
 .link-danger {
@@ -8050,7 +8050,7 @@ textarea.form-control-lg {
 }
 
 .border-warning {
-  border-color: #ffd500 !important;
+  border-color: #ed9c28 !important;
 }
 
 .border-danger {
@@ -14540,7 +14540,7 @@ span.select2-selection.select2-selection--single {
 }
 
 /*!
- * Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2022 Fonticons, Inc.
  */
@@ -15746,6 +15746,10 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-haykal::before {
+  content: "";
+}
+
 .fa-baht-sign::before {
   content: "";
 }
@@ -16046,6 +16050,14 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-book-tanakh::before {
+  content: "";
+}
+
+.fa-tanakh::before {
+  content: "";
+}
+
 .fa-bookmark::before {
   content: "";
 }
@@ -16320,6 +16332,14 @@ readers do not read off random characters that represent icons */
 
 .fa-c::before {
   content: "C";
+}
+
+.fa-cable-car::before {
+  content: "";
+}
+
+.fa-tram::before {
+  content: "";
 }
 
 .fa-cake-candles::before {
@@ -18019,7 +18039,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-file-circle-check::before {
-  content: "";
+  content: "";
 }
 
 .fa-file-circle-exclamation::before {
@@ -18031,7 +18051,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-file-circle-plus::before {
-  content: "";
+  content: "";
 }
 
 .fa-file-circle-question::before {
@@ -18039,7 +18059,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-file-circle-xmark::before {
-  content: "";
+  content: "";
 }
 
 .fa-file-code::before {
@@ -18946,16 +18966,8 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-hourglass-2::before {
-  content: "";
-}
-
-.fa-hourglass-half::before {
-  content: "";
-}
-
 .fa-hourglass-empty::before {
-  content: "";
+  content: "";
 }
 
 .fa-hourglass-end::before {
@@ -18964,6 +18976,14 @@ readers do not read off random characters that represent icons */
 
 .fa-hourglass-3::before {
   content: "";
+}
+
+.fa-hourglass-half::before {
+  content: "";
+}
+
+.fa-hourglass-2::before {
+  content: "";
 }
 
 .fa-hourglass-start::before {
@@ -19942,6 +19962,10 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-notdef::before {
+  content: "";
+}
+
 .fa-note-sticky::before {
   content: "";
 }
@@ -20106,11 +20130,11 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-people-arrows-right-left::before {
+.fa-people-arrows::before {
   content: "";
 }
 
-.fa-people-arrows::before {
+.fa-people-arrows-right-left::before {
   content: "";
 }
 
@@ -20363,7 +20387,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-person-through-window::before {
-  content: "";
+  content: "";
 }
 
 .fa-person-walking::before {
@@ -20491,7 +20515,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-plant-wilt::before {
-  content: "";
+  content: "";
 }
 
 .fa-plate-wheat::before {
@@ -21550,7 +21574,7 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-staff-aesculapius::before {
+.fa-staff-snake::before {
   content: "";
 }
 
@@ -21562,7 +21586,7 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-staff-snake::before {
+.fa-staff-aesculapius::before {
   content: "";
 }
 
@@ -21572,6 +21596,10 @@ readers do not read off random characters that represent icons */
 
 .fa-stamp::before {
   content: "";
+}
+
+.fa-stapler::before {
+  content: "";
 }
 
 .fa-star::before {
@@ -22095,11 +22123,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-train-tram::before {
-  content: "";
-}
-
-.fa-tram::before {
-  content: "";
+  content: "";
 }
 
 .fa-transgender::before {
@@ -22921,7 +22945,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2022 Fonticons, Inc.
  */
@@ -22943,7 +22967,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2022 Fonticons, Inc.
  */
@@ -23098,10 +23122,6 @@ readers do not read off random characters that represent icons */
 
 .fa-behance:before {
   content: "";
-}
-
-.fa-behance-square:before {
-  content: "";
 }
 
 .fa-bilibili:before {
@@ -23436,10 +23456,6 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-dribbble-square:before {
-  content: "";
-}
-
 .fa-dropbox:before {
   content: "";
 }
@@ -23518,10 +23534,6 @@ readers do not read off random characters that represent icons */
 
 .fa-facebook-messenger:before {
   content: "";
-}
-
-.fa-facebook-square:before {
-  content: "";
 }
 
 .fa-fantasy-flight-games:before {
@@ -23648,20 +23660,12 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-git-square:before {
-  content: "";
-}
-
 .fa-github:before {
   content: "";
 }
 
 .fa-github-alt:before {
   content: "";
-}
-
-.fa-github-square:before {
-  content: "";
 }
 
 .fa-gitkraken:before {
@@ -23724,10 +23728,6 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-google-plus-square:before {
-  content: "";
-}
-
 .fa-google-wallet:before {
   content: "";
 }
@@ -23758,10 +23758,6 @@ readers do not read off random characters that represent icons */
 
 .fa-hacker-news:before {
   content: "";
-}
-
-.fa-hacker-news-square:before {
-  content: "";
 }
 
 .fa-hackerrank:before {
@@ -23818,10 +23814,6 @@ readers do not read off random characters that represent icons */
 
 .fa-instagram:before {
   content: "";
-}
-
-.fa-instagram-square:before {
-  content: "";
 }
 
 .fa-instalod:before {
@@ -23884,10 +23876,6 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-js-square:before {
-  content: "";
-}
-
 .fa-jsfiddle:before {
   content: "";
 }
@@ -23922,10 +23910,6 @@ readers do not read off random characters that represent icons */
 
 .fa-lastfm:before {
   content: "";
-}
-
-.fa-lastfm-square:before {
-  content: "";
 }
 
 .fa-leanpub:before {
@@ -24016,6 +24000,10 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-meta:before {
+  content: "";
+}
+
 .fa-microblog:before {
   content: "";
 }
@@ -24094,10 +24082,6 @@ readers do not read off random characters that represent icons */
 
 .fa-odnoklassniki:before {
   content: "";
-}
-
-.fa-odnoklassniki-square:before {
-  content: "";
 }
 
 .fa-old-republic:before {
@@ -24192,20 +24176,12 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-pied-piper-square:before {
-  content: "";
-}
-
 .fa-pinterest:before {
   content: "";
 }
 
 .fa-pinterest-p:before {
   content: "";
-}
-
-.fa-pinterest-square:before {
-  content: "";
 }
 
 .fa-pix:before {
@@ -24278,10 +24254,6 @@ readers do not read off random characters that represent icons */
 
 .fa-reddit-alien:before {
   content: "";
-}
-
-.fa-reddit-square:before {
-  content: "";
 }
 
 .fa-redhat:before {
@@ -24420,16 +24392,16 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-snapchat-square:before {
-  content: "";
-}
-
 .fa-soundcloud:before {
   content: "";
 }
 
 .fa-sourcetree:before {
   content: "";
+}
+
+.fa-space-awesome:before {
+  content: "";
 }
 
 .fa-speakap:before {
@@ -24444,8 +24416,32 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-square-behance:before {
+  content: "";
+}
+
+.fa-behance-square:before {
+  content: "";
+}
+
+.fa-square-dribbble:before {
+  content: "";
+}
+
+.fa-dribbble-square:before {
+  content: "";
+}
+
+.fa-square-facebook:before {
+  content: "";
+}
+
+.fa-facebook-square:before {
+  content: "";
+}
+
 .fa-square-font-awesome:before {
-  content: "";
+  content: "";
 }
 
 .fa-square-font-awesome-stroke:before {
@@ -24454,6 +24450,174 @@ readers do not read off random characters that represent icons */
 
 .fa-font-awesome-alt:before {
   content: "";
+}
+
+.fa-square-git:before {
+  content: "";
+}
+
+.fa-git-square:before {
+  content: "";
+}
+
+.fa-square-github:before {
+  content: "";
+}
+
+.fa-github-square:before {
+  content: "";
+}
+
+.fa-square-gitlab:before {
+  content: "";
+}
+
+.fa-gitlab-square:before {
+  content: "";
+}
+
+.fa-square-google-plus:before {
+  content: "";
+}
+
+.fa-google-plus-square:before {
+  content: "";
+}
+
+.fa-square-hacker-news:before {
+  content: "";
+}
+
+.fa-hacker-news-square:before {
+  content: "";
+}
+
+.fa-square-instagram:before {
+  content: "";
+}
+
+.fa-instagram-square:before {
+  content: "";
+}
+
+.fa-square-js:before {
+  content: "";
+}
+
+.fa-js-square:before {
+  content: "";
+}
+
+.fa-square-lastfm:before {
+  content: "";
+}
+
+.fa-lastfm-square:before {
+  content: "";
+}
+
+.fa-square-odnoklassniki:before {
+  content: "";
+}
+
+.fa-odnoklassniki-square:before {
+  content: "";
+}
+
+.fa-square-pied-piper:before {
+  content: "";
+}
+
+.fa-pied-piper-square:before {
+  content: "";
+}
+
+.fa-square-pinterest:before {
+  content: "";
+}
+
+.fa-pinterest-square:before {
+  content: "";
+}
+
+.fa-square-reddit:before {
+  content: "";
+}
+
+.fa-reddit-square:before {
+  content: "";
+}
+
+.fa-square-snapchat:before {
+  content: "";
+}
+
+.fa-snapchat-square:before {
+  content: "";
+}
+
+.fa-square-steam:before {
+  content: "";
+}
+
+.fa-steam-square:before {
+  content: "";
+}
+
+.fa-square-tumblr:before {
+  content: "";
+}
+
+.fa-tumblr-square:before {
+  content: "";
+}
+
+.fa-square-twitter:before {
+  content: "";
+}
+
+.fa-twitter-square:before {
+  content: "";
+}
+
+.fa-square-viadeo:before {
+  content: "";
+}
+
+.fa-viadeo-square:before {
+  content: "";
+}
+
+.fa-square-vimeo:before {
+  content: "";
+}
+
+.fa-vimeo-square:before {
+  content: "";
+}
+
+.fa-square-whatsapp:before {
+  content: "";
+}
+
+.fa-whatsapp-square:before {
+  content: "";
+}
+
+.fa-square-xing:before {
+  content: "";
+}
+
+.fa-xing-square:before {
+  content: "";
+}
+
+.fa-square-youtube:before {
+  content: "";
+}
+
+.fa-youtube-square:before {
+  content: "";
 }
 
 .fa-squarespace:before {
@@ -24478,10 +24642,6 @@ readers do not read off random characters that represent icons */
 
 .fa-steam:before {
   content: "";
-}
-
-.fa-steam-square:before {
-  content: "";
 }
 
 .fa-steam-symbol:before {
@@ -24584,20 +24744,12 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-tumblr-square:before {
-  content: "";
-}
-
 .fa-twitch:before {
   content: "";
 }
 
 .fa-twitter:before {
   content: "";
-}
-
-.fa-twitter-square:before {
-  content: "";
 }
 
 .fa-typo3:before {
@@ -24668,20 +24820,12 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-viadeo-square:before {
-  content: "";
-}
-
 .fa-viber:before {
   content: "";
 }
 
 .fa-vimeo:before {
   content: "";
-}
-
-.fa-vimeo-square:before {
-  content: "";
 }
 
 .fa-vimeo-v:before {
@@ -24726,10 +24870,6 @@ readers do not read off random characters that represent icons */
 
 .fa-whatsapp:before {
   content: "";
-}
-
-.fa-whatsapp-square:before {
-  content: "";
 }
 
 .fa-whmcs:before {
@@ -24792,16 +24932,16 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
+.fa-rendact:before {
+  content: "";
+}
+
 .fa-xbox:before {
   content: "";
 }
 
 .fa-xing:before {
   content: "";
-}
-
-.fa-xing-square:before {
-  content: "";
 }
 
 .fa-y-combinator:before {
@@ -24840,16 +24980,12 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.fa-youtube-square:before {
-  content: "";
-}
-
 .fa-zhihu:before {
   content: "";
 }
 
 /*!
- * Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2022 Fonticons, Inc.
  */
@@ -25030,46 +25166,46 @@ body {
 }
 @font-face {
   font-family: "Poppins";
-  src: url("../../fonts/Poppins/Poppins-Bold.eot");
-  src: url("../../fonts/Poppins/Poppins-Bold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Poppins/Poppins-Bold.woff2") format("woff2"), url("../../fonts/Poppins/Poppins-Bold.woff") format("woff"), url("../../fonts/Poppins/Poppins-Bold.ttf") format("truetype"), url("../../fonts/Poppins/Poppins-Bold.svg#Poppins-Bold") format("svg");
+  src: url("../../assets/fonts/Poppins/Poppins-Bold.eot");
+  src: url("../../assets/fonts/Poppins/Poppins-Bold.eot?#iefix") format("embedded-opentype"), url("../../assets/fonts/Poppins/Poppins-Bold.woff2") format("woff2"), url("../../assets/fonts/Poppins/Poppins-Bold.woff") format("woff"), url("../../assets/fonts/Poppins/Poppins-Bold.ttf") format("truetype"), url("../../assets/fonts/Poppins/Poppins-Bold.svg#Poppins-Bold") format("svg");
   font-weight: bold;
   font-style: normal;
 }
 @font-face {
   font-family: "Poppins";
-  src: url("../../fonts/Poppins/Poppins-Regular.eot");
-  src: url("../../fonts/Poppins/Poppins-Regular.eot?#iefix") format("embedded-opentype"), url("../../fonts/Poppins/Poppins-Regular.woff2") format("woff2"), url("../../fonts/Poppins/Poppins-Regular.woff") format("woff"), url("../../fonts/Poppins/Poppins-Regular.ttf") format("truetype"), url("../../fonts/Poppins/Poppins-Regular.svg#Poppins-Regular") format("svg");
+  src: url("../../assets/fonts/Poppins/Poppins-Regular.eot");
+  src: url("../../assets/fonts/Poppins/Poppins-Regular.eot?#iefix") format("embedded-opentype"), url("../../assets/fonts/Poppins/Poppins-Regular.woff2") format("woff2"), url("../../assets/fonts/Poppins/Poppins-Regular.woff") format("woff"), url("../../assets/fonts/Poppins/Poppins-Regular.ttf") format("truetype"), url("../../assets/fonts/Poppins/Poppins-Regular.svg#Poppins-Regular") format("svg");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "Almarai";
-  src: url("../../fonts/Almarai/Almarai-Regular.eot");
-  src: url("../../fonts/Almarai/Almarai-Regular.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Regular.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Regular.woff") format("woff"), url("../../fonts/Almarai/Almarai-Regular.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Regular.svg#Almarai-Regular") format("svg");
+  src: url("../../assets/fonts/Almarai/Almarai-Regular.eot");
+  src: url("../../assets/fonts/Almarai/Almarai-Regular.eot?#iefix") format("embedded-opentype"), url("../../assets/fonts/Almarai/Almarai-Regular.woff2") format("woff2"), url("../../assets/fonts/Almarai/Almarai-Regular.woff") format("woff"), url("../../assets/fonts/Almarai/Almarai-Regular.ttf") format("truetype"), url("../../assets/fonts/Almarai/Almarai-Regular.svg#Almarai-Regular") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Almarai";
-  src: url("../../fonts/Almarai/Almarai-Bold.eot");
-  src: url("../../fonts/Almarai/Almarai-Bold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Bold.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Bold.woff") format("woff"), url("../../fonts/Almarai/Almarai-Bold.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Bold.svg#Almarai-Bold") format("svg");
+  src: url("../../assets/fonts/Almarai/Almarai-Bold.eot");
+  src: url("../../assets/fonts/Almarai/Almarai-Bold.eot?#iefix") format("embedded-opentype"), url("../../assets/fonts/Almarai/Almarai-Bold.woff2") format("woff2"), url("../../assets/fonts/Almarai/Almarai-Bold.woff") format("woff"), url("../../assets/fonts/Almarai/Almarai-Bold.ttf") format("truetype"), url("../../assets/fonts/Almarai/Almarai-Bold.svg#Almarai-Bold") format("svg");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Almarai";
-  src: url("../../fonts/Almarai/Almarai-Light.eot");
-  src: url("../../fonts/Almarai/Almarai-Light.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-Light.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-Light.woff") format("woff"), url("../../fonts/Almarai/Almarai-Light.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-Light.svg#Almarai-Light") format("svg");
+  src: url("../../assets/fonts/Almarai/Almarai-Light.eot");
+  src: url("../../assets/fonts/Almarai/Almarai-Light.eot?#iefix") format("embedded-opentype"), url("../../assets/fonts/Almarai/Almarai-Light.woff2") format("woff2"), url("../../assets/fonts/Almarai/Almarai-Light.woff") format("woff"), url("../../assets/fonts/Almarai/Almarai-Light.ttf") format("truetype"), url("../../assets/fonts/Almarai/Almarai-Light.svg#Almarai-Light") format("svg");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Almarai";
-  src: url("../../fonts/Almarai/Almarai-ExtraBold.eot");
-  src: url("../../fonts/Almarai/Almarai-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Almarai/Almarai-ExtraBold.woff2") format("woff2"), url("../../fonts/Almarai/Almarai-ExtraBold.woff") format("woff"), url("../../fonts/Almarai/Almarai-ExtraBold.ttf") format("truetype"), url("../../fonts/Almarai/Almarai-ExtraBold.svg#Almarai-ExtraBold") format("svg");
+  src: url("../../assets/fonts/Almarai/Almarai-ExtraBold.eot");
+  src: url("../../assets/fonts/Almarai/Almarai-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../../assets/fonts/Almarai/Almarai-ExtraBold.woff2") format("woff2"), url("../../assets/fonts/Almarai/Almarai-ExtraBold.woff") format("woff"), url("../../assets/fonts/Almarai/Almarai-ExtraBold.ttf") format("truetype"), url("../../assets/fonts/Almarai/Almarai-ExtraBold.svg#Almarai-ExtraBold") format("svg");
   font-weight: 800;
   font-style: normal;
   font-display: swap;
@@ -25478,7 +25614,7 @@ h6,
             transform: translateX(100%);
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .main-mobile-navbar .nav-link, .main-mobile-navbar .dropdown-item {
     color: white !important;
   }
@@ -26163,6 +26299,12 @@ input[type=number] {
   color: #850B5A;
 }
 
+.payment-method .list-group-item.active,
+.payment-method .list-group-item:hover {
+  color: #30302e;
+  border-bottom-color: rgba(0, 0, 0, 0.125);
+}
+
 .package-card.active {
   border-color: #850B5A !important;
   background-color: #f3edf0;
@@ -26222,6 +26364,9 @@ input[type=number] {
 html[dir=rtl] .mobile-field {
   direction: ltr;
 }
+html[dir=rtl] .mobile-field input[type=tel] {
+  direction: ltr !important;
+}
 html[dir=rtl] .mobile-field .border {
   border: 1px solid #dee2e6 !important;
 }
@@ -26253,6 +26398,27 @@ html[dir=rtl] .mobile-field .pe-0 {
 html[dir=rtl] .mobile-field input[type=tel] {
   text-align: left !important;
   border-right: 1px solid #00AEEF !important;
+}
+html[dir=rtl] .otp-field-group {
+  direction: ltr;
+}
+html[dir=rtl] .otp-field-group.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  margin-right: 0 !important;
+  margin-left: -1px !important;
+}
+html[dir=rtl] .otp-field-group input[type=tel] {
+  direction: ltr !important;
+}
+html[dir=rtl] .otp-field-group .otp-field {
+  text-align: left !important;
+  border-top-left-radius: 20rem !important;
+  border-bottom-left-radius: 20rem !important;
+}
+html[dir=rtl] .otp-field-group .otp-verification-button {
+  border-top-right-radius: 20rem !important;
+  border-bottom-right-radius: 20rem !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
 @media (max-width: 321px) {
   .floating-btn span {

@@ -33,6 +33,7 @@ namespace API.Areas.Frontend.Factories
         private readonly ICouponService _couponService;
         private readonly IAreaService _areaService;
         private readonly IPaymentMethodService _paymentMethodService;
+        private readonly ICompanySettingService _companySettingService;
         public CartModelFactory(ILoggerFactory logger,
             IModelHelper modelHelper,
             ICustomerService customerService,
@@ -42,7 +43,8 @@ namespace API.Areas.Frontend.Factories
             IMapper mapper,
             ICouponService couponService,
             IAreaService areaService,
-            IPaymentMethodService paymentMethodService)
+            IPaymentMethodService paymentMethodService,
+            ICompanySettingService companySettingService)
         {
             _logger = logger.CreateLogger(typeof(CartModelFactory).Name);
             _modelHelper = modelHelper;
@@ -54,6 +56,7 @@ namespace API.Areas.Frontend.Factories
             _couponService = couponService;
             _areaService = areaService;
             _paymentMethodService = paymentMethodService;
+            _companySettingService = companySettingService;
         }
         public async Task<APIResponseModel<object>> PrepareCartItemCount(bool isEnglish, int customerId = 0, string customerGuidValue = "")
         {
@@ -72,12 +75,14 @@ namespace API.Areas.Frontend.Factories
                     var customer = await _customerService.GetCustomerById(customerId);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -125,12 +130,14 @@ namespace API.Areas.Frontend.Factories
                     var customer = await _customerService.GetCustomerById(customerId);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -165,12 +172,14 @@ namespace API.Areas.Frontend.Factories
                     var customer = await _customerService.GetCustomerById(cartItemModel.CustomerId.Value);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -377,12 +386,14 @@ namespace API.Areas.Frontend.Factories
                     var customer = await _customerService.GetCustomerById(cartItem.CustomerId.Value);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -527,12 +538,14 @@ namespace API.Areas.Frontend.Factories
                     var customer = await _customerService.GetCustomerById(customerId);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -567,12 +580,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -619,12 +634,14 @@ namespace API.Areas.Frontend.Factories
                 var customer = await _customerService.GetCustomerById(customerId);
                 if (customer == null || customer.Deleted)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                     return response;
                 }
 
                 if (!customer.Active)
                 {
+                    response.MessageCode = 401;
                     response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                     return response;
                 }
@@ -827,12 +844,14 @@ namespace API.Areas.Frontend.Factories
                     var customer = await _customerService.GetCustomerById(customerId);
                     if (customer == null || customer.Deleted)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
                         return response;
                     }
 
                     if (!customer.Active)
                     {
+                        response.MessageCode = 401;
                         response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
                         return response;
                     }
@@ -842,6 +861,67 @@ namespace API.Areas.Frontend.Factories
 
                 response.Data = checkOutModel;
                 response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                response.Message = isEnglish ? Messages.InternalServerError : MessagesAr.InternalServerError;
+            }
+
+            return response;
+        }
+        public async Task<APIResponseModel<bool>> ValidateCart(bool isEnglish, int customerId = 0, string customerGuidValue = "")
+        {
+            var response = new APIResponseModel<bool>();
+            try
+            {
+                if (customerId > 0)
+                {
+                    var customer = await _customerService.GetCustomerById(customerId);
+                    if (customer == null || customer.Deleted)
+                    {
+                        response.MessageCode = 401;
+                        response.Message = isEnglish ? Messages.CustomerNotExists : MessagesAr.CustomerNotExists;
+                        return response;
+                    }
+
+                    if (!customer.Active)
+                    {
+                        response.MessageCode = 401;
+                        response.Message = isEnglish ? Messages.InactiveCustomer : MessagesAr.InactiveCustomer;
+                        return response;
+                    }
+                }
+
+                var companySetting = await _companySettingService.GetDefault();
+                if (companySetting != null && companySetting.MinOrderAmount > 0)
+                {
+                    var cartItems = await _cartService.GetAllCartItem(customerGuidValue: customerGuidValue, customerId: customerId);
+                    var cartModel = await _modelHelper.PrepareCartModel(cartItems, isEnglish);
+
+                    var subTotal = cartModel.SubTotal;
+                    if (subTotal < companySetting.MinOrderAmount)
+                    {
+                        response.Data = false;
+
+                        var formattedMinOrderAmount = await _commonHelper.ConvertDecimalToString(value: companySetting.MinOrderAmount, isEnglish: isEnglish, includeZero: true);
+                        response.Message = isEnglish ? string.Format(Messages.MinimumOrderAmountShouldBeGreaterThan, formattedMinOrderAmount) :
+                          string.Format(MessagesAr.MinimumOrderAmountShouldBeGreaterThan, formattedMinOrderAmount);
+                        return response;
+                    }
+                    else
+                    {
+                        response.Data = true;
+                        response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                    }
+                }
+                else
+                {
+                    response.Data = true;
+                    response.Message = isEnglish ? Messages.Success : MessagesAr.Success;
+                }
+
                 response.Success = true;
             }
             catch (Exception ex)

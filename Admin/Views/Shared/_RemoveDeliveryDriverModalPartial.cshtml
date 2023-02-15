@@ -16,6 +16,13 @@
                 <div class="text-center">
                     <p>@SharedHtmlLocalizer["AreYouSureYouWantToCancelDelivered?"]</p>
                 </div>
+
+                <div class="col-12">
+                    <label for="" class="form-label ">@SharedHtmlLocalizer["Reason"]<span class=" text-danger">*</span></label>
+                    <textarea class="form-control form-control-lg rounded-4 border-secondary"
+                              name="dialogReason" id="dialogReason" aria-describedby="Reason" placeholder="" rows="3" required></textarea>
+
+                </div>
             </div>
 
             <div class="modal-footer">
@@ -34,6 +41,8 @@
             let submitData = new FormData();
             submitData.append("orderId", getTextValue("dialogOrderId"));
             submitData.append("orderTypeId", getTextValue("dialogOrderTypeId"));
+            submitData.append("notes", getTextValue("dialogReason"));
+            
             submitData.append("orderStatusId", @((Int16)OrderStatus.Confirmed));
             ajaxPost("driver/UpdateOrderStatus", submitData, cbconfirmOrderDeliverySuccess);
 

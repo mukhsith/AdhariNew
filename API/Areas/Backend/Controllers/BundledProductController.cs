@@ -200,7 +200,16 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                var items = await _get.GetAllForDataTableByProductType(base.GetDataTableParameters, GetBaseImageUrl(AppSettings.ImageProduct), ProductType.BundledProduct);
+
+                AdminProductSearchParam param = new();
+
+                var productName = HttpContext.Request.Form["productName"].FirstOrDefault();
+                var categoryID = HttpContext.Request.Form["categoryID"].FirstOrDefault();
+
+                param.productName = productName;
+                param.categoryID = Utility.Helpers.Common.ConvertTextToIntOptional(categoryID);
+
+                var items = await _get.GetAllForDataTableByProductType(base.GetDataTableParameters, GetBaseImageUrl(AppSettings.ImageProduct), ProductType.BundledProduct, param);
                 //// response.GetAll(items);
                 //var dateTwo = DateTime.Now;
                 //var diff = dateTwo.Subtract(dateOne);

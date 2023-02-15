@@ -244,12 +244,12 @@ namespace Services.Backend.ProductManagement.Interface
         /// <param name="param"></param>
         /// <param name="imageBaseUrl"></param>
         /// <returns></returns>
-        public async Task<dynamic> GetAllForDataTable(DataTableParam param, string imageBaseUrl)
+        public async Task<dynamic> GetAllForDataTable(DataTableParam param, string imageBaseUrl, AdminProductSearchParam Searchparam)
         {
             DataTableResult<dynamic> result = new() { Draw = param.Draw };
             try
             {
-                var items = _dbcontext.Products
+                var items = _dbcontext.Products.Include(x=> x.Category)
                           .Select(x => new Product
                           {
                               Id = x.Id,
@@ -259,6 +259,8 @@ namespace Services.Backend.ProductManagement.Interface
                               ImageUrl = (x.ImageName != null ? imageBaseUrl + x.ImageName : null),
                               Stock = x.Stock,
                               ImageName = x.ImageName,
+                              Category = x.Category,
+                              CategoryId= x.CategoryId,
                               ProductType = x.ProductType,
                               CreatedOn = x.CreatedOn,
                               Active = x.Active,
@@ -275,6 +277,20 @@ namespace Services.Backend.ProductManagement.Interface
                      obj.Stock.ToString().Contains(SearchValue)
                      );
                 }
+
+
+                if (!string.IsNullOrEmpty(Searchparam.productName))
+                {
+                    items = items.Where(x => x.NameEn == Searchparam.productName.Trim() || x.NameAr == Searchparam.productName.Trim());
+                }
+
+
+
+                if (Searchparam.categoryID.HasValue)
+                {
+                    items = items.Where(x => x.CategoryId == Searchparam.categoryID.Value);
+                }
+
 
                 //Sorting
                 if (!string.IsNullOrEmpty(param.SortColumn) && !string.IsNullOrEmpty(param.SortColumnDirection))
@@ -307,12 +323,12 @@ namespace Services.Backend.ProductManagement.Interface
         /// <param name="baseImageUrl"></param>
         /// <param name="productType"></param>
         /// <returns></returns>
-        public async Task<dynamic> GetAllForDataTableByProductType(DataTableParam param, string baseImageUrl, ProductType productType)
+        public async Task<dynamic> GetAllForDataTableByProductType(DataTableParam param, string baseImageUrl, ProductType productType, AdminProductSearchParam Searchparam)
         {
             DataTableResult<dynamic> result = new() { Draw = param.Draw };
             try
             {
-                var items = _dbcontext.Products
+                var items = _dbcontext.Products.Include(x => x.Category)
                          .Include(t => t.ProductDetails)
                          .Include(x => x.ItemSize)
                          .Where(t => t.Deleted == false && t.ProductType == productType)
@@ -322,6 +338,8 @@ namespace Services.Backend.ProductManagement.Interface
                              x.DisplayOrder,
                              x.NameEn,
                              x.NameAr,
+                             x.Category,
+                             x.CategoryId,
                              ImageUrl = (x.ImageName != null ? baseImageUrl + x.ImageName : null),
                              x.CreatedOn,
                              x.Active,
@@ -345,6 +363,18 @@ namespace Services.Backend.ProductManagement.Interface
                      obj.NameEn.ToLower().Contains(SearchValue) ||
                      obj.NameAr.ToLower().Contains(SearchValue)
                      );
+                }
+
+                if (!string.IsNullOrEmpty(Searchparam.productName))
+                {
+                    items = items.Where(x => x.NameEn == Searchparam.productName.Trim() || x.NameAr == Searchparam.productName.Trim());
+                }
+
+
+
+                if (Searchparam.categoryID.HasValue)
+                {
+                    items = items.Where(x => x.CategoryId == Searchparam.categoryID.Value);
                 }
 
                 //Sorting
@@ -396,12 +426,18 @@ namespace Services.Backend.ProductManagement.Interface
         public async Task<bool> Exists(int? Id, string titleEn, string titleAr, ProductType productType)
         {
 
+            //var result = await _dbcontext
+            //                    .Products
+            //                    .Select(x => new { x.Id, x.NameEn, x.NameAr, x.ProductType })
+            //                    .Where(x => (x.NameEn.ToLower() == titleEn.ToLower() ||
+            //                     x.NameAr.ToLower() == titleAr.ToLower())
+            //                     && x.ProductType == productType)
+            //                    .AsNoTracking()
+            //                    .FirstOrDefaultAsync();
             var result = await _dbcontext
                                 .Products
                                 .Select(x => new { x.Id, x.NameEn, x.NameAr, x.ProductType })
-                                .Where(x => (x.NameEn.ToLower() == titleEn.ToLower() ||
-                                 x.NameAr.ToLower() == titleAr.ToLower())
-                                 && x.ProductType == productType)
+                                .Where(x => (x.NameEn.ToLower() == titleEn.ToLower()))
                                 .AsNoTracking()
                                 .FirstOrDefaultAsync();
             if (result != null && Id.HasValue)

@@ -103,7 +103,7 @@
         public bool EmailSSLEnabled { get; set; }
         public bool EmailUseDefaultCredentials { get; set; }
         public string DefaultOTPMobileNumbers { get; set; }
-        public string DefaultOTPValue { get; set; } 
+        public string DefaultOTPValue { get; set; }
         public int DefaultCountryId { get; set; }
         public decimal KNETFee { get; set; }
 
@@ -138,5 +138,11 @@
         public string PushBaseUrl { get; set; }
         public string PushAuthorizationKey { get; set; }
         public string PushSenderKey { get; set; }
+
+        public bool EnableRedirectToWwwRule { get; set; }
+        public bool EnableSwagger { get; set; }
+        public int RequestIntervalInSec { get; set; }
+        public int MaxVerifyOTPTries { get; set; }
+        public bool EnableDosAttackMiddleware { get; set; }
     }
 }

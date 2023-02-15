@@ -75,7 +75,41 @@ namespace API.Areas.Backend.Controllers
 
              
         }
-        
+
+
+        /// <summary>
+        /// To get customer data
+        /// </summary>
+        [HttpGet, Route("api/customer/GetById")]
+        //[Authorize]
+        public async Task<IActionResult> GetById(int customerId)
+        {
+            ResponseMapper<AdminCustomerModel> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+              
+                 
+                var customer = await _customerModelFactory.GetByCustomerId(IsEnglish, customerId);
+                response.GetById(customer);
+
+               
+                return Ok(response);
+
+
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
+            return Ok(response);
+
+
+        }
+
         [HttpPost, Route("api/customer/Create")]
         //[Authorize]
         public async Task<IActionResult> Create([FromForm] AdminCustomerModel customer)
@@ -206,6 +240,30 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
         }
 
+
+        [HttpGet, Route("api/customer/getAllAddressByID")]
+        //[Authorize]
+        public async Task<IActionResult> GetAllAddress(int id,int customerID)
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+
+                var addressList = await _customerModelFactory.GetAddressById(isEnglish: base.IsEnglish,id: id, customerId: customerID);
+                //return Ok(addressList);
+                response.GetAll(addressList);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
+            return Ok(response);
+        }
+
         /// <summary>
         /// To add address
         /// </summary>
@@ -232,6 +290,36 @@ namespace API.Areas.Backend.Controllers
 
             return Ok(response);
             
+        }
+
+
+
+        /// <summary>
+        /// To add address
+        /// </summary>
+        /// <param name="addressDto">Address dto</param>
+        /// <returns></returns>
+        [HttpPost, Route("api/customer/updateaddress")]
+        //  [Authorize]
+        public async Task<IActionResult> UpdateAddress([FromBody] AddressModel addressModel)
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+
+                var address = await _customerModelFactory.UpdateAddress(isEnglish: IsEnglish, addressModel: addressModel);
+                response.GetAll(address);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
+            return Ok(response);
+
         }
 
 
@@ -262,6 +350,48 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
 
         }
+
+
+
+
+        [HttpPost, Route("api/customer/UpdateCustomerInfo")]
+        public async Task<IActionResult> UpdateCustomerInfo([FromForm] AdminCustomerModel customerModel)
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+                if (ModelState.IsValid)
+                {
+                    if (customerModel.Id > 0)
+                    {
+                        var Cust = await _get.GetCustomerById(customerModel.Id);
+                        Cust.Name = customerModel.Name;
+                        Cust.MobileNumber = customerModel.MobileNumber;
+                        Cust.EmailAddress = customerModel.EmailAddress;
+
+                        var item = await _get.UpdateCustomer(Cust);
+
+                        response.GetById(item);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
+            return Ok(response);
+
+        }
+
+
+
+
+
+
         [HttpGet, Route("api/customer/wallet-history")]
         public async Task<IActionResult> GetWalletHistory(int customerId)
         {
@@ -329,5 +459,29 @@ namespace API.Areas.Backend.Controllers
 
             return Ok(response);
         }
+
+
+
+        [HttpPost, Route("api/Customer/ToggleActive")]
+        public async Task<IActionResult> ToggleActiveAsync(int Id)
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                var item = await _get.ToggleActive(Id);
+                response.ToggleActive(item);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
+            return Ok(response);
+        }
+
+
     }
 }

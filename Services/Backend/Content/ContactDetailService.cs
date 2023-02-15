@@ -53,6 +53,7 @@ namespace Services.Backend.Content.Interface
                 data.MobileNumber = item.MobileNumber;
                 data.EmailAddress = item.EmailAddress;
                 data.ModifiedBy = item.ModifiedBy;
+                data.WhatsAppNumber = item.WhatsAppNumber;
                 data.ModifiedOn = DateTime.Now;
                 
                 return await _dbcontext.SaveChangesAsync() > 0;

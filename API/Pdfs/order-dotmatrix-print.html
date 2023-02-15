@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{Company-Name}</title>
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        body {
+            padding: 24px;
+            /*padding: 20px 20px 20px 40px;*/
+            font-size: 14px;
+            font-family: 'Helvetica', 'Arial', sans-serif !important;
+            background-color: white !important;
+        }
+
+        #items table,
+        #items th,
+        #items td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 6px;
+
+        }
+
+        #items tr {
+            text-align: left;
+        }
+
+        html[dir=rtl] #items tr {
+            text-align: right;
+        }
+    </style>
+
+    <style>
+        @page {
+            margin: 1.8in 0.75in 1.5in 0.25in;
+        }
+
+        tr {
+            page-break-inside: avoid;
+        }
+
+        body {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        h4 {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+
+<body style="{Body-Style}">
+    <!-- start: page -->
+
+    <div style="margin-bottom: 8px;page-break-inside: avoid;">
+        <div>
+            <h4><b>{Order-Details}<br>{Order-DetailsAr}</b></h4>
+        </div>
+        <div style="padding: 4px;">
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Order-Number}<br>{Order-NumberAr}</h5>
+                            <div id="orderNumber" style="margin-bottom: 8px;">
+                                {Order-Number-Value}
+                            </div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Transaction-Date}<br>{Transaction-DateAr}</h5>
+                            <div id="formattedCreatedDate" style="margin-bottom: 8px;">
+                                {Transaction-Date-Value}
+                            </div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Sub-Total}<br>{Sub-TotalAr}</h5>
+                            <div id="formattedSubTotal" style="margin-bottom: 8px;">
+                                {Sub-Total-Value}
+                            </div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Delivery-Charges}<br>{Delivery-ChargesAr}</h5>
+                            <div id="formattedDeliveryFee" style="margin-bottom: 8px;">{Delivery-Charges-Value}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="25%" style="{Discount-Amount-Style}">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Discount-Amount}<br>{Discount-AmountAr}</h5>
+                            <div id="formattedDiscountAmount" style="margin-bottom: 8px;">
+                                {Coupon-Amount-Value}
+                            </div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Total}<br>{TotalAr}</h5>
+                            <div id="formattedTotal" style="">
+                                {Grand-Total-Value}
+                            </div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Status}<br>{StatusAr}</h5>
+                            <div id="orderStatusName" style="">{Status-Value}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="margin-bottom: 8px;page-break-inside: auto;">
+        <div>
+            <h4><b>{Items-Detail}<br>{Items-DetailAr}</b></h4>
+        </div>
+        <div id="items" style="padding: 4px;">
+            <table class="display table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th width="50%">{Product-Name}<br>{Product-NameAr}</th>
+                        <th width="16.667%">{Price}<br>{PriceAr}</th>
+                        <th width="16.667%">{Quantity}<br>{QuantityAr}</th>
+                        <th width="16.667%">{Total}<br>{TotalAr}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Items-Detail-Value}
+                </tbody>
+            </table>
+        </div>
+        <div style="padding: 4px;">
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td width="100%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Delivery-Notes}<br>{Delivery-NotesAr}</h5>
+                            <div id="countryName" style="margin-bottom: 8px;">{Delivery-Notes-Value}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="margin-bottom: 8px;page-break-inside: avoid;">
+        <div>
+            <h4><b>{Payment-Details}<br>{Payment-DetailsAr}</b></h4>
+        </div>
+        <div style="padding: 4px;">
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Payment-Method}<br>{Payment-MethodAr}</h5>
+                            <div id="paymentMethodName" style="">
+                                {Payment-Method-Value}
+                            </div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Payment-Status}<br>{Payment-StatusAr}</h5>
+                            <div id="paymentResult" style="">{Payment-Status-Value}</div>
+                        </td>
+                        <td width="25%" style="{Payment-ID-Style}">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Payment-ID}<br>{Payment-IDAr}</h5>
+                            <div id="paymentId" style="">
+                                {Payment-ID-Value}
+                            </div>
+                        </td>
+                        <td width="25%" style="{Payment-Transaction-Id-Style}">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Payment-Transaction-Id}<br>{Payment-Transaction-IdAr}</h5>
+                            <div id="paymentRefId" style="">{Payment-Reference-Id-Value}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="margin-bottom: 8px;page-break-inside: avoid;">
+        <div>
+            <h4><b>{Customer-Details}<br>{Customer-DetailsAr}</b></h4>
+        </div>
+        <div style="padding: 4px;">
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Customer-Name}<br>{Customer-NameAr}</h5>
+                            <div id="name" style="margin-bottom: 8px;">{Customer-Name-Value}</div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Customer-Email}<br>{Customer-EmailAr}</h5>
+                            <div id="email" style="margin-bottom: 8px;">{Customer-Email-Value}</div>
+                        </td>
+                        <td width="25%" style="{Customer-Mobile-Style}">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Customer-Mobile}<br>{Customer-MobileAr}</h5>
+                            <div id="mobile" style="margin-bottom: 8px;">{Customer-Mobile-Value}</div>
+                        </td>
+                        <td width="25%">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="margin-bottom: 8px;page-break-inside: avoid;">
+        <div>
+            <h4><b>{Delivery-Detail}<br>{Delivery-DetailAr}</b></h4>
+        </div>
+        <div style="padding: 4px;">
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Delivery-Address-Name}<br>{Delivery-Address-NameAr}</h5>
+                            <div id="deliveryAddressName" style="margin-bottom: 8px;">{Delivery-Address-Name-Value}</div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Delivery-Governorate}<br>{Delivery-GovernorateAr}</h5>
+                            <div id="deliveryAddressGovernorate" style="margin-bottom: 8px;">{Delivery-Governorate-Value}<br></div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Delivery-Area}<br>{Delivery-AreaAr}</h5>
+                            <div id="deliveryAddressArea" style="margin-bottom: 8px;">{Delivery-Area-Value}</div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Delivery-Block}<br>{Delivery-BlockAr}</h5>
+                            <div id="deliveryAddressBlock" style="margin-bottom: 8px;">{Delivery-Block-Value}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Delivery-Street}<br>{Delivery-StreetAr}</h5>
+                            <div id="deliveryAddressStreet" style="margin-bottom: 8px;">{Delivery-Street-Value}</div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Delivery-Avenue}<br>{Delivery-AvenueAr}</h5>
+                            <div id="deliveryAddressAvenue" style="margin-bottom: 8px;">{Delivery-Avenue-Value}</div>
+                        </td>
+                        <td width="25%">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Delivery-HouseNo}<br>{Delivery-HouseNoAr}</h5>
+                            <div id="deliveryAddressHouseNo" style="margin-bottom: 8px;">{Delivery-HouseNo-Value}</div>
+                        </td>
+                    </tr>
+                    <tr style="{Notes-Style}">
+                        <td colspan="4">
+                            <h5 style="margin-top: 0px; margin-bottom: 8px;">{Delivery-Address-Notes}<br>{Delivery-Address-NotesAr}</h5>
+                            <div style="">{Delivery-Address-Notes-Value}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- end: page -->
+</body>
+
+</html>

@@ -12,9 +12,9 @@ setup = () => {
             
         },
         messages: {
-            contentEn: { required: 'Required' },
-            contentAr: { required: 'Required', },
-            imageFile: { required: 'Required', }, 
+            contentEn: { required: '' },
+            contentAr: { required: '', },
+            imageFile: { required: '', }, 
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -69,15 +69,15 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) { 
-        ToastAlert('success', 'About Us', 'Saved Successfully'); 
+        ToastAlert('success', Resources.AboutUs, Resources.SavedSuccessfully);
     } else {
         showLog(data);
-        ToastAlert('error', 'About Us', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.AboutUs, Resources.UnableTosave);
     }
 }
 
 cbPostError = (error) => { 
-    ToastAlert('error', 'About Us', 'unable to save, please try again or contact to system admin');
+    ToastAlert('error', Resources.AboutUs, Resources.UnableTosave);
 }
 
  

@@ -16,7 +16,7 @@ using Utility.ResponseMapper;
 
 namespace API.Areas.Backend.Controllers
 {
-    public class ProductController : BaseController 
+    public class ProductController : BaseController
     {
         private readonly IProductService _get;
         private readonly ILogger _logger;
@@ -24,12 +24,12 @@ namespace API.Areas.Backend.Controllers
             IOptions<AppSettingsModel> options,
             ISystemUserService systemUserService,
             IProductService get,
-            ILoggerFactory logger) : 
+            ILoggerFactory logger) :
             base(options, systemUserService, PermissionTypes.Product)
         {
-            _get = get; 
+            _get = get;
             _logger = logger.CreateLogger(typeof(ProductController).Name);
-             
+
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
                 var productImagePath = GetBaseImageUrl(AppSettings.ImageProduct);
-                var item = await _get.GetAllProductForOfflineOrder(productImagePath,customerId);
+                var item = await _get.GetAllProductForOfflineOrder(productImagePath, customerId);
                 response.GetById(item);
 
 
@@ -121,9 +121,9 @@ namespace API.Areas.Backend.Controllers
             try
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
-                  var item = await _get.GetAllCategoryItemSize();
-                  response.GetById(item);
-                 
+                var item = await _get.GetAllCategoryItemSize();
+                response.GetById(item);
+
 
             }
             catch (Exception ex)
@@ -145,7 +145,7 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                if (await _get.Exists(item.Id, item.NameEn, item.NameAr,ProductType.BaseProduct))
+                if (await _get.Exists(item.Id, item.NameEn, item.NameAr, ProductType.BaseProduct))
                 {
                     accessResponse.Message = "Product Name Already Exists";
                     accessResponse.Success = false;
@@ -155,7 +155,10 @@ namespace API.Areas.Backend.Controllers
                 //for english seo fix space with dash
                 if (item.NameEn is not null)
                 {
-                    item.SeoName = item.NameEn.Replace(" ", "-").Replace("&","-");
+                    item.SeoName = item.NameEn.Replace(" ", "-").Replace("&", "").Replace("+", "").
+                        Replace("@", "").Replace("!", "").Replace("#", "").Replace("^", "").Replace("~", "")
+                        .Replace("*", "").Replace("%", "").Replace("$", "").Replace("(", "").Replace(")", "")
+                        .Replace("/", "").Replace("\\", "");
                 }
                 item.ProductType = ProductType.BaseProduct;
                 SaveImage(ref item);
@@ -203,6 +206,29 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
         }
 
+
+        [HttpPost, Route("api/Product/ToggleDelete")]
+        public async Task<IActionResult> ToggleDeleteAsync(int Id)
+        {
+            ResponseMapper<Category> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                var item = await _get.GetById(Id);
+
+                var items = await _get.Delete(item);
+                response.ToggleActive(items);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+
+            return Ok(response);
+        }
+
         [HttpPost, Route("api/Product/UpdateDisplayOrder")]
         public async Task<IActionResult> UpdateDisplayOrder(int Id, int num = 0)
         {
@@ -230,11 +256,31 @@ namespace API.Areas.Backend.Controllers
             try
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
-               
-                    var items = await _get.GetAll(ProductType.BaseProduct);
-                    BuildUrls(items.ToList());
-                    response.GetAll(items.ToList());
-                
+
+                var items = await _get.GetAll(ProductType.BaseProduct);
+                BuildUrls(items.ToList());
+                response.GetAll(items.ToList());
+
+
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
+
+        [HttpGet, Route("api/Product/ForDropDownList")]
+        public async Task<IActionResult> ForDropDownList()
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
+                if (!await Allowed()) { return Ok(accessResponse); }
+
+                var items = await _get.GetAll(ProductType.BaseProduct);
+                response.GetAll(items.Select(x => new { x.Id, Name = IsEnglish ? x.NameEn : x.NameAr }).ToList());
 
             }
             catch (Exception ex)
@@ -249,14 +295,22 @@ namespace API.Areas.Backend.Controllers
         public async Task<IActionResult> GetAllForDataTable()
         {
 
-           // var dateOne = DateTime.Now;
-           
+            // var dateOne = DateTime.Now;
+
             ResponseMapper<dynamic> response = new();
             try
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
 
-                var items = await _get.GetAllForDataTable(base.GetDataTableParameters, GetBaseImageUrl(AppSettings.ImageProduct));
+
+                AdminProductSearchParam param = new();
+
+                var productName = HttpContext.Request.Form["productName"].FirstOrDefault();
+                var categoryID = HttpContext.Request.Form["categoryID"].FirstOrDefault();
+
+                param.productName = productName;
+                param.categoryID = Utility.Helpers.Common.ConvertTextToIntOptional(categoryID);
+                var items = await _get.GetAllForDataTable(base.GetDataTableParameters, GetBaseImageUrl(AppSettings.ImageProduct), param);
                 // response.GetAll(items);
                 //var dateTwo = DateTime.Now;
                 //var diff = dateTwo.Subtract(dateOne);
@@ -269,15 +323,15 @@ namespace API.Areas.Backend.Controllers
                 response.CacheException(ex);
                 _logger.LogError(ex.Message);
             }
-            
+
             return Ok(response);
         }
 
-         
 
-         
+
+
         #region Utility
-            private void SaveImage(ref Product model)
+        private void SaveImage(ref Product model)
         {
             if (model.Image != null && model.Image.Length > 0)
             {
@@ -286,7 +340,7 @@ namespace API.Areas.Backend.Controllers
                     model.ImageName = fileName;
             }
 
-           
+
 
         }
 
@@ -303,15 +357,15 @@ namespace API.Areas.Backend.Controllers
 
             if (!string.IsNullOrEmpty(item.ImageName))
             {
-                item.ImageUrl = GetImageUrl(AppSettings.ImageProduct,item.ImageName);
+                item.ImageUrl = GetImageUrl(AppSettings.ImageProduct, item.ImageName);
 
             }
-            
+
             return item;
         }
 
         #endregion Utitlity
-         
+
 
         [HttpPost, Route("api/Product/UpdateStock")]
         public async Task<IActionResult> UpdateStock([FromForm] ProductStockHistory productStockHistory)
@@ -321,7 +375,7 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
                 productStockHistory.CreatedBy = this.UserId;
-       
+
                 var updated = await _get.ProductUpdateStock(productStockHistory);
                 response.GetDefault(updated);
             }
@@ -345,7 +399,7 @@ namespace API.Areas.Backend.Controllers
             {
                 if (!await Allowed()) { return Ok(accessResponse); }
                 var productId = HttpContext.Request.Form["productId"].FirstOrDefault();
-                int  _productId = Utility.Helpers.Common.ConvertTextToInt(productId);
+                int _productId = Utility.Helpers.Common.ConvertTextToInt(productId);
                 var items = await _get.ProductHistoryGetAllForDataTable(base.GetDataTableParameters, _productId);
                 // response.GetAll(items);
                 //var dateTwo = DateTime.Now;

@@ -68,7 +68,33 @@ namespace API.Areas.Backend.Controllers
             return Ok(response);
         }
 
+        [HttpPost, Route("api/PaymentLinks/GetAllForCustomDataTable")]
+        public async Task<IActionResult> GetAllForCustomDataTable()
+        {
+            ResponseMapper<dynamic> response = new();
+            try
+            {
 
+                if (!await Allowed()) { return Ok(accessResponse); }
+                QuickPaymentParam param = new();
+                param.DataTableParam = base.GetDataTableParameters;
+                param.SelectedTab = Common.ConvertTextToInt(HttpContext.Request.Form["selectedTab"].FirstOrDefault());
+                param.PaymentLinkId = Common.ConvertTextToIntOptional(HttpContext.Request.Form["paymentLinkId"].FirstOrDefault());
+                param.StartDate = Common.ConvertYYYYMMDDTextToDate(HttpContext.Request.Form["startDate"].FirstOrDefault());
+                param.EndDate = Common.ConvertYYYYMMDDTextToDate(HttpContext.Request.Form["endDate"].FirstOrDefault());
+                param.PaymentMethodId = Common.ConvertTextToIntOptional(HttpContext.Request.Form["paymentMethodId"].FirstOrDefault());
+
+                var items = await _get.GetAllForCustomDataTable(param);
+
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                response.CacheException(ex);
+                _logger.LogError(ex.Message);
+            }
+            return Ok(response);
+        }
 
 
     }

@@ -131,6 +131,12 @@
                 }
             }
             else {
+                if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                }
+
                 if (result.message != "")
                     ToastAlert("error", "", result.message);
             }

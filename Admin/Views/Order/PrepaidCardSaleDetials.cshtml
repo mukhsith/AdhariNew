@@ -60,26 +60,28 @@
                         <!-- ========== Start Datepicker Field ========== -->
                         <label for="" class="form-label">Date Range</label>
                         <div class="input-daterange input-group rounded-4" data-plugin-datepicker>
-                            <span class="input-group-text rounded-4 border border-secondary">
-                                <i class="fas fa-calendar-alt"></i>
-                            </span>
-                            <!-- ========== Start Simple Input Field ========== -->
+                            @*
+            <i class="fas fa-calendar-alt"></i>
+        </span>*@<span class="input-group-text rounded-4 border border-secondary">
+    @SharedHtmlLocalizer["From"]
+</span>
+    <!-- ========== Start Simple Input Field ========== -->
 
 
-                            <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary " name="start" id="start" aria-describedby="" placeholder="" value="">
+    <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary " name="start" id="start" aria-describedby="" placeholder="" value="">
 
 
-                            <!-- ========== End Simple Input Field ========== --> <span class="input-group-text border-start-0 border-end-0 border-secondary rounded-0">
-                                to
-                            </span>
-                            <!-- ========== Start Simple Input Field ========== -->
+    <!-- ========== End Simple Input Field ========== --> <span class="input-group-text border-start-0 border-end-0 border-secondary rounded-0">
+        @SharedHtmlLocalizer["To"]
+    </span>
+    <!-- ========== Start Simple Input Field ========== -->
 
 
-                            <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary " name="end" id="end" aria-describedby="" placeholder="" value="">
+    <input type="text" autocomplete="off" class="form-control form-control-lg rounded-4 border-secondary " name="end" id="end" aria-describedby="" placeholder="" value="">
 
 
-                            <!-- ========== End Simple Input Field ========== -->
-                        </div>
+    <!-- ========== End Simple Input Field ========== -->
+</div>
                         <!-- ========== End Datepicker Field ========== -->
                     </div>
                     <div class="col-12 col-lg-3 mb-3">

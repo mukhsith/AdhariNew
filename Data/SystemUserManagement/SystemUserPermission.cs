@@ -63,6 +63,21 @@ namespace Data.SystemUserManagement
 
         [NotMapped]
         public virtual int NotificationBadgeCount { get; set; }
+
+        [NotMapped]
+        public virtual int SalesOrderBadgeCount { get; set; }
+
+        [NotMapped]
+        public virtual int SubscriptionBadgeCount { get; set; }
+
+        [NotMapped]
+        public virtual int PrepaidCardBadgeCount { get; set; }
+
+        [NotMapped]
+        public virtual int DeliveryDBBadgeCount { get; set; }
+
+        [NotMapped]
+        public virtual int PaymentBadgeCount { get; set; }
         //=======
         //        [NotMapped]
         //        public int NotificationCount { get; set; }

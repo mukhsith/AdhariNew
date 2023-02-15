@@ -413,6 +413,11 @@
         public static string MinimumOrderAmountShouldBeGreaterThan = "Minimum order amount should be greater than {0}";
         public static string MinimumQuantityAllowed = "Minimum Quantity allowed : {0}";
         public static string MaximumQuantityAllowed = "Maximum Quantity allowed : {0}";
+        public static string Governorate = "Governorate";
+        public static string Area = "Area";
+        public static string Balance = "Balance";
+        public static string TotalAmount = "Total Amount";
+        public static string OTPVerifyLimitExceeded = "OTP verify limit is exceeded";
     }
     #region ORDER PRINT PDF
     public static class OrderPDF
@@ -443,7 +448,7 @@
         public static string PaymentTransactionId = "Transaction ID";
         public static string PaymentID = "Payment ID";
         public static string Status = "Status";
-        public static string CustomerDetails = "Customer Detail";
+        public static string CustomerDetails = "Customer Details";
         public static string CustomerName = "Customer Name";
         public static string CustomerEmail = "Customer Email";
         public static string CustomerMobile = "Customer Mobile";
@@ -489,6 +494,24 @@
         public static string DueDate = "Due Date";
         public static string UpcomingDeliveries = "Upcoming Deliveries";
         public static string UnitPrice = "Unit Price";
+        public static string MobileNumber = "Mobile Number";
+        public static string Email = "Email";
+
+        #region Admin DotMatrix
+        public static string ItemsDetailMatrix = "Items Details";
+        public static string DiscountedAmount = "Discounted Amount";
+        public static string OrderStatus = "Order Status";
+        public static string AddressName = "Address Name";
+        public static string Governorate = "Governorate";
+        public static string Area = "Area";
+        public static string Block = "Block";
+        public static string Street = "Street";
+        public static string Avenue = "Avenue";
+        public static string HouseNo = "HouseNo";
+        public static string NameMatrix = "Name";
+        public static string EmailMatrix = "Email";
+        public static string MobileNumberMatrix = "Mobile Number";
+        #endregion
     }
     #endregion
 }

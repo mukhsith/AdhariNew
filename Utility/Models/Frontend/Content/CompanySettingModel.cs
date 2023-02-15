@@ -4,6 +4,7 @@
     {
         public string Address { get; set; }
         public string MobileNumber { get; set; }
+        public string WhatsAppNumber { get; set; }
         public string EmailAddress { get; set; }
         public string InstagramLink { get; set; }
         public string FacebookLink { get; set; }

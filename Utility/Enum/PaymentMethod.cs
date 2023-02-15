@@ -7,6 +7,7 @@
         Tabby = 3,
         Cash = 4,
         Wallet = 5,
-        QPay = 6
+        QPay = 6,
+        ApplePay = 7
     }
 }

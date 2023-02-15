@@ -1,0 +1,137 @@
+﻿@model Data.Common.BaseEntityId
+
+<header class="page-header">
+    <h2>@SharedHtmlLocalizer["CustomerDetails"]</h2>
+    <input type="hidden" value="@Model.Id" id="customerId" />
+    <div class="right-wrapper text-end me-3">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/home">
+                    <i class="bx bx-home-alt"></i>
+                </a>
+            </li>
+        </ol>
+    </div>
+</header>
+<div class="row">
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["CustomerDetails"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="">@SharedHtmlLocalizer["CustomerName"]</label>
+                        <div class="fw-bold" id="customerName"></div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">@SharedHtmlLocalizer["CustomerMobile"]</label>
+                        <div class="fw-bold" id="customerMobile"></div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="">@SharedHtmlLocalizer["CustomerEmail"]</label>
+                        <div class="fw-bold" id="customerEmail"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+
+    <div class="col-12">
+        <!-- ========== Start Card Block ========== -->
+        <section class="card mb-3 border border-secondary">
+            <header class="card-header d-flex justify-content-between align-items-center p-3 border-secondary body-bg-secondary">
+                <h2 class="card-title text-primary">@SharedHtmlLocalizer["CustomerAddresses"]</h2>
+                <div class="card-actions d-flex position-static top-0 end-0">
+
+                </div>
+            </header>
+            @*<div class="card-body ">
+            <div class="row addresses">
+                <div class="col-12 col-md-4 mb-3">
+                    <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3">
+                        <label for="address-0" class="w-100">
+                            <p class="address-name card-text mb-0 fw-bold">My Chalet</p>
+                            <p class="address-content card-text mb-0">
+                                Block No. 2, Street No. 32, Avenue No. 16, House No. 252, Area: Sea City, Governorate: Khairan<br>
+                            </p>
+                        </label>
+                        <input id="address-0" name="address" type="radio">
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                    <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3">
+                        <label for="address-1" class="w-100">
+                            <p class="address-name card-text mb-0 fw-bold">Main Office</p>
+                            <p class="address-content card-text mb-0">
+                                Block No. 2, Street No. 32, Avenue No. 16, House No. 252, Area: Sharq, Governorate: Kuwait City<br>
+                            </p>
+                        </label>
+                        <input id="address-1" name="address" type="radio">
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                    <div class="inputGroup h-100 border border-secondary rounded-3 body-bg-secondary d-flex justify-content-between align-items-center p-3">
+                        <label for="address-2" class="w-100">
+                            <p class="address-name card-text mb-0 fw-bold">Home</p>
+                            <p class="address-content card-text mb-0">
+                                Block No. 10, Street No. 15, Avenue No. 16, House No. 10, Area: Farwaniyah, Governorate: Khaitan<br>
+                            </p>
+                        </label>
+                        <input id="address-2" name="address" type="radio">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 ">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#addNewAddressModal" class="btn btn-primary btn-lg fw-bold ">Edit</a>
+                <a href="#" class="btn btn-primary btn-lg fw-bold btn-warning">Back</a>
+            </div>
+        </div>*@
+            <div class="row" id="noSavedAddress" style="display:none;">
+                <div class="col-12 text-center">
+                    <i class="fs-1 fas fa-location-dot text-center text-primary"></i>
+                </div>
+                <div class="col-12 text-center">
+                    <h5 class="mt-3 text-primary fw-bold">No Saved Addresses</h5>
+                </div>
+            </div>
+
+            <div class="card-body " id="display-addresses">
+                <div class="row">
+                    <div class="col-12 mx-auto">
+                        <div class="row addresses justify-content-center">
+
+                        </div>
+                        @*<div class="row justify-content-center my-3">
+                        <div class="col-3 p-0">
+                            <hr class="dropdown-divider body-bg-secondary border-secondary">
+                        </div>
+                        <div class="col-1 text-center text-secondary p-0">OR</div>
+                        <div class="col-3 p-0">
+                            <hr class="dropdown-divider body-bg-secondary border-secondary">
+                        </div>
+                    </div>*@
+                        <div class="row">
+                            <div class="text-center">
+                                <a href='#' onclick='AddAddress()' class="btn btn-secondary text-light btn-lg fw-bold" data-bs-toggle="modal" data-bs-target="#addNewAddressModal">@SharedHtmlLocalizer["AddNewAddress"]</a>
+                                <a href='#' onclick='EditAddress()' class="btn btn-primary btn-lg fw-bold" data-bs-toggle="modal" data-bs-target="#editAddressModal" id="editAdd">@SharedHtmlLocalizer["EditAddress"]</a>
+                                <button type="button" class="btn btn-warning btn-lg fw-bold" onclick="history.go(-1)">@SharedHtmlLocalizer["Back"]</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ========== End Card Block ========== -->
+    </div>
+</div>
+@await Html.PartialAsync("_AddressModalPartial")
+@await Html.PartialAsync("_EditAddressModalPartial")
+<script src="~/developer/js/Customer/customerAddress.js" asp-append-version="true"></script>

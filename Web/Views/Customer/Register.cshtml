@@ -74,9 +74,10 @@
 </section>
 @await Html.PartialAsync("_OTPModel")
 <script>
+    var timerRunning = false;
     $(document).ready(function () {
         OTPInput();
-        $("#resend").hide();
+        $("#resend").prop("disabled", true);
         $("#register-form").validate({
             rules: {
                 //Name: {
@@ -129,7 +130,6 @@
                     MobileNumber: mobileNumber,
                     EmailAddress: email
                 }, function (result) {
-                    console.log(result);
                     if (result.success) {
                         $("#pVerificationMessage").text(result.message);
                         $("#requestId").val(result.data.otpDetailId);
@@ -148,9 +148,11 @@
 
                         var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
                         document.getElementById('timer').innerHTML = time;
-                        startTimer();
-                        $("#resend").hide();
-                        $("#otp-button").show();
+                        if (!timerRunning) {
+                            startTimer();
+                        }
+                        $("#resend").prop("disabled", true);
+                        $("#otp-button").removeClass("disabled");
 
                         let myModal = new bootstrap.Modal(document.getElementById('OTPModal'), {});
                         myModal.show();
@@ -198,6 +200,7 @@
             $("#otp2").val('');
             $("#otp3").val('');
             $("#otp4").val('');
+            $("#divIncorrectOtp").text('');
 
             var otpDetailId = $("#requestId").val();
             if (otpDetailId.length == 0)
@@ -208,9 +211,11 @@
                     $("#requestId").val(result.data.otpDetailId);
                     var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
                     document.getElementById('timer').innerHTML = time;
-                    startTimer();
-                    $("#resend").hide();
-                    $("#otp-button").show();
+                    if (!timerRunning) {
+                        startTimer();
+                    }
+                    $("#resend").prop("disabled", true);
+                    $("#otp-button").removeClass("disabled");
                 }
                 else {
                     if (result.message != "")

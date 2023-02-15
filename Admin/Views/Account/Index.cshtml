@@ -19,32 +19,41 @@
             </div>
 
             <div class="card-body">
-                @using (Html.BeginForm("Index", "Account", FormMethod.Post))
+                @using (Html.BeginForm("Index", "Account", FormMethod.Post, new { id = "myform", enctype = "multipart/form-data" }))
                 {
-                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="invalid-feedback1">
+                        @Html.ValidationMessage("NOACCOUNT", "", new { @class = "text-danger" })
+                    </div>
+
+                    @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
                     <input type="hidden" asp-for="Longitude" id="Longitude" value="0" />
                     <input type="hidden" asp-for="Latitude" id="Latitude" value="0" />
                     <input type="hidden" asp-for="IsLoginSucceeded" id="IsLoginSucceeded" value="false" />
-
+                   
                     <div class="row">
                         <div class="col-12 mb-3">
                             <label asp-for="FullName">User Name<span class=" text-danger">*</span></label>
-                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control form-control-lg  rounded-4 border-secondary " })
+                            @*@Html.TextBoxFor(model => model.FullName, new { @class = "form-control form-control-lg  rounded-4 border-secondary ", @required = true })*@
+                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control form-control-lg rounded-4 border-secondary", @onclick = "resetValidation()" })
 
+                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-12 mb-3">
                             <label class="float-label" asp-for="Password">Password<span class=" text-danger">*</span></label>
-                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control form-control-lg rounded-4 border-secondary", @type = "Password", @required = true })
-
+                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control form-control-lg rounded-4 border-secondary", @type = "Password", @onclick = "resetValidation()" })
+                            @*@Html.TextBoxFor(model => model.Password, new { @class = "form-control form-control-lg rounded-4 border-secondary", @type = "Password", @required = true })*@
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-8">
-                            <div class="checkbox-custom checkbox-default">
-                                @Html.TextBoxFor(model => model.RememberMe, new { @class = "form-control form-control-lg", @type = "checkbox" })
-                                <label asp-for="RememberMe">Remember Me</label>
-                            </div>
+                            @*<div class="checkbox-custom checkbox-default">
+                        @Html.TextBoxFor(model => model.RememberMe, new { @class = "form-control form-control-lg", @type = "checkbox" })
+                        <label asp-for="RememberMe">Remember Me</label>
+                    </div>*@
                         </div>
                         <div class="col-sm-4 text-end">
                             <button type="submit" class="btn btn-primary mt-2" id="btnUserLogin" name="btnUserLogin">Sign In</button>
@@ -62,4 +71,8 @@
     $(document).ready(function () {
         getGeolocation();
     });
+
+    function resetValidation() {
+        var msg = $('#myform [data-valmsg-for="NOACCOUNT"]').empty().attr("class");
+    }
 </script> 

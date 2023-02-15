@@ -76,6 +76,15 @@ namespace API.Areas.Frontend.Controllers
         }
 
         /// <summary>
+        /// Validate cart
+        /// </summary>
+        [HttpGet, Route("/webapi/cart/validatecart")]
+        public async Task<APIResponseModel<bool>> ValidateCart(string customerGuidValue = "")
+        {
+            return await _cartModelFactory.ValidateCart(isEnglish: isEnglish, customerGuidValue: customerGuidValue, customerId: LoggedInCustomerId);
+        }
+
+        /// <summary>
         /// Save cart attributes
         /// </summary>
         [HttpPost, Route("/webapi/cart/savecartattributes")]

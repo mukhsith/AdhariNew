@@ -124,6 +124,12 @@ namespace Services.Frontend.Sales
 
             return data;
         }
+        public async Task<Subscription> GetLastSubscriptionByCustomer(int customerId)
+        {
+            var data = await _dbcontext.Subscriptions.OrderByDescending(a => a.Id).
+                FirstOrDefaultAsync(x => x.CustomerId == customerId);
+            return data;
+        }
         #endregion
 
         #region Subscription Order

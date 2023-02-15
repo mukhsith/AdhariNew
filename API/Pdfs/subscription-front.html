@@ -30,6 +30,27 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 offset-lg-2 col-lg-8" style='page-break-inside: avoid;'>
+                        <div class="customer-summary mb-4">
+                            <h4 class="text-primary text-center fw-bold mb-3">{CustomerDetails}</h4>
+                            <div class="bg-grey row rounded-4 p-3 mx-0">
+                                <ul class="list-group list-group-flush list-card rounded-top rounded-bottom">
+                                    <li class="list-group-item d-flex justify-content-between border-secondary px-0">
+                                        <p class="mb-0 fw-bold">{Customer-Name}</p>
+                                        <p class="mb-0 text-primary fw-bold text-end ">{Customer-Name-Value}</p>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between border-secondary px-0">
+                                        <p class="mb-0 fw-bold">{Customer-MobileNumber}</p>
+                                        <p class="mb-0 text-primary fw-bold text-end ">{Customer-MobileNumber-Value}</p>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between border-secondary px-0">
+                                        <p class="mb-0 fw-bold">{Customer-Email}</p>
+                                        <p class="mb-0 text-primary fw-bold text-end ">{Customer-Email-Value}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 offset-lg-2 col-lg-8" style='page-break-inside: avoid;'>
                         <div class="payment-summary mb-4">
                             <h4 class="text-primary text-start text-center fw-bold mb-3">{SubscriptionDetails}</h4>
                             <div class="bg-grey row rounded-4 p-3 mx-0">
@@ -55,6 +76,7 @@
                                 <div class="col-9 col-md-10 pe-0" style="padding: 10px;">
                                     <a href="#" class="mb-0 fw-bold">{Subscribed-Product-Value}</a>
                                     <div class="row">
+                                        <p class="mb-2">{Description-Value}</p>
                                         <div class="col-12 col-md-6">
                                             {Subscribed-Product-Details-Value}
                                         </div>
@@ -79,7 +101,7 @@
                             <h4 class="text-primary text-start text-center fw-bold mb-3">{DeliveryDetails}</h4>
                             <h5 class="text-dark text-start fw-bold my-3">{DeliveryAddress}</h5>
                             <div class="bg-grey row rounded-4 p-3 mx-0  mb-3">
-                                <p class="address-name card-text mb-0 fw-bold">{DeliveryAddress-Name}</p>
+                                <p class="address-name card-text mb-0 fw-bold text-primary">{DeliveryAddress-Name}</p>
                                 <p class="address-content card-text mb-0">
                                     {DeliveryAddress-Details}<br>
                                 </p>

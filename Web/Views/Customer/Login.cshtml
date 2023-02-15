@@ -4,6 +4,7 @@
     breadCrumbItems.Add(new BreadcrumbModel() { Url = "Signin", Title = SharedHtmlLocalizer["SignIn"].Value });
 }
 @await Html.PartialAsync("_PageHeading", breadCrumbItems)
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <section class="main-content py-5 mb-5">
     <div class="container">
         <div class="row">
@@ -23,8 +24,7 @@
                                     </span>
                                     <input type="tel" asp-for="MobileNumber"
                                            class="form-control border-start-0 rounded-start rounded-pill border-secondary body-bg-secondary"
-                                           maxlength="8" onkeypress="return validateMobileNumber(event);" aria-label="@SharedHtmlLocalizer["EnterYourMobileNumber"]"
-                                            />
+                                           maxlength="8" onkeypress="return validateMobileNumber(event);" aria-label="@SharedHtmlLocalizer["EnterYourMobileNumber"]" />
                                     <div class="invalid-feedback" id="dvError">
                                     </div>
                                     <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button"
@@ -37,7 +37,6 @@
                             <div class="col-12 text-center">
                                 <a id="signin-btn" class="btn btn-primary color-white rounded-pill fw-bold px-5">@SharedHtmlLocalizer["SignIn"]</a>
                             </div>
-
                             <div class="col-12 text-center">
                                 <hr class="dropdown-divider body-bg-secondary border-secondary">
                             </div>
@@ -58,9 +57,10 @@
 </section>
 @await Html.PartialAsync("_OTPModel")
 <script>
+    var timerRunning = false;
     $(document).ready(function () {
         OTPInput();
-        $("#resend").hide();
+        $("#resend").prop("disabled", true);
         var returnUrl = "@Model.ReturnUrl";
 
         $('#sec-otp-verification').hide();
@@ -82,24 +82,23 @@
             errorLabelContainer: '#dvError'
         });
 
-
         $("#signin-btn").click(function (event) {
             event.preventDefault();
             $('#login-form').validate();
             if ($("#login-form").valid()) {
                 var mobileNumber = $("#MobileNumber").val();
                 $.post("@Url.RouteUrl("login")", { MobileNumber: mobileNumber }, function (result) {
-                    console.log(result)
                     if (result.success) {
-                        console.log(result);
                         $("#pVerificationMessage").text(result.message);
                         $("#requestId").val(result.data.otpDetailId);
 
                         var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
                         document.getElementById('timer').innerHTML = time;
-                        startTimer();
-                        $("#resend").hide();
-                        $("#otp-button").show();
+                        if (!timerRunning) {
+                            startTimer();
+                        }
+                        $("#resend").prop("disabled", true);
+                        $("#otp-button").removeClass("disabled");
 
                         let myModal = new bootstrap.Modal(document.getElementById('OTPModal'), {});
                         myModal.show();
@@ -118,6 +117,7 @@
             $("#otp2").val('');
             $("#otp3").val('');
             $("#otp4").val('');
+            $("#divIncorrectOtp").text('');
 
             var otpDetailId = $("#requestId").val();
             if (otpDetailId.length == 0)
@@ -128,9 +128,11 @@
                     $("#requestId").val(result.data.otpDetailId);
                     var time = millisToMinutesAndSeconds(result.data.millisecondsForExpiry);
                     document.getElementById('timer').innerHTML = time;
-                    startTimer();
-                    $("#resend").hide();
-                    $("#otp-button").show();
+                    if (!timerRunning) {
+                        startTimer();
+                    }
+                    $("#resend").prop("disabled", true);
+                    $("#otp-button").removeClass("disabled");
                 }
                 else {
                     if (result.message != "")
@@ -154,7 +156,7 @@
 
             $.post("@Url.RouteUrl("verifyOTP")", {
                 RequestId: requestId, OTP: otp, TypeId: typeId
-            }, function (result) {
+            }, function (result) {                
                 if (result.success) {
                     $('#sec-otp-verification').hide();
                     if (returnUrl == "") {
@@ -170,5 +172,7 @@
                 }
             });
         });
+
+
     });
 </script>

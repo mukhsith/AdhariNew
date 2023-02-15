@@ -15,5 +15,6 @@ namespace API.Areas.Frontend.Factories
         Task<APIResponseModel<CartSummaryModel>> PrepareCartSummaryModel(bool isEnglish, int customerId);
         Task<APIResponseModel<CartSummaryModel>> SaveCartAttribute(bool isEnglish, int customerId, CartAttributeModel cartAttributeModel);
         Task<APIResponseModel<CheckOutModel>> PrepareCheckOutModel(bool isEnglish, int customerId);
+        Task<APIResponseModel<bool>> ValidateCart(bool isEnglish, int customerId = 0, string customerGuidValue = "");
     }
 }

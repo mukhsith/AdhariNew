@@ -1,0 +1,215 @@
+﻿@model Utility.Models.Frontend.CustomizedModel.QuickPaymentModel
+<section class="py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            @await Html.PartialAsync("_Header")
+            <div class="col-12 col-lg-6 mb-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="text-primary text-center text-lg-start fw-bold mb-3">@SharedHtmlLocalizer["CustomerDetails"]</h5>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="inputName2" class="text-primary fw-bold mb-1">@SharedHtmlLocalizer["MobileNumber"]<span class="ms-1 text-danger">*</span></label>
+                        <div class="input-group mobile-field" id="dv-mobile">
+                            <span class="input-group-text rounded-pill rounded-end border border-end-0 border-secondary pe-0">
+                                <img src="/assets/img/Kuwait_flag.svg" width="25">
+                            </span>
+                            <span class="input-group-text border border-secondary border-start-0 p-1" id="basic-addon1">
+                                <bdi>+965</bdi>
+                            </span>
+                            <input type="tel" id="MobileNumber" name="MobileNumber"
+                                   class="form-control border-start-0 rounded-5 border-secondary body-bg-secondary mobile-number-field"
+                                   maxlength="8" onkeypress="return validateMobileNumber(event);" />
+                            <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-code-button" id="btn-send-code" type="button">@SharedHtmlLocalizer["SendCode"]</button>
+                        </div>
+                        <div id="dvMobileNumber">
+                        </div>
+                        <div class="mt-0 otp-sent text-start text-success" style="display: none;"></div>
+                    </div>
+                    <div class="col-12 mb-3" id="dv-otp">
+                        <label for="inputOTP" class="text-primary fw-bold mb-1">@SharedHtmlLocalizer["OTP"]<span class="ms-1 text-danger">*</span></label>
+                        <div class="input-group otp-field-group">
+                            <input type="tel" id="OTP" name="OTP"
+                                   class="form-control rounded-5 border-secondary body-bg-secondary otp-field"
+                                   maxlength="4" onkeypress="return validateMobileNumber(event);" />
+                            <button class="btn btn-outline-secondary rounded-start rounded-pill body-bg-secondary fw-bold otp-verification-button" id="btn-verify-code" type="button">@SharedHtmlLocalizer["Verify"]</button>
+                            <input type="hidden" id="requestId" />
+                        </div>
+                        <div id="dvOTP">
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="inputName1" class="text-primary fw-bold mb-1">@SharedHtmlLocalizer["Name"]</label>
+                        <input type="text" class="form-control rounded-5 border-secondary body-bg-secondary" id="Name" name="Name" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 mx-auto mb-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="text-primary text-center text-lg-start fw-bold mb-3">@SharedHtmlLocalizer["PaymentDetails"]</h5>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="inputAmount" class="text-primary fw-bold mb-1">@SharedHtmlLocalizer["Amount"] (@SharedHtmlLocalizer["KWD"])<span class="ms-1 text-danger">*</span></label>
+                        <input type="number" class="form-control body-bg-secondary rounded-pill border-secondary" id="Amount" name="Amount" placeholder="0">
+                        <div id="dvAmount">
+                        </div>
+                    </div>
+                    <div class="col-12 mmb-3">
+                        <div class="payment-method mb-4">
+                            <h4 class="text-primary text-center fw-bold mb-3">@SharedHtmlLocalizer["PaymentMethod"]</h4>
+                            <div class="bg-grey rounded-4 p-3 mx-0">
+                                @await Html.PartialAsync("_PaymentMethod", Model.PaymentMethods)
+                            </div>
+                            <div id="dvErrorPaymentMethod">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <a id="a-proceed-payment" class="btn btn-primary rounded-pill px-5">@SharedHtmlLocalizer["PayNow"]</a>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    var customerId = 0;
+    $(document).ready(function () {
+        $("#btn-send-code").click(function (event) {
+            event.preventDefault();
+            var mobileNumber = $("#MobileNumber").val();
+            if (mobileNumber == "") {
+                $("#dvMobileNumber").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["MobileNumberIsRequired"]</span></div>");
+                return false;
+            }
+            else {
+                $("#dvMobileNumber").hide();
+            }
+
+            $.post("@Url.RouteUrl("register")", {
+                MobileNumber: mobileNumber,
+                Name: name,
+                Guest: true
+            }, function (result) {
+                if (result.success) {
+                    $(".otp-sent").toggle();
+                    $(".otp-sent").html(result.message);
+                    $("#requestId").val(result.data.otpDetailId);
+                }
+                else {
+                    if (result.message != "") {
+                        ToastAlert('error', '', result.message);
+                    }
+                }
+            });
+
+            return false;
+        });
+
+        $("#btn-verify-code").on("click", function (event) {
+            event.preventDefault();
+            var requestId = $("#requestId").val();
+            if (requestId.length == 0)
+                return;
+
+            var otp = $("#OTP").val();
+            if (otp == "") {
+                $("#dvOTP").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["OTPIsRequired"]</span></div>");
+                return false;
+            }
+            else {
+                $("#dvOTP").hide();
+            }
+
+            $.post("@Url.RouteUrl("verifyOTP")", {
+                RequestId: requestId, OTP: otp
+            }, function (result) {
+                if (result.success) {
+                    $("#dv-mobile").addClass("disabled");
+                    $("#MobileNumber").prop("disabled", true);
+                    $("#btn-send-code").prop("disabled", true);
+                    $("#dv-otp").hide();
+                    $(".otp-sent").html(result.message);
+                    $(".otp-sent").show();
+                    customerId = result.data.id;
+                    $("#Name").val(result.data.name);
+                }
+                else {
+                    if (result.message != "") {
+                        $("#dvOTP").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>" + result.message + "</span></div>");
+                        $("#dvOTP").show();
+                    }
+                }
+            });
+        });
+
+        $("#a-proceed-payment").click(function () {
+            var valid = true;
+
+            if (customerId == 0) {
+                ToastAlert('error', '', "@SharedHtmlLocalizer["PleaseVerifyYourMobileNumber"]");
+                return;
+            }
+
+            var paymentMethodId = $('input[name="payment-method-radio"]:checked').val();
+            if (paymentMethodId == "" || paymentMethodId == null || paymentMethodId == undefined) {
+                valid = false;
+                $("#dvErrorPaymentMethod").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["PleaseChoosePaymentMethod"]</span></div>");
+            }
+            else {
+                $("#dvErrorPaymentMethod").hide();
+            }
+
+            var amount = $('#Amount').val();
+            if (amount == "") {
+                valid = false;
+                $("#dvAmount").html("<div class='invalid-feedback has-error' style='display:block !important;'><span>@SharedHtmlLocalizer["PleaseEnterAmount"]</span></div>");
+            }
+            else {
+                $("#dvAmount").hide();
+            }
+
+            if (!valid) {
+                return false;
+            }
+
+            showCoverSpin();
+            $.post("@Url.RouteUrl("createqpay")", {
+                Amount: amount,
+                PaymentMethodId: paymentMethodId,
+                CustomerId: customerId,
+                Customer: { Name: $("#Name").val() }
+            }, function (result) {
+                hideCoverSpin();
+                if (result.success && result.data != null) {
+                    $("#MobileNumber").val('');
+                    $("#OTP").val('');
+                    $("#Name").val('');
+                    $("#Amount").val('');
+
+                    if (result.data.redirectToPaymentPage) {
+                        window.location.href = result.data.paymentUrl;
+                    }
+                    else {
+                        window.location.href = "/QPR/" + result.data.entityNumber;
+                    }
+                }
+                else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
+                    if (result.message != "")
+                        ToastAlert('error', '', result.message);
+                }
+            });
+
+            return false;
+        });
+    });
+</script>

@@ -11,6 +11,7 @@ namespace API.Areas.Frontend.Factories
         Task<APIResponseModel<CreatePaymentModel>> CreateOrder(bool isEnglish, int customerId, DeviceType deviceTypeId, CreatePaymentModel createPaymentModel);
         Task<APIResponseModel<List<OrderModel>>> GetOrders(bool isEnglish, int customerId, int id = 0, string orderNumber = "",
             int limit = 0, int page = 0, OrderStatus? orderStatus = null);
+        Task<APIResponseModel<List<OrderModel>>> GetOrderByOrderNumber(bool isEnglish, string orderNumber = "");
         Task<APIResponseModel<bool>> ReOrder(bool isEnglish, int customerId, int id);
         Task<APIResponseModel<object>> GetOrderPdf(bool isEnglish, int customerId, int id);
     }

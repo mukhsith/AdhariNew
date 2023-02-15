@@ -213,12 +213,17 @@ namespace API.Areas.Backend.Controllers
         [HttpPost, Route("api/Area/GetAllForDataTable")]
         public async Task<IActionResult> GetAllForDataTable()
         {
+        
+
             ResponseMapper<dynamic> response = new();
             try
             {
 
                 if (!await Allowed()) { return Ok(accessResponse); }
-                var id = HttpContext.Request.Form["governorateId"].FirstOrDefault();
+
+           
+
+                var id = HttpContext.Request.Form["governorateID"].FirstOrDefault();
                 int? governorateId = Utility.Helpers.Common.ConvertTextToIntOptional(id);
 
                 var items = await _get.GetAllForDataTable(base.GetDataTableParameters, governorateId);

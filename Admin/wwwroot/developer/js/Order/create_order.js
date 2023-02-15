@@ -4,24 +4,66 @@ var categories = null;
 var NormalTable = null;
 
 $(document).ready(function () {
-    fillDropDownList("governorateList", "Governorate/forDropDownList", "id", "name", getGovernorateList);
-    fillDropDownList("areaList", "area/forDropDownList", "id", "name", getAreaList);
-    validateCreateCustomer(); 
+
+    //  fillDropDownList("governorateList", "Governorate/ForDropDownList", "id", "name", getGovernorateList);
+    //fillDropDownList("areaList", "area/ForDropDownList", "id", "name");
+    validateCreateCustomer();
+
+  //  alert(Resources.AreYouSureTheOrderIsDelivered);
+ 
 });
+
+
+AddAddress = () => {
+    ajaxGet('Governorate/ForDropDownList', getGovernorateList);
+   
+}
+
+EditAddress = () => {
+
+    var selectedAddressId = $('input[type=radio][name=address]:checked').val();
+
+
+    setTextValue("dialogCustomerId", getTextValue('customerId'));
+    setTextValue("dialogAddressId", selectedAddressId);
+
+
+    ajaxGet('Governorate/ForDropDownList', geteditGovernorateList);
+
+}
+
+
+
 getGovernorateList = (data) => {
     console.log(data);
+    fillDropDownListData("governorateList", data.data, false, null, "id", "name");
+}
+
+
+GetCityDropDownData = (id) => {
+    ajaxGet('Area/ForDropDownListByCity?governorateId=' + id, getAreaList);
+
 }
 getAreaList = (data) => {
     console.log(data);
+    fillDropDownListData("areaList", data.data, false, null, "id", "name");
 }
 enableVerifyButton = (input) => { 
     if (input.value.length == 8) {
-        $("#verifyButton").show(); 
+   //     $("#verifyButton").show(); 
         getCustomer();
     } else {
-        $("#verifyButton").hide();
+     //   $("#verifyButton").hide();
         $("#btnCreateCustomer").hide();
         $(".add-normal-product-btn").hide();
+        $("#display-addresses .row .addresses").html('');
+  
+            $("#payFromWallet").hide();
+        $("#cashbackAmountFormatted").html('');
+        $("#walletAmountFormatted").html('');
+        
+
+
         disableFields(false);
     }
 }
@@ -31,15 +73,17 @@ getCustomer = () => {
 } 
 validateCreateCustomer = () => {
     $("#dataForm").validate({
+        errorPlacement:
+            function (error, element) { },
         rules: {
             customerMobile: { required: true },
             customerName: { required: true },
             customerTypeList: { required: true },
         },
         messages: {
-            customerMobile: { required: 'Required' },
-            customerName: { required: 'Required' },
-            customerTypeList : { required: 'Required' },
+            customerMobile: { required: '' },
+            customerName: { required: '' },
+            customerTypeList : { required: '' },
         },
         submitHandler: function (form, event) {
             event.preventDefault();
@@ -55,6 +99,7 @@ validateCreateCustomer = () => {
                 function (data) {
                     if (data.success) {
                         ToastAlert('success', 'New Customer', "Customer created successfully");
+                        getCustomer();
                     } else {
                         console.log(data);
                     }
@@ -78,6 +123,7 @@ addCustomerAddress = () => {
 }
  
 getCustomerSuccess = (data) => {
+
     if (data.data.name != null) {
         var d = data.data;
         $("#customerId").val(d.id);
@@ -99,7 +145,7 @@ getCustomerSuccess = (data) => {
 
 setWalletView = (wallet) => { 
     if (wallet != null) {
-        if (wallet.cashbackBalance <= 0) {
+        if (wallet.walletBalance <= 0) {
             $("#payFromWallet").hide();
         } else {
             $("#payFromWallet").show();
@@ -125,7 +171,7 @@ showAddressListSuccess = (data) => {
                                 <p class="address-name card-text mb-0 fw-bold">${item.name}</p>
                                 <p class="address-content card-text mb-0"> ${item.addressText}</p>
                             </label>
-                                <input data-id="${item.id}" id="${item.id}" name="address" type="radio" ${index === 0 ? "checked" : ""} >
+                                <input data-id="${item.id}" id="${item.id}" name="address" value="${item.id}" onclick="saveAttributes()" type="radio" ${index === 0 ? "checked" : ""} >
                         </div>
                     </div>`;
         address.append(html);
@@ -143,6 +189,7 @@ showAddressListSuccess = (data) => {
     //                </div>`;
     //    address.append(html);
     //}
+    //ajaxGet('Product/GetAllProductAndCategoryForOfflineOrder?customerId=' + getTextValue("customerId"), cbGetProductAndCategoryList);
 }
  
 
@@ -172,8 +219,9 @@ cbGetProductAndCategoryList = (data) => {
 prepareNormalProductDatatable = () => {
     initilizeDataTable();
     // Temporary Code. Needs to be made generic by the developer
-    $('.add-normal-product-btn').click(function () {
-         
+    $('#Addproduct').click(function () {
+        $('#Addproduct').attr("disabled", true);
+       
         var selectedProductId = getSelectedItemValue("normalProductList"); //dropdownlist selectedItem id
         if (selectedProductId) {
             //existing all products
@@ -184,9 +232,11 @@ prepareNormalProductDatatable = () => {
         }
     });
     checkQtyValue = (input, max) => {
-        if (input.value > max) {
-            alert('maximum ' + max + " quantity is allowed");
-            input.value = max;
+        if (max != undefined) {
+            if (input.value > max) {
+               // alert('maximum ' + max + " quantity is allowed");
+                input.value = max;
+            }
         }
     }
     
@@ -194,6 +244,7 @@ prepareNormalProductDatatable = () => {
 }
 
 addCartItem = (productId, quantity) => {
+    showLoader();
     var fromBody = {
         'customerId': getTextValue('customerId'),
         'countryId': 1,
@@ -201,18 +252,23 @@ addCartItem = (productId, quantity) => {
         'quantity': quantity
     };
     ajaxPostCart("Cart/AddCartItem", fromBody,
-        function (data) { 
+        function (data) {
+            hideLoader();
             if (data.success) {
                 saveAttributes();
-                /*setTimeout(getCartItems(), 500);*/
+                setTimeout(getCartItems(), 500);
             } else {
+                setTimeout(ToastAlert('error', Resources.Order, data.message), 500);
                 console.log(data);
+                getCartItems();
             }
-            //hideLoader();
+            $('#Addproduct').attr("disabled", false);
+           
         });
 }
 
 editCartItem = (cartId, productId, input) => {
+    showLoader();
     var qty = $(input).val();
     var fromBody = {
         'customerId': getTextValue('customerId'),
@@ -223,24 +279,29 @@ editCartItem = (cartId, productId, input) => {
         'quantity': qty
     };
     ajaxPostCart("Cart/editcartitem", fromBody,
-        function (data) { 
+        function (data) {
+            hideLoader();
             if (data.success) {
                 setTimeout(getCartItems(), 500);
             } else {
+                setTimeout(ToastAlert('error', Resources.Order, data.message), 500);
+                getCartItems();
                 console.log(data);
             }
-            //hideLoader();
+           
         });
 }
-deleteCartItem = (id) => { 
+deleteCartItem = (id) => {
+    showLoader();
     ajaxDeleteCart("Cart/deletecartitem?id="+id,
-        function (data) { 
+        function (data) {
+            hideLoader();
             if (data.success) {
                 setTimeout(getCartItems(), 500);
             } else {
                 console.log(data);
             }
-            //hideLoader();
+          
         });
 }
 
@@ -322,24 +383,43 @@ displayCartSummary = (data) => {
     
     if (data.data.total >= 0) {
 
+        var summaryDesc = "";
+       
         $.each(data.data.amountSplitUps, function (a, item) {
 
-            if (item.title == "Items") {
-                $('#subtotal').html(item.value);
-            }
-            else if (item.title == "Delivery Amount") {
-                $('#deliveryFee').html(item.value);
-            }
+            summaryDesc += "<div class='col-md-3 mb-3'><label> " + item.title + "</label><div class='fw-bold' id='subtotal'>" + item.value + "</div></div >";
+            //if (item.title == "Items") {
+            //    $('#subtotal').html(item.value);
+            //}
+            //else if (item.title == "Delivery Amount") {
+            //    $('#deliveryFee').html(item.value);
+            //}
+          
+
         });
+       // summaryDesc += "<div class='col-md-3 mb-3'><label> test </label><div class='fw-bold' id='subtotal'>  null</div></div >";
+
+        $('#summaryDesc').html(summaryDesc);
+
         //$('#subtotal').html(data.data.AmountSplitUps[0].value);
         //$('#deliveryFee').html(data.data.AmountSplitUps[1].value);
+        //if (wallet.walletBalance <= 0) {
+        //    $("#payFromWallet").hide();
+        //} else {
+        //    $("#payFromWallet").show();
+        //}
 
-        $('#cashbackDiscount').html(data.data.formattedWalletBalanceAmount);
+
+        $('#cashbackDiscount').html(data.data.formattedCashbackBalance);
         $('#walletAmount').html(data.data.formattedWalletUsedAmount);
+
+
+        
+
         $('#couponCode').html(data.data.couponCode);
         $('#couponDiscount').html(data.formattedCartTotal);
         $('#grandTotal').html(data.data.formattedTotal);
-   
+        $('#promotionCode').val(data.data.couponCode);
 
     }
 
@@ -364,6 +444,95 @@ saveAttributes = () => {
             //hideLoader();
         });
 }
+
+
+
+saveWalletAttributes = () => {
+    var attributeTypeId=2
+    //var isselected = $('input[type=checkbox][name=chkWalletPay]:checked');
+    if ($("#chkWalletPay").is(':checked')) {
+        attributeTypeId = 2;
+    }
+    else {
+        attributeTypeId = 3;
+    }
+
+    var fromBody = {
+        'CustomerId': getTextValue('customerId'),
+        'AttributeTypeId': attributeTypeId,
+        
+    };
+    ajaxPostCart("Cart/savecartattributes", fromBody,
+        function (data) {
+            if (data.success) {
+                setTimeout(getCartItems(), 500);
+            } else {
+                console.log(data);
+            }
+            //hideLoader();
+        });
+}
+
+
+savePromotionAttributes = () => {
+
+    var fromBody = {
+        'CustomerId': getTextValue('customerId'),
+        'AttributeTypeId': 4,
+        'CouponCode': getTextValue('promotionCode'),
+    };
+    ajaxPostCart("Cart/savecartattributes", fromBody,
+        function (data) {
+            if (data.success) {
+                setTimeout(getCartSummary(), 500);
+            } else {
+                console.log(data);
+            }
+            //hideLoader();
+        });
+}
+
+
+
+savePaymentMethodAttributes = () => {
+
+    var fromBody = {
+        'CustomerId': getTextValue('customerId'),
+        'AttributeTypeId': 6,
+        'PaymentMethodId': getSelectedItemValue('paymentMethodList'),
+    };
+    ajaxPostCart("Cart/savecartattributes", fromBody,
+        function (data) {
+            if (data.success) {
+                console.log(data);
+             //   setTimeout(getCartSummary(), 500);
+            } else {
+                console.log(data);
+            }
+            //hideLoader();
+        });
+}
+
+
+hidePromotionCodeField = () => {
+
+    var fromBody = {
+        'CustomerId': getTextValue('customerId'),
+        'AttributeTypeId': 5,
+        'CouponCode': getTextValue('promotionCode'),
+    };
+    ajaxPostCart("Cart/savecartattributes", fromBody,
+        function (data) {
+            if (data.success) {
+                //setTimeout(validateCreateCustomer(), 500);
+                setTimeout(getCartSummary(), 500);
+            } else {
+                console.log(data);
+            }
+            //hideLoader();
+        });
+}
+
 
 initilizeDataTable = () => {
     console.log("Ready normal product table");
@@ -398,8 +567,14 @@ createOrder = () => {
     ajaxPostCart("order/createorder", fromBody,
         function (data) {
             if (data.success) {
-                setTimeout(getCartItems(), 500);
+               // location.reload();
+
+                ToastAlert('success', Resources.Order, Resources.SavedSuccessfully);
+                setTimeout(() => location.href = "/Order/CreateOrder", 1500);
+               
+            //    setTimeout(getCartItems(), 500);
             } else {
+                ToastAlert('error', Resources.Order, data.Message);
                 console.log(data);
             }
             //hideLoader();

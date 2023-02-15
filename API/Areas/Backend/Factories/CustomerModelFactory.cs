@@ -16,6 +16,7 @@ using Services.Backend.CouponPromotion.Interface;
 using Utility.ResponseMapper;
 using Data.CustomerManagement;
 using Utility.Helpers;
+using Utility.Models.Admin;
 
 namespace API.Areas.Backend.Factories
 {
@@ -62,6 +63,15 @@ private readonly ILogger _logger;
             return walletModel;
         }
 
+
+        public async Task<AdminCustomerModel> GetByCustomerId(bool isEnglish, int id)
+        {
+            AdminCustomerModel customerModel = await _customerService.GetById(id);
+        
+            return customerModel;
+        }
+
+
         /// <summary>
         /// To get all address
         /// </summary>
@@ -75,6 +85,37 @@ private readonly ILogger _logger;
             {
                 var addresses = await _customerService.GetAllAddress(customerId: customerId);
                 addresses = addresses.OrderByDescending(a => a.Id).ToList();
+
+                List<AddressModel> addressModels = new();
+                foreach (var address in addresses)
+                {
+                    var addressModel = await _modelHelper.PrepareAddressModel(address, isEnglish);
+                    addressModels.Add(addressModel);
+                }
+                return addressModels;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+
+            return response;
+        }
+
+
+        /// <summary>
+        /// To get all address
+        /// </summary>
+        /// <param name="customerId">Customer identifier</param>
+        /// <param name="id">Address identifier</param>
+        /// <returns></returns>
+        public async Task<List<AddressModel>> GetAddressById(bool isEnglish, int id, int customerId)
+        {
+            List<AddressModel> response = new();
+            try
+            {
+                var addresses = await _customerService.GetAllAddress(customerId: customerId);
+                addresses = addresses.Where(x=> x.Id== id).OrderByDescending(a => a.Id).ToList();
 
                 List<AddressModel> addressModels = new();
                 foreach (var address in addresses)

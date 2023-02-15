@@ -52,6 +52,10 @@ namespace API.Areas.Backend.Helpers
         Task<ProductModel> PrepareProductModel(Product product, bool isEnglish, string customerGuidValue = "", Customer customer = null,
         bool loadDescription = false, bool loadPrice = false, bool calculateStock = false, bool loadCategory = false,
         bool loadSubscriptionAttributes = false, bool loadSubscriptionPackTitle = false, bool loadCartQuantity = false);
+
+        Task<ProductModel> PrepareMatrixProductModel(Product product, bool isEnglish, string customerGuidValue = "", Customer customer = null,
+       bool loadDescription = false, bool loadPrice = false, bool calculateStock = false, bool loadCategory = false,
+       bool loadSubscriptionAttributes = false, bool loadSubscriptionPackTitle = false, bool loadCartQuantity = false);
         #endregion
 
         #region Cart
@@ -63,6 +67,9 @@ namespace API.Areas.Backend.Helpers
 
         #region Order
         Task<OrderModel> PrepareOrderModel(Order order, bool isEnglish, bool loadDetails = false);
+        Task<OrderItemModel> PrepareMatrixOrderItemModel(OrderItem orderItem, bool isEnglish);
+        Task<OrderModel> PrepareMatrixOrderModel(Order order, bool isEnglish, bool loadDetails = false);
+
 
         Task<AdminOrderSummaryModel> PrepareOrderSummary(Order order, bool isEnglish);
         #endregion

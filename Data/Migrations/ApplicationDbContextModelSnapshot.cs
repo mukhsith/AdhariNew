@@ -41,6 +41,9 @@ namespace Data.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("int");
 
+                    b.Property<bool>("ExcludeFromApp")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ImageNameAr")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -102,6 +105,9 @@ namespace Data.Migrations
                     b.Property<decimal>("IOSVersion")
                         .HasColumnType("decimal(18,3)");
 
+                    b.Property<decimal>("MinOrderAmount")
+                        .HasColumnType("decimal(18,3)");
+
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
 
@@ -153,6 +159,10 @@ namespace Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("WhatsAppNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -732,6 +742,9 @@ namespace Data.Migrations
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("DeviceTypeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("int");
@@ -2176,6 +2189,9 @@ namespace Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("NumberOfTries")
+                        .HasColumnType("int");
+
                     b.Property<string>("OTP")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
@@ -2385,11 +2401,17 @@ namespace Data.Migrations
                     b.Property<int>("DeviceTypeId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("DotMatrixPrinted")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("DriverId")
                         .HasColumnType("int");
 
                     b.Property<bool>("FreeDelivery")
                         .HasColumnType("bit");
+
+                    b.Property<decimal>("GrandTotal")
+                        .HasColumnType("decimal(18,3)");
 
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
@@ -2399,6 +2421,9 @@ namespace Data.Migrations
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("NotificationTunePlayed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("OrderNumber")
                         .HasMaxLength(50)
@@ -2627,11 +2652,17 @@ namespace Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<bool>("CustomQuickPay")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerIp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomerLanguageId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -2647,6 +2678,9 @@ namespace Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -2785,6 +2819,9 @@ namespace Data.Migrations
 
                     b.Property<bool>("FullPayment")
                         .HasColumnType("bit");
+
+                    b.Property<decimal>("GrandTotal")
+                        .HasColumnType("decimal(18,3)");
 
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
@@ -2937,6 +2974,9 @@ namespace Data.Migrations
                     b.Property<int>("DeliveryTimeSlotId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("DotMatrixPrinted")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("DriverId")
                         .HasColumnType("int");
 
@@ -2951,6 +2991,9 @@ namespace Data.Migrations
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("NotificationTunePlayed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("OrderNumber")
                         .HasColumnType("nvarchar(max)");
@@ -3477,8 +3520,8 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FullName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<Guid>("GUID")
                         .HasColumnType("uniqueidentifier");
@@ -3499,6 +3542,10 @@ namespace Data.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
@@ -3510,13 +3557,13 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 493, DateTimeKind.Local).AddTicks(7620),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 655, DateTimeKind.Local).AddTicks(2860),
                             Deleted = false,
                             DisplayOrder = 1,
                             EmailAddress = "bk@gmail.com",
                             EncryptedPassword = "2Jn+7Bew1Ik=",
                             FullName = "system",
-                            GUID = new Guid("d06394da-3e1b-42a3-bbf6-938a1ecb633e"),
+                            GUID = new Guid("9605a630-414f-430b-9a8f-d2a03156c629"),
                             GenderTypeId = 0,
                             MobileNumber = "97429779",
                             RoleId = 1
@@ -3619,7 +3666,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(617),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 649, DateTimeKind.Local).AddTicks(6986),
                             Deleted = false,
                             DisplayOrder = 1,
                             NavigationUrl = "#",
@@ -3629,7 +3676,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(625),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 649, DateTimeKind.Local).AddTicks(6994),
                             Deleted = false,
                             DisplayOrder = 100,
                             Icon = "fas fa-user-cog",
@@ -3640,7 +3687,7 @@ namespace Data.Migrations
                         {
                             Id = 3,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(867),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 649, DateTimeKind.Local).AddTicks(7231),
                             Deleted = false,
                             DisplayOrder = 101,
                             NavigationUrl = "/SystemUserManagement/UserList",
@@ -3651,7 +3698,7 @@ namespace Data.Migrations
                         {
                             Id = 4,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(873),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 649, DateTimeKind.Local).AddTicks(7238),
                             Deleted = false,
                             DisplayOrder = 102,
                             NavigationUrl = "/SystemUserManagement/UserRoleList",
@@ -3662,7 +3709,7 @@ namespace Data.Migrations
                         {
                             Id = 5,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(876),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 649, DateTimeKind.Local).AddTicks(7252),
                             Deleted = false,
                             DisplayOrder = 103,
                             NavigationUrl = "/SystemUserManagement/UserPermissionList",
@@ -3712,7 +3759,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 486, DateTimeKind.Local).AddTicks(7834),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 648, DateTimeKind.Local).AddTicks(4357),
                             Deleted = false,
                             DisplayOrder = 1,
                             Name = "Root"
@@ -3721,7 +3768,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 486, DateTimeKind.Local).AddTicks(8076),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 648, DateTimeKind.Local).AddTicks(4597),
                             Deleted = false,
                             DisplayOrder = 2,
                             Name = "Administrator"
@@ -3730,7 +3777,7 @@ namespace Data.Migrations
                         {
                             Id = 3,
                             Active = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 486, DateTimeKind.Local).AddTicks(8079),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 648, DateTimeKind.Local).AddTicks(4600),
                             Deleted = false,
                             DisplayOrder = 3,
                             Name = "Sales Manager"
@@ -3781,7 +3828,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Allowed = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(1484),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 649, DateTimeKind.Local).AddTicks(7923),
                             Deleted = false,
                             PermissionId = 1,
                             RoleId = 1
@@ -3790,7 +3837,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Allowed = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(2287),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 649, DateTimeKind.Local).AddTicks(8722),
                             Deleted = false,
                             PermissionId = 2,
                             RoleId = 1
@@ -3799,7 +3846,7 @@ namespace Data.Migrations
                         {
                             Id = 3,
                             Allowed = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(2310),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 649, DateTimeKind.Local).AddTicks(8744),
                             Deleted = false,
                             PermissionId = 3,
                             RoleId = 1
@@ -3808,7 +3855,7 @@ namespace Data.Migrations
                         {
                             Id = 4,
                             Allowed = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(2326),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 649, DateTimeKind.Local).AddTicks(8760),
                             Deleted = false,
                             PermissionId = 4,
                             RoleId = 1
@@ -3817,7 +3864,7 @@ namespace Data.Migrations
                         {
                             Id = 5,
                             Allowed = true,
-                            CreatedOn = new DateTime(2023, 1, 29, 15, 32, 12, 488, DateTimeKind.Local).AddTicks(2340),
+                            CreatedOn = new DateTime(2023, 2, 13, 12, 26, 54, 649, DateTimeKind.Local).AddTicks(8775),
                             Deleted = false,
                             PermissionId = 5,
                             RoleId = 1
@@ -4129,9 +4176,7 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.CustomerManagement.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("Data.Content.PaymentMethod", "PaymentMethod")
                         .WithMany()

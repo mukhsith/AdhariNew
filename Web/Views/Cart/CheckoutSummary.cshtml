@@ -138,7 +138,7 @@
                                                 <div class="col-9 col-md-11 d-flex align-items-center pe-0">
                                                     <div class="row w-100">
                                                         <div class="col-12 col-md-6 d-flex align-items-center justify-content-end justify-content-md-start pe-0 pe-md-3">
-                                                            <p class="mb-0 text-primary fw-bold">@CartItem.Product.Title</p>
+                                                            <p class="mb-0 text-primary fw-bold text-end">@CartItem.Product.Title</p>
                                                         </div>
                                                         <div class="col-12 col-md-3 d-flex align-items-center justify-content-end justify-content-md-start pe-0 pe-md-3">
                                                             <div class="d-flex flex-row justify-content-center align-items-center text-center">
@@ -198,7 +198,7 @@
             hidePromotionCodeField();
         }
         else {
-            showPromotionCodeField();
+            $('.promotion-input-field').show();
             applyCouponAddedClass();
         }
 
@@ -211,6 +211,12 @@
                     $(".cart-summary").append(result.formattedCartSummary);
                 }
                 else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
                     if (result.message != "")
                         ToastAlert('error', '', result.message);
                 }
@@ -240,6 +246,12 @@
                     $(".cart-summary").append(result.formattedCartSummary);
                 }
                 else {
+                    if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                    }
+
                     if (result.message != "")
                         ToastAlert('error', '', result.message);
                 }
@@ -341,11 +353,11 @@
     });
 
     function showPromotionCodeField() {
-        $('.promotion-input-field').show("fast");
+        $('.promotion-input-field').toggle();
     }
 
     function hidePromotionCodeField() {
-        $('.promotion-input-field').hide("fast");
+        $('.promotion-input-field').hide();
     }
 
     function applyCouponCode() {
@@ -369,6 +381,14 @@
 
         $.post("@Url.RouteUrl("savecartattributes")", { CouponCode: couponCode, AttributeTypeId: attributeTypeId }, function (result) {
             if (result.success) {
+                $("#hdn-skip-payment-method-selection").val(result.cartSummary.skipPaymentMethodSelection == true ? true : false);
+                if (result.cartSummary.skipPaymentMethodSelection) {
+                    $("#dv-payment-methods").hide();
+                }
+                else {
+                    $("#dv-payment-methods").show();
+                }
+
                 $(".cart-summary").empty();
                 $(".cart-summary").append(result.formattedCartSummary);
 
@@ -383,6 +403,12 @@
                 }
             }
             else {
+                if (result.messageCode == 401) {
+                        var returnUrl = "@(string.IsNullOrEmpty(Context.Request.Path) ? "/" : $"{Context.Request.Path.Value}{Context.Request.QueryString}")";
+                        window.location.href = "/login?returnUrl=" + returnUrl;
+                        return;
+                }
+
                 if (result.message != "")
                     ToastAlert('error', '', result.message);
             }

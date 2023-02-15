@@ -6,7 +6,7 @@
         <div class="modal-content border-secondary">
 
             <div class="modal-header border-secondary body-bg-secondary">
-                <h5 class="modal-title fw-bold text-primary" id="sort_modalLabel">Display Order</h5>
+                <h5 class="modal-title fw-bold text-primary" id="sort_modalLabel">@SharedHtmlLocalizer["DisplayOrder"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -15,7 +15,7 @@
                 @*<label for="" class="form-label">Display Order</label>*@
                 @* <input type="number" class="form-control form-control-lg rounded-4 border-secondary " name="displayordervalue" id="displayordervalue" aria-describedby="Display Order" placeholder="" value="" min="0">*@
 
-                <label for="" class="form-label">Enter Display Order</label>
+                <label for="" class="form-label">@SharedHtmlLocalizer["EnterDisplayOrder"]</label>
                 <input type="number" class="form-control  form-control-lg rounded-4 border-secondary " name="displayordervalue" id="displayordervalue" aria-describedby="Display Order" placeholder="" min="0">
                 <input type="hidden" class="form-control" name="displayapiname" id="displayapiname">
                 <input type="hidden" class="form-control" name="displayorderid" id="displayorderid">
@@ -27,8 +27,8 @@
                 @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-success save-btn">Save</button>*@
 
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success save-btn" onclick="updateDisplayOrder()">Update</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success save-btn" onclick="updateDisplayOrder()">@SharedHtmlLocalizer["Update"]</button>
 
             </div>
         </div>

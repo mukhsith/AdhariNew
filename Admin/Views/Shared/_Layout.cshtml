@@ -52,7 +52,7 @@
         <div class="spinner d-flex justify-content-center align-items-center">
             <img src="~/assets/img/Logo.svg" class="rotate" alt="Loading">
         </div>
-        <h3 class="text-primary mt-3">@SharedHtmlLocalizer["Loading"]</h3>
+        @*<h3 class="text-primary mt-3">@SharedHtmlLocalizer["Loading"]</h3>*@
     </div>
 
     <div class="position-fixed vw-100 vh-100 top-0 start-0 body-bg-secondary flex-column justify-content-center align-items-center ajax-loader-container" style="z-index: 999999; --bs-bg-opacity: 0.5; opacity: 0.5;display: none;">
@@ -91,12 +91,17 @@
     <!-- Start Internal List + Edit-->
     <!-- Scripts and Links -->
     <script src="/assets/vendor/js/ios7-switch.js"></script>
-
+    <link rel="stylesheet" href="/assets/vendor/css/select2.css" />
+    <link rel="stylesheet" href="/assets/vendor/css/select2-bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/vendor/css/bootstrap-multiselect.css" />
+    <script src="/assets/vendor/js/select2.js"></script>
+    <script src="/assets/vendor/js/bootstrap-multiselect.js"></script>
 
     <link rel="stylesheet" href="/assets/vendor/css/summernote-lite.css" />
     <!-- Specific Page Vendor CSS -->
     <link rel="stylesheet" href="/assets/vendor/css/select2.css" />
     <link rel="stylesheet" href="/assets/vendor/css/select2-bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/vendor/css/bootstrap-multiselect.css" />
     <link rel="stylesheet" href="/assets/vendor/css/dataTables.bootstrap5.css" />
     <link rel="stylesheet" href="/assets/vendor/css/dataTables.checkboxes.css" />
     <link rel="stylesheet" href="/assets/vendor/css/responsive.dataTables.css" />
@@ -156,6 +161,7 @@
     <!-- default settings for datatable -->
     <script src="~/developer/js/App/default-datatable.js" asp-append-version="true"></script>
 
+    @{await Html.RenderPartialAsync("_ResoursesModalPartial"); }
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
     @*@RenderSection("scripts", false);*@

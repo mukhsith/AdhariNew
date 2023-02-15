@@ -10,5 +10,6 @@ namespace Utility.Models.Frontend.Content
         public string Content { get; set; }
         public AppContentType AppContentType { get; set; }
         public string ImageUrl { get; set; }
+        public string PageUrl { get; set; }
     }
 }

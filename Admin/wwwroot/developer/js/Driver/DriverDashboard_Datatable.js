@@ -65,19 +65,26 @@ searchNormalDataTable = () => {
     
 getActionsHtml = (row) => {
 
-    var html = `<a href="/driver/orderDetails?id=${row.id}&customerId=${row.customerId}" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Order" data-bs-original-title="View Order" aria-label="View Order"><i class="fa fa-eye"></i></a>`;
+    var ordertype = 2;
+     var html = `<a href="/driver/orderDetails?id=${row.id}&customerId=${row.customerId}" class="mb-1 mt-1 me-1 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Order" data-bs-original-title="View Order" aria-label="View Order"><i class="fa fa-eye"></i></a>`;
+    if (row.orderTypeName == 'Normal') { ordertype = 1; }
 
         if (row.orderStatusId != 4) {
-             
-            html += `<span data-bs-toggle="modal" class="open-confirm-delivery-modal" data-id="${row.id}" data-bs-target="#confirm-delivery-modal"> <a href="#" onclick='Updatedelivery(${row.id},${row.customerId},${row.orderNumber},${row.orderModeID});' class="mb-1 mt-1 me-1 btn btn-sm btn-success"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delivered" data-bs-original-title="Delivered" aria-label="Delivered" ><i class="fas fa-check"></i></a> </span>
+
+            if (row.delivered == false) {
+                if (row.paymentStatusId == 2) {
+                    html += `<span data-bs-toggle="modal" class="open-confirm-delivery-modal" data-id="${row.id}" data-bs-target="#confirm-delivery-modal"> <a href="#" onclick='Updatedelivery(${row.id},${row.customerId},${row.orderNumber},${row.orderModeID});' class="mb-1 mt-1 me-1 btn btn-sm btn-success"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delivered" data-bs-original-title="Delivered" aria-label="Delivered" ><i class="fas fa-check"></i></a> </span>
                     `;
+                }
+                html += `<span data-bs-toggle="modal" class="open-remove-delivery-driver-modal" data-id="${row.id}" data-bs-target="#remove-delivery-driver-modal"> <a href='#' onclick='RemoveDriver(${row.id},${row.customerId},${row.orderNumber},${row.orderModeID});' class="mb-1 mt-1 me-1 btn btn-sm btn-dark"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Return Order" data-bs-original-title="Return Order" aria-label="Return Order" ><i class="fas fa-undo"></i></a> </span>
+                     `;
+            }
 
             if (row.total > 0 && row.paymentStatusId != 2) {
-                html += `<span data-bs-toggle="modal" class="open-send-payment-link-modal" data-id="${row.id}" data-customerId="${row.mobileNumber}" data-bs-target="#send-payment-link-modal"> <a href='#' onclick='SendQpay(${row.id},${row.mobileNumber},${row.customerId},${row.total},${row.orderNumber});' class="mb-1 mt-1 me-1 btn btn-sm btn-info"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Send Payment Link" data-bs-original-title="Send Payment Link" aria-label="Send Payment Link" ><i class="fas fa-money-bill-wave"></i></a> </span>`;
+                html += `<span data-bs-toggle="modal" class="open-send-payment-link-modal" data-id="${row.id}" data-customerId="${row.mobileNumber}" data-bs-target="#send-payment-link-modal"> <a href='#' onclick='SendQpay(${row.id},${row.mobileNumber},${row.customerId},${row.total},${row.orderNumber},${ordertype});' class="mb-1 mt-1 me-1 btn btn-sm btn-info"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Send Payment Link" data-bs-original-title="Send Payment Link" aria-label="Send Payment Link" ><i class="fas fa-money-bill-wave"></i></a> </span>`;
             }
      
-            html += `<span data-bs-toggle="modal" class="open-remove-delivery-driver-modal" data-id="${row.id}" data-bs-target="#remove-delivery-driver-modal"> <a href='#' onclick='RemoveDriver(${row.id},${row.customerId},${row.orderNumber},${row.orderModeID});' class="mb-1 mt-1 me-1 btn btn-sm btn-dark"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reschedule Order" data-bs-original-title="Reschedule Order" aria-label="Reschedule Order" ><i class="fas fa-undo"></i></a> </span>
-                     `;
+           
         }
 
     return html;
@@ -112,14 +119,16 @@ getActionsHtml = (row) => {
 }
 
 
-SendQpay = (OrderID, MobileNumber, CustomerId, Total, OrderNumber) => {
+SendQpay = (OrderID, MobileNumber, CustomerId, Total, OrderNumber, Ordertype) => {
     //alert(MobileNumber);
     setTextValue("dialogMobileNumber", MobileNumber);
     setTextValue("dialogOrderId", OrderID);
     setTextValue("dialogCustomerId", CustomerId);
     setTextValue("dialogTotal", Total);
     setTextValue("dialogOrderNumber", OrderNumber);
+    setTextValue("dialogOrderTypeID", Ordertype);
 
+    
 
     //var endpoint = getAPIUrl() + "Order/SendQpay?CustomerID=" + CustomerId +
     //    "&OrderID=" + OrderID + "&OrderNumber=" + OrderNumber + "&Ordertotal=" + Total ;
@@ -162,9 +171,10 @@ sendPaymentLink = () => {
     var CustomerId = getTextValue("dialogCustomerId");
     var Total = getTextValue("dialogTotal");
     var OrderNumber = getTextValue("dialogOrderNumber");
+    var Ordertype = getTextValue("dialogOrderTypeID");
 
     var endpoint = getAPIUrl() + "Order/SendQpay?CustomerID=" + CustomerId +
-        "&OrderID=" + OrderID + "&OrderNumber=" + OrderNumber + "&Ordertotal=" + Total;
+        "&OrderID=" + OrderID + "&OrderNumber=" + OrderNumber + "&Ordertotal=" + Total + "&OrderType=" + Ordertype;
 
     //$('#DisplayOrderModel').modal('toggle');
 
@@ -178,15 +188,15 @@ sendPaymentLink = () => {
         },
         success: function (data) {
             hideLoader();
-            /*if (data.success) {*/
+            if (data.success) {
             // updateDataTableDisplayOrder(data);
-            ToastAlert('success', 'Order', 'QPay link send Successfully');
+            ToastAlert('success', Resources.Order, 'QPay link send Successfully');
             hideLoader();
-            //}
-            //else {
-            //    showLog(data);
-            //    ToastAlert('danger', 'Order', data.message);
-            //}
+            }
+            else {
+                showLog(data);
+                ToastAlert('danger', 'Order', data.message);
+            }
             $("#send-payment-link-modal").modal('hide');
 
         },

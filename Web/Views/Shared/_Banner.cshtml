@@ -10,9 +10,18 @@
                         {
                             if (item.LinkType == BannerLinkType.URL)
                             {
-                                <a href="@item.LinkUrl" class="rounded-5 mx-3 my-2 m-md-3">
-                                    <img src="@item.ImageUrl" class="img-fluid rounded-5">
-                                </a>
+                                if (item.DeviceDependent)
+                                {
+                                    <a onclick="return redirectToSpecificDevice('@item.LinkUrl');" href="#" class="rounded-5 mx-3 my-2 m-md-3">
+                                        <img src="@item.ImageUrl" class="img-fluid rounded-5">
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@item.LinkUrl" class="rounded-5 mx-3 my-2 m-md-3">
+                                        <img src="@item.ImageUrl" class="img-fluid rounded-5">
+                                    </a>
+                                }
                             }
                             else if (item.LinkType == BannerLinkType.Product)
                             {
@@ -37,26 +46,68 @@
                             slidesToShow: 1,
                             slidesToScroll: 1,
                             centerMode: true,
-                            swipeToSlide: true,
+                            //swipeToSlide: true,
                             // centerPadding: '40px',
                             //   variableWidth: false,
                             dots: true,
                             arrows: false,
                             autoplay: true,
                             autoplaySpeed: 2000,
-                            responsive: [{
-                                breakpoint: 480,
-                                settings: {
-                                    centerMode: false
+                            responsive: [
+                                {
+                                    breakpoint: 480,
+                                    settings: {
+                                        centerMode: false
+                                    }
+                                },
+                                {
+                                    breakpoint: 1367,
+                                    settings: {
+                                        centerPadding: 'calc(100vw - 1175px)',
+                                    }
                                 }
-                            }]
+                            ]
                         });
 
                         if ($('html').attr('dir') == 'rtl') {
-                            console.log("RTL enabled");
                             $('.main_banner').slick('slickSetOption', 'rtl', true, false);
                         }
                     });
+
+                    function redirectToSpecificDevice(url) {
+                        var ua = navigator.userAgent;
+                        var checker = {
+                            // OS
+                            Windows: ua.match(/Windows/),
+                            MacOS: ua.match(/Mac/),
+                            Android: ua.match(/Android/),
+                            // Browser
+                            Msie: ua.match(/Trident/),
+                            Edge: ua.match(/Edge/),
+                            Chrome: ua.match(/Chrome/),
+                            Firefox: ua.match(/Firefox/),
+                            Safari: ua.match(/Safari/),
+                            // Device
+                            isApple: ua.match(/(iPhone|iPod|iPad)/),
+                            iPhone: ua.match(/iPhone/),
+                            iPad: ua.match(/iPad/),
+                            iPod: ua.match(/iPod/)
+                        };
+                        
+                        if (checker.iPhone || checker.iPad || checker.iPod) {
+                            url = $("#appSoreLink").attr("href");
+                            window.open(url, "_blank");
+                        }
+                        else if (checker.Android) {
+                            url = $("#playStoreLink").attr("href");
+                            window.open(url, "_blank");
+                        }
+                        else {
+                            window.open(url, "_blank");
+                        }
+
+                        return false;
+                    }
                 </script>
             </div>
         </div>

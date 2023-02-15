@@ -7,6 +7,8 @@ $(document).ready(function () {
 setup = () => {
    
     $("#dataForm").validate({
+        errorPlacement: 
+            function(error,element) { },
         rules: {
             nameEn: { required: true },
             nameAr: { required: true },
@@ -15,14 +17,14 @@ setup = () => {
             amount: { required: true },
             walletAmount: { required: true },
         },
-        messages: {
-            nameEn: { required: 'Required' },
-            nameAr: { required: 'Required' },
-            descriptionEn: { required: 'Required' },
-            descriptionAr: { required: 'Required' },
-            amount: { required: 'Required' },
-            walletAmount: { required: 'Required' },
-        },
+        //messages: {
+        //    nameEn: { required: '' },
+        //    nameAr: { required: '' },
+        //    descriptionEn: { required: '' },
+        //    descriptionAr: { required: '' },
+        //    amount: { required: '' },
+        //    walletAmount: { required: '' },
+        //},
         submitHandler: function (form, event) {
             event.preventDefault();
             saveData();
@@ -72,10 +74,10 @@ saveData = () => {
 
 cbPostSuccess = (data) => {
     if (data.success) { 
-        ToastAlert('success', 'Wallet Package', 'Saved Successfully');
-        setTimeout(() => location.href = "/WalletPackage/WalletPackageList", 100);
+        ToastAlert('success', Resources.WalletPrepaidCards, Resources.SavedSuccessfully);
+        setTimeout(() => location.href = "/WalletPackage/WalletPackageList", 1500);
     } else { 
-        ToastAlert('error', 'Wallet Package', 'unable to save, please try again or contact to system admin');
+        ToastAlert('error', Resources.WalletPrepaidCards, Resources.UnableTosave);
     }
 }
  

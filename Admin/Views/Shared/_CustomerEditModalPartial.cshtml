@@ -1,0 +1,127 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!-- Wallet -- Vertically centered scrollable modal -->
+<div class="modal fade" id="display-CustomerEdit" data-bs-keyboard="false" tabindex="-1" aria-labelledby="display-customerEditLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content border-secondary">
+            <input type="hidden" id="dialogCustomerId" />
+            <div class="modal-header border-secondary body-bg-secondary">
+                <h5 class="modal-title fw-bold text-primary" id="display-walletLabel">@SharedHtmlLocalizer["CustomerDetails"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-6">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="categoryNameEn" class="form-label">@SharedHtmlLocalizer["CustomerName"]<span class=" text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="EditcustomerName" id="EditcustomerName" aria-describedby="Customer Name" placeholder="" value="">
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterCustomerName"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+
+                    <div class="col-6">
+                        <label class="form-label">@SharedHtmlLocalizer["CustomerMobile"]<span class=" text-danger">*</span></label>
+
+                        <!-- ========== Start Simple Input Field ========== -->
+                        <input type="tel" class="form-control form-control-lg rounded-4 border-secondary " name="EditcustomerMobile" id="EditcustomerMobile" aria-describedby=""
+                               onkeypress='return validateMobileNumber(event)' onkeyup="enableVerifyButton(this)" maxlength="8">
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterCustomerMobileNumber"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                        <button class="btn btn-secondary text-light btn-lg fw-bold rounded-4 verify-btn" id="verifyButton" type="button" onclick="getCustomer()" style="display:none">Verify</button>
+
+                        @*<small>Send <a href="#" class="text-primary fw-bold">verification link</a> to this number</small>*@
+                    </div>
+
+                    <div class="col-6">
+                        <!-- ========== Start Simple Input Field ========== -->
+
+                        <label for="categoryEmail" class="form-label">@SharedHtmlLocalizer["CustomerEmail"]</label>
+                        <input type="text" class="form-control form-control-lg rounded-4 border-secondary " name="EditcustomerEmail" id="EditcustomerEmail" aria-describedby="Customer Email" placeholder="" value="">
+
+                        <div class="invalid-feedback">@SharedHtmlLocalizer["PleaseEnterCustomerEmail"]</div>
+                        <!-- ========== End Simple Input Field ========== -->
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedHtmlLocalizer["Close"]</button>
+                <button type="button" class="btn btn-success validation-btn" onclick="SaveCustomer()">@SharedHtmlLocalizer["Save"]</button>
+            </div>
+        </div>
+        </div>
+
+</div>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            SaveCustomer = () => {
+                var Id = $("#dialogCustomerId").val();
+
+                var customerName = getTextValue("EditcustomerName");
+                var customerMobile = getTextValue("EditcustomerMobile");
+                var customerEmail = getTextValue("EditcustomerEmail");
+
+           
+                if (customerName == "") {
+                    ToastAlert('error', 'Customer', 'Please enter customer Name');
+                }
+                if (customerMobile == "") {
+                    ToastAlert('error', 'Customer', 'Please enter customer Mobile');
+                } else {
+                    let submitData = new FormData();
+                    submitData.append("id", getTextValue("dialogCustomerId"));
+                    submitData.append("name", getTextValue("EditcustomerName"));
+                    submitData.append("mobileNumber", getTextValue("EditcustomerMobile"));
+                    submitData.append("emailAddress", getTextValue("EditcustomerEmail"));
+                    ajaxPost("customer/UpdateCustomerInfo", submitData, onCustomerTypeSuccess);
+                }
+            }
+
+        });
+
+        onCustomerTypeSuccess = (data) => {
+            if (data.success) {
+                ToastAlert('success', 'Customer', Resources.SavedSuccessfully);
+                reloadPage();
+            } else {
+                ToastAlert('error', 'Customer', data.message);
+            }
+        }
+
+
+
+
+        getCust = (Id) => {
+           // var Id = $("#dialogCustomerId").val();
+            ajaxGet('customer/GetById?customerId=' + Id, getCustSuccess)
+        }
+
+
+
+        getCustSuccess = (data) => {
+            //showLog("model edit");
+
+            //showLog(data.data.name);
+
+
+            /*if (data.data.name != null) {*/
+              //  var d = data;
+            $("#dialogCustomerId").val(data.data.id);
+            $("#EditcustomerName").val(data.data.name);
+            $("#EditcustomerEmail").val(data.data.emailAddress);
+            $("#EditcustomerMobile").val(data.data.mobileNumber);
+
+
+            //}
+        }
+    </script>
